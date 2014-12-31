@@ -27,21 +27,25 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 
-cdef extern from "agg_rendering_buffer.h" namespace "agg":
-    cdef cppclass row_ptr_cache[T]:
-        row_ptr_cache()
-        row_ptr_cache(T* buf, unsigned width, unsigned height, int stride)
-        void attach(T* buf, unsigned width, unsigned height, int stride)
-        T* buf()
-#       const T* buf() const
+#cdef extern from "agg_rendering_buffer.h" namespace "agg":
+#    cdef cppclass row_ptr_cache[T]:
+#        row_ptr_cache()
+#        row_ptr_cache(T* buf, unsigned width, unsigned height, int stride)
+#        void attach(T* buf, unsigned width, unsigned height, int stride)
+#        T* buf()
+#        unsigned width() const
+#        unsigned height() const
+#        int stride() const
+#        unsigned stride_abs() const
+#        void clear(T value)
+
+#cdef extern from "agg_pixfmt_rgb.h" namespace "agg":
+#   cdef cppclass pixfmt_alpha_blend_rgb[Blender, RenBuf, Step, Offset]:
+
+cdef extern from "simple_agg.h":
+    cdef cppclass SimpleAgg:
+        SimpleAgg()
+        SimpleAgg(uint8_t* buf, unsigned width, unsigned height, int stride)
+        void attach(uint8_t* buf, unsigned width, unsigned height, int stride)
         unsigned width() const
         unsigned height() const
-        int stride() const
-        unsigned stride_abs() const
-        T* row_ptr(int, int y, unsigned)
-        T* row_ptr(int y)
-        const T* row_ptr(int y) const
-#        row_data row(int y) const
-#       T const* const* rows() const
-#        template<class RenBuf> void copy_from(const RenBuf& src)
-        void clear(T value)

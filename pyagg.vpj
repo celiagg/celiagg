@@ -198,8 +198,9 @@
 			Filters="">
 			<F N="cython/_pyagg.pxd"/>
 			<F N="cython/CMakeLists.txt"/>
-			<F N="cython/cpp.cpp"/>
 			<F N="cython/pyagg.pyx"/>
+			<F N="cython/simple_agg.cpp"/>
+			<F N="cython/simple_agg.h"/>
 		</Folder>
 		<F N="CMakeLists.txt"/>
 	</Files>

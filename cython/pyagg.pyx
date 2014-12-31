@@ -28,31 +28,31 @@ import numpy
 from libc.stdint cimport uint8_t
 cimport _pyagg
 
-cdef class row_ptr_cache:
-    cdef _pyagg.row_ptr_cache[uint8_t]* _this
-    cdef uint8_t[:,:,::1] py_buf
+cdef class SimpleAgg:
+    cdef _pyagg.SimpleAgg* _this
+    cdef uint8_t[:,:,::1] py_image
 
-    def __cinit__(self, uint8_t[:,:,::1] buf=None):
-        if buf is None:
-            self.py_buf = None
-            self._this = new _pyagg.row_ptr_cache[uint8_t]()
+    def __cinit__(self, uint8_t[:,:,::1] image=None):
+        if image is None:
+            self.py_image = None
+            self._this = new _pyagg.SimpleAgg()
         else:
             # In order to ensure that our backing memory is not deallocated from underneath us, we retain a
-            # reference to the memory view supplied to the constructor (buf) as self.py_buf, to be kept in
-            # lock step with row_ptr_cache<>'s reference to that memory and destroyed when that reference
+            # reference to the memory view supplied to the constructor (image) as self.py_image, to be kept in
+            # lock step with SimpleAgg<>'s reference to that memory and destroyed when that reference
             # is lost.
-            self.py_buf = buf
-            self._this = new _pyagg.row_ptr_cache[uint8_t](&buf[0][0][0], buf.shape[1], buf.shape[0], buf.strides[0])
+            self.py_image = image
+            self._this = new _pyagg.SimpleAgg(&image[0][0][0], image.shape[1], image.shape[0], image.strides[0])
 
     def __dealloc__(self):
         del self._this
 
-    def attach(self, uint8_t[:,:,::1] buf=None):
-        if buf is None:
+    def attach(self, uint8_t[:,:,::1] image=None):
+        if image is None:
             self._this.attach(NULL, 0, 0, 0)
         else:
-            self._this.attach(&buf[0][0][0], buf.shape[1], buf.shape[0], buf.strides[0])
-        self.py_buf = buf
+            self._this.attach(&image[0][0][0], image.shape[1], image.shape[0], image.strides[0])
+        self.py_image = image
 
     def detach(self):
         self.attach(None)
@@ -63,11 +63,12 @@ cdef class row_ptr_cache:
     def height(self):
         return self._this.height()
 
-    def buf(self):
+    @property
+    def image(self):
         # User is not likely to be concerned with the details of the cython memory view around array or buffer
         # supplied to the constructor or attach, but instead expects the original array or buffer (which is why
-        # self.py_buf.base is returned rather than self.py_buf).
-        if self.py_buf is None:
+        # self.py_image.base is returned rather than self.py_image).
+        if self.py_image is None:
             return None
         else:
-            return self.py_buf.base
+            return self.py_image.base

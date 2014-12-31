@@ -32,7 +32,9 @@ foreach(PYX_FILE ${PYX_FILES})
     list(APPEND CYTHON_GENERATED_CPP_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp)
 endforeach(PYX_FILE)
 
-add_library(pyagg SHARED ${CYTHON_GENERATED_CPP_FILES})
+add_library(pyagg SHARED ${CYTHON_GENERATED_CPP_FILES}
+                         simple_agg.cpp
+                         simple_agg.h)
 target_link_libraries(pyagg antigrain
                             ${PYTHON_LIBRARIES})
 
