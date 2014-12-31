@@ -22,25 +22,31 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
-add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/_pyagg.cpp
-                   COMMAND /usr/local/bin/cython --cplus -3 ${CMAKE_CURRENT_SOURCE_DIR}/_pyagg.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/_pyagg.cpp
-                   DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/_pyagg.pyx)
+set(PYX_FILES pyagg)
 
-add_library(_pyagg SHARED ${CMAKE_CURRENT_BINARY_DIR}/_pyagg.cpp)
-target_link_libraries(_pyagg antigrain
-                               ${PYTHON_LIBRARIES})
+set(CYTHON_GENERATED_CPP_FILES "")
+foreach(PYX_FILE ${PYX_FILES})
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp
+                       COMMAND /usr/local/bin/cython --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_FILE}.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp
+                       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_FILE}.pyx)
+    list(APPEND CYTHON_GENERATED_CPP_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp)
+endforeach(PYX_FILE)
 
-get_target_property(_PYTHON_MODULE_LOCATION _pyagg LOCATION)
+add_library(pyagg SHARED ${CYTHON_GENERATED_CPP_FILES})
+target_link_libraries(pyagg antigrain
+                            ${PYTHON_LIBRARIES})
+
+get_target_property(_PYTHON_MODULE_LOCATION pyagg LOCATION)
 if(WIN32)
     string(REPLACE "/" "\\" _PYTHON_MODULE_LOCATION ${_PYTHON_MODULE_LOCATION})
     string(REPLACE "/" "\\" _PROJECT_SOURCE_DIR ${PROJECT_SOURCE_DIR})
-    add_custom_command(TARGET _pyagg
+    add_custom_command(TARGET pyagg
                        POST_BUILD
-                       COMMAND copy /Y ${_PYTHON_MODULE_LOCATION} "${_PROJECT_SOURCE_DIR}\\_pyagg.pyd")
+                       COMMAND copy /Y ${_PYTHON_MODULE_LOCATION} "${_PROJECT_SOURCE_DIR}\\pyagg.pyd")
     unset(_PROJECT_SOURCE_DIR)
 else()
-    add_custom_command(TARGET _pyagg
+    add_custom_command(TARGET pyagg
                        POST_BUILD
-                       COMMAND cp -fv ${_PYTHON_MODULE_LOCATION} "${PROJECT_SOURCE_DIR}/_pyagg.so")
+                       COMMAND cp -fv ${_PYTHON_MODULE_LOCATION} "${PROJECT_SOURCE_DIR}/pyagg.so")
 endif()
 unset(_PYTHON_MODULE_LOCATION)

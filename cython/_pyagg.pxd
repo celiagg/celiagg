@@ -27,14 +27,6 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 
-#cdef extern from "cpp.h":
-#    void _test_draw(uint8_t* buffer)
-#
-#def test_draw(uint8_t[:,:,::1] image):
-#    print('executing...')
-#    _test_draw(&image[0,0,0])
-#    print('executed')
-
 cdef extern from "agg_rendering_buffer.h" namespace "agg":
     cdef cppclass row_ptr_cache[T]:
         row_ptr_cache()
@@ -53,24 +45,3 @@ cdef extern from "agg_rendering_buffer.h" namespace "agg":
 #       T const* const* rows() const
 #        template<class RenBuf> void copy_from(const RenBuf& src)
         void clear(T value)
-
-cdef class row_ptr_cache_uint8:
-    cdef row_ptr_cache[uint8_t]* _this
-
-    def __cinit__(self, uint8_t[:,:,::1] buf=None):
-        if buf is None:
-            self._this = new row_ptr_cache[uint8_t]()
-        else:
-            self._this = new row_ptr_cache[uint8_t](&buf[0][0][0], buf.shape[1], buf.shape[0], buf.strides[0])
-
-    def __dealloc__(self):
-        del self._this
-
-    def width(self):
-        return self._this.width()
-
-    def height(self):
-        return self._this.height()
-
-    def buf(self):
-        return numpy.asarray(<uint8_t[:self._this.height(), :self._this.width(), :3]> self._this.buf())
