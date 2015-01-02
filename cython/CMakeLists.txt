@@ -27,9 +27,15 @@ set(CPP_SOURCES ndarray_canvas.cpp)
 set(CPP_HEADERS ndarray_canvas.h)
 
 set(CYTHON_GENERATED_CPP_FILES "")
+# TODO: find cython executable properly
+if(APPLE)
+    set(CYTHON_EXECUTABLE /usr/local/bin/cython)
+else()
+    set(CYTHON_EXECUTABLE cython-3.4)
+endif()
 foreach(PYX_SOURCE ${PYX_SOURCES})
     add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
-                       COMMAND /usr/local/bin/cython --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
+                       COMMAND ${CYTHON_EXECUTABLE} --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
                        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx)
     list(APPEND CYTHON_GENERATED_CPP_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp)
 endforeach(PYX_SOURCE)
