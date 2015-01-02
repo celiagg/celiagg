@@ -22,19 +22,21 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
-set(PYX_FILES pyagg)
+set(PYX_SOURCES pyagg)
+set(CPP_SOURCES ndarray_canvas.cpp)
+set(CPP_HEADERS ndarray_canvas.h)
 
 set(CYTHON_GENERATED_CPP_FILES "")
-foreach(PYX_FILE ${PYX_FILES})
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp
-                       COMMAND /usr/local/bin/cython --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_FILE}.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp
-                       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_FILE}.pyx)
-    list(APPEND CYTHON_GENERATED_CPP_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PYX_FILE}.cpp)
-endforeach(PYX_FILE)
+foreach(PYX_SOURCE ${PYX_SOURCES})
+    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
+                       COMMAND /usr/local/bin/cython --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
+                       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx)
+    list(APPEND CYTHON_GENERATED_CPP_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp)
+endforeach(PYX_SOURCE)
 
 add_library(pyagg SHARED ${CYTHON_GENERATED_CPP_FILES}
-                         simple_agg.cpp
-                         simple_agg.h)
+                         ${CPP_SOURCES}
+                         ${CPP_HEADERS})
 target_link_libraries(pyagg antigrain
                             ${PYTHON_LIBRARIES})
 

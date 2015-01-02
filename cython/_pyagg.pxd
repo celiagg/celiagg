@@ -26,6 +26,7 @@ import cython
 cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
+from libcpp cimport bool
 
 #cdef extern from "agg_rendering_buffer.h" namespace "agg":
 #    cdef cppclass row_ptr_cache[T]:
@@ -42,10 +43,16 @@ from libc.stdint cimport uint8_t
 #cdef extern from "agg_pixfmt_rgb.h" namespace "agg":
 #   cdef cppclass pixfmt_alpha_blend_rgb[Blender, RenBuf, Step, Offset]:
 
-cdef extern from "simple_agg.h":
-    cdef cppclass SimpleAgg:
-        SimpleAgg()
-        SimpleAgg(uint8_t* buf, unsigned width, unsigned height, int stride)
-        void attach(uint8_t* buf, unsigned width, unsigned height, int stride)
+cdef extern from "ndarray_canvas.h":
+    cdef cppclass ndarray_canvas:
+        ndarray_canvas()
+        ndarray_canvas(uint8_t* buf, unsigned width, unsigned height, int stride)
         unsigned width() const
         unsigned height() const
+        void draw_line(double x0, double y0, double x1, double y1, double w, uint8_t r, uint8_t g, uint8_t b, uint8_t a, bool aa)
+        void draw_polygon(const double* points, size_t point_count,
+                          bool outline, double outline_w,
+                          uint8_t outline_r, uint8_t outline_g, uint8_t outline_b, uint8_t outline_a,
+                          bool fill,
+                          uint8_t fill_r,    uint8_t fill_g,    uint8_t fill_b,    uint8_t fill_a,
+                          bool aa)
