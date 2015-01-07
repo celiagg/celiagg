@@ -27,7 +27,9 @@
 #include "agg_conv_contour.h"
 #include "agg_conv_stroke.h"
 #include "agg_path_storage.h"
+#include "agg_pixfmt_gray.h"
 #include "agg_pixfmt_rgb.h"
+#include "agg_pixfmt_rgba.h"
 #include "agg_rasterizer_scanline_aa.h"
 #include "agg_renderer_base.h"
 #include "agg_renderer_scanline.h"
@@ -35,29 +37,40 @@
 #include "agg_scanline_p.h"
 #include <cstdint>
 
+template<typename pixfmt_T>
+typename pixfmt_T::color_type color_from_channel_array(const typename pixfmt_T::value_type* c);
+
+template<>
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const std::uint8_t* c);
+
+template<>
+agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c);
+
+template<typename pixfmt_T>
 class ndarray_canvas
 {
 public:
     ndarray_canvas() = delete;
-    ndarray_canvas(std::uint8_t* buf, unsigned width, unsigned height, int stride);
+    ndarray_canvas(typename pixfmt_T::value_type* buf, const unsigned& width, const unsigned& height, const int& stride);
     unsigned width() const;
     unsigned height() const;
 
-    void draw_line(double x0, double y0, double x1, double y1, double w, std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a, bool aa);
-    void draw_polygon(const double* points, size_t point_count,
-                      bool outline, double outline_w,
-                      std::uint8_t outline_r, std::uint8_t outline_g, std::uint8_t outline_b, std::uint8_t outline_a,
-                      bool fill,
-                      std::uint8_t fill_r,    std::uint8_t fill_g,    std::uint8_t fill_b,    std::uint8_t fill_a,
-                      bool aa);
+    void draw_line(const double& x0, const double& y0,
+                   const double& x1, const double& y1,
+                   const double& w,
+                   const typename pixfmt_T::value_type* c,
+                   const bool& aa);
+    void draw_polygon(const double* points, const size_t& point_count,
+                      const bool& outline, const double& outline_w, const typename pixfmt_T::value_type* outline_c,
+                      const bool& fill, const typename pixfmt_T::value_type* fill_c,
+                      const bool& aa);
 
 protected:
-    typedef agg::pixfmt_rgbx32 pixfmt_t;
-    typedef agg::renderer_base<pixfmt_t> rendererbase_t;
+    typedef agg::renderer_base<pixfmt_T> rendererbase_t;
     typedef agg::renderer_scanline_aa_solid<rendererbase_t> renderer_t;
 
     agg::rendering_buffer m_renbuf;
-    pixfmt_t m_pixfmt;
+    pixfmt_T m_pixfmt;
     rendererbase_t m_rendererbase;
     renderer_t m_renderer;
 
@@ -66,3 +79,6 @@ protected:
 
     inline void set_aa(const bool& aa);
 };
+
+#include "ndarray_canvas.hxx"
+

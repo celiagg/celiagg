@@ -200,6 +200,7 @@
 			<F N="cython/CMakeLists.txt"/>
 			<F N="cython/ndarray_canvas.cpp"/>
 			<F N="cython/ndarray_canvas.h"/>
+			<F N="cython/ndarray_canvas.hxx"/>
 			<F N="cython/pyagg.pyx"/>
 		</Folder>
 		<F N="CMakeLists.txt"/>

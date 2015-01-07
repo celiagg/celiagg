@@ -24,97 +24,20 @@
 
 #include "ndarray_canvas.h"
 
-ndarray_canvas::ndarray_canvas(std::uint8_t* buf, unsigned width, unsigned height, int stride)
-  : m_renbuf(buf, width, height, stride),
-    m_pixfmt(m_renbuf),
-    m_rendererbase(m_pixfmt),
-    m_renderer(m_rendererbase)
+template<>
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const std::uint8_t* c)
 {
+    return agg::pixfmt_rgba32::color_type(c[0], c[1], c[2], c[3]);
 }
 
-unsigned ndarray_canvas::width() const
+template<>
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c)
 {
-    return m_renbuf.width();
+    return agg::pixfmt_rgb24::color_type(c[0], c[1], c[2]);
 }
 
-unsigned ndarray_canvas::height() const
+template<>
+agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const std::uint8_t* c)
 {
-    return m_renbuf.height();
-}
-
-void ndarray_canvas::draw_line(double x0, double y0, double x1, double y1, double w, std::uint8_t r, std::uint8_t g, std::uint8_t b, std::uint8_t a, bool aa)
-{
-    set_aa(aa);
-    agg::path_storage path;
-    path.move_to(x0, y0);
-    path.line_to(x1, y1);
-    agg::conv_stroke<agg::path_storage> stroke(path);
-    stroke.width(w / 2);
-    m_rasterizer.reset();
-    m_rasterizer.add_path(stroke);
-    m_renderer.color(agg::rgba8(r, g, b, a));
-    agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
-}
-
-void ndarray_canvas::draw_polygon(const double* points, size_t point_count,
-                                  bool outline, double outline_w,
-                                  std::uint8_t outline_r, std::uint8_t outline_g, std::uint8_t outline_b, std::uint8_t outline_a,
-                                  bool fill,
-                                  std::uint8_t fill_r,    std::uint8_t fill_g,    std::uint8_t fill_b,    std::uint8_t fill_a,
-                                  bool aa)
-{
-    set_aa(aa);
-    if(point_count >= 2 && (outline || fill))
-    {
-        agg::path_storage path;
-        const double* points_it{points};
-        size_t points_idx{0};
-        path.move_to(points_it[0], points_it[1]);
-        points_it += 2;
-        ++points_idx;
-        for(;;)
-        {
-            path.line_to(points_it[0], points_it[1]);
-            ++points_idx;
-            if(points_idx == point_count)
-            {
-                break;
-            }
-            points_it += 2;
-        }
-        path.close_polygon();
-
-        if(fill)
-        {
-            agg::conv_contour<agg::path_storage> contour(path);
-            contour.auto_detect_orientation(true);
-            contour.width(outline ? outline_w / 2 : 0.5);
-            m_rasterizer.reset();
-            m_rasterizer.add_path(contour);
-            m_renderer.color(agg::rgba8(fill_r, fill_g, fill_b, fill_a));
-            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
-        }
-
-        if(outline)
-        {
-            agg::conv_stroke<agg::path_storage> stroke(path);
-            stroke.width(outline_w / 2);
-            m_rasterizer.reset();
-            m_rasterizer.add_path(stroke);
-            m_renderer.color(agg::rgba8(outline_r, outline_g, outline_b, outline_a));
-            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
-        }
-    }
-}
-
-void ndarray_canvas::set_aa(const bool& aa)
-{
-    if(aa)
-    {
-        m_rasterizer.gamma(agg::gamma_linear());
-    }
-    else
-    {
-        m_rasterizer.gamma(agg::gamma_threshold(0.5));
-    }
+    return agg::pixfmt_gray8::color_type(c[0], c[1]);
 }
