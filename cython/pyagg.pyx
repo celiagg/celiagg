@@ -29,24 +29,29 @@ import numpy
 from libc.stdint cimport uint8_t
 cimport _pyagg
 
-cdef class ndarray_canvas_rgb8:
-    cdef _pyagg.ndarray_canvas[_pyagg.pixfmt_rgb24]* _this
+cdef class _ndarray_canvas_base_uint8:
     cdef uint8_t[:,:,::1] py_image
+    cdef _pyagg.ndarray_canvas_base[uint8_t]* _this
+    cdef uint8_t[::1] default_color
 
-    def __cinit__(self, uint8_t[:,:,::1] image):
+    cdef void base_init(self, uint8_t[:,:,::1] image, channel_count, default_color):
         if image is None:
             raise ValueError('image argument must not be None.')
-        if image.shape[2] != 3:
-            raise ValueError('image argument must have three channels (ie, must be MxNx3).')
+        if image.shape[2] != channel_count:
+            raise ValueError('image argument must be {0} channel (ie, must be MxNx{0}).'.format(channel_count))
         # In order to ensure that our backing memory is not deallocated from underneath us, we retain a
         # reference to the memory view supplied to the constructor (image) as self.py_image, to be kept in
-        # lock step with SimpleAgg<>'s reference to that memory and destroyed when that reference
+        # lock step with ndarray_canvas<>'s reference to that memory and destroyed when that reference
         # is lost.
         self.py_image = image
-        self._this = new _pyagg.ndarray_canvas[_pyagg.pixfmt_rgb24](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0])
+        self.default_color = numpy.asarray(default_color, dtype=numpy.uint8, order='c')
 
     def __dealloc__(self):
         del self._this
+
+    @property
+    def channel_count(self):
+        return self._this.channel_count()
 
     @property
     def width(self):
@@ -63,8 +68,20 @@ cdef class ndarray_canvas_rgb8:
         # self.py_image.base is returned rather than self.py_image).
         return self.py_image.base
 
-    def draw_line(self, x0, y0, x1, y1, w=1, c=(255,255,255), aa=True):
-        cdef uint8_t[::1] c_npy = numpy.asarray(c, dtype=numpy.uint8, order='c')
+    cdef uint8_t[::1] get_color(self, c, n):
+        cdef uint8_t[::1] c_npy
+        if c is None:
+            c_npy = self.default_color
+        else:
+            c_npy = numpy.asarray(c, dtype=numpy.uint8, order='c')
+            if c_npy.ndim > 1:
+                raise ValueError('{} argument must be a flat iterable.'.format(n))
+            if c_npy.shape[0] != self._this.channel_count():
+                raise ValueError('{} argument must contain {} element(s).'.format(self._this.channel_count()))
+        return c_npy
+
+    def draw_line(self, x0, y0, x1, y1, w=1, c=None, aa=True):
+        cdef uint8_t[::1] c_npy = self.get_color(c, 'line color')
         self._this.draw_line(x0, y0, x1, y1, w, &c_npy[0], aa)
 
     def draw_polygon(self, points,
@@ -73,8 +90,8 @@ cdef class ndarray_canvas_rgb8:
                      fill=False,
                      fill_c=(255,255,255),
                      aa=True):
-        cdef uint8_t[::1] outline_c_npy = numpy.asarray(outline_c, dtype=numpy.uint8, order='c')
-        cdef uint8_t[::1] fill_c_npy = numpy.asarray(fill_c, dtype=numpy.uint8, order='c')
+        cdef uint8_t[::1] outline_c_npy = self.get_color(outline_c, 'outline color')
+        cdef uint8_t[::1] fill_c_npy = self.get_color(fill_c, 'fill color')
         cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
         if points_npy.shape[1] != 2:
             raise ValueError('Points argument must be an iterable of (x, y) pairs.')
@@ -83,110 +100,17 @@ cdef class ndarray_canvas_rgb8:
                                 fill, &fill_c_npy[0],
                                 aa)
 
-cdef class ndarray_canvas_rgba8:
-    cdef _pyagg.ndarray_canvas[_pyagg.pixfmt_rgba32]* _this
-    cdef uint8_t[:,:,::1] py_image
-
+cdef class ndarray_canvas_rgb24(_ndarray_canvas_base_uint8):
     def __cinit__(self, uint8_t[:,:,::1] image):
-        if image is None:
-            raise ValueError('image argument must not be None.')
-        if image.shape[2] != 4:
-            raise ValueError('image argument must have four channels (ie, must be MxNx4).')
-        # In order to ensure that our backing memory is not deallocated from underneath us, we retain a
-        # reference to the memory view supplied to the constructor (image) as self.py_image, to be kept in
-        # lock step with SimpleAgg<>'s reference to that memory and destroyed when that reference
-        # is lost.
-        self.py_image = image
-        self._this = new _pyagg.ndarray_canvas[_pyagg.pixfmt_rgba32](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0])
+        self.base_init(image, 3, (255,255,255))
+        self._this = <_pyagg.ndarray_canvas_base[uint8_t]*> new _pyagg.ndarray_canvas[_pyagg.pixfmt_rgb24](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0], 3)
 
-    def __dealloc__(self):
-        del self._this
-
-    @property
-    def width(self):
-        return self._this.width()
-
-    @property
-    def height(self):
-        return self._this.height()
-
-    @property
-    def image(self):
-        # User is not likely to be concerned with the details of the cython memory view around array or buffer
-        # supplied to the constructor or attach, but instead expects the original array or buffer (which is why
-        # self.py_image.base is returned rather than self.py_image).
-        return self.py_image.base
-
-    def draw_line(self, x0, y0, x1, y1, w=1, c=(255, 255, 255, 255), aa=True):
-        cdef uint8_t[::1] c_npy = numpy.asarray(c, dtype=numpy.uint8, order='c')
-        self._this.draw_line(x0, y0, x1, y1, w, &c_npy[0], aa)
-
-    def draw_polygon(self, points,
-                     outline=True, outline_w=1,
-                     outline_c=(255, 255, 255, 255),
-                     fill=False,
-                     fill_c=(255, 255, 255, 255),
-                     aa=True):
-        cdef uint8_t[::1] outline_c_npy = numpy.asarray(outline_c, dtype=numpy.uint8, order='c')
-        cdef uint8_t[::1] fill_c_npy = numpy.asarray(fill_c, dtype=numpy.uint8, order='c')
-        cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
-        if points_npy.shape[1] != 2:
-            raise ValueError('Points argument must be an iterable of (x, y) pairs.')
-        self._this.draw_polygon(&points_npy[0][0], points_npy.shape[0],
-                                outline, outline_w, &outline_c_npy[0],
-                                fill, &fill_c_npy[0],
-                                aa)
-
-cdef class ndarray_canvas_grayscale_alpha8:
-    cdef _pyagg.ndarray_canvas[_pyagg.pixfmt_gray8]* _this
-    cdef uint8_t[:,:,::1] py_image
-
+cdef class ndarray_canvas_rgba32(_ndarray_canvas_base_uint8):
     def __cinit__(self, uint8_t[:,:,::1] image):
-        if image is None:
-            raise ValueError('image argument must not be None.')
-        if image.shape[2] != 2:
-            raise ValueError('image argument must have two channels (ie, must be MxNx2).')
-        # In order to ensure that our backing memory is not deallocated from underneath us, we retain a
-        # reference to the memory view supplied to the constructor (image) as self.py_image, to be kept in
-        # lock step with SimpleAgg<>'s reference to that memory and destroyed when that reference
-        # is lost.
-        self.py_image = image
-        self._this = new _pyagg.ndarray_canvas[_pyagg.pixfmt_gray8](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0])
+        self.base_init(image, 4, (255,255,255,255))
+        self._this = <_pyagg.ndarray_canvas_base[uint8_t]*> new _pyagg.ndarray_canvas[_pyagg.pixfmt_rgba32](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0], 4)
 
-    def __dealloc__(self):
-        del self._this
-
-    @property
-    def width(self):
-        return self._this.width()
-
-    @property
-    def height(self):
-        return self._this.height()
-
-    @property
-    def image(self):
-        # User is not likely to be concerned with the details of the cython memory view around array or buffer
-        # supplied to the constructor or attach, but instead expects the original array or buffer (which is why
-        # self.py_image.base is returned rather than self.py_image).
-        return self.py_image.base
-
-    def draw_line(self, x0, y0, x1, y1, w=1, c=(255, 255), aa=True):
-        cdef uint8_t[::1] c_npy = numpy.asarray(c, dtype=numpy.uint8, order='c')
-        self._this.draw_line(x0, y0, x1, y1, w, &c_npy[0], aa)
-
-    def draw_polygon(self, points,
-                     outline=True, outline_w=1,
-                     outline_c=(255, 255),
-                     fill=False,
-                     fill_c=(255, 255),
-                     aa=True):
-        cdef uint8_t[::1] outline_c_npy = numpy.asarray(outline_c, dtype=numpy.uint8, order='c')
-        cdef uint8_t[::1] fill_c_npy = numpy.asarray(fill_c, dtype=numpy.uint8, order='c')
-        cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
-        if points_npy.shape[1] != 2:
-            raise ValueError('Points argument must be an iterable of (x, y) pairs.')
-        self._this.draw_polygon(&points_npy[0][0], points_npy.shape[0],
-                                outline, outline_w, &outline_c_npy[0],
-                                fill, &fill_c_npy[0],
-                                aa)
+cdef class ndarray_canvas_ga16(_ndarray_canvas_base_uint8):
+    def __cinit__(self, uint8_t[:,:,::1] image):
+        self.base_init(image, 2, (255,255))
+        self._this = <_pyagg.ndarray_canvas_base[uint8_t]*> new _pyagg.ndarray_canvas[_pyagg.pixfmt_gray8](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0], 2)

@@ -28,21 +28,6 @@ import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
 
-#cdef extern from "agg_rendering_buffer.h" namespace "agg":
-#    cdef cppclass row_ptr_cache[T]:
-#        row_ptr_cache()
-#        row_ptr_cache(T* buf, unsigned width, unsigned height, int stride)
-#        void attach(T* buf, unsigned width, unsigned height, int stride)
-#        T* buf()
-#        unsigned width() const
-#        unsigned height() const
-#        int stride() const
-#        unsigned stride_abs() const
-#        void clear(T value)
-
-#cdef extern from "agg_pixfmt_rgb.h" namespace "agg":
-#   cdef cppclass pixfmt_alpha_blend_rgb[Blender, RenBuf, Step, Offset]:
-
 cdef extern from "ndarray_canvas.h" namespace "agg":
     cdef cppclass pixfmt_rgb24:
         pass
@@ -52,20 +37,23 @@ cdef extern from "ndarray_canvas.h" namespace "agg":
         pass
 
 cdef extern from "ndarray_canvas.h":
-#   cdef cppclass ndarray_canvas_rgba8:
-#       ndarray_canvas_rgba8(uint8_t* buf, unsigned width, unsigned height, int stride)
-#       unsigned width() const
-#       unsigned height() const
-#       void draw_line(double x0, double y0, double x1, double y1, double w, uint8_t r, uint8_t g, uint8_t b, uint8_t a, bool aa)
-#       void draw_polygon(const double* points, size_t point_count,
-#                         bool outline, double outline_w,
-#                         uint8_t outline_r, uint8_t outline_g, uint8_t outline_b, uint8_t outline_a,
-#                         bool fill,
-#                         uint8_t fill_r,    uint8_t fill_g,    uint8_t fill_b,    uint8_t fill_a,
-#                         bool aa)
-#   void testdraw(uint8_t* buf, size_t w, size_t h, size_t s)
-    cdef cppclass ndarray_canvas[T]:
-        ndarray_canvas(uint8_t* buf, const unsigned& width, const unsigned& height, const int& stride)
+    cdef cppclass ndarray_canvas_base[value_type_T]:
+        const size_t& channel_count() const
+        unsigned width() const
+        unsigned height() const
+        void draw_line(const double& x0, const double& y0,
+                       const double& x1, const double& y1,
+                       const double& w,
+                       const value_type_T* c,
+                       const bool& aa)
+        void draw_polygon(const double* points, const size_t& point_count,
+                          const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                          const bool& fill, const value_type_T* fill_c,
+                          const bool& aa)
+
+    cdef cppclass ndarray_canvas[pixfmt_T]:
+        ndarray_canvas(uint8_t* buf, const unsigned& width, const unsigned& height, const int& stride, const size_t& channel_count)
+        const size_t& channel_count() const
         unsigned width() const
         unsigned height() const
         void draw_line(const double& x0, const double& y0,

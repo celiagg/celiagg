@@ -24,12 +24,25 @@
  
 
 template<typename pixfmt_T>
-ndarray_canvas<pixfmt_T>::ndarray_canvas(typename pixfmt_T::value_type* buf, const unsigned& width, const unsigned& height, const int& stride)
-  : m_renbuf(buf, width, height, stride),
+ndarray_canvas<pixfmt_T>::ndarray_canvas(typename pixfmt_T::value_type* buf,
+                                         const unsigned& width, const unsigned& height, const int& stride,
+                                         const size_t& channel_count)
+  : m_channel_count(channel_count),
+    m_renbuf(buf, width, height, stride),
     m_pixfmt(m_renbuf),
     m_rendererbase(m_pixfmt),
     m_renderer(m_rendererbase)
 {
+}
+
+template<typename pixfmt_T>
+const size_t& ndarray_canvas<pixfmt_T>::ndarray_canvas::channel_count() const
+{
+//  typedef typename pixfmt_T::order_type T;
+//  return T::N;
+    // Something like the above should work, but the cop-out of just storing channel count 
+    // ourselves definitely works. 
+    return m_channel_count; 
 }
 
 template<typename pixfmt_T>

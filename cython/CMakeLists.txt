@@ -24,7 +24,8 @@
 
 set(PYX_SOURCES pyagg)
 set(CPP_SOURCES ndarray_canvas.cpp)
-set(CPP_HEADERS ndarray_canvas.h)
+set(CPP_HEADERS ndarray_canvas.h
+                ndarray_canvas.hxx)
 
 set(CYTHON_GENERATED_CPP_FILES "")
 # TODO: find cython executable properly

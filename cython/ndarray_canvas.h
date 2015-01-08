@@ -37,21 +37,43 @@
 #include "agg_scanline_p.h"
 #include <cstdint>
 
-template<typename pixfmt_T>
-typename pixfmt_T::color_type color_from_channel_array(const typename pixfmt_T::value_type* c);
+// Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
+// able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
+// with shared value_types in a cython base class. 
+template<typename value_type_T>
+class ndarray_canvas_base
+{
+public:
+    virtual ~ndarray_canvas_base(){}
 
-template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const std::uint8_t* c);
+    virtual const size_t& channel_count() const = 0;
+    virtual unsigned width() const = 0;
+    virtual unsigned height() const = 0;
 
-template<>
-agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c);
+    virtual void draw_line(const double& x0, const double& y0,
+                           const double& x1, const double& y1,
+                           const double& w,
+                           const value_type_T* c,
+                           const bool& aa) = 0;
+
+    virtual void draw_polygon(const double* points, const size_t& point_count,
+                              const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                              const bool& fill, const value_type_T* fill_c,
+                              const bool& aa) = 0;
+};
 
 template<typename pixfmt_T>
 class ndarray_canvas
+  : public ndarray_canvas_base<typename pixfmt_T::value_type>
 {
 public:
     ndarray_canvas() = delete;
-    ndarray_canvas(typename pixfmt_T::value_type* buf, const unsigned& width, const unsigned& height, const int& stride);
+    ndarray_canvas(typename pixfmt_T::value_type* buf,
+                   const unsigned& width, const unsigned& height, const int& stride,
+                   const size_t& channel_count);
+    virtual ~ndarray_canvas(){}
+
+    const size_t& channel_count() const;
     unsigned width() const;
     unsigned height() const;
 
@@ -60,6 +82,7 @@ public:
                    const double& w,
                    const typename pixfmt_T::value_type* c,
                    const bool& aa);
+
     void draw_polygon(const double* points, const size_t& point_count,
                       const bool& outline, const double& outline_w, const typename pixfmt_T::value_type* outline_c,
                       const bool& fill, const typename pixfmt_T::value_type* fill_c,
@@ -69,6 +92,7 @@ protected:
     typedef agg::renderer_base<pixfmt_T> rendererbase_t;
     typedef agg::renderer_scanline_aa_solid<rendererbase_t> renderer_t;
 
+    size_t m_channel_count;
     agg::rendering_buffer m_renbuf;
     pixfmt_T m_pixfmt;
     rendererbase_t m_rendererbase;
@@ -79,6 +103,15 @@ protected:
 
     inline void set_aa(const bool& aa);
 };
+
+template<typename pixfmt_T>
+typename pixfmt_T::color_type color_from_channel_array(const typename pixfmt_T::value_type* c);
+
+template<>
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const std::uint8_t* c);
+
+template<>
+agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c);
 
 #include "ndarray_canvas.hxx"
 
