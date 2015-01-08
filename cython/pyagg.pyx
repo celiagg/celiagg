@@ -34,11 +34,11 @@ cdef class _ndarray_canvas_base_uint8:
     cdef _pyagg.ndarray_canvas_base[uint8_t]* _this
     cdef uint8_t[::1] default_color
 
-    cdef void base_init(self, uint8_t[:,:,::1] image, channel_count, default_color):
+    cdef void base_init(self, uint8_t[:,:,::1] image, default_color):
         if image is None:
             raise ValueError('image argument must not be None.')
-        if image.shape[2] != channel_count:
-            raise ValueError('image argument must be {0} channel (ie, must be MxNx{0}).'.format(channel_count))
+        if image.shape[2] != len(default_color):
+            raise ValueError('image argument must be {0} channel (ie, must be MxNx{0}).'.format(len(default_color)))
         # In order to ensure that our backing memory is not deallocated from underneath us, we retain a
         # reference to the memory view supplied to the constructor (image) as self.py_image, to be kept in
         # lock step with ndarray_canvas<>'s reference to that memory and destroyed when that reference
@@ -118,7 +118,7 @@ cdef class ndarray_canvas_rgb24(_ndarray_canvas_base_uint8):
     array passed as ndarray_canvas_rgb24's constructor argument.  Because this array is modified in place,
     it must be of type numpy.uint8, must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue)."""
     def __cinit__(self, uint8_t[:,:,::1] image):
-        self.base_init(image, 3, (255,)*3)
+        self.base_init(image, (255,)*3)
         self._this = <_pyagg.ndarray_canvas_base[uint8_t]*> new _pyagg.ndarray_canvas[_pyagg.pixfmt_rgb24, uint8_t](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0], 3)
 
 cdef class ndarray_canvas_rgba32(_ndarray_canvas_base_uint8):
@@ -127,7 +127,7 @@ cdef class ndarray_canvas_rgba32(_ndarray_canvas_base_uint8):
     it must be of type numpy.uint8, must be C-contiguous, and must be MxNx4 (4 channels: red, green, blue,
     and alpha)."""
     def __cinit__(self, uint8_t[:,:,::1] image):
-        self.base_init(image, 4, (255,)*4)
+        self.base_init(image, (255,)*4)
         self._this = <_pyagg.ndarray_canvas_base[uint8_t]*> new _pyagg.ndarray_canvas[_pyagg.pixfmt_rgba32, uint8_t](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0], 4)
 
 cdef class ndarray_canvas_ga16(_ndarray_canvas_base_uint8):
@@ -136,9 +136,14 @@ cdef class ndarray_canvas_ga16(_ndarray_canvas_base_uint8):
     it must be of type numpy.uint8, must be C-contiguous, and must be MxNx2 (2 channels: intensity and
     alpha)."""
     def __cinit__(self, uint8_t[:,:,::1] image):
-        self.base_init(image, 2, (255,)*2)
+        self.base_init(image, (255,)*2)
         self._this = <_pyagg.ndarray_canvas_base[uint8_t]*> new _pyagg.ndarray_canvas[_pyagg.pixfmt_gray8, uint8_t](&image[0][0][0], image.shape[1], image.shape[0], image.strides[0], 2)
 
+# TODO: make the 16 bit integer per channel stuff commented out below work (the problem may just be that AGG wants
+# buffers to always be unsigned chars, which we could work around with a typecast).
+# 
+# Ambitious TODO: Add floating point pixel formats, renderers, and cython interface
+#
 #cdef class _ndarray_canvas_base_uint16:
 #    cdef uint16_t[:,:,::1] py_image
 #    cdef _pyagg.ndarray_canvas_base[uint16_t]* _this

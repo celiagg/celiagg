@@ -59,10 +59,10 @@ unsigned ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::height() const
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_line(const double& x0, const double& y0,
-                                         const double& x1, const double& y1,
-                                         const double& w,
-                                         const value_type_T* c,
-                                         const bool& aa)
+                                                       const double& x1, const double& y1,
+                                                       const double& w,
+                                                       const value_type_T* c,
+                                                       const bool& aa)
 {
     set_aa(aa);
     agg::path_storage path;
@@ -78,9 +78,9 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_line(const double& x0, const d
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, const size_t& point_count,
-                                            const bool& outline, const double& outline_w, const value_type_T* outline_c,
-                                            const bool& fill, const value_type_T* fill_c,
-                                            const bool& aa)
+                                                          const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                                                          const bool& fill, const value_type_T* fill_c,
+                                                          const bool& aa)
 {
     set_aa(aa);
     if(point_count >= 2 && (outline || fill))
@@ -101,7 +101,6 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
             }
             points_it += 2;
         }
-        path.close_polygon();
 
         if(fill)
         {
