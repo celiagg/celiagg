@@ -23,8 +23,8 @@
 // Authors: Erik Hvatum <ice.rikh@gmail.com>
  
 
-template<typename pixfmt_T>
-ndarray_canvas<pixfmt_T>::ndarray_canvas(typename pixfmt_T::value_type* buf,
+template<typename pixfmt_T, typename value_type_T>
+ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas(value_type_T* buf,
                                          const unsigned& width, const unsigned& height, const int& stride,
                                          const size_t& channel_count)
   : m_channel_count(channel_count),
@@ -35,8 +35,8 @@ ndarray_canvas<pixfmt_T>::ndarray_canvas(typename pixfmt_T::value_type* buf,
 {
 }
 
-template<typename pixfmt_T>
-const size_t& ndarray_canvas<pixfmt_T>::ndarray_canvas::channel_count() const
+template<typename pixfmt_T, typename value_type_T>
+const size_t& ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::channel_count() const
 {
 //  typedef typename pixfmt_T::order_type T;
 //  return T::N;
@@ -45,23 +45,23 @@ const size_t& ndarray_canvas<pixfmt_T>::ndarray_canvas::channel_count() const
     return m_channel_count; 
 }
 
-template<typename pixfmt_T>
-unsigned ndarray_canvas<pixfmt_T>::ndarray_canvas::width() const
+template<typename pixfmt_T, typename value_type_T>
+unsigned ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::width() const
 {
     return m_renbuf.width();
 }
 
-template<typename pixfmt_T>
-unsigned ndarray_canvas<pixfmt_T>::ndarray_canvas::height() const
+template<typename pixfmt_T, typename value_type_T>
+unsigned ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::height() const
 {
     return m_renbuf.height();
 }
 
-template<typename pixfmt_T>
-void ndarray_canvas<pixfmt_T>::draw_line(const double& x0, const double& y0,
+template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_line(const double& x0, const double& y0,
                                          const double& x1, const double& y1,
                                          const double& w,
-                                         const typename pixfmt_T::value_type* c,
+                                         const value_type_T* c,
                                          const bool& aa)
 {
     set_aa(aa);
@@ -76,10 +76,10 @@ void ndarray_canvas<pixfmt_T>::draw_line(const double& x0, const double& y0,
     agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
 }
 
-template<typename pixfmt_T>
-void ndarray_canvas<pixfmt_T>::draw_polygon(const double* points, const size_t& point_count,
-                                            const bool& outline, const double& outline_w, const typename pixfmt_T::value_type* outline_c,
-                                            const bool& fill, const typename pixfmt_T::value_type* fill_c,
+template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, const size_t& point_count,
+                                            const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                                            const bool& fill, const value_type_T* fill_c,
                                             const bool& aa)
 {
     set_aa(aa);
@@ -126,8 +126,8 @@ void ndarray_canvas<pixfmt_T>::draw_polygon(const double* points, const size_t& 
     }
 }
 
-template<typename pixfmt_T>
-void ndarray_canvas<pixfmt_T>::set_aa(const bool& aa)
+template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::set_aa(const bool& aa)
 {
     if(aa)
     {

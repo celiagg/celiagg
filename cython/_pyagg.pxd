@@ -35,6 +35,12 @@ cdef extern from "ndarray_canvas.h" namespace "agg":
         pass
     cdef cppclass pixfmt_gray8:
         pass
+    cdef cppclass pixfmt_rgb48:
+        pass
+    cdef cppclass pixfmt_rgba64:
+        pass
+    cdef cppclass pixfmt_gray16:
+        pass
 
 cdef extern from "ndarray_canvas.h":
     cdef cppclass ndarray_canvas_base[value_type_T]:
@@ -51,17 +57,17 @@ cdef extern from "ndarray_canvas.h":
                           const bool& fill, const value_type_T* fill_c,
                           const bool& aa)
 
-    cdef cppclass ndarray_canvas[pixfmt_T]:
-        ndarray_canvas(uint8_t* buf, const unsigned& width, const unsigned& height, const int& stride, const size_t& channel_count)
+    cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
+        ndarray_canvas(value_type_T* buf, const unsigned& width, const unsigned& height, const int& stride, const size_t& channel_count)
         const size_t& channel_count() const
         unsigned width() const
         unsigned height() const
         void draw_line(const double& x0, const double& y0,
                        const double& x1, const double& y1,
                        const double& w,
-                       const uint8_t* c,
+                       const value_type_T* c,
                        const bool& aa)
         void draw_polygon(const double* points, const size_t& point_count,
                           const bool& outline, const double& outline_w, const uint8_t* outline_c,
-                          const bool& fill, const uint8_t* fill_c,
+                          const bool& fill, const value_type_T* fill_c,
                           const bool& aa)

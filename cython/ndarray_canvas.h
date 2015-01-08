@@ -62,13 +62,13 @@ public:
                               const bool& aa) = 0;
 };
 
-template<typename pixfmt_T>
+template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
 class ndarray_canvas
-  : public ndarray_canvas_base<typename pixfmt_T::value_type>
+  : public ndarray_canvas_base<value_type_T>
 {
 public:
     ndarray_canvas() = delete;
-    ndarray_canvas(typename pixfmt_T::value_type* buf,
+    ndarray_canvas(value_type_T* buf,
                    const unsigned& width, const unsigned& height, const int& stride,
                    const size_t& channel_count);
     virtual ~ndarray_canvas(){}
@@ -80,12 +80,12 @@ public:
     void draw_line(const double& x0, const double& y0,
                    const double& x1, const double& y1,
                    const double& w,
-                   const typename pixfmt_T::value_type* c,
+                   const value_type_T* c,
                    const bool& aa);
 
     void draw_polygon(const double* points, const size_t& point_count,
-                      const bool& outline, const double& outline_w, const typename pixfmt_T::value_type* outline_c,
-                      const bool& fill, const typename pixfmt_T::value_type* fill_c,
+                      const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                      const bool& fill, const value_type_T* fill_c,
                       const bool& aa);
 
 protected:
@@ -93,7 +93,7 @@ protected:
     typedef agg::renderer_scanline_aa_solid<rendererbase_t> renderer_t;
 
     size_t m_channel_count;
-    agg::rendering_buffer m_renbuf;
+    agg::row_accessor<value_type_T> m_renbuf;
     pixfmt_T m_pixfmt;
     rendererbase_t m_rendererbase;
     renderer_t m_renderer;
