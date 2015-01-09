@@ -33,6 +33,10 @@ ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas(value_type_T* buf,
     m_rendererbase(m_pixfmt),
     m_renderer(m_rendererbase)
 {
+    // Clipping at the rasterizer level (vectorial) is far faster than clipping at the renderer level (pixel-wise) when 
+    // significant clipping is required.  Clipping in the renderer is done by throwing away pixel data falling outside 
+    // any clipping box, whereas the rasterizer clipping avoids generating pixels outside of its current clip box.
+    m_rasterizer.clip_box(0, 0, width, height);
 }
 
 template<typename pixfmt_T, typename value_type_T>
