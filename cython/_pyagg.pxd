@@ -43,6 +43,9 @@ cdef extern from "ndarray_canvas.h" namespace "agg":
         pass
 
 cdef extern from "ndarray_canvas.h":
+    cdef cppclass pixfmt_gray8_no_alpha:
+        pass
+
     cdef cppclass ndarray_canvas_base[value_type_T]:
         const size_t& channel_count() const
         unsigned width() const

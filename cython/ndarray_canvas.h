@@ -104,6 +104,8 @@ protected:
     inline void set_aa(const bool& aa);
 };
 
+typedef agg::pixfmt_alpha_blend_gray<agg::blender_gray8, agg::rendering_buffer, 1, 0> pixfmt_gray8_no_alpha;
+
 template<typename pixfmt_T>
 typename pixfmt_T::color_type color_from_channel_array(const typename pixfmt_T::value_type* c);
 

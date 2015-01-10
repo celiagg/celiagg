@@ -33,7 +33,7 @@ agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(cons
 template<>
 agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c)
 {
-    return agg::pixfmt_rgb24::color_type(c[0], c[1], c[2]);
+    return agg::pixfmt_rgb24::color_type(c[0], c[1], c[2], c[3]);
 }
 
 template<>
