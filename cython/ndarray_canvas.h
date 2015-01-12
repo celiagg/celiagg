@@ -25,6 +25,7 @@
 #pragma once
 
 #include "agg_conv_contour.h"
+#include "agg_conv_curve.h"
 #include "agg_conv_stroke.h"
 #include "agg_path_storage.h"
 #include "agg_pixfmt_gray.h"
@@ -60,6 +61,27 @@ public:
                               const bool& outline, const double& outline_w, const value_type_T* outline_c,
                               const bool& fill, const value_type_T* fill_c,
                               const bool& aa) = 0;
+
+    virtual void draw_bezier3(const double& x0, const double& y0,
+                              const double& x_ctrl, const double& y_ctrl,
+                              const double& x1, const double& y1,
+                              const double& w, const value_type_T* c,
+                              const bool& aa) = 0;
+
+    virtual void draw_bezier3_composite(const double* points, const size_t& point_count,
+                                        const double& w, const value_type_T* c,
+                                        const bool& aa) = 0;
+
+    virtual void draw_bezier4(const double& x0, const double& y0,
+                              const double& x_ctrl0, const double& y_ctrl0,
+                              const double& x_ctrl1, const double& y_ctrl1,
+                              const double& x1, const double& y1,
+                              const double& w, const value_type_T* c,
+                              const bool& aa) = 0;
+
+    virtual void draw_bezier4_composite(const double* points, const size_t& point_count,
+                                        const double& w, const value_type_T* c,
+                                        const bool& aa) = 0;
 };
 
 template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
@@ -87,6 +109,27 @@ public:
                       const bool& outline, const double& outline_w, const value_type_T* outline_c,
                       const bool& fill, const value_type_T* fill_c,
                       const bool& aa);
+
+    void draw_bezier3(const double& x0, const double& y0,
+                      const double& x_ctrl, const double& y_ctrl,
+                      const double& x1, const double& y1,
+                      const double& w, const value_type_T* c,
+                      const bool& aa);
+
+    void draw_bezier3_composite(const double* points, const size_t& point_count,
+                                const double& w, const value_type_T* c,
+                                const bool& aa);
+
+    void draw_bezier4(const double& x0, const double& y0,
+                      const double& x_ctrl0, const double& y_ctrl0,
+                      const double& x_ctrl1, const double& y_ctrl1,
+                      const double& x1, const double& y1,
+                      const double& w, const value_type_T* c,
+                      const bool& aa);
+
+    void draw_bezier4_composite(const double* points, const size_t& point_count,
+                                const double& w, const value_type_T* c,
+                                const bool& aa);
 
 protected:
     typedef agg::renderer_base<pixfmt_T> rendererbase_t;
