@@ -115,5 +115,8 @@ agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(cons
 template<>
 agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c);
 
+template<>
+agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const std::uint8_t* c);
+
 #include "ndarray_canvas.hxx"
 
