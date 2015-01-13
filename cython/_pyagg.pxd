@@ -56,7 +56,7 @@ cdef extern from "ndarray_canvas.h":
                        const value_type_T* c,
                        const bool& aa)
         void draw_polygon(const double* points, const size_t& point_count,
-                          const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                          const bool& line, const double& line_w, const value_type_T* line_c,
                           const bool& fill, const value_type_T* fill_c,
                           const bool& aa)
         void draw_bezier3(const double& x0, const double& y0,
@@ -65,7 +65,8 @@ cdef extern from "ndarray_canvas.h":
                           const double& w, const value_type_T* c,
                           const bool& aa)
         void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                    const double& w, const value_type_T* c,
+                                    const bool& line, const double& line_w, const value_type_T* line_c,
+                                    const bool& fill, const value_type_T* fill_c,
                                     const bool& aa)
         void draw_bezier4(const double& x0, const double& y0,
                           const double& x_ctrl0, const double& y_ctrl0,
@@ -74,7 +75,8 @@ cdef extern from "ndarray_canvas.h":
                           const double& w, const value_type_T* c,
                           const bool& aa)
         void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                    const double& w, const value_type_T* c,
+                                    const bool& line, const double& line_w, const value_type_T* line_c,
+                                    const bool& fill, const value_type_T* fill_c,
                                     const bool& aa)
 
     cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
@@ -88,7 +90,7 @@ cdef extern from "ndarray_canvas.h":
                        const value_type_T* c,
                        const bool& aa)
         void draw_polygon(const double* points, const size_t& point_count,
-                          const bool& outline, const double& outline_w, const uint8_t* outline_c,
+                          const bool& line, const double& line_w, const uint8_t* line_c,
                           const bool& fill, const value_type_T* fill_c,
                           const bool& aa)
         void draw_bezier3(const double& x0, const double& y0,
@@ -97,7 +99,8 @@ cdef extern from "ndarray_canvas.h":
                           const double& w, const value_type_T* c,
                           const bool& aa)
         void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                    const double& w, const value_type_T* c,
+                                    const bool& line, const double& line_w, const value_type_T* line_c,
+                                    const bool& fill, const value_type_T* fill_c,
                                     const bool& aa)
         void draw_bezier4(const double& x0, const double& y0,
                           const double& x_ctrl0, const double& y_ctrl0,
@@ -106,5 +109,6 @@ cdef extern from "ndarray_canvas.h":
                           const double& w, const value_type_T* c,
                           const bool& aa)
         void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                    const double& w, const value_type_T* c,
+                                    const bool& line, const double& line_w, const value_type_T* line_c,
+                                    const bool& fill, const value_type_T* fill_c,
                                     const bool& aa)

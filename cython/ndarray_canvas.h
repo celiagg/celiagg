@@ -58,7 +58,7 @@ public:
                            const bool& aa) = 0;
 
     virtual void draw_polygon(const double* points, const size_t& point_count,
-                              const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                              const bool& line, const double& line_w, const value_type_T* line_c,
                               const bool& fill, const value_type_T* fill_c,
                               const bool& aa) = 0;
 
@@ -69,7 +69,8 @@ public:
                               const bool& aa) = 0;
 
     virtual void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                        const double& w, const value_type_T* c,
+                                        const bool& line, const double& line_w, const value_type_T* line_c,
+                                        const bool& fill, const value_type_T* fill_c,
                                         const bool& aa) = 0;
 
     virtual void draw_bezier4(const double& x0, const double& y0,
@@ -80,7 +81,8 @@ public:
                               const bool& aa) = 0;
 
     virtual void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                        const double& w, const value_type_T* c,
+                                        const bool& line, const double& line_w, const value_type_T* line_c,
+                                        const bool& fill, const value_type_T* fill_c,
                                         const bool& aa) = 0;
 };
 
@@ -106,7 +108,7 @@ public:
                    const bool& aa);
 
     void draw_polygon(const double* points, const size_t& point_count,
-                      const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                      const bool& line, const double& line_w, const value_type_T* line_c,
                       const bool& fill, const value_type_T* fill_c,
                       const bool& aa);
 
@@ -117,7 +119,8 @@ public:
                       const bool& aa);
 
     void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                const double& w, const value_type_T* c,
+                                const bool& line, const double& line_w, const value_type_T* line_c,
+                                const bool& fill, const value_type_T* fill_c,
                                 const bool& aa);
 
     void draw_bezier4(const double& x0, const double& y0,
@@ -128,7 +131,8 @@ public:
                       const bool& aa);
 
     void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                const double& w, const value_type_T* c,
+                                const bool& line, const double& line_w, const value_type_T* line_c,
+                                const bool& fill, const value_type_T* fill_c,
                                 const bool& aa);
 
 protected:

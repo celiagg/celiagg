@@ -104,122 +104,144 @@ cdef class _ndarray_canvas_base_uint8:
 
     def draw_line(self, x0, y0, x1, y1, w=1, c=None, aa=True):
         """draw_line(self, x0, y0, x1, y1, w=1, c=(255,...), aa=True):
-         x0...y1: start and endpoint coordinates
-         w: width
-         c: iterable of color components; components are 8-bit unsigned integers in the range [0,255]
-         aa: if True, rendering is anti-aliased"""
+          x0...y1: Start and endpoint coordinates
+          w: Width
+          c: Iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+          aa: If True, rendering is anti-aliased"""
         cdef uint8_t[::1] c_npy = self.get_color(c, 'line color')
         self._this.draw_line(x0, y0, x1, y1, w, &c_npy[0], aa)
 
     def draw_polygon(self, points,
-                     outline=True, outline_w=1,
-                     outline_c=None,
+                     line=True, line_w=1,
+                     line_c=None,
                      fill=False,
                      fill_c=None,
                      aa=True):
-        """draw_polygon(self, points, outline=True, outline_w=1, outline_c=None, fill=False, fill_c=None, aa=True):
-         points: iterable of x,y pairs
-         outline: if True, outline is drawn
-         outline_w: outline width
-         outline_c: outline color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
-         fill: if True, polygon is filled
-         fill_c: polygon fill color
-         aa: if True, rendering is anti-aliased"""
+        """draw_polygon(self, points, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
+         points: Iterable of x,y pairs
+         line: If True, line is drawn
+         line_w: Outline width
+         line_c: Outline color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         fill: If True, polygon is even/odd filled
+         fill_c: Fill color
+         aa: If True, rendering is anti-aliased"""
         cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
-        cdef uint8_t[::1] outline_c_npy
+        cdef uint8_t[::1] line_c_npy
         cdef uint8_t[::1] fill_c_npy
         if points_npy.shape[1] != 2:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
-        outline_c_npy = self.get_color(outline_c, 'outline color')
+        line_c_npy = self.get_color(line_c, 'line color')
         fill_c_npy = self.get_color(fill_c, 'fill color')
         self._this.draw_polygon(&points_npy[0][0], points_npy.shape[0],
-                                outline, outline_w, &outline_c_npy[0],
+                                line, line_w, &line_c_npy[0],
                                 fill, &fill_c_npy[0],
                                 aa)
 
     def draw_bezier3(self, x0, y0, x_ctrl, y_ctrl, x1, y1, w=1, c=None, aa=True):
         """draw_bezier3(self, x0, y0, x_ctrl, y_ctrl, x1, y1, w=1, c=None, aa=True):
-         x0, y0: start point
-         x_ctrl, y_ctrl: control point
-         x1, y1: end point
-         c: iterable of color components; components are 8-bit unsigned integers in the range [0,255]
-         aa: if True, rendering is anti-aliased
+         x0, y0: Start point
+         x_ctrl, y_ctrl: Control point
+         x1, y1: End point
+         c: Iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         aa: If True, rendering is anti-aliased
 
         Draws a quadratic Bezier curve."""
         cdef uint8_t[::1] c_npy = self.get_color(c, 'quadratic Bezier color')
         self._this.draw_bezier3(x0, y0, x_ctrl, y_ctrl, x1, y1, w, &c_npy[0], aa)
 
-    def draw_bezier3_composite(self, points, w=1, c=None, aa=True):
-        """draw_bezier3_composite(self, points, w=1, c=None, aa=True):
-         points: iterable of x,y pairs defining a series of quadratic Bezier curves with the first pair being the start
-         of the first curve, the next being the first curve's control point, and the following being the end point
-         of the first curve and start point of the second (or simply the endpoint if there is no subsequent curve).
-         For a series of N curves, points may look like the following:
-             [[start0x, start0y],
-              [control0x, control0y],
-              [end0start1x, end0start1y],
-              ...,
-              [endMstartNx, endMstartNy],
-              [controlNx, controlNy],
-              [endNx, endNy]]
-         c: iterable of color components; components are 8-bit unsigned integers in the range [0,255]
-         aa: if True, rendering is anti-aliased
+    def draw_bezier3_composite(self, points,
+                               line=True, line_w=1, line_c=None,
+                               fill=False, fill_c=None,
+                               aa=True):
+        """draw_bezier3_composite(self, points, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
+         points: Iterable of x,y pairs defining a series of quadratic Bezier curves with the first pair being the start
+          of the first curve, the next being the first curve's control point, and the following being the end point
+          of the first curve and start point of the second (or simply the endpoint if there is no subsequent curve).
+          For a series of N curves, points may look like the following:
+              [[start0x, start0y],
+               [control0x, control0y],
+               [end0start1x, end0start1y],
+               ...,
+               [endMstartNx, endMstartNy],
+               [controlNx, controlNy],
+               [endNx, endNy]]
+         line_c: Curve line color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         fill: If True, the region enclosed by the curves is even/odd filled
+         fill_c: Fill color
+         aa: If True, rendering is anti-aliased
 
-        Draws a series of quadratic Bezier curves."""
+        Draws a series of quadratic Bezier curves with optional even/odd filling."""
         cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
-        cdef uint8_t[::1] c_npy
+        cdef uint8_t[::1] line_c_npy
+        cdef uint8_t[::1] fill_c_npy
         if points_npy.shape[1] != 2:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
         if points_npy.shape[0] < 3:
             raise ValueError('points argument must contain at least 3 (x, y) pairs.')
         if (points_npy.shape[0] - 1) % 2:
             raise ValueError('points argument must consist of a start point followed by at least one pair of control and start/end points.')
-        c_npy = self.get_color(c, 'composite quadratic Bezier color')
-        self._this.draw_bezier3_composite(&points_npy[0][0], points_npy.shape[0], w, &c_npy[0], aa)
+        line_c_npy = self.get_color(line_c, 'composite quadratic Bezier line color')
+        fill_c_npy = self.get_color(fill_c, 'composite quadratic Bezier fill color')
+        self._this.draw_bezier3_composite(&points_npy[0][0], points_npy.shape[0],
+                                          line, line_w, &line_c_npy[0],
+                                          fill, &fill_c_npy[0],
+                                          aa)
 
     def draw_bezier4(self, x0, y0, x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1, y1, w=1, c=None, aa=True):
         """draw_bezier3(self, x0, y0, x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1, y1, w=1, c=None, aa=True):
-         x0, y0: start point
+         x0, y0: Start point
          x_ctrl0, y_ctrl0: control point A
          x_ctrl1, y_ctrl1: control point B
-         x1, y1: end point
-         c: iterable of color components; components are 8-bit unsigned integers in the range [0,255]
-         aa: if True, rendering is anti-aliased
+         x1, y1: End point
+         c: Iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         aa: If True, rendering is anti-aliased
 
         Draws a cubic Bezier curve."""
         cdef uint8_t[::1] c_npy = self.get_color(c, 'cubic Bezier color')
         self._this.draw_bezier4(x0, y0, x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1, y1, w, &c_npy[0], aa)
 
-    def draw_bezier4_composite(self, points, w=1, c=None, aa=True):
-        """draw_bezier4_composite(self, points, w=1, c=None, aa=True):
-         points: iterable of x,y pairs defining a series of cubic Bezier curves with the first pair being the start
-         of the first curve, the next being the first curve's first control point, the next after being the first
-         curve's second control point, and the following being the end point of the first curve and start point of
-         the second (or simply the endpoint if there is no subsequent curve).
-         For a series of N curves, points may look like the following:
-             [[start0x, start0y],
-              [control00x, control00y],
-              [control10x, control10y],
-              [end0start1x, end0start1y],
-              ...,
-              [endMstartNx, endMstartNy],
-              [control0Nx, control0Ny],
-              [control1Nx, control1Ny],
-              [endNx, endNy]]
-         c: iterable of color components; components are 8-bit unsigned integers in the range [0,255]
-         aa: if True, rendering is anti-aliased
+    def draw_bezier4_composite(self, points,
+                               line=True, line_w=1, line_c=None,
+                               fill=False, fill_c=None,
+                               aa=True):
+        """draw_bezier4_composite(self, points, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
+         line: If True, curve line is drawn (either of or both line and fill may be True)
+         line_w: Width of line in pixels
+         points: Iterable of x,y pairs defining a series of cubic Bezier curves with the first pair being the start
+          of the first curve, the next being the first curve's first control point, the next after being the first
+          curve's second control point, and the following being the end point of the first curve and start point of
+          the second (or simply the endpoint if there is no subsequent curve).
+          For a series of N curves, points may look like the following:
+              [[start0x, start0y],
+               [control00x, control00y],
+               [control10x, control10y],
+               [end0start1x, end0start1y],
+               ...,
+               [endMstartNx, endMstartNy],
+               [control0Nx, control0Ny],
+               [control1Nx, control1Ny],
+               [endNx, endNy]]
+         line_c: Curve line color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         fill: If True, the region enclosed by the curves is even/odd filled
+         fill_c: Fill color
+         aa: If True, rendering is anti-aliased
 
-        Draws a series of cubic Bezier curves."""
+        Draws a series of cubic Bezier curves with optional even/odd filling."""
         cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
-        cdef uint8_t[::1] c_npy
+        cdef uint8_t[::1] line_c_npy
+        cdef uint8_t[::1] fill_c_npy
         if points_npy.shape[1] != 2:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
         if points_npy.shape[0] < 4:
             raise ValueError('points argument must contain at least 4 (x, y) pairs.')
         if (points_npy.shape[0] - 1) % 3:
             raise ValueError('points argument must consist of a start point followed by at least one set of a pair of control points and a start/end point.')
-        c_npy = self.get_color(c, 'composite cubic Bezier color')
-        self._this.draw_bezier4_composite(&points_npy[0][0], points_npy.shape[0], w, &c_npy[0], aa)
+        line_c_npy = self.get_color(line_c, 'composite cubic Bezier line color')
+        fill_c_npy = self.get_color(fill_c, 'composite cubic Bezier fill color')
+        self._this.draw_bezier4_composite(&points_npy[0][0], points_npy.shape[0],
+                                          line, line_w, &line_c_npy[0],
+                                          fill, &fill_c_npy[0],
+                                          aa)
 
 cdef class ndarray_canvas_rgb24(_ndarray_canvas_base_uint8):
     """ndarray_canvas_rgb24 provides AGG (Anti-Grain Geometry) drawing routines that render to the numpy

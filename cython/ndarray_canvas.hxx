@@ -82,12 +82,12 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_line(const double& x0, const d
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, const size_t& point_count,
-                                                          const bool& outline, const double& outline_w, const value_type_T* outline_c,
+                                                          const bool& line, const double& line_w, const value_type_T* line_c,
                                                           const bool& fill, const value_type_T* fill_c,
                                                           const bool& aa)
 {
     set_aa(aa);
-    if(point_count >= 2 && (outline || fill))
+    if(point_count >= 2 && (line || fill))
     {
         agg::path_storage path;
         const double* point{points};
@@ -105,20 +105,20 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
         {
             agg::conv_contour<agg::path_storage> contour(path);
             contour.auto_detect_orientation(true);
-            contour.width(outline ? outline_w / 2 : 0.5);
+            contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
-        if(outline)
+        if(line)
         {
             agg::conv_stroke<agg::path_storage> stroke(path);
-            stroke.width(outline_w / 2);
+            stroke.width(line_w / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(outline_c));
+            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
     }
@@ -146,28 +146,47 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3(const double& x0, cons
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double* points, const size_t& point_count,
-                                                                    const double& w, const value_type_T* c,
+                                                                    const bool& line, const double& line_w, const value_type_T* line_c,
+                                                                    const bool& fill, const value_type_T* fill_c,
                                                                     const bool& aa)
 {
-    set_aa(aa);
-    agg::path_storage path;
-    const double* point{points};
-    const double*const points_end{point + point_count};
-    path.move_to(point[0], point[1]);
-    point += 2;
-    for(;;)
+    if(line || fill)
     {
-        path.curve3(point[0], point[1], point[2], point[3]);
-        point += 4;
-        if(point >= points_end) break;
+        set_aa(aa);
+        agg::path_storage path;
+        const double* point{points};
+        const double*const points_end{point + point_count};
+        path.move_to(point[0], point[1]);
+        point += 2;
+        for(;;)
+        {
+            path.curve3(point[0], point[1], point[2], point[3]);
+            point += 4;
+            if(point >= points_end) break;
+        }
+        agg::conv_curve<agg::path_storage> curve(path);
+
+        if(fill)
+        {
+            agg::conv_contour<decltype(curve)> contour(curve);
+            contour.auto_detect_orientation(true);
+            contour.width(line ? line_w / 2 : 0.5);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(contour);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+
+        if(line)
+        {
+            agg::conv_stroke<decltype(curve)> stroke(curve);
+            stroke.width(line_w / 2);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(stroke);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
     }
-    agg::conv_curve<agg::path_storage> curve(path);
-    agg::conv_stroke<decltype(curve)> stroke(curve);
-    stroke.width(w / 2);
-    m_rasterizer.reset();
-    m_rasterizer.add_path(stroke);
-    m_renderer.color(color_from_channel_array<pixfmt_T>(c));
-    agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
 }
 
 template<typename pixfmt_T, typename value_type_T>
@@ -193,28 +212,47 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4(const double& x0, cons
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double* points, const size_t& point_count,
-                                                                    const double& w, const value_type_T* c,
+                                                                    const bool& line, const double& line_w, const value_type_T* line_c,
+                                                                    const bool& fill, const value_type_T* fill_c,
                                                                     const bool& aa)
 {
-    set_aa(aa);
-    agg::path_storage path;
-    const double* point{points};
-    const double*const points_end{point + point_count};
-    path.move_to(point[0], point[1]);
-    point += 2;
-    for(;;)
+    if(line || fill)
     {
-        path.curve4(point[0], point[1], point[2], point[3], point[4], point[5]);
-        point += 6;
-        if(point >= points_end) break;
+        set_aa(aa);
+        agg::path_storage path;
+        const double* point{points};
+        const double*const points_end{point + point_count};
+        path.move_to(point[0], point[1]);
+        point += 2;
+        for(;;)
+        {
+            path.curve4(point[0], point[1], point[2], point[3], point[4], point[5]);
+            point += 6;
+            if(point >= points_end) break;
+        }
+        agg::conv_curve<agg::path_storage> curve(path);
+
+        if(fill)
+        {
+            agg::conv_contour<decltype(curve)> contour(curve);
+            contour.auto_detect_orientation(true);
+            contour.width(line ? line_w / 2 : 0.5);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(contour);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+
+        if(line)
+        {
+            agg::conv_stroke<decltype(curve)> stroke(curve);
+            stroke.width(line_w / 2);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(stroke);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
     }
-    agg::conv_curve<agg::path_storage> curve(path);
-    agg::conv_stroke<decltype(curve)> stroke(curve);
-    stroke.width(w / 2);
-    m_rasterizer.reset();
-    m_rasterizer.add_path(stroke);
-    m_renderer.color(color_from_channel_array<pixfmt_T>(c));
-    agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
 }
 
 template<typename pixfmt_T, typename value_type_T>
