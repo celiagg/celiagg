@@ -256,6 +256,42 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
 }
 
 template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, const size_t& point_count,
+                                                          const bool& line, const double& line_w, const value_type_T* line_c,
+                                                          const bool& fill, const value_type_T* fill_c,
+                                                          const bool& aa)
+{
+    if(line || fill)
+    {
+        set_aa(aa);
+        agg::simple_polygon_vertex_source path(points, point_count, false, false);
+        agg::conv_bspline<agg::simple_polygon_vertex_source> bspline(path);
+//      bspline.interpolation_step(1.0 / point_count);
+
+        if(fill)
+        {
+            agg::conv_contour<decltype(bspline)> contour(bspline);
+            contour.auto_detect_orientation(true);
+            contour.width(line ? line_w / 2 : 0.5);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(contour);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+
+        if(line)
+        {
+            agg::conv_stroke<decltype(bspline)> stroke(bspline);
+            stroke.width(line_w / 2);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(stroke);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+    }
+}
+
+template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::set_aa(const bool& aa)
 {
     if(aa)

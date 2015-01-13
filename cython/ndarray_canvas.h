@@ -24,6 +24,8 @@
 
 #pragma once
 
+#include "agg_bspline.h"
+#include "agg_conv_bspline.h"
 #include "agg_conv_contour.h"
 #include "agg_conv_curve.h"
 #include "agg_conv_stroke.h"
@@ -36,6 +38,7 @@
 #include "agg_renderer_scanline.h"
 #include "agg_rendering_buffer.h"
 #include "agg_scanline_p.h"
+#include "ctrl/agg_polygon_ctrl.h"
 #include <cstdint>
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
@@ -84,6 +87,11 @@ public:
                                         const bool& line, const double& line_w, const value_type_T* line_c,
                                         const bool& fill, const value_type_T* fill_c,
                                         const bool& aa) = 0;
+
+    virtual void draw_bspline(const double* points, const size_t& point_count,
+                              const bool& line, const double& line_w, const value_type_T* line_c,
+                              const bool& fill, const value_type_T* fill_c,
+                              const bool& aa) = 0;
 };
 
 template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
@@ -134,6 +142,11 @@ public:
                                 const bool& line, const double& line_w, const value_type_T* line_c,
                                 const bool& fill, const value_type_T* fill_c,
                                 const bool& aa);
+
+    void draw_bspline(const double* points, const size_t& point_count,
+                      const bool& line, const double& line_w, const value_type_T* line_c,
+                      const bool& fill, const value_type_T* fill_c,
+                      const bool& aa);
 
 protected:
     typedef agg::renderer_base<pixfmt_T> rendererbase_t;

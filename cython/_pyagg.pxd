@@ -78,6 +78,10 @@ cdef extern from "ndarray_canvas.h":
                                     const bool& line, const double& line_w, const value_type_T* line_c,
                                     const bool& fill, const value_type_T* fill_c,
                                     const bool& aa)
+        void draw_bspline(const double* points, const size_t& point_count,
+                          const bool& line, const double& line_w, const value_type_T* line_c,
+                          const bool& fill, const value_type_T* fill_c,
+                          const bool& aa)
 
     cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
         ndarray_canvas(value_type_T* buf, const unsigned& width, const unsigned& height, const int& stride, const size_t& channel_count)
@@ -112,3 +116,7 @@ cdef extern from "ndarray_canvas.h":
                                     const bool& line, const double& line_w, const value_type_T* line_c,
                                     const bool& fill, const value_type_T* fill_c,
                                     const bool& aa)
+        void draw_bspline(const double* points, const size_t& point_count,
+                          const bool& line, const double& line_w, const value_type_T* line_c,
+                          const bool& fill, const value_type_T* fill_c,
+                          const bool& aa)

@@ -112,10 +112,8 @@ cdef class _ndarray_canvas_base_uint8:
         self._this.draw_line(x0, y0, x1, y1, w, &c_npy[0], aa)
 
     def draw_polygon(self, points,
-                     line=True, line_w=1,
-                     line_c=None,
-                     fill=False,
-                     fill_c=None,
+                     line=True, line_w=1, line_c=None,
+                     fill=False, fill_c=None,
                      aa=True):
         """draw_polygon(self, points, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
          points: Iterable of x,y pairs
@@ -205,8 +203,6 @@ cdef class _ndarray_canvas_base_uint8:
                                fill=False, fill_c=None,
                                aa=True):
         """draw_bezier4_composite(self, points, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
-         line: If True, curve line is drawn (either of or both line and fill may be True)
-         line_w: Width of line in pixels
          points: Iterable of x,y pairs defining a series of cubic Bezier curves with the first pair being the start
           of the first curve, the next being the first curve's first control point, the next after being the first
           curve's second control point, and the following being the end point of the first curve and start point of
@@ -221,6 +217,8 @@ cdef class _ndarray_canvas_base_uint8:
                [control0Nx, control0Ny],
                [control1Nx, control1Ny],
                [endNx, endNy]]
+         line: If True, curve line is drawn (either of, or both of, line and fill may be True)
+         line_w: Width of line in pixels
          line_c: Curve line color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
          fill: If True, the region enclosed by the curves is even/odd filled
          fill_c: Fill color
@@ -242,6 +240,30 @@ cdef class _ndarray_canvas_base_uint8:
                                           line, line_w, &line_c_npy[0],
                                           fill, &fill_c_npy[0],
                                           aa)
+
+    def draw_bspline(self, points,
+                     line=True, line_w=1, line_c=None,
+                     fill=False, fill_c=None,
+                     aa=True):
+        """draw_bspline(self, points, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
+         points: Iterable of x,y pairs representing B-spline control points
+         line: If True, curve line is drawn (either of, or both of, line and fill may be True)
+         line_w: Width of line in pixels
+         line_c: Curve line color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         fill: If True, the region enclosed by the B-spline is even/odd filled
+         fill_c: Fill color
+         aa: If True, rendering is anti-aliased"""
+        cdef double[:,::1] points_npy = numpy.asarray(points, dtype=numpy.float64, order='c')
+        cdef uint8_t[::1] line_c_npy
+        cdef uint8_t[::1] fill_c_npy
+        if points_npy.shape[1] != 2:
+            raise ValueError('points argument must be an iterable of (x, y) pairs.')
+        line_c_npy = self.get_color(line_c, 'bspline line color')
+        fill_c_npy = self.get_color(fill_c, 'bspline fill color')
+        self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
+                                line, line_w, &line_c_npy[0],
+                                fill, &fill_c_npy[0],
+                                aa)
 
 cdef class ndarray_canvas_rgb24(_ndarray_canvas_base_uint8):
     """ndarray_canvas_rgb24 provides AGG (Anti-Grain Geometry) drawing routines that render to the numpy
