@@ -59,6 +59,11 @@ cdef extern from "ndarray_canvas.h":
                           const bool& line, const double& line_w, const value_type_T* line_c,
                           const bool& fill, const value_type_T* fill_c,
                           const bool& aa)
+        void draw_ellipse(const double& cx, const double& cy,
+                          const double& rx, const double& ry,
+                          const bool& line, const double& line_w, const value_type_T* line_c,
+                          const bool& fill, const value_type_T* fill_c,
+                          const bool& aa)
         void draw_bezier3(const double& x0, const double& y0,
                           const double& x_ctrl, const double& y_ctrl,
                           const double& x1, const double& y1,
@@ -95,6 +100,11 @@ cdef extern from "ndarray_canvas.h":
                        const bool& aa)
         void draw_polygon(const double* points, const size_t& point_count,
                           const bool& line, const double& line_w, const uint8_t* line_c,
+                          const bool& fill, const value_type_T* fill_c,
+                          const bool& aa)
+        void draw_ellipse(const double& cx, const double& cy,
+                          const double& rx, const double& ry,
+                          const bool& line, const double& line_w, const value_type_T* line_c,
                           const bool& fill, const value_type_T* fill_c,
                           const bool& aa)
         void draw_bezier3(const double& x0, const double& y0,

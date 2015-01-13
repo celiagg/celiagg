@@ -128,9 +128,29 @@ cdef class _ndarray_canvas_base_uint8:
         cdef uint8_t[::1] fill_c_npy
         if points_npy.shape[1] != 2:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
-        line_c_npy = self.get_color(line_c, 'line color')
-        fill_c_npy = self.get_color(fill_c, 'fill color')
+        line_c_npy = self.get_color(line_c, 'polygon line color')
+        fill_c_npy = self.get_color(fill_c, 'polygon fill color')
         self._this.draw_polygon(&points_npy[0][0], points_npy.shape[0],
+                                line, line_w, &line_c_npy[0],
+                                fill, &fill_c_npy[0],
+                                aa)
+
+    def draw_ellipse(self, cx, cy, rx, ry
+                     line=True, line_w=1, line_c=None,
+                     fill=False, fill_c=None,
+                     aa=True):
+        """draw_ellipse(self, cx, cy, rx, ry, line=True, line_w=1, line_c=None, fill=False, fill_c=None, aa=True):
+         cx, cy: Ellipse center
+         rx, ry: Radius of ellipse along x and y axes
+         line: If True, ellipse edge line is drawn (either of, or both of, line and fill may be True)
+         line_w: Width of line in pixels
+         line_c: Ellipse edge line color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
+         fill: If True, the region enclosed by the ellipse is filled
+         fill_c: Fill color
+         aa: If True, rendering is anti-aliased"""
+        cdef uint8_t[::1] line_c_npy = self.get_color(line_c, 'ellipse line color')
+        cdef uint8_t[::1] fill_c_npy = self.get_color(fill_c, 'ellipse fill color')
+        self._this.draw_ellipse(x0, y0, x1, y1,
                                 line, line_w, &line_c_npy[0],
                                 fill, &fill_c_npy[0],
                                 aa)
@@ -163,6 +183,7 @@ cdef class _ndarray_canvas_base_uint8:
                [endMstartNx, endMstartNy],
                [controlNx, controlNy],
                [endNx, endNy]]
+         line: If True, curve line is drawn (either of, or both of, line and fill may be True)
          line_c: Curve line color, an iterable of color components; components are 8-bit unsigned integers in the range [0,255]
          fill: If True, the region enclosed by the curves is even/odd filled
          fill_c: Fill color

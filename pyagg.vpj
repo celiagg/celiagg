@@ -204,6 +204,7 @@
 			<F N="cython/pyagg.pyx"/>
 		</Folder>
 		<F N="CMakeLists.txt"/>
+		<F N="setup.py"/>
 	</Files>
 	<Config
 		Name="Debug"

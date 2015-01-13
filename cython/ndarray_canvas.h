@@ -24,6 +24,11 @@
 
 #pragma once
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
+#include <cstdint>
+#include "agg_bezier_arc.h"
 #include "agg_bspline.h"
 #include "agg_conv_bspline.h"
 #include "agg_conv_contour.h"
@@ -39,7 +44,6 @@
 #include "agg_rendering_buffer.h"
 #include "agg_scanline_p.h"
 #include "ctrl/agg_polygon_ctrl.h"
-#include <cstdint>
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
 // able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
@@ -61,6 +65,12 @@ public:
                            const bool& aa) = 0;
 
     virtual void draw_polygon(const double* points, const size_t& point_count,
+                              const bool& line, const double& line_w, const value_type_T* line_c,
+                              const bool& fill, const value_type_T* fill_c,
+                              const bool& aa) = 0;
+
+    virtual void draw_ellipse(const double& cx, const double& cy,
+                              const double& rx, const double& ry,
                               const bool& line, const double& line_w, const value_type_T* line_c,
                               const bool& fill, const value_type_T* fill_c,
                               const bool& aa) = 0;
@@ -116,6 +126,12 @@ public:
                    const bool& aa);
 
     void draw_polygon(const double* points, const size_t& point_count,
+                      const bool& line, const double& line_w, const value_type_T* line_c,
+                      const bool& fill, const value_type_T* fill_c,
+                      const bool& aa);
+
+    void draw_ellipse(const double& cx, const double& cy,
+                      const double& rx, const double& ry,
                       const bool& line, const double& line_w, const value_type_T* line_c,
                       const bool& fill, const value_type_T* fill_c,
                       const bool& aa);

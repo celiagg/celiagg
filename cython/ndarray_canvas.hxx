@@ -125,6 +125,45 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
 }
 
 template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, const double& cy,
+                                                          const double& rx, const double& ry,
+                                                          const bool& line, const double& line_w, const value_type_T* line_c,
+                                                          const bool& fill, const value_type_T* fill_c,
+                                                          const bool& aa)
+{
+    if(line || fill)
+    {
+        set_aa(aa);
+        agg::bezier_arc arc(cx, cy, rx, ry, 0, M_PI + M_PI);
+        agg::path_storage path;
+        path.concat_path(arc, 0);
+        path.close_polygon();
+        agg::conv_curve<decltype(path)> curve(path);
+
+        if(fill)
+        {
+            agg::conv_contour<decltype(curve)> contour(curve);
+            contour.auto_detect_orientation(true);
+            contour.width(line ? line_w / 2 : 0.5);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(contour);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+
+        if(line)
+        {
+            agg::conv_stroke<decltype(curve)> stroke(curve);
+            stroke.width(line_w / 2);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(stroke);
+            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+    }
+}
+
+template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3(const double& x0, const double& y0,
                                                           const double& x_ctrl, const double& y_ctrl,
                                                           const double& x1, const double& y1,
