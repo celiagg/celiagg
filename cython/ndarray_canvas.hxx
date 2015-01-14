@@ -40,7 +40,7 @@ ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas(value_type_T* buf,
 }
 
 template<typename pixfmt_T, typename value_type_T>
-const size_t& ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::channel_count() const
+const size_t& ndarray_canvas<pixfmt_T, value_type_T>::channel_count() const
 {
 //  typedef typename pixfmt_T::order_type T;
 //  return T::N;
@@ -50,13 +50,13 @@ const size_t& ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::channel_co
 }
 
 template<typename pixfmt_T, typename value_type_T>
-unsigned ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::width() const
+unsigned ndarray_canvas<pixfmt_T, value_type_T>::width() const
 {
     return m_renbuf.width();
 }
 
 template<typename pixfmt_T, typename value_type_T>
-unsigned ndarray_canvas<pixfmt_T, value_type_T>::ndarray_canvas::height() const
+unsigned ndarray_canvas<pixfmt_T, value_type_T>::height() const
 {
     return m_renbuf.height();
 }

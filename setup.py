@@ -45,7 +45,7 @@ cythoned_source = 'cython/pyagg.cpp'
 include_dirs = ['agg-svn/agg-2.4/include',
                 numpy.get_include()]
 
-extra_compile_args = ['TODO figure out what msvc wants' if sys.platform=='win32' else '-std=c++11']
+extra_compile_args = ['' if sys.platform=='win32' else '-std=c++11']
 
 try:
     from Cython.Build import cythonize
