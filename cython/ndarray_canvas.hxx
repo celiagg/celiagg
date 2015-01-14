@@ -91,7 +91,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
     {
         agg::path_storage path;
         const double* point = points;
-        const double*const points_end = point + point_count;
+        const double*const points_end = point + point_count * 2;
         path.move_to(point[0], point[1]);
         point += 2;
         for(;;)
@@ -105,7 +105,6 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
         {
             agg::conv_contour<agg::path_storage> contour(path);
             contour.auto_detect_orientation(true);
-            contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
@@ -145,7 +144,6 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, cons
         {
             agg::conv_contour<conv_curve_t> contour(curve);
             contour.auto_detect_orientation(true);
-            contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
@@ -212,7 +210,6 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double
         {
             agg::conv_contour<conv_curve_t> contour(curve);
             contour.auto_detect_orientation(true);
-            contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
@@ -280,7 +277,6 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
         {
             agg::conv_contour<conv_curve_t> contour(curve);
             contour.auto_detect_orientation(true);
-            contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
@@ -317,7 +313,6 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, 
         {
             agg::conv_contour<conv_bspline_t> contour(bspline);
             contour.auto_detect_orientation(true);
-            contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
