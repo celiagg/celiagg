@@ -135,7 +135,7 @@ cdef class _ndarray_canvas_base_uint8:
                                 fill, &fill_c_npy[0],
                                 aa)
 
-    def draw_ellipse(self, cx, cy, rx, ry
+    def draw_ellipse(self, cx, cy, rx, ry,
                      line=True, line_w=1, line_c=None,
                      fill=False, fill_c=None,
                      aa=True):
@@ -150,7 +150,7 @@ cdef class _ndarray_canvas_base_uint8:
          aa: If True, rendering is anti-aliased"""
         cdef uint8_t[::1] line_c_npy = self.get_color(line_c, 'ellipse line color')
         cdef uint8_t[::1] fill_c_npy = self.get_color(fill_c, 'ellipse fill color')
-        self._this.draw_ellipse(x0, y0, x1, y1,
+        self._this.draw_ellipse(cx, cy, rx, ry,
                                 line, line_w, &line_c_npy[0],
                                 fill, &fill_c_npy[0],
                                 aa)
