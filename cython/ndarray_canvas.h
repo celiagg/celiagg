@@ -117,7 +117,6 @@ class ndarray_canvas
   : public ndarray_canvas_base<value_type_T>
 {
 public:
-    ndarray_canvas() = delete;
     ndarray_canvas(value_type_T* buf,
                    const unsigned& width, const unsigned& height, const int& stride,
                    const size_t& channel_count);
@@ -186,6 +185,17 @@ protected:
     agg::scanline_p8 m_scanline;
 
     inline void set_aa(const bool& aa);
+
+private:
+    // Target buffer/numpy array must be supplied to constructor.  The following line ensures that no default 
+    // constructor is user-accessible, even if the buffer-accepting constructor is deleted (presence of a constructor 
+    // taking one or more parameters suppresses automatic default constructor generation). 
+    ndarray_canvas(){}
+    // ndarray_canvases are non-copyable in order to dodge the question of whether a copied ndarray_canvas refers to the 
+    // original's buffer/numpy array or receives its own copy.  The compiler does autogenerate assignment and copy 
+    // constructors if these are not defined; so, we define them such that they are not user-accessible. 
+    ndarray_canvas(const ndarray_canvas&){}
+    ndarray_canvas& operator = (const ndarray_canvas&){return *this;}
 };
 
 typedef agg::pixfmt_alpha_blend_gray<agg::blender_gray8, agg::rendering_buffer, 1, 0> pixfmt_gray8_no_alpha;

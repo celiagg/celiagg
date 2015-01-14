@@ -46,7 +46,7 @@ const size_t& ndarray_canvas<pixfmt_T, value_type_T>::channel_count() const
 //  return T::N;
     // Something like the above should work, but the cop-out of just storing channel count 
     // ourselves definitely works. 
-    return m_channel_count; 
+    return m_channel_count;
 }
 
 template<typename pixfmt_T, typename value_type_T>
