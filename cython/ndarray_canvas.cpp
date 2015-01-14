@@ -25,19 +25,19 @@
 #include "ndarray_canvas.h"
 
 template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const std::uint8_t* c)
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const uint8_t* c)
 {
     return agg::pixfmt_rgba32::color_type(c[0], c[1], c[2], c[3]);
 }
 
 template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c)
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgb24>(const uint8_t* c)
 {
     return agg::pixfmt_rgb24::color_type(c[0], c[1], c[2], c[3]);
 }
 
 template<>
-agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const std::uint8_t* c)
+agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const uint8_t* c)
 {
     return agg::pixfmt_gray8::color_type(c[0], c[1]);
 }

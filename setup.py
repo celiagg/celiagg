@@ -45,8 +45,6 @@ cythoned_source = 'cython/pyagg.cpp'
 include_dirs = ['agg-svn/agg-2.4/include',
                 numpy.get_include()]
 
-extra_compile_args = ['' if sys.platform=='win32' else '-std=c++11']
-
 try:
     from Cython.Build import cythonize
     from Cython.Compiler import DebugFlags
@@ -56,7 +54,6 @@ try:
                              sources = [cython_source,] + cpp_sources,
                              include_dirs = include_dirs,
                              language = 'c++',
-                             extra_compile_args = extra_compile_args
                              )]
 
     setup(name = 'pyagg',
@@ -69,7 +66,6 @@ except ImportError:
                              sources = [cythoned_source,] + cpp_sources,
                              include_dirs = include_dirs,
                              language = 'c++',
-                             extra_compile_args = extra_compile_args
                              )]
 
     setup(name = 'pyagg',

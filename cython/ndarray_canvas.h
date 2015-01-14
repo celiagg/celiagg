@@ -27,7 +27,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include <cstdint>
 #include "agg_bezier_arc.h"
 #include "agg_bspline.h"
 #include "agg_conv_bspline.h"
@@ -44,6 +43,15 @@
 #include "agg_rendering_buffer.h"
 #include "agg_scanline_p.h"
 #include "ctrl/agg_polygon_ctrl.h"
+
+#if defined __UINT32_MAX__ or UINT32_MAX
+ #include <inttypes.h>
+#else
+ typedef unsigned char uint8_t;
+ typedef unsigned short uint16_t;
+ typedef unsigned long uint32_t;
+ typedef unsigned long long uint64_t;
+#endif
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
 // able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
@@ -186,13 +194,13 @@ template<typename pixfmt_T>
 typename pixfmt_T::color_type color_from_channel_array(const typename pixfmt_T::value_type* c);
 
 template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const std::uint8_t* c);
+agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const uint8_t* c);
 
 template<>
-agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const std::uint8_t* c);
+agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const uint8_t* c);
 
 template<>
-agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const std::uint8_t* c);
+agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const uint8_t* c);
 
 #include "ndarray_canvas.hxx"
 

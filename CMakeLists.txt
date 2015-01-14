@@ -34,7 +34,7 @@ set(PACKAGE_VERSION ${MAJOR_VERSION}.${MINOR_VERSION})
 set(CMAKE_INCLUDE_CURRENT_DIR ON CACHE BOOL "Find includes in corresponding build directories")
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "")
 if(NOT WIN32)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -fPIC")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif()
 

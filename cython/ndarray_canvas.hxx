@@ -90,8 +90,8 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
     if(point_count >= 2 && (line || fill))
     {
         agg::path_storage path;
-        const double* point{points};
-        const double*const points_end{point + point_count};
+        const double* point = points;
+        const double*const points_end = point + point_count;
         path.move_to(point[0], point[1]);
         point += 2;
         for(;;)
@@ -138,11 +138,12 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, cons
         agg::path_storage path;
         path.concat_path(arc, 0);
         path.close_polygon();
-        agg::conv_curve<decltype(path)> curve(path);
+        typedef agg::conv_curve<agg::path_storage> conv_curve_t;
+        conv_curve_t curve(path);
 
         if(fill)
         {
-            agg::conv_contour<decltype(curve)> contour(curve);
+            agg::conv_contour<conv_curve_t> contour(curve);
             contour.auto_detect_orientation(true);
             contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
@@ -153,7 +154,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, cons
 
         if(line)
         {
-            agg::conv_stroke<decltype(curve)> stroke(curve);
+            agg::conv_stroke<conv_curve_t> stroke(curve);
             stroke.width(line_w / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
@@ -174,8 +175,9 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3(const double& x0, cons
     agg::path_storage path;
     path.move_to(x0, y0);
     path.curve3(x_ctrl, y_ctrl, x1, y1);
-    agg::conv_curve<agg::path_storage> curve(path);
-    agg::conv_stroke<decltype(curve)> stroke(curve);
+    typedef agg::conv_curve<agg::path_storage> conv_curve_t;
+    conv_curve_t curve(path);
+    agg::conv_stroke<conv_curve_t> stroke(curve);
     stroke.width(w / 2);
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
@@ -193,8 +195,8 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double
     {
         set_aa(aa);
         agg::path_storage path;
-        const double* point{points};
-        const double*const points_end{point + point_count};
+        const double* point = points;
+        const double*const points_end = point + point_count;
         path.move_to(point[0], point[1]);
         point += 2;
         for(;;)
@@ -203,11 +205,12 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double
             point += 4;
             if(point >= points_end) break;
         }
-        agg::conv_curve<agg::path_storage> curve(path);
+        typedef agg::conv_curve<agg::path_storage> conv_curve_t;
+        conv_curve_t curve(path);
 
         if(fill)
         {
-            agg::conv_contour<decltype(curve)> contour(curve);
+            agg::conv_contour<conv_curve_t> contour(curve);
             contour.auto_detect_orientation(true);
             contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
@@ -218,7 +221,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double
 
         if(line)
         {
-            agg::conv_stroke<decltype(curve)> stroke(curve);
+            agg::conv_stroke<conv_curve_t> stroke(curve);
             stroke.width(line_w / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
@@ -240,8 +243,9 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4(const double& x0, cons
     agg::path_storage path;
     path.move_to(x0, y0);
     path.curve4(x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1, y1);
-    agg::conv_curve<agg::path_storage> curve(path);
-    agg::conv_stroke<decltype(curve)> stroke(curve);
+    typedef agg::conv_curve<agg::path_storage> conv_curve_t;
+    conv_curve_t curve(path);
+    agg::conv_stroke<conv_curve_t> stroke(curve);
     stroke.width(w / 2);
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
@@ -259,8 +263,8 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
     {
         set_aa(aa);
         agg::path_storage path;
-        const double* point{points};
-        const double*const points_end{point + point_count};
+        const double* point = points;
+        const double*const points_end = point + point_count;
         path.move_to(point[0], point[1]);
         point += 2;
         for(;;)
@@ -269,11 +273,12 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
             point += 6;
             if(point >= points_end) break;
         }
-        agg::conv_curve<agg::path_storage> curve(path);
+        typedef agg::conv_curve<agg::path_storage> conv_curve_t;
+        conv_curve_t curve(path);
 
         if(fill)
         {
-            agg::conv_contour<decltype(curve)> contour(curve);
+            agg::conv_contour<conv_curve_t> contour(curve);
             contour.auto_detect_orientation(true);
             contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
@@ -284,7 +289,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
 
         if(line)
         {
-            agg::conv_stroke<decltype(curve)> stroke(curve);
+            agg::conv_stroke<conv_curve_t> stroke(curve);
             stroke.width(line_w / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
@@ -304,12 +309,13 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, 
     {
         set_aa(aa);
         agg::simple_polygon_vertex_source path(points, point_count, false, false);
-        agg::conv_bspline<agg::simple_polygon_vertex_source> bspline(path);
+        typedef agg::conv_bspline<agg::simple_polygon_vertex_source> conv_bspline_t;
+        conv_bspline_t bspline(path);
 //      bspline.interpolation_step(1.0 / point_count);
 
         if(fill)
         {
-            agg::conv_contour<decltype(bspline)> contour(bspline);
+            agg::conv_contour<conv_bspline_t> contour(bspline);
             contour.auto_detect_orientation(true);
             contour.width(line ? line_w / 2 : 0.5);
             m_rasterizer.reset();
@@ -320,7 +326,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, 
 
         if(line)
         {
-            agg::conv_stroke<decltype(bspline)> stroke(bspline);
+            agg::conv_stroke<conv_bspline_t> stroke(bspline);
             stroke.width(line_w / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
