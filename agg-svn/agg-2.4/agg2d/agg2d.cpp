@@ -676,7 +676,7 @@ void Agg2D::lineWidth(double w)
 
 
 //------------------------------------------------------------------------
-double Agg2D::lineWidth(double w) const
+double Agg2D::lineWidth() const
 {
     return m_lineWidth;
 }

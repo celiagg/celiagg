@@ -321,7 +321,7 @@ public:
     void lineRadialGradient(double x, double y, double r);
 
     void lineWidth(double w);
-    double lineWidth(double w) const;
+    double lineWidth() const;
 
     void lineCap(LineCap cap);
     LineCap lineCap() const;

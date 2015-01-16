@@ -46,18 +46,87 @@ cdef extern from "agg2d/agg2d.h" namespace "Agg2D":
         int height() const
         void premultiply()
         void demultiply()
+    cdef cppclass RectD:
+        double x1
+        double y1
+        double x2
+        double y2
+        RectD()
+        RectD(double x1, double y1, double x2, double y2)
     cdef enum LineJoin:
         JoinMiter
         JoinRound
         JoinBevel
+    cdef enum LineCap:
+        CapButt
+        CapSquare
+        CapRound
+    cdef enum TextAlignment:
+        AlignLeft
+        AlignRight
+        AlignCenter
+        AlignTop
+        AlignBottom
     cdef enum DrawPathFlag:
         FillOnly
         StrokeOnly
         FillAndStroke
         FillWithLineColor
+    cdef enum ViewportOption:
+        Anisotropic
+        XMinYMin
+        XMidYMin
+        XMaxYMin
+        XMinYMid
+        XMidYMid
+        XMaxYMid
+        XMinYMax
+        XMidYMax
+        XMaxYMax
+    cdef enum ImageFilter:
+        NoFilter
+        Bilinear
+        Hanning
+        Hermite
+        Quadric
+        Bicubic
+        Catrom
+        Spline16
+        Spline36
+        Blackman144
+    cdef enum ImageResample:
+        NoResample
+        ResampleAlways
+        ResampleOnZoomOut
     cdef enum FontCacheType:
         RasterFontCache
         VectorFontCache
+    cdef enum BlendMode:
+        BlendAlpha
+        BlendClear
+        BlendSrc
+        BlendDst
+        BlendSrcOver
+        BlendDstOver
+        BlendSrcIn
+        BlendDstIn
+        BlendSrcOut
+        BlendDstOut
+        BlendSrcAtop
+        BlendDstAtop
+        BlendXor
+        BlendAdd
+        BlendMultiply
+        BlendScreen
+        BlendOverlay
+        BlendDarken
+        BlendLighten
+        BlendColorDodge
+        BlendColorBurn
+        BlendHardLight
+        BlendSoftLight
+        BlendDifference
+        BlendExclusion
     cdef enum Direction:
         CW
         CCW
@@ -68,6 +137,9 @@ cdef extern from "agg2d/agg2d.h":
         void attach(unsigned char* buf, unsigned width, unsigned height, int stride)
         void attach(Image& img)
 
+        void  clipBox(double x1, double y1, double x2, double y2)
+        RectD clipBox() const
+
         void fillColor(unsigned r, unsigned g, unsigned b, unsigned a)
         void noFill()
 
@@ -76,6 +148,34 @@ cdef extern from "agg2d/agg2d.h":
 
         srgba8 fillColor() const
         srgba8 lineColor() const
+
+        void lineWidth(double w)
+        double lineWidth() const
+
+        void lineCap(LineCap cap)
+        LineCap lineCap() const
+
+        void lineJoin(LineJoin join)
+        LineJoin lineJoin() const
+
+        void fillEvenOdd(bool evenOddFlag)
+        bool fillEvenOdd() const
+
+        void line(double x1, double y1, double x2, double y2)
+        void triangle(double x1, double y1, double x2, double y2, double x3, double y3)
+        void rectangle(double x1, double y1, double x2, double y2)
+        void roundedRect(double x1, double y1, double x2, double y2, double r)
+        void roundedRect(double x1, double y1, double x2, double y2, double rx, double ry)
+        void roundedRect(double x1, double y1, double x2, double y2,
+                         double rxBottom, double ryBottom,
+                         double rxTop,    double ryTop)
+        void ellipse(double cx, double cy, double rx, double ry)
+        void arc(double cx, double cy, double rx, double ry, double start, double sweep)
+        void star(double cx, double cy, double r1, double r2, double startAngle, int numRays)
+        void curve(double x1, double y1, double x2, double y2, double x3, double y3)
+        void curve(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+        void polygon(double* xy, int numPoints)
+        void polyline(double* xy, int numPoints)
 
         void resetPath()
         void addEllipse(double cx, double cy, double rx, double ry, Direction dir)
@@ -92,132 +192,4 @@ cdef extern from "agg2d/agg2d.h":
         void drawPath(DrawPathFlag flag)
         void drawPathNoTransform(DrawPathFlag flag)
 
-#   enum LineJoin
-#   {
-#       JoinMiter = agg::miter_join,
-#       JoinRound = agg::round_join,
-#       JoinBevel = agg::bevel_join
-#   };
-#
-#   enum LineCap
-#   {
-#       CapButt   = agg::butt_cap,
-#       CapSquare = agg::square_cap,
-#       CapRound  = agg::round_cap
-#   };
-#
-#   enum TextAlignment
-#   {
-#       AlignLeft,
-#       AlignRight,
-#       AlignCenter,
-#       AlignTop = AlignRight,
-#       AlignBottom = AlignLeft
-#   };
-#
-#
-#   enum DrawPathFlag
-#   {
-#       FillOnly,
-#       StrokeOnly,
-#       FillAndStroke,
-#       FillWithLineColor
-#   };
-#
-#   enum ViewportOption
-#   {
-#       Anisotropic,
-#       XMinYMin,
-#       XMidYMin,
-#       XMaxYMin,
-#       XMinYMid,
-#       XMidYMid,
-#       XMaxYMid,
-#       XMinYMax,
-#       XMidYMax,
-#       XMaxYMax
-#   };
-#
-#   struct Transformations
-#   {
-#       double affineMatrix[6];
-#   };
-#
-#
-#   struct Image
-#   {
-#       agg::rendering_buffer renBuf;
-#
-#       Image() {}
-#       Image(unsigned char* buf, unsigned width, unsigned height, int stride) :
-#           renBuf(buf, width, height, stride) {}
-#       void attach(unsigned char* buf, unsigned width, unsigned height, int stride)
-#       {
-#           renBuf.attach(buf, width, height, stride);
-#       }
-#       int width()  const { return renBuf.width(); }
-#       int height() const { return renBuf.height(); }
-#       void premultiply();
-#       void demultiply();
-#   };
-#
-#   enum ImageFilter
-#   {
-#       NoFilter,
-#       Bilinear,
-#       Hanning,
-#       Hermite,
-#       Quadric,
-#       Bicubic,
-#       Catrom,
-#       Spline16,
-#       Spline36,
-#       Blackman144
-#   };
-#
-#   enum ImageResample
-#   {
-#       NoResample,
-#       ResampleAlways,
-#       ResampleOnZoomOut
-#   };
-#
-#   enum FontCacheType
-#   {
-#       RasterFontCache,
-#       VectorFontCache
-#   };
-#
-#   enum BlendMode
-#   {
-#       BlendAlpha      = agg::end_of_comp_op_e,
-#       BlendClear      = agg::comp_op_clear,
-#       BlendSrc        = agg::comp_op_src,
-#       BlendDst        = agg::comp_op_dst,
-#       BlendSrcOver    = agg::comp_op_src_over,
-#       BlendDstOver    = agg::comp_op_dst_over,
-#       BlendSrcIn      = agg::comp_op_src_in,
-#       BlendDstIn      = agg::comp_op_dst_in,
-#       BlendSrcOut     = agg::comp_op_src_out,
-#       BlendDstOut     = agg::comp_op_dst_out,
-#       BlendSrcAtop    = agg::comp_op_src_atop,
-#       BlendDstAtop    = agg::comp_op_dst_atop,
-#       BlendXor        = agg::comp_op_xor,
-#       BlendAdd        = agg::comp_op_plus,
-#       BlendMultiply   = agg::comp_op_multiply,
-#       BlendScreen     = agg::comp_op_screen,
-#       BlendOverlay    = agg::comp_op_overlay,
-#       BlendDarken     = agg::comp_op_darken,
-#       BlendLighten    = agg::comp_op_lighten,
-#       BlendColorDodge = agg::comp_op_color_dodge,
-#       BlendColorBurn  = agg::comp_op_color_burn,
-#       BlendHardLight  = agg::comp_op_hard_light,
-#       BlendSoftLight  = agg::comp_op_soft_light,
-#       BlendDifference = agg::comp_op_difference,
-#       BlendExclusion  = agg::comp_op_exclusion,
-#   };
-#
-#   enum Direction
-#   {
-#       CW, CCW
-#   };
+
