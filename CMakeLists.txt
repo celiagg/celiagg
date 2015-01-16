@@ -33,7 +33,10 @@ set(PACKAGE_VERSION ${MAJOR_VERSION}.${MINOR_VERSION})
 
 set(CMAKE_INCLUDE_CURRENT_DIR ON CACHE BOOL "Find includes in corresponding build directories")
 set(CMAKE_VERBOSE_MAKEFILE ON CACHE BOOL "")
-if(NOT WIN32)
+if(WIN32)
+    set(AGG2D_USE_FREETYPE OFF CACHE BOOL "Use Freetype for text rendering in Agg2D implementation.")
+else()
+    set(AGG2D_USE_FREETYPE ON CACHE BOOL "Use Freetype for text rendering in Agg2D implementation.")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
 endif()
@@ -89,9 +92,19 @@ endif()
 unset(_NUMPY_INCLUDE_DIR_FOUND)
 unset(_NUMPY_INCLUDE_DIR_ERROR)
 
+if(AGG2D_USE_FREETYPE)
+    find_package(Freetype REQUIRED)
+    include_directories(SYSTEM ${FREETYPE_INCLUDE_DIR_ft2build}
+                               ${FREETYPE_INCLUDE_DIR_freetype2})
+    add_definitions(-DAGG2D_USE_FREETYPE)
+endif()
+
 include_directories(SYSTEM ${PYTHON_INCLUDE_DIRS}
                            ${NUMPY_INCLUDE_DIR})
-include_directories(USER ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include
+include_directories(USER ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4
+                         ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/font_freetype
+                         ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/font_win32_tt
+                         ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include
                          ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/ctrl)
 
 add_subdirectory(agg-svn/agg-2.4/src)

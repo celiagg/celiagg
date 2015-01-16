@@ -150,6 +150,8 @@ SET( antigrain_HEADERS
     ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/agg_span_gradient_contour.h
     ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/agg_span_gradient_image.h
 
+    ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/agg2d/agg2d.h
+
     ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/ctrl/agg_slider_ctrl.h
     ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/ctrl/agg_spline_ctrl.h
     ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/ctrl/agg_scale_ctrl.h
@@ -164,8 +166,7 @@ SET( antigrain_HEADERS
     ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/gpc/gpc.h
 )
 
-ADD_LIBRARY( antigrain
-    STATIC
+SET( antigrain_SOURCES
     agg_arc.cpp
     agg_arrowhead.cpp
     agg_bezier_arc.cpp
@@ -191,6 +192,8 @@ ADD_LIBRARY( antigrain
     agg_vpgen_clip_polygon.cpp
     agg_vpgen_segmentator.cpp
 
+    ../agg2d/agg2d.cpp
+
     ctrl/agg_spline_ctrl.cpp
     ctrl/agg_slider_ctrl.cpp
     ctrl/agg_scale_ctrl.cpp
@@ -206,4 +209,17 @@ ADD_LIBRARY( antigrain
     ${antigrain_HEADERS}
 )
 
+if(AGG2D_USE_FREETYPE)
+    list( APPEND antigrain_SOURCES
+         ../font_freetype/agg_font_freetype.cpp
+         ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/font_freetype/agg_font_freetype.h
+        )
+else()
+    list( APPEND antigrain_SOURCES
+         ../font_win32_tt/agg_font_win32_tt.cpp
+         ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.h
+        )
+endif()
+
+add_library(antigrain STATIC ${antigrain_SOURCES})
 target_link_libraries(antigrain "")

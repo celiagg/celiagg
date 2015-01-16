@@ -22,7 +22,11 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
-set(PYX_SOURCES pyagg)
+set(PYX_DEPS ${CMAKE_CURRENT_SOURCE_DIR}/pyagg.pyx
+             ${CMAKE_CURRENT_SOURCE_DIR}/_agg2d.pxd
+             ${CMAKE_CURRENT_SOURCE_DIR}/agg2d.pxi
+             ${CMAKE_CURRENT_SOURCE_DIR}/_pyagg.pxd
+             ${CMAKE_CURRENT_SOURCE_DIR}/ndarray_canvas.pxi)
 set(CPP_SOURCES ndarray_canvas.cpp)
 set(CPP_HEADERS ndarray_canvas.h
                 ndarray_canvas.hxx)
@@ -34,18 +38,19 @@ if(APPLE)
 else()
     set(CYTHON_EXECUTABLE cython-3.4)
 endif()
-foreach(PYX_SOURCE ${PYX_SOURCES})
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
-                       COMMAND ${CYTHON_EXECUTABLE} --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp
-                       DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/${PYX_SOURCE}.pyx)
-    list(APPEND CYTHON_GENERATED_CPP_FILES ${CMAKE_CURRENT_BINARY_DIR}/${PYX_SOURCE}.cpp)
-endforeach(PYX_SOURCE)
 
-add_library(pyagg SHARED ${CYTHON_GENERATED_CPP_FILES}
-                         ${CPP_SOURCES}
+add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pyagg.cpp
+                   COMMAND ${CYTHON_EXECUTABLE} --cplus -3 -I${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/pyagg.pyx -o ${CMAKE_CURRENT_BINARY_DIR}/pyagg.cpp
+                   DEPENDS ${PYX_DEPS})
+list(APPEND CPP_SOURCES ${CMAKE_CURRENT_BINARY_DIR}/pyagg.cpp)
+
+add_library(pyagg SHARED ${CPP_SOURCES}
                          ${CPP_HEADERS})
 target_link_libraries(pyagg antigrain
                             ${PYTHON_LIBRARIES})
+if(AGG2D_USE_FREETYPE)
+    target_link_libraries(pyagg ${FREETYPE_LIBRARIES})
+endif()
 
 get_target_property(_PYTHON_MODULE_LOCATION pyagg LOCATION)
 if(WIN32)

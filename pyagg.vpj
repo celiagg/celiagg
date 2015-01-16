@@ -38,6 +38,24 @@
 				<F N="agg-svn/agg-2.4/include/util/agg_color_conv_rgb16.h"/>
 				<F N="agg-svn/agg-2.4/include/util/agg_color_conv_rgb8.h"/>
 			</Folder>
+			<Folder
+				Name="agg2d"
+				Filters="">
+				<F N="agg-svn/agg-2.4/agg2d/agg2d.cpp"/>
+				<F N="agg-svn/agg-2.4/agg2d/agg2d.h"/>
+			</Folder>
+			<Folder
+				Name="font_win32_tt"
+				Filters="">
+				<F N="agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp"/>
+				<F N="agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.h"/>
+			</Folder>
+			<Folder
+				Name="font_freetype"
+				Filters="">
+				<F N="agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp"/>
+				<F N="agg-svn/agg-2.4/font_freetype/agg_font_freetype.h"/>
+			</Folder>
 			<F N="agg-svn/agg-2.4/include/agg_alpha_mask_u8.h"/>
 			<F N="agg-svn/agg-2.4/src/agg_arc.cpp"/>
 			<F N="agg-svn/agg-2.4/include/agg_arc.h"/>
@@ -196,11 +214,14 @@
 		<Folder
 			Name="cython"
 			Filters="">
+			<F N="cython/_agg2d.pxd"/>
 			<F N="cython/_pyagg.pxd"/>
+			<F N="cython/agg2d.pxi"/>
 			<F N="cython/CMakeLists.txt"/>
 			<F N="cython/ndarray_canvas.cpp"/>
 			<F N="cython/ndarray_canvas.h"/>
 			<F N="cython/ndarray_canvas.hxx"/>
+			<F N="cython/ndarray_canvas.pxi"/>
 			<F N="cython/pyagg.pyx"/>
 		</Folder>
 		<F N="CMakeLists.txt"/>
