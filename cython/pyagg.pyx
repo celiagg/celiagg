@@ -25,6 +25,7 @@
 from libcpp cimport bool
 import cython
 from cython.operator cimport dereference
+from enum import IntEnum
 cimport numpy
 import numpy
 from libc.stdint cimport (uint8_t, uint16_t, uint64_t)

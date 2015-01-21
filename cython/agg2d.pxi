@@ -22,84 +22,83 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
-cdef extern from "agg2d/agg2d.h" namespace "Agg2D":
-    cpdef enum LineJoin:
-        JoinMiter
-        JoinRound
-        JoinBevel
-    cpdef enum LineCap:
-        CapButt
-        CapSquare
-        CapRound
-    cpdef enum TextAlignment:
-        AlignLeft
-        AlignRight
-        AlignCenter
-        AlignTop
-        AlignBottom
-    cpdef enum DrawPathFlag:
-        FillOnly
-        StrokeOnly
-        FillAndStroke
-        FillWithLineColor
-    cpdef enum ViewportOption:
-        Anisotropic
-        XMinYMin
-        XMidYMin
-        XMaxYMin
-        XMinYMid
-        XMidYMid
-        XMaxYMid
-        XMinYMax
-        XMidYMax
-        XMaxYMax
-    cpdef enum ImageFilter:
-        NoFilter
-        Bilinear
-        Hanning
-        Hermite
-        Quadric
-        Bicubic
-        Catrom
-        Spline16
-        Spline36
-        Blackman144
-    cpdef enum ImageResample:
-        NoResample
-        ResampleAlways
-        ResampleOnZoomOut
-    cpdef enum FontCacheType:
-        RasterFontCache
-        VectorFontCache
-    cpdef enum BlendMode:
-        BlendAlpha
-        BlendClear
-        BlendSrc
-        BlendDst
-        BlendSrcOver
-        BlendDstOver
-        BlendSrcIn
-        BlendDstIn
-        BlendSrcOut
-        BlendDstOut
-        BlendSrcAtop
-        BlendDstAtop
-        BlendXor
-        BlendAdd
-        BlendMultiply
-        BlendScreen
-        BlendOverlay
-        BlendDarken
-        BlendLighten
-        BlendColorDodge
-        BlendColorBurn
-        BlendHardLight
-        BlendSoftLight
-        BlendDifference
-        BlendExclusion
-    cpdef enum Direction:
-        CW
-        CCW
+class LineJoin(IntEnum):
+    JoinMiter = _agg2d.JoinMiter
+    JoinRound = _agg2d.JoinRound
+    JoinBevel = _agg2d.JoinBevel
+class LineCap(IntEnum):
+    CapButt = _agg2d.CapButt
+    CapSquare = _agg2d.CapSquare
+    CapRound = _agg2d.CapRound
+class TextAlignment(IntEnum):
+    AlignLeft = _agg2d.AlignLeft
+    AlignRight = _agg2d.AlignRight
+    AlignCenter = _agg2d.AlignCenter
+    AlignTop = _agg2d.AlignTop
+    AlignBottom = _agg2d.AlignBottom
+class DrawPathFlag(IntEnum):
+    FillOnly = _agg2d.FillOnly
+    StrokeOnly = _agg2d.StrokeOnly
+    FillAndStroke = _agg2d.FillAndStroke
+    FillWithLineColor = _agg2d.FillWithLineColor
+class ViewportOption(IntEnum):
+    Anisotropic = _agg2d.Anisotropic
+    XMinYMin = _agg2d.XMinYMin
+    XMidYMin = _agg2d.XMidYMin
+    XMaxYMin = _agg2d.XMaxYMin
+    XMinYMid = _agg2d.XMinYMid
+    XMidYMid = _agg2d.XMidYMid
+    XMaxYMid = _agg2d.XMaxYMid
+    XMinYMax = _agg2d.XMinYMax
+    XMidYMax = _agg2d.XMidYMax
+    XMaxYMax = _agg2d.XMaxYMax
+class ImageFilter(IntEnum):
+    NoFilter = _agg2d.NoFilter
+    Bilinear = _agg2d.Bilinear
+    Hanning = _agg2d.Hanning
+    Hermite = _agg2d.Hermite
+    Quadric = _agg2d.Quadric
+    Bicubic = _agg2d.Bicubic
+    Catrom = _agg2d.Catrom
+    Spline16 = _agg2d.Spline16
+    Spline36 = _agg2d.Spline36
+    Blackman144 = _agg2d.Blackman144
+class ImageResample(IntEnum):
+    NoResample = _agg2d.NoResample
+    ResampleAlways = _agg2d.ResampleAlways
+    ResampleOnZoomOut = _agg2d.ResampleOnZoomOut
+class FontCacheType(IntEnum):
+    RasterFontCache = _agg2d.RasterFontCache
+    VectorFontCache = _agg2d.VectorFontCache
+class BlendMode(IntEnum):
+    BlendAlpha = _agg2d.BlendAlpha
+    BlendClear = _agg2d.BlendClear
+    BlendSrc = _agg2d.BlendSrc
+    BlendDst = _agg2d.BlendDst
+    BlendSrcOver = _agg2d.BlendSrcOver
+    BlendDstOver = _agg2d.BlendDstOver
+    BlendSrcIn = _agg2d.BlendSrcIn
+    BlendDstIn = _agg2d.BlendDstIn
+    BlendSrcOut = _agg2d.BlendSrcOut
+    BlendDstOut = _agg2d.BlendDstOut
+    BlendSrcAtop = _agg2d.BlendSrcAtop
+    BlendDstAtop = _agg2d.BlendDstAtop
+    BlendXor = _agg2d.BlendXor
+    BlendAdd = _agg2d.BlendAdd
+    BlendMultiply = _agg2d.BlendMultiply
+    BlendScreen = _agg2d.BlendScreen
+    BlendOverlay = _agg2d.BlendOverlay
+    BlendDarken = _agg2d.BlendDarken
+    BlendLighten = _agg2d.BlendLighten
+    BlendColorDodge = _agg2d.BlendColorDodge
+    BlendColorBurn = _agg2d.BlendColorBurn
+    BlendHardLight = _agg2d.BlendHardLight
+    BlendSoftLight = _agg2d.BlendSoftLight
+    BlendDifference = _agg2d.BlendDifference
+    BlendExclusion = _agg2d.BlendExclusion
+class Direction(IntEnum):
+    CW = _agg2d.CW
+    CCW = _agg2d.CCW
 
 cdef class Image:
     cdef _agg2d.Image* _this
@@ -108,6 +107,7 @@ cdef class Image:
     def __cinit__(self, uint8_t[:,:,::1] buffer):
         self._this = new _agg2d.Image(&buffer[0][0][0], buffer.shape[1], buffer.shape[0], buffer.strides[0])
         self.py_buffer = buffer
+        self.text_hints.__doc
 
     def __dealloc__(self):
         del self._this
@@ -135,13 +135,13 @@ cdef class Agg2D:
     def __dealloc__(self):
         del self._this
 
-    @property
-    def image(self):
-        return self._image
+    property image:
+        def __get__(self):
+            return self._image
 
-    @property
-    def buffer(self):
-        return self._image.buffer
+    property buffer:
+        def __get__(self):
+            return self._image.buffer
 
     def setClipBox(self, x0, y0, x1, y1):
         """setClipBox(self, x0, y0, x1, y1)"""
@@ -178,37 +178,31 @@ cdef class Agg2D:
         cdef _agg2d.srgba8 ret = self._this.lineColor()
         return (ret.r, ret.g, ret.b, ret.a)
 
-    def setLineWidth(self, w):
-        """setLineWidth(self, w)"""
-        self._this.lineWidth(w)
+    property line_width:
+        def __get__(self):
+            return self._this.lineWidth()
+        def __set__(self, w):
+            self._this.lineWidth(w)
 
-    def getLineWidth(self):
-        """getLineWidth(self)"""
-        return self._this.lineWidth()
+    property line_cap:
+        def __get__(self):
+            return LineCap(self._this.lineCap())
+        def __set__(self, cap):
+            cap = LineCap(cap)
+            self._this.lineCap(cap)
 
-    def setLineCap(self, LineCap cap):
-        """setLineCap(self, LineCap cap)"""
-        self._this.lineCap(cap)
+    property line_join:
+        def __get__(self):
+            return LineJoin(self._this.lineJoin())
+        def __set__(self, join):
+            join = LineJoin(join)
+            self._this.lineJoin(join.value)
 
-    def getLineCap(self):
-        """getLineCap(self)"""
-        return self._this.lineCap()
-
-    def setLineJoin(self, LineJoin join):
-        """setLineJoin(self, LineJoin join)"""
-        self._this.lineJoin(join)
-
-    def getLineJoin(self):
-        """getLineJoin(self)"""
-        return self._this.lineJoin()
-
-    def setFillEvenOdd(self, bool evenOddFlag):
-        """setFillEvenOdd(self, bool evenOddFlag)"""
-        self._this.fillEvenOdd(evenOddFlag)
-
-    def getFillEvenOdd(self):
-        """getFillEvenOdd(self)"""
-        return self._this.fillEvenOdd()
+    property fill_even_odd:
+        def __get__(self):
+            return self._this.fillEvenOdd()
+        def __set__(self, even_odd_flag):
+            self._this.fillEvenOdd(even_odd_flag)
 
     def line(self, x0, y0, x1, y1):
         """line(self, x0, y0, x1, y1)"""
@@ -288,45 +282,63 @@ cdef class Agg2D:
         """resetPath(self)"""
         self._this.resetPath()
 
-    def addEllipse(self, cx, cy, rx, ry, Direction dir_=CW):
-        """addEllipse(self, cx, cy, rx, ry, Direction dir_=CW)"""
+    def addEllipse(self, cx, cy, rx, ry, dir_=Direction.CW):
+        """addEllipse(self, cx, cy, rx, ry, dir_=Direction.CW)"""
+        dir_ = Direction(dir_)
         self._this.addEllipse(cx, cy, rx, ry, dir_)
 
     def closePolygon(self):
         """closePolygon(self)"""
         self._this.closePolygon()
 
-    def setFlipText(self, bool flip):
-        """setFlipText(self, bool flip)"""
-        self._this.flipText(flip)
+    property flip_text:
+        def __get__(self):
+            return self._this.flipText()
+        def __set__(self, flip):
+            self._this.flipText(flip)
 
-    def setFont(self, str fileName, height, bool bold=False, bool italic=False, FontCacheType ch=RasterFontCache, angle=0.0):
-        """setFont(self, str fileName, height, bool bold=False, bool italic=False, FontCacheType ch=RasterFontCache, angle=0.0):
+    def setFont(self, str fileName, height, bool bold=False, bool italic=False, ch=FontCacheType.RasterFontCache, angle=0.0):
+        """setFont(self, str fileName, height, bool bold=False, bool italic=False, ch=FontCacheType.RasterFontCache, angle=0.0):
          ex: agg2d.setFont('/Library/Fonts/Times New Roman.ttf', 50)"""
+        ch = FontCacheType(ch)
         self._this.font(fileName.encode('UTF-8'), height, bold, italic, ch, angle)
 
-    def getFontHeight(self):
-        """getFontHeight(self)"""
-        return self._this.fontHeight()
+    property font_height:
+        def __get__(self):
+            return self._this.fontHeight()
 
-    def getTextHints(self):
-        """getTextHints(self)"""
-        return self._this.textHints()
+    property text_h_alignment:
+        def __get__(self):
+            return TextAlignment(self._this.textHAlignment())
+        def __set__(self, h_alignment):
+            h_alignment = TextAlignment(h_alignment)
+            self._this.textHAlignment(h_alignment)
 
-    def setTextHints(self, bool hints):
-        """setTextHints(self, bool hints)"""
-        self._this.textHints(hints)
+    property text_v_alignment:
+        def __get__(self):
+            return TextAlignment(self._this.textVAlignment())
+        def __set__(self, v_alignment):
+            v_alignment = TextAlignment(v_alignment)
+            self._this.textVAlignment(v_alignment)
 
-    def getTextWidth(self, str s):
-        """getTextWidth(self, str s)"""
+    property text_hints:
+        '''Enable or disable text subpixel hinting.'''
+        def __get__(self):
+            return self._this.textHints()
+        def __set__(self, hints):
+            self._this.textHints(hints)
+
+    def compute_width_of_text(self, str s):
+        """compute_width_of_text(self, str s)"""
         return self._this.textWidth(s.encode('UTF-8'))
 
     def text(self, x, y, str s, bool roundOff=False, double dx=0, double dy=0):
         """text(self, x, y, str s, bool roundOff=False, double dx=0, double dy=0)"""
         self._this.text(x, y, s.encode('UTF-8'), roundOff, dx, dy)
 
-    def drawPath(self, DrawPathFlag flag=FillAndStroke):
-        """drawPath(self, DrawPathFlag flag=FillAndStroke)"""
+    def draw_path(self, flag=DrawPathFlag.FillAndStroke):
+        """draw_path(self, DrawPathFlag flag=FillAndStroke)"""
+        flag = DrawPathFlag(flag)
         self._this.drawPath(flag)
 
 #   def drawPathNoTransform(self, DrawPathFlag flag = FillAndStroke):

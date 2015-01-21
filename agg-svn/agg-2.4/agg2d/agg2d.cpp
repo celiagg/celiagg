@@ -909,6 +909,12 @@ void Agg2D::flipText(bool flip)
 }
 
 //------------------------------------------------------------------------
+bool Agg2D::flipText() const
+{
+    return m_fontEngine.flip_y();
+}
+
+//------------------------------------------------------------------------
 void Agg2D::font(const char* fontName,
                  double height,
                  bool bold,
@@ -954,6 +960,30 @@ void Agg2D::textAlignment(TextAlignment alignX, TextAlignment alignY)
 {
    m_textAlignX = alignX;
    m_textAlignY = alignY;
+}
+
+//------------------------------------------------------------------------
+void Agg2D::textHAlignment(TextAlignment alignX)
+{
+    m_textAlignX = alignX;
+}
+
+//------------------------------------------------------------------------
+Agg2D::TextAlignment Agg2D::textHAlignment() const
+{
+    return m_textAlignX;
+}
+
+//------------------------------------------------------------------------
+void Agg2D::textVAlignment(TextAlignment alignY)
+{
+    m_textAlignY = alignY;
+}
+
+//------------------------------------------------------------------------
+Agg2D::TextAlignment Agg2D::textVAlignment() const
+{
+    return m_textAlignY;
 }
 
 //------------------------------------------------------------------------

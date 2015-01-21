@@ -370,6 +370,7 @@ public:
     // Text
     //-----------------------
     void   flipText(bool flip);
+    bool   flipText() const;
     void   font(const char* fileName, double height,
                 bool bold = false,
                 bool italic = false,
@@ -377,6 +378,10 @@ public:
                 double angle = 0.0);
     double fontHeight() const;
     void   textAlignment(TextAlignment alignX, TextAlignment alignY);
+    void   textHAlignment(TextAlignment alignX);
+    TextAlignment textHAlignment() const;
+    void   textVAlignment(TextAlignment alignY);
+    TextAlignment textVAlignment() const;
     bool   textHints() const;
     void   textHints(bool hints);
     double textWidth(const char* str);

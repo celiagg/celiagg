@@ -182,8 +182,13 @@ cdef extern from "agg2d/agg2d.h":
         void closePolygon()
 
         void flipText(bool flip)
+        bool flipText() const
         void font(const char* fileName, double height, bool bold, bool italic, FontCacheType ch, double angle);
         double fontHeight() const
+        void textHAlignment(TextAlignment alignX)
+        TextAlignment textHAlignment() const
+        void textVAlignment(TextAlignment alignY)
+        TextAlignment textVAlignment() const
         bool textHints() const
         void textHints(bool hints)
         double textWidth(const char* str)
