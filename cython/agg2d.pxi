@@ -107,7 +107,6 @@ cdef class Image:
     def __cinit__(self, uint8_t[:,:,::1] buffer):
         self._this = new _agg2d.Image(&buffer[0][0][0], buffer.shape[1], buffer.shape[0], buffer.strides[0])
         self.py_buffer = buffer
-        self.text_hints.__doc
 
     def __dealloc__(self):
         del self._this
@@ -116,12 +115,26 @@ cdef class Image:
         self._this.attach(&buffer[0][0][0], buffer.shape[1], buffer.shape[0], buffer.strides[0])
         self.py_buffer = buffer
 
-    @property
-    def buffer(self):
-        # User is not likely to be concerned with the details of the cython memory view around array or buffer
-        # supplied to the constructor or attach, but instead expects the original array or buffer (which is why
-        # self.py_buffer.base is returned rather than self.py_buffer).
-        return self.py_buffer.base
+    def premultiply(self):
+        self._this.premultiply()
+
+    def demultiply(self):
+        self._this.demultiply()
+
+    property buffer:
+        def __get__(self):
+            # User is not likely to be concerned with the details of the cython memory view around array or buffer
+            # supplied to the constructor or attach, but instead expects the original array or buffer (which is why
+            # self.py_buffer.base is returned rather than self.py_buffer).
+            return self.py_buffer.base
+
+    property width:
+        def __get__(self):
+            return self._this.width()
+
+    property height:
+        def __get__(self):
+            return self._this.height()
 
 cdef class Agg2D:
     cdef _agg2d.Agg2D* _this
@@ -143,38 +156,71 @@ cdef class Agg2D:
         def __get__(self):
             return self._image.buffer
 
-    def setClipBox(self, x0, y0, x1, y1):
-        """setClipBox(self, x0, y0, x1, y1)"""
+    def set_clip_box(self, x0, y0, x1, y1):
+        """set_clip_box(self, x0, y0, x1, y1)"""
         self._this.clipBox(x0, y0, x1, y1)
 
-    def getClipBox(self):
-        """getClipBox(self)"""
+    def get_clip_box(self):
+        """get_clip_box(self)"""
         cdef _agg2d.RectD clipBox = self._this.clipBox()
         return (clipBox.x1, clipBox.y1, clipBox.x2, clipBox.y2)
 
-    def setFillColor(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255):
-        """setFillColor(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255)"""
+    property blend_mode:
+        def __get__(self):
+            return BlendMode(self._this.blendMode())
+        def __set__(self, m):
+            m = BlendMode(m)
+            self._this.blendMode(m)
+
+    property image_blend_mode:
+        def __get__(self):
+            return BlendMode(self._this.imageBlendMode())
+        def __set__(self, m):
+            m = BlendMode(m)
+            self._this.imageBlendMode(m)
+
+    def set_image_blend_color(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255):
+        self._this.imageBlendColor(r, g, b, a)
+
+    def get_image_blend_color(self):
+        cdef _agg2d.srgba8 ret = self._this.imageBlendColor()
+        return (ret.r, ret.g, ret.b, ret.a)
+
+    property master_alpha:
+        def __get__(self):
+            return self._this.masterAlpha()
+        def __set__(self, a):
+            self._this.masterAlpha(a)
+
+    property anti_alias_gamma:
+        def __get__(self):
+            return self._this.antiAliasGamma()
+        def __set__(self, g):
+            self._this.antiAliasGamma(g)
+
+    def set_fill_color(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255):
+        """set_fill_color(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255)"""
         self._this.fillColor(r, g, b, a)
 
-    def noFill(self):
-        """noFill(self)"""
+    def no_fill(self):
+        """no_fill(self)"""
         self._this.noFill()
 
-    def setLineColor(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255):
-        """setLineColor(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255)"""
+    def set_line_color(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255):
+        """set_line_color(self, uint8_t r, uint8_t g, uint8_t b, uint8_t a=255)"""
         self._this.lineColor(r, g, b, a)
 
-    def noLine(self):
-        """noLine(self)"""
+    def no_line(self):
+        """no_line(self)"""
         self._this.noLine()
 
-    def getFillColor(self):
-        """getFillColor(self)"""
+    def get_fill_color(self):
+        """get_fill_color(self)"""
         cdef _agg2d.srgba8 ret = self._this.fillColor()
         return (ret.r, ret.g, ret.b, ret.a)
 
-    def getLineColor(self):
-        """getLineColor(self)"""
+    def get_line_color(self):
+        """get_line_color(self)"""
         cdef _agg2d.srgba8 ret = self._this.lineColor()
         return (ret.r, ret.g, ret.b, ret.a)
 
@@ -196,7 +242,7 @@ cdef class Agg2D:
             return LineJoin(self._this.lineJoin())
         def __set__(self, join):
             join = LineJoin(join)
-            self._this.lineJoin(join.value)
+            self._this.lineJoin(join)
 
     property fill_even_odd:
         def __get__(self):
@@ -216,14 +262,14 @@ cdef class Agg2D:
         """rectangle(self, x0, y0, x1, y1)"""
         self._this.rectangle(x0, y0, x1, y1)
 
-    def roundedRect(self, x0, y0, x1, y1,
-                    r=None,
-                    rx=None, ry=None,
-                    rxBottom=None, ryBottom=None, rxTop=None, ryTop=None):
-        """roundedRect(self, x0, y0, x1, y1,
-         ............r=None,
-         ............rx=None, ry=None,
-         ............rxBottom=None, ryBottom=None, rxTop=None, ryTop=None):
+    def rounded_rect(self, x0, y0, x1, y1,
+                     r=None,
+                     rx=None, ry=None,
+                     rxBottom=None, ryBottom=None, rxTop=None, ryTop=None):
+        """rounded_rect(self, x0, y0, x1, y1,
+         .............r=None,
+         .............rx=None, ry=None,
+         .............rxBottom=None, ryBottom=None, rxTop=None, ryTop=None):
          One of the argument sets
          -> r,
          -> rx and ry,
@@ -278,17 +324,17 @@ cdef class Agg2D:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
         self._this.polyline(&points_npy[0][0], points_npy.shape[0])
 
-    def resetPath(self):
-        """resetPath(self)"""
+    def reset_path(self):
+        """reset_path(self)"""
         self._this.resetPath()
 
-    def addEllipse(self, cx, cy, rx, ry, dir_=Direction.CW):
-        """addEllipse(self, cx, cy, rx, ry, dir_=Direction.CW)"""
+    def add_ellipse(self, cx, cy, rx, ry, dir_=Direction.CW):
+        """add_ellipse(self, cx, cy, rx, ry, dir_=Direction.CW)"""
         dir_ = Direction(dir_)
         self._this.addEllipse(cx, cy, rx, ry, dir_)
 
-    def closePolygon(self):
-        """closePolygon(self)"""
+    def close_polygon(self):
+        """close_polygon(self)"""
         self._this.closePolygon()
 
     property flip_text:
@@ -297,9 +343,9 @@ cdef class Agg2D:
         def __set__(self, flip):
             self._this.flipText(flip)
 
-    def setFont(self, str fileName, height, bool bold=False, bool italic=False, ch=FontCacheType.RasterFontCache, angle=0.0):
-        """setFont(self, str fileName, height, bool bold=False, bool italic=False, ch=FontCacheType.RasterFontCache, angle=0.0):
-         ex: agg2d.setFont('/Library/Fonts/Times New Roman.ttf', 50)"""
+    def set_font(self, str fileName, height, bool bold=False, bool italic=False, ch=FontCacheType.RasterFontCache, angle=0.0):
+        """set_font(self, str fileName, height, bool bold=False, bool italic=False, ch=FontCacheType.RasterFontCache, angle=0.0):
+         ex: agg2d.set_font('/Library/Fonts/Times New Roman.ttf', 50)"""
         ch = FontCacheType(ch)
         self._this.font(fileName.encode('UTF-8'), height, bold, italic, ch, angle)
 
@@ -343,3 +389,67 @@ cdef class Agg2D:
 
 #   def drawPathNoTransform(self, DrawPathFlag flag = FillAndStroke):
 #       self._this.drawPathNoTransform(flag)
+
+    def transform_image(self, Image img,
+                        img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+                        dst_x0=None, dst_y0=None, dst_x1=None, dst_y1=None):
+        """transform_image(self, Image img,
+         ................img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+         ................dst_x0, dst_y0, dst_x1, dst_y1)"""
+        cdef uint8_t img_coord_nc = <uint8_t>(img_x0 is None) + <uint8_t>(img_y0 is None) + <uint8_t>(img_x1 is None) + <uint8_t>(img_y1 is None)
+        if dst_x0 is None or dst_y0 is None or dst_x1 is None or dst_y1 is None:
+            raise ValueError('All dst_... arguments must be supplied.')
+        if img_coord_nc == 0:
+            self._this.transformImage(dereference(img._this), img_x0, img_y0, img_x1, img_y1, dst_x0, dst_y0, dst_x1, dst_y1)
+        elif img_coord_nc == 4:
+            self._this.transformImage(dereference(img._this), dst_x0, dst_y0, dst_x1, dst_y1)
+        else:
+            raise ValueError('Either all or none of the img_... arguments must be supplied (eg, if img_x0 is None, so must img_y0, img_x1, img_y1).')
+
+    def transform_image_path(self, Image img,
+                             img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+                             dst_x0=None, dst_y0=None, dst_x1=None, dst_y1=None):
+        """transform_image_path(self, Image img,
+         .....................img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+         .....................dst_x0, dst_y0, dst_x1, dst_y1)"""
+        cdef uint8_t img_coord_nc = <uint8_t>(img_x0 is None) + <uint8_t>(img_y0 is None) + <uint8_t>(img_x1 is None) + <uint8_t>(img_y1 is None)
+        if dst_x0 is None or dst_y0 is None or dst_x1 is None or dst_y1 is None:
+            raise ValueError('All dst_... arguments must be supplied.')
+        if img_coord_nc == 0:
+            self._this.transformImagePath(dereference(img._this), img_x0, img_y0, img_x1, img_y1, dst_x0, dst_y0, dst_x1, dst_y1)
+        elif img_coord_nc == 4:
+            self._this.transformImagePath(dereference(img._this), dst_x0, dst_y0, dst_x1, dst_y1)
+        else:
+            raise ValueError('Either all or none of the img_... arguments must be supplied (eg, if img_x0 is None, so must img_y0, img_x1, img_y1).')
+
+    def blend_image(self, Image img,
+                    img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+                    dst_x=None, dst_y=None, alpha=255):
+        """blend_image(self, Image img,
+         ............img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+         ............dst_x, dst_y, unsigned alpha=255)"""
+        cdef uint8_t img_coord_nc = <uint8_t>(img_x0 is None) + <uint8_t>(img_y0 is None) + <uint8_t>(img_x1 is None) + <uint8_t>(img_y1 is None)
+        if dst_x is None or dst_y is None:
+            raise ValueError('All dst_... arguments must be supplied.')
+        if img_coord_nc == 0:
+            self._this.blendImage(dereference(img._this), img_x0, img_y0, img_x1, img_y1, dst_x, dst_y, alpha)
+        elif img_coord_nc == 4:
+            self._this.blendImage(dereference(img._this), dst_x, dst_y, alpha)
+        else:
+            raise ValueError('Either all or none of the img_... arguments must be supplied (eg, if img_x0 is None, so must img_y0, img_x1, img_y1).')
+
+    def copy_image(self, Image img,
+                   img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+                   dst_x=None, dst_y=None):
+        """copy_image(self, Image img,
+         ...........img_x0=None, img_y0=None, img_x1=None, img_y1=None,
+         ...........dst_x, dst_y)"""
+        cdef uint8_t img_coord_nc = <uint8_t>(img_x0 is None) + <uint8_t>(img_y0 is None) + <uint8_t>(img_x1 is None) + <uint8_t>(img_y1 is None)
+        if dst_x is None or dst_y is None:
+            raise ValueError('All dst_... arguments must be supplied.')
+        if img_coord_nc == 0:
+            self._this.copyImage(dereference(img._this), img_x0, img_y0, img_x1, img_y1, dst_x, dst_y)
+        elif img_coord_nc == 4:
+            self._this.copyImage(dereference(img._this), dst_x, dst_y)
+        else:
+            raise ValueError('Either all or none of the img_... arguments must be supplied (eg, if img_x0 is None, so must img_y0, img_x1, img_y1).')

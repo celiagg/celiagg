@@ -66,7 +66,7 @@ class Agg2D
 #else
     typedef agg::rgba8  ColorType;
 #endif
-    typedef agg::order_bgra ComponentOrder; // Platform dependent!
+    typedef agg::order_rgba ComponentOrder; // Platform dependent!
     typedef agg::blender_rgba<ColorType, ComponentOrder>             Blender;
     typedef agg::comp_op_adaptor_rgba<ColorType, ComponentOrder>     BlenderComp;
     typedef agg::blender_rgba_pre<ColorType, ComponentOrder>         BlenderPre;
@@ -440,7 +440,7 @@ public:
     void closePolygon();
 
     void drawPath(DrawPathFlag flag = FillAndStroke);
-    void drawPathNoTransform(DrawPathFlag flag = FillAndStroke);
+//  void drawPathNoTransform(DrawPathFlag flag = FillAndStroke);
 
 
     // Image Transformations

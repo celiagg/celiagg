@@ -140,6 +140,21 @@ cdef extern from "agg2d/agg2d.h":
         void  clipBox(double x1, double y1, double x2, double y2)
         RectD clipBox() const
 
+        void blendMode(BlendMode m)
+        BlendMode blendMode() const
+
+        void imageBlendMode(BlendMode m)
+        BlendMode imageBlendMode() const
+
+        void imageBlendColor(unsigned r, unsigned g, unsigned b, unsigned a)
+        srgba8 imageBlendColor() const
+
+        void masterAlpha(double a)
+        double masterAlpha() const
+
+        void antiAliasGamma(double g)
+        double antiAliasGamma() const
+
         void fillColor(unsigned r, unsigned g, unsigned b, unsigned a)
         void noFill()
 
@@ -195,6 +210,39 @@ cdef extern from "agg2d/agg2d.h":
         void text(double x, double y, const char* str, bool roundOff, double dx, double dy)
 
         void drawPath(DrawPathFlag flag)
-        void drawPathNoTransform(DrawPathFlag flag)
+#       void drawPathNoTransform(DrawPathFlag flag)
+
+        void imageFilter(ImageFilter f)
+        ImageFilter imageFilter() const
+
+        void imageResample(ImageResample f)
+        ImageResample imageResample() const
+
+        void transformImage(const Image& img,
+                            int img_x0, int img_y0, int img_x1, int img_y1,
+                            double dst_x0, double dst_y0, double dst_x1, double dst_y1)
+        void transformImage(const Image& img,
+                            double dst_x0, double dst_y0, double dst_x1, double dst_y1)
+        void transformImage(const Image& img,
+                            int img_x0, int img_y0, int img_x1, int img_y1,
+                            const double* parallelogram)
+        void transformImage(const Image& img, const double* parallelogram)
+        void transformImagePath(const Image& img,
+                                int img_x0, int img_y0, int img_x1, int img_y1,
+                                double dst_x0, double dst_y0, double dst_x1, double dst_y1)
+        void transformImagePath(const Image& img,
+                                double dst_x0, double dst_y0, double dst_x1, double dst_y1)
+        void transformImagePath(const Image& img,
+                                int img_x0, int img_y0, int img_x1, int img_y1,
+                                const double* parallelogram)
+        void transformImagePath(const Image& img, const double* parallelogram)
+        void blendImage(Image& img,
+                        int img_x0, int img_y0, int img_x1, int img_y1,
+                        double dst_x, double dst_y, unsigned alpha)
+        void blendImage(Image& img, double dst_x, double dst_y, unsigned alpha)
+        void copyImage(Image& img,
+                       int img_x0, int img_y0, int img_x1, int img_y1,
+                       double dst_x, double dst_y)
+        void copyImage(Image& img, double dst_x, double dst_y)
 
 
