@@ -81,7 +81,6 @@ if with_freetype:
         try:
             extra_compile_args.extend(subprocess.check_output(['pkg-config', 'freetype2', '--cflags'], universal_newlines=True).split())
             extra_link_args.extend(subprocess.check_output(['pkg-config', 'freetype2', '--libs'], universal_newlines=True).split())
-            print(extra_compile_args, extra_link_args)
         except subprocess.CalledProcessError:
             e = 'Failed to execute pkg-config freetype2.  If freetype is installed in standard system locations, '
             e+= 'it may work to run this script with --no-freetype-pkg-config.  Otherwise, appropriate CFLAGS and '
