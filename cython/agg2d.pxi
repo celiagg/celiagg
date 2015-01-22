@@ -250,6 +250,30 @@ cdef class Agg2D:
         def __set__(self, even_odd_flag):
             self._this.fillEvenOdd(even_odd_flag)
 
+#   property transformations:
+#       def __get__(self):
+#           return numpy.array(self._this.transformations().affineMatrix).reshape((3,3))
+#       def __set__(self, transformations):
+#           cdef double[:,::1] transformations_npy = numpy.asarray(transformations, dtype=numpy.float64, order='c')
+#           if transformations.ndim != 2 or transformations.shape[0] != 3 or transformations.shape[1] != 3:
+#               raise ValueError('The object assigned to the transformations property must be a 3x3 iterable ' \
+#                               +'whose elements are convertable to floating point values.  Note: supplying a c-order ' \
+#                               +'3x3 numpy array of float64 values avoids an intermediate copy step.')
+#           self._this.transformations(&transformations_npy[0][0])
+
+#   Transformations transformations() const
+#       void transformations(const Transformations& tr)
+#       void resetTransformations()
+#       void affine(const Transformations& tr)
+#       void rotate(double angle)
+#       void scale(double sx, double sy)
+#       void skew(double sx, double sy)
+#       void translate(double x, double y)
+#       void parallelogram(double x1, double y1, double x2, double y2, const double* para)
+#       void viewport(double worldX1,  double worldY1,  double worldX2,  double worldY2,
+#                     double screenX1, double screenY1, double screenX2, double screenY2,
+#                     ViewportOption opt)
+
     def line(self, x0, y0, x1, y1):
         """line(self, x0, y0, x1, y1)"""
         self._this.line(x0, y0, x1, y1)

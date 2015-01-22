@@ -334,11 +334,10 @@ public:
 
     // Transformations
     //-----------------------
-    Transformations transformations() const;
-    void transformations(const Transformations& tr);
+    const Affine& transformations() const;
+    void transformations(const Affine& tr);
     void resetTransformations();
     void affine(const Affine& tr);
-    void affine(const Transformations& tr);
     void rotate(double angle);
     void scale(double sx, double sy);
     void skew(double sx, double sy);

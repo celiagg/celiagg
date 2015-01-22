@@ -30,7 +30,7 @@ cdef class ndarray_canvas_base_uint8:
     cdef object py_image
 
     cdef int base_init(self, image, default_color, bool canvas_has_alpha) except -1:
-        cdef uint64_t[:] image_shape = numpy.asarray(image.shape, dtype=numpy.uint64)
+        cdef uint64_t[:] image_shape = numpy.asarray(image.shape, dtype=numpy.uint64, order='c')
         cdef uint64_t image_ndim = <uint64_t> image.ndim
         cdef uint64_t required_channel_count
         self.default_color = numpy.asarray(default_color, dtype=numpy.uint8, order='c')

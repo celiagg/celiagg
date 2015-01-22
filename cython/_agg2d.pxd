@@ -37,6 +37,76 @@ cdef extern from "agg_color_rgba.h" namespace "agg":
         srgba8()
         srgba8(unsigned r_, unsigned g_, unsigned b_, unsigned a_)
 
+#cdef extern from "agg_trans_affine.h" namespace "agg":
+#    cdef cppclass trans_affine:
+#        double sx, shy, shx, sy, tx, ty
+#
+#        trans_affine()
+#        trans_affine(double v0, double v1, double v2,
+#                     double v3, double v4, double v5)
+#        explicit trans_affine(const double* m)
+#
+#        trans_affine(double x1, double y1, double x2, double y2,
+#                     const double* parl)
+#
+#        trans_affine(const double* parl,
+#                     double x1, double y1, double x2, double y2)
+#
+#        trans_affine(const double* src, const double* dst)
+#
+#        const trans_affine& parl_to_parl(const double* src,
+#                                         const double* dst)
+#        const trans_affine& rect_to_parl(double x1, double y1,
+#                                         double x2, double y2,
+#                                         const double* parl)
+#        const trans_affine& parl_to_rect(const double* parl,
+#                                         double x1, double y1,
+#                                         double x2, double y2)
+#
+#        const trans_affine& reset()
+#
+#        const trans_affine& translate(double x, double y)
+#        const trans_affine& rotate(double a)
+#        const trans_affine& scale(double s)
+#        const trans_affine& scale(double x, double y)
+#
+#        const trans_affine& multiply(const trans_affine& m)
+#        const trans_affine& premultiply(const trans_affine& m)
+#        const trans_affine& multiply_inv(const trans_affine& m)
+#        const trans_affine& premultiply_inv(const trans_affine& m)
+#        const trans_affine& invert()
+#        const trans_affine& flip_x();
+#        const trans_affine& flip_y();
+#
+#        void store_to(double* m) const
+#        const trans_affine& load_from(const double* m)
+#
+#        const trans_affine& operator *= (const trans_affine& m)
+#        const trans_affine& operator /= (const trans_affine& m)
+#        trans_affine operator * (const trans_affine& m) const
+#        trans_affine operator / (const trans_affine& m) const
+#        trans_affine operator ~ () const
+#        bool operator == (const trans_affine& m) const
+#        bool operator != (const trans_affine& m) const
+#
+#        void transform(double* x, double* y) const
+#        void transform_2x2(double* x, double* y) const
+#        void inverse_transform(double* x, double* y) const
+#
+#        double determinant() const
+#        double determinant_reciprocal() const
+#
+#        double scale() const
+#
+#        bool is_valid(double epsilon = affine_epsilon) const
+#        bool is_identity(double epsilon = affine_epsilon) const
+#        bool is_equal(const trans_affine& m, double epsilon = affine_epsilon) const
+#
+#        double rotation() const
+#        void   translation(double* dx, double* dy) const
+#        void   scaling(double* x, double* y) const
+#        void   scaling_abs(double* x, double* y) const
+
 cdef extern from "agg2d/agg2d.h" namespace "Agg2D":
     cdef cppclass Image:
         Image()
@@ -175,6 +245,19 @@ cdef extern from "agg2d/agg2d.h":
 
         void fillEvenOdd(bool evenOddFlag)
         bool fillEvenOdd() const
+
+#       Transformations transformations() const
+#       void transformations(const double* tr)
+#       void resetTransformations()
+#       void affine(const double* tr)
+#       void rotate(double angle)
+#       void scale(double sx, double sy)
+#       void skew(double sx, double sy)
+#       void translate(double x, double y)
+#       void parallelogram(double x1, double y1, double x2, double y2, const double* para)
+#       void viewport(double worldX1,  double worldY1,  double worldX2,  double worldY2,
+#                     double screenX1, double screenY1, double screenX2, double screenY2,
+#                     ViewportOption opt)
 
         void line(double x1, double y1, double x2, double y2)
         void triangle(double x1, double y1, double x2, double y2, double x3, double y3)

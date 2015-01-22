@@ -330,18 +330,16 @@ bool Agg2D::inBox(double worldX, double worldY) const
 
 
 //------------------------------------------------------------------------
-Agg2D::Transformations Agg2D::transformations() const
+const Agg2D::Affine& Agg2D::transformations() const
 {
-    Transformations tr;
-    m_transform.store_to(tr.affineMatrix);
-    return tr;
+    return m_transform;
 }
 
 
 //------------------------------------------------------------------------
-void Agg2D::transformations(const Transformations& tr)
+void Agg2D::transformations(const Affine& tr)
 {
-    m_transform.load_from(tr.affineMatrix);
+    m_transform = tr;
     m_convCurve.approximation_scale(worldToScreen(1.0) * g_approxScale);
     m_convStroke.approximation_scale(worldToScreen(1.0) * g_approxScale);
 }
@@ -351,6 +349,8 @@ void Agg2D::transformations(const Transformations& tr)
 void Agg2D::resetTransformations()
 {
     m_transform.reset();
+    m_convCurve.approximation_scale(worldToScreen(1.0) * g_approxScale);
+    m_convStroke.approximation_scale(worldToScreen(1.0) * g_approxScale);
 }
 
 
@@ -368,12 +368,6 @@ void Agg2D::affine(const Affine& tr)
     m_convStroke.approximation_scale(worldToScreen(1.0) * g_approxScale);
 }
 
-//------------------------------------------------------------------------
-void Agg2D::affine(const Transformations& tr)
-{
-    affine(agg::trans_affine(tr.affineMatrix[0], tr.affineMatrix[1], tr.affineMatrix[2],
-                             tr.affineMatrix[3], tr.affineMatrix[4], tr.affineMatrix[5]));
-}
 
 //------------------------------------------------------------------------
 void Agg2D::scale(double sx, double sy)
