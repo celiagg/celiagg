@@ -26,7 +26,8 @@ set(PYX_DEPS ${CMAKE_CURRENT_SOURCE_DIR}/pyagg.pyx
              ${CMAKE_CURRENT_SOURCE_DIR}/_agg2d.pxd
              ${CMAKE_CURRENT_SOURCE_DIR}/agg2d.pxi
              ${CMAKE_CURRENT_SOURCE_DIR}/_pyagg.pxd
-             ${CMAKE_CURRENT_SOURCE_DIR}/ndarray_canvas.pxi)
+             ${CMAKE_CURRENT_SOURCE_DIR}/ndarray_canvas.pxi
+             ${CMAKE_CURRENT_SOURCE_DIR}/fast_hist.pxi)
 set(CPP_SOURCES ndarray_canvas.cpp)
 set(CPP_HEADERS ndarray_canvas.h
                 ndarray_canvas.hxx)

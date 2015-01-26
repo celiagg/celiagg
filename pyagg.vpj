@@ -222,6 +222,7 @@
 			<F N="cython/_pyagg.pxd"/>
 			<F N="cython/agg2d.pxi"/>
 			<F N="cython/CMakeLists.txt"/>
+			<F N="cython/fast_hist.pxi"/>
 			<F N="cython/ndarray_canvas.cpp"/>
 			<F N="cython/ndarray_canvas.h"/>
 			<F N="cython/ndarray_canvas.hxx"/>
@@ -229,6 +230,7 @@
 			<F N="cython/pyagg.pyx"/>
 		</Folder>
 		<F N="CMakeLists.txt"/>
+		<F N="fast_hist.py"/>
 		<F N="setup.py"/>
 	</Files>
 	<Config
