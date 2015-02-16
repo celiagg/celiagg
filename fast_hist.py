@@ -1,10 +1,13 @@
 import numpy
 from . import pyagg
 import concurrent.futures as futures
+from collections import namedtuple
+
+HistogramReturn = namedtuple('HistogramReturn', ('histogram', 'max_bin', 'min_intensity', 'max_intensity'))
 
 pool = futures.ThreadPoolExecutor(max_workers=16)
 
-def histogram_and_min_max(array, twelve_bit=False, n_bins=1024, hist_max=None, hist_min=None, n_threads=8):
+def histogram(array, twelve_bit=False, n_bins=1024, hist_max=None, hist_min=None, n_threads=8):
     array = numpy.asarray(array)
     extra_args = ()
     if array.dtype == numpy.uint8:
@@ -33,5 +36,8 @@ def histogram_and_min_max(array, twelve_bit=False, n_bins=1024, hist_max=None, h
                arr_slice, hist_slice, min_max in zip(slices, histograms, min_maxs)]
     for future in futures:
         future.result()
-    return (histograms.sum(axis=0, dtype=numpy.uint32),
-            numpy.array((min_maxs[:,0].min(), min_maxs[:,1].max())))
+
+    histogram = histograms.sum(axis=0, dtype=numpy.uint32)
+    max_bin = histogram.argmax()
+
+    return HistogramReturn(histogram, max_bin, min_maxs[:,0].min(), min_maxs[:,1].max())

@@ -17,6 +17,7 @@ cpdef hist_min_max_uint16(numpy.uint16_t[:, :] arr, numpy.uint32_t[:] hist, nump
                 elif v > min_max[1]:
                     min_max[1] = v
 
+
 @cython.boundscheck(False)
 @cython.wraparound(False)
 cpdef hist_min_max_uint12(numpy.uint16_t[:, :] arr, numpy.uint32_t[:] hist, numpy.uint16_t[:] min_max):
