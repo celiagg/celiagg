@@ -44,7 +44,7 @@
 #include "agg_scanline_p.h"
 #include "ctrl/agg_polygon_ctrl.h"
 
-#if defined __UINT32_MAX__ or UINT32_MAX
+#if defined(__UINT32_MAX__) || defined(UINT32_MAX)
  #include <inttypes.h>
 #else
  typedef unsigned char uint8_t;

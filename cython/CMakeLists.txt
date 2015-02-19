@@ -37,7 +37,7 @@ set(CYTHON_GENERATED_CPP_FILES "")
 if(APPLE)
     set(CYTHON_EXECUTABLE /usr/local/bin/cython)
 else()
-    set(CYTHON_EXECUTABLE cython-3.4)
+    set(CYTHON_EXECUTABLE cython)
 endif()
 
 add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/pyagg.cpp
