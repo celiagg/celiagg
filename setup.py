@@ -35,15 +35,32 @@ cpp_sources = [
     'cython/ndarray_canvas.cpp',
     'agg-svn/agg-2.4/agg2d/agg2d.cpp',
     'agg-svn/agg-2.4/src/agg_arc.cpp',
+    'agg-svn/agg-2.4/src/agg_arrowhead.cpp',
     'agg-svn/agg-2.4/src/agg_bezier_arc.cpp',
     'agg-svn/agg-2.4/src/agg_bspline.cpp',
+    'agg-svn/agg-2.4/src/agg_color_rgba.cpp',
     'agg-svn/agg-2.4/src/agg_curves.cpp',
+    'agg-svn/agg-2.4/src/agg_embedded_raster_fonts.cpp',
+    'agg-svn/agg-2.4/src/agg_gsv_text.cpp',
+    'agg-svn/agg-2.4/src/agg_image_filters.cpp',
+    'agg-svn/agg-2.4/src/agg_line_aa_basics.cpp',
+    'agg-svn/agg-2.4/src/agg_line_profile_aa.cpp',
     'agg-svn/agg-2.4/src/agg_rounded_rect.cpp',
     'agg-svn/agg-2.4/src/agg_sqrt_tables.cpp',
     'agg-svn/agg-2.4/src/agg_trans_affine.cpp',
+    'agg-svn/agg-2.4/src/agg_trans_double_path.cpp',
+    'agg-svn/agg-2.4/src/agg_trans_single_path.cpp',
+    'agg-svn/agg-2.4/src/agg_trans_warp_magnifier.cpp',
     'agg-svn/agg-2.4/src/agg_vcgen_bspline.cpp',
     'agg-svn/agg-2.4/src/agg_vcgen_contour.cpp',
-    'agg-svn/agg-2.4/src/agg_vcgen_stroke.cpp']
+    'agg-svn/agg-2.4/src/agg_vcgen_dash.cpp',
+    'agg-svn/agg-2.4/src/agg_vcgen_markers_term.cpp',
+    'agg-svn/agg-2.4/src/agg_vcgen_smooth_poly1.cpp',
+    'agg-svn/agg-2.4/src/agg_vcgen_stroke.cpp',
+    'agg-svn/agg-2.4/src/agg_vpgen_clip_polygon.cpp',
+    'agg-svn/agg-2.4/src/agg_vpgen_clip_polyline.cpp',
+    'agg-svn/agg-2.4/src/agg_vpgen_segmentator.cpp',
+]
 
 cython_source = 'cython/pyagg.pyx'
 cython_source_deps = [
