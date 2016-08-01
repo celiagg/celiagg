@@ -122,8 +122,8 @@ namespace agg
     // sRGB support classes
     //
 
-    // Optimized sRGB lookup table. The direct conversion (sRGB to linear)
-    // is a straightforward lookup. The inverse conversion (linear to sRGB)
+    // Optimized sRGB lookup table. The direct conversion (sRGB to linear) 
+    // is a straightforward lookup. The inverse conversion (linear to sRGB) 
     // is implemented using binary search.
     template<class LinearType>
     class sRGB_lut_base
@@ -154,7 +154,7 @@ namespace agg
         LinearType m_inv_table[256];
 
         // Only derived classes may instantiate.
-        sRGB_lut_base()
+        sRGB_lut_base() 
         {
         }
     };

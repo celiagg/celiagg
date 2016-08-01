@@ -107,7 +107,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        template<class GammaF> 
+        template<class GammaF>
         rasterizer_scanline_aa(const GammaF& gamma_function, unsigned cell_block_limit) :
             m_outline(cell_block_limit),
             m_clipper(m_outline),
