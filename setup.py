@@ -26,10 +26,60 @@
 
 from distutils.core import setup
 from distutils.extension import Extension
-import numpy
 import os
+import os.path as op
 import subprocess
 import sys
+
+import numpy
+try:
+    from Cython.Distutils import build_ext
+except ImportError:
+    build_ext = None
+    print("Cython does not appear to be installed.  Will attempt to use "
+          "pre-made cpp file...")
+
+
+def get_freetype_info():
+    """ Use pkg-config to locate the freetype2 library installed on the system.
+
+    If it's not installed at the system level, attempt to find it in the
+    pkgconfig directory for the currently running Python interpreter.
+    """
+    def run_cmd(cmd, env=None):
+        output = subprocess.check_output(cmd, universal_newlines=True, env=env,
+                                         stderr=subprocess.DEVNULL)
+        return output.split()
+
+    def collect_data(env=None):
+        cmd_prefix = ['pkg-config', 'freetype2']
+        commands = {'cflags': ['--cflags'], 'ldflags': ['--libs']}
+
+        data = {}
+        try:
+            for key, args in commands.items():
+                data[key] = run_cmd(cmd_prefix + args, env=env)
+        except subprocess.CalledProcessError:
+            pass
+        return data
+
+    data = collect_data()
+    if len(data) < 2:
+        # Try again with the Python env's pkgconfig directory added
+        env = os.environ.copy()
+        env['PKG_CONFIG_PATH'] = op.join(sys.exec_prefix, 'lib', 'pkgconfig')
+        data = collect_data(env=env)
+
+    if len(data) < 2:
+        msg = ("Failed to execute pkg-config freetype2.  If freetype is "
+               "installed in standard system locations, it may work to run "
+               "this script with --no-freetype-pkg-config.  Otherwise, "
+               "appropriate CFLAGS and LDFLAGS environment variables must be "
+               "set.")
+        sys.stderr.write(msg)
+        exit(-1)
+    return data['cflags'], data['ldflags']
+
 
 cpp_sources = [
     'cython/ndarray_canvas.cpp',
@@ -73,7 +123,6 @@ cythoned_source = 'cython/pyagg.cpp'
 include_dirs = ['agg-svn/agg-2.4/include',
                 'agg-svn/agg-2.4',
                 numpy.get_include()]
-
 extra_compile_args = []
 extra_link_args = []
 define_macros = []
@@ -92,18 +141,10 @@ if with_freetype:
     if '--no-freetype-pkg-config' in sys.argv:
         idx = sys.argv.index('--no-freetype-pkg-config')
         del sys.argv[idx]
-        freetype_cflags = ''
-        freetype_libs = ''
     else:
-        try:
-            extra_compile_args.extend(subprocess.check_output(['pkg-config', 'freetype2', '--cflags'], universal_newlines=True).split())
-            extra_link_args.extend(subprocess.check_output(['pkg-config', 'freetype2', '--libs'], universal_newlines=True).split())
-        except subprocess.CalledProcessError:
-            e = 'Failed to execute pkg-config freetype2.  If freetype is installed in standard system locations, '
-            e+= 'it may work to run this script with --no-freetype-pkg-config.  Otherwise, appropriate CFLAGS and '
-            e+= 'LDFLAGS environment variables must be set.\n'
-            sys.stderr.write(e)
-            exit(-1)
+        cflags, ldflags = get_freetype_info()
+        extra_compile_args.extend(cflags)
+        extra_link_args.extend(ldflags)
     include_dirs.append('agg-svn/agg-2.4/font_freetype')
     cpp_sources.append('agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp')
     define_macros.append(('AGG2D_USE_FREETYPE', 1))
@@ -111,34 +152,26 @@ else:
     include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
     cpp_sources.append('agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp')
 
-try:
-    from Cython.Distutils import build_ext
+if build_ext is not None:
+    # Run Cython
+    extension = Extension('pyagg',
+                          sources=[cython_source] + cpp_sources,
+                          include_dirs=include_dirs,
+                          define_macros=define_macros,
+                          language='c++',
+                          depends=cython_source_deps,
+                          extra_compile_args=extra_compile_args,
+                          extra_link_args=extra_link_args)
+    kwargs = {'ext_modules': [extension], 'cmdclass': {'build_ext': build_ext}}
+else:
+    # Don't run Cython
+    extension = Extension('pyagg',
+                          sources=[cythoned_source] + cpp_sources,
+                          include_dirs=include_dirs,
+                          define_macros=define_macros,
+                          language='c++',
+                          extra_compile_args=extra_compile_args,
+                          extra_link_args=extra_link_args)
+    kwargs = {'ext_modules': [extension]}
 
-    ext_modules = [Extension('pyagg',
-                             sources = [cython_source,] + cpp_sources,
-                             include_dirs = include_dirs,
-                             define_macros = define_macros,
-                             language = 'c++',
-                             depends = cython_source_deps,
-                             extra_compile_args = extra_compile_args,
-                             extra_link_args = extra_link_args
-                             )]
-
-    setup(name = 'pyagg',
-          cmdclass = {'build_ext' : build_ext},
-          ext_modules = ext_modules)
-except ImportError:
-    print('Cython does not appear to be installed.  Attempting to use pre-made cpp file...')
-
-    ext_modules = [Extension('pyagg',
-                             sources = [cythoned_source,] + cpp_sources,
-                             include_dirs = include_dirs,
-                             define_macros = define_macros,
-                             language = 'c++',
-                             depends = cython_source_deps,
-                             extra_compile_args = extra_compile_args,
-                             extra_link_args = extra_link_args
-                             )]
-
-    setup(name = 'pyagg',
-          ext_modules = ext_modules)
+setup(name='pyagg', **kwargs)
