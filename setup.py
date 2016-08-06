@@ -116,8 +116,10 @@ cython_source = 'cython/pyagg.pyx'
 cython_source_deps = [
     'cython/_agg2d.pxd',
     'cython/_pyagg.pxd',
+    'cython/_graphics_state.pxd',
     'cython/agg2d.pxi',
-    'cython/ndarray_canvas.pxi']
+    'cython/ndarray_canvas.pxi',
+    'cython/graphics_state.pxi']
 cythoned_source = 'cython/pyagg.cpp'
 
 include_dirs = ['agg-svn/agg-2.4/include',

@@ -34,8 +34,7 @@ class GraphicsState
 {
 public:
     typedef agg::srgba8 Color;
-    typedef agg::rect_i Rect;
-    typedef agg::rect_d RectD;
+    typedef agg::rect_d Rect;
 
     enum LineJoin
     {
@@ -81,21 +80,26 @@ public:
     };
 
     GraphicsState() :
-        m_clipBox(0,0,0,0),
+        m_clipBox(0, 0, 0, 0),
         m_blendMode(BlendAlpha),
         m_imageBlendMode(BlendDst),
-        m_imageBlendColor(0,0,0),
+        m_imageBlendColor(0, 0, 0),
         m_masterAlpha(1.0),
         m_antiAliasGamma(1.0),
         m_fillColor(255, 255, 255),
-        m_lineColor(0,   0,   0),
+        m_lineColor(0, 0, 0),
         m_lineCap(CapRound),
         m_lineJoin(JoinRound),
         m_lineWidth(1),
+        m_antiAliased(true),
         m_evenOddFlag(false) {}
 
-    void clipBox(double x1, double y1, double x2, double y2) { m_clipBox = RectD(x1, y1, x2, y2); }
-    RectD clipBox() const { return m_clipBox; }
+    void antiAliased(bool aa) { m_antiAliased = aa; }
+    bool antiAliased() const { return m_antiAliased; }
+
+    void clipBox(Rect r) { m_clipBox = r; }
+    void clipBox(double x1, double y1, double x2, double y2) { clipBox(Rect(x1, y1, x2, y2)); }
+    Rect clipBox() const { return m_clipBox; }
 
     void blendMode(BlendMode m) { m_blendMode = m; }
     BlendMode blendMode() const { return m_blendMode; }
@@ -113,16 +117,15 @@ public:
     void antiAliasGamma(double g) { m_antiAliasGamma = g; }
     double antiAliasGamma() const { return m_antiAliasGamma; }
 
+    Color fillColor() const { return m_fillColor; }
     void fillColor(Color c) { m_fillColor = c; }
     void fillColor(unsigned r, unsigned g, unsigned b, unsigned a) { fillColor(Color(r, g, b, a)); }
     void noFill() { fillColor(Color(0, 0, 0, 0)); }
 
+    Color lineColor() const { return m_lineColor; }
     void lineColor(Color c) { m_lineColor = c; }
     void lineColor(unsigned r, unsigned g, unsigned b, unsigned a) { lineColor(Color(r, g, b, a)); }
     void noLine() { lineColor(Color(0, 0, 0, 0)); }
-
-    Color fillColor() const { return m_fillColor; }
-    Color lineColor() const { return m_lineColor; }
 
     void lineWidth(double w) { m_lineWidth = w; }
     double lineWidth() const { return m_lineWidth; }
@@ -137,8 +140,8 @@ public:
     bool fillEvenOdd() const { return m_evenOddFlag; }
 
 private:
-    RectD	    m_clipBox;
-    BlendMode	m_blendMode;
+    Rect        m_clipBox;
+    BlendMode   m_blendMode;
     BlendMode   m_imageBlendMode;
     Color       m_imageBlendColor;
     double      m_masterAlpha;
@@ -148,6 +151,7 @@ private:
     LineCap     m_lineCap;
     LineJoin    m_lineJoin;
     double      m_lineWidth;
+    bool        m_antiAliased;
     bool        m_evenOddFlag;
 };
 

@@ -29,23 +29,23 @@ from libc.stdint cimport uint8_t
 from libcpp cimport bool
 
 
-cdef extern from "agg_color_rgba.h" namespace "agg":
-    cdef cppclass srgba8:
+cdef extern from "graphics_state.h" namespace "GraphicsState":
+    cdef cppclass Color:
         uint8_t r
         uint8_t g
         uint8_t b
         uint8_t a
-        srgba8()
-        srgba8(unsigned r_, unsigned g_, unsigned b_, unsigned a_)
+        Color()
+        Color(unsigned r_, unsigned g_, unsigned b_, unsigned a_)
 
-cdef extern from "graphics_state.h" namespace "GraphicsState":
-    cdef cppclass RectD:
+    cdef cppclass Rect:
         double x1
         double y1
         double x2
         double y2
-        RectD()
-        RectD(double x1, double y1, double x2, double y2)
+        Rect()
+        Rect(double x1, double y1, double x2, double y2)
+        bool is_valid() const
 
     cdef enum LineJoin:
         JoinMiter
@@ -88,8 +88,12 @@ cdef extern from "graphics_state.h":
     cdef cppclass GraphicsState:
         GraphicsState()
 
+        void antiAliased(bool aa)
+        bool antiAliased() const
+
+        void clipBox(Rect r)
         void  clipBox(double x1, double y1, double x2, double y2)
-        RectD clipBox() const
+        Rect clipBox() const
 
         void blendMode(BlendMode m)
         BlendMode blendMode() const
@@ -97,8 +101,9 @@ cdef extern from "graphics_state.h":
         void imageBlendMode(BlendMode m)
         BlendMode imageBlendMode() const
 
+        void imageBlendColor(Color c)
         void imageBlendColor(unsigned r, unsigned g, unsigned b, unsigned a)
-        srgba8 imageBlendColor() const
+        Color imageBlendColor() const
 
         void masterAlpha(double a)
         double masterAlpha() const
@@ -106,14 +111,15 @@ cdef extern from "graphics_state.h":
         void antiAliasGamma(double g)
         double antiAliasGamma() const
 
+        Color fillColor() const
+        void fillColor(Color c)
         void fillColor(unsigned r, unsigned g, unsigned b, unsigned a)
         void noFill()
 
+        Color lineColor() const
+        void lineColor(Color c)
         void lineColor(unsigned r, unsigned g, unsigned b, unsigned a)
         void noLine()
-
-        srgba8 fillColor() const
-        srgba8 lineColor() const
 
         void lineWidth(double w)
         double lineWidth() const
