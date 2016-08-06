@@ -31,7 +31,9 @@ import numpy
 from libc.stdint cimport (uint8_t, uint16_t, uint32_t, uint64_t)
 cimport _pyagg
 cimport _agg2d
+cimport _graphics_state
 
 include "ndarray_canvas.pxi"
 include "agg2d.pxi"
+include "graphics_state.pxi"
 include "fast_hist.pxi"
