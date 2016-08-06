@@ -1,2 +1,25 @@
-build/
+# OS-specific
+.DS_Store
+
+# Editor files
+.#*
+[#]*#
+*~
+*$
+*.bak
+*.kdev4
+.project
+.pydevproject
+.vscode
+*.swp
+.idea
+
+# Compiled source
+*.o
+*.py[ocd]
 *.so
+
+# Python files
+*.egg-info
+build
+dist
