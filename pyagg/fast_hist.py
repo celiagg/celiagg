@@ -1,7 +1,9 @@
-import numpy
-from . import pyagg
-import concurrent.futures as futures
 from collections import namedtuple
+import concurrent.futures as futures
+import numpy
+
+from ._pyagg import (hist_min_max_float32, hist_min_max_uint12,
+                     hist_min_max_uint16, hist_min_max_uint8)
 
 HistogramReturn = namedtuple('HistogramReturn', ('histogram', 'max_bin', 'min_intensity', 'max_intensity'))
 
@@ -11,16 +13,16 @@ def histogram(array, twelve_bit=False, n_bins=1024, hist_max=None, hist_min=None
     array = numpy.asarray(array)
     extra_args = ()
     if array.dtype == numpy.uint8:
-        function = pyagg.hist_min_max_uint8
+        function = hist_min_max_uint8
         n_bins = 256
     elif array.dtype == numpy.uint16:
         n_bins = 1024
         if twelve_bit:
-            function = pyagg.hist_min_max_uint12
+            function = hist_min_max_uint12
         else:
-            function = pyagg.hist_min_max_uint16
+            function = hist_min_max_uint16
     elif array.dtype == numpy.float32:
-        function = pyagg.hist_min_max_float32
+        function = hist_min_max_float32
         if hist_max is None:
             hist_max = array.max()
         if hist_min is None:

@@ -108,4 +108,4 @@ include_directories(USER ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4
                          ${PROJECT_SOURCE_DIR}/agg-svn/agg-2.4/include/ctrl)
 
 add_subdirectory(agg-svn/agg-2.4/src)
-add_subdirectory(cython)
+add_subdirectory(pyagg)
