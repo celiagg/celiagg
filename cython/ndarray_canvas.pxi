@@ -94,40 +94,15 @@ cdef class ndarray_canvas_base_uint8:
         # why self.py_image.base is returned rather than self.py_image).
         return self.py_image.base
 
-    cdef uint8_t[::1] get_color(self, c, name):
-        cdef uint8_t[::1] c_npy
-        if c is None:
-            c_npy = self.default_color
-        else:
-            if type(c) in (float, int):
-                c = (c,) # Cython's numpy.asarray requires an iterable
-            c_npy = numpy.asarray(c, dtype=numpy.uint8, order='c')
-            if c_npy.ndim > 1:
-                msg = ('{} argument must be a flat iterable (except in the '
-                       'case of grayscale canvases, for which a scalar value '
-                       'is acceptable).').format(name)
-                raise ValueError(msg)
-            if c_npy.shape[0] == self.blend_channel_count - 1:
-                c_npy = numpy.hstack((c_npy, 255)).astype(numpy.uint8)
-            elif c_npy.shape[0] != self.blend_channel_count:
-                msg = ('If {} argument is not None, it must contain {} or {} '
-                       'elements.').format(name, self.blend_channel_count-1,
-                                           self.blend_channel_count)
-                raise ValueError(msg)
-        return c_npy
-
-    def draw_line(self, x0, y0, x1, y1, state):
+    def draw_line(self, x0, y0, x1, y1, GraphicsState state):
         """draw_line(self, x0, y0, x1, y1, state):
           x0...y1: Start and endpoint coordinates
           state: A GraphicsState object
                  line width, line color, anti-aliased
         """
-        cdef uint8_t[::1] c_npy = self.get_color(state.line_color, '')
-        cdef double width = state.line_width
-        cdef bool aa = state.anti_aliased
-        self._this.draw_line(x0, y0, x1, y1, width, &c_npy[0], aa)
+        self._this.draw_line(x0, y0, x1, y1, state._this[0])
 
-    def draw_polygon(self, points, state):
+    def draw_polygon(self, points, GraphicsState state):
         """draw_polygon(self, points, state):
           points: Iterable of (x, y) pairs
           state: A GraphicsState object
@@ -136,41 +111,23 @@ cdef class ndarray_canvas_base_uint8:
         cdef double[:,::1] points_npy = numpy.asarray(points,
                                                       dtype=numpy.float64,
                                                       order='c')
-        cdef uint8_t[::1] line_c_npy
-        cdef uint8_t[::1] fill_c_npy
-
         if points_npy.shape[1] != 2:
             msg = 'Points argument must be an iterable of (x, y) pairs.'
             raise ValueError(msg)
 
-        line_c_npy = self.get_color(state.line_color, '')
-        fill_c_npy = self.get_color(state.fill_color, '')
-        cdef double width = state.line_width
-        cdef bool draw_line = state.line_color.invisible
-        cdef bool draw_fill = state.fill_color.invisible
-        cdef bool aa = state.anti_aliased
         self._this.draw_polygon(&points_npy[0][0], points_npy.shape[0],
-                                draw_line, width, &line_c_npy[0],
-                                draw_fill, &fill_c_npy[0], aa)
+                                state._this[0])
 
-    def draw_ellipse(self, cx, cy, rx, ry, state):
+    def draw_ellipse(self, cx, cy, rx, ry, GraphicsState state):
         """draw_ellipse(self, cx, cy, rx, ry, state):
           cx, cy: Ellipse center
           rx, ry: Radius of ellipse along x and y axes
           state: A GraphicsState object
                  line color, line width, fill color, anti-aliased
         """
-        cdef uint8_t[::1] line_c_npy = self.get_color(state.line_color, '')
-        cdef uint8_t[::1] fill_c_npy = self.get_color(state.fill_color, '')
-        cdef double width = state.line_width
-        cdef bool draw_line = state.line_color.invisible
-        cdef bool draw_fill = state.fill_color.invisible
-        cdef bool aa = state.anti_aliased
-        self._this.draw_ellipse(cx, cy, rx, ry,
-                                draw_line, width, &line_c_npy[0],
-                                draw_fill, &fill_c_npy[0], aa)
+        self._this.draw_ellipse(cx, cy, rx, ry, state._this[0])
 
-    def draw_bezier3(self, x0, y0, x_ctrl, y_ctrl, x1, y1, state):
+    def draw_bezier3(self, x0, y0, x_ctrl, y_ctrl, x1, y1, GraphicsState state):
         """draw_bezier3(self, x0, y0, x_ctrl, y_ctrl, x1, y1, state):
         Draws a quadratic Bezier curve.
           x0, y0: Start point
@@ -179,13 +136,9 @@ cdef class ndarray_canvas_base_uint8:
           state: A GraphicsState object
                  line color, line width, anti-aliased
         """
-        cdef uint8_t[::1] c_npy = self.get_color(state.line_color, '')
-        cdef double width = state.line_width
-        cdef bool aa = state.anti_aliased
-        self._this.draw_bezier3(x0, y0, x_ctrl, y_ctrl, x1, y1, width,
-                                &c_npy[0], aa)
+        self._this.draw_bezier3(x0, y0, x_ctrl, y_ctrl, x1, y1, state._this[0])
 
-    def draw_bezier3_composite(self, points, state):
+    def draw_bezier3_composite(self, points, GraphicsState state):
         """draw_bezier3_composite(self, points, state):
         Draws a series of quadratic Bezier curves with optional even/odd filling.
           points: Iterable of (x, y) pairs defining a series of quadratic Bezier
@@ -208,8 +161,6 @@ cdef class ndarray_canvas_base_uint8:
         cdef double[:,::1] points_npy = numpy.asarray(points,
                                                       dtype=numpy.float64,
                                                       order='c')
-        cdef uint8_t[::1] line_c_npy
-        cdef uint8_t[::1] fill_c_npy
 
         if points_npy.shape[1] != 2:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
@@ -220,18 +171,11 @@ cdef class ndarray_canvas_base_uint8:
                    'at least one pair of control and start/end points.')
             raise ValueError(msg)
 
-        line_c_npy = self.get_color(state.line_color, '')
-        fill_c_npy = self.get_color(state.fill_color, '')
-        cdef double width = state.line_width
-        cdef bool draw_line = state.line_color.invisible
-        cdef bool draw_fill = state.fill_color.invisible
-        cdef bool aa = state.anti_aliased
         self._this.draw_bezier3_composite(&points_npy[0][0], points_npy.shape[0],
-                                          draw_line, width, &line_c_npy[0],
-                                          draw_fill, &fill_c_npy[0], aa)
+                                          state._this[0])
 
     def draw_bezier4(self, x0, y0, x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1, y1,
-                     state):
+                     GraphicsState state):
         """draw_bezier3(self, x0, y0, x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1,
                         y1, state):
         Draws a cubic Bezier curve.
@@ -242,13 +186,10 @@ cdef class ndarray_canvas_base_uint8:
           state: A GraphicsState object
                  line color, line width, anti-aliased
         """
-        cdef uint8_t[::1] c_npy = self.get_color(state.line_color, '')
-        cdef double width = state.line_width
-        cdef bool aa = state.anti_aliased
         self._this.draw_bezier4(x0, y0, x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1,
-                                y1, width, &c_npy[0], aa)
+                                y1, state._this[0])
 
-    def draw_bezier4_composite(self, points, state):
+    def draw_bezier4_composite(self, points, GraphicsState state):
         """draw_bezier4_composite(self, points, state):
         Draws a series of cubic Bezier curves with optional even/odd filling.
           points: Iterable of (x, y) pairs defining a series of cubic Bezier
@@ -274,8 +215,6 @@ cdef class ndarray_canvas_base_uint8:
         cdef double[:,::1] points_npy = numpy.asarray(points,
                                                       dtype=numpy.float64,
                                                       order='c')
-        cdef uint8_t[::1] line_c_npy
-        cdef uint8_t[::1] fill_c_npy
 
         if points_npy.shape[1] != 2:
             raise ValueError('points argument must be an iterable of (x, y) pairs.')
@@ -287,17 +226,10 @@ cdef class ndarray_canvas_base_uint8:
                    'start/end point.')
             raise ValueError(msg)
 
-        line_c_npy = self.get_color(state.line_color, '')
-        fill_c_npy = self.get_color(state.fill_color, '')
-        cdef double width = state.line_width
-        cdef bool draw_line = state.line_color.invisible
-        cdef bool draw_fill = state.fill_color.invisible
-        cdef bool aa = state.anti_aliased
         self._this.draw_bezier4_composite(&points_npy[0][0], points_npy.shape[0],
-                                          draw_line, width, &line_c_npy[0],
-                                          draw_fill, &fill_c_npy[0], aa)
+                                          state._this[0])
 
-    def draw_bspline(self, points, state):
+    def draw_bspline(self, points, GraphicsState state):
         """draw_bspline(self, points, state):
           points: Iterable of (x, y) pairs representing B-spline control points
           state: A GraphicsState object
@@ -306,22 +238,13 @@ cdef class ndarray_canvas_base_uint8:
         cdef double[:,::1] points_npy = numpy.asarray(points,
                                                       dtype=numpy.float64,
                                                       order='c')
-        cdef uint8_t[::1] line_c_npy
-        cdef uint8_t[::1] fill_c_npy
 
         if points_npy.shape[1] != 2:
             msg = 'Points argument must be an iterable of (x, y) pairs.'
             raise ValueError(msg)
 
-        line_c_npy = self.get_color(state.line_color, '')
-        fill_c_npy = self.get_color(state.fill_color, '')
-        cdef double width = state.line_width
-        cdef bool draw_line = state.line_color.invisible
-        cdef bool draw_fill = state.fill_color.invisible
-        cdef bool aa = state.anti_aliased
         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
-                                draw_line, width, &line_c_npy[0],
-                                draw_fill, &fill_c_npy[0], aa)
+                                state._this[0])
 
 
 cdef class ndarray_canvas_rgba32(ndarray_canvas_base_uint8):

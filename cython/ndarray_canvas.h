@@ -27,22 +27,22 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-#include "agg_bezier_arc.h"
-#include "agg_bspline.h"
-#include "agg_conv_bspline.h"
-#include "agg_conv_contour.h"
-#include "agg_conv_curve.h"
-#include "agg_conv_stroke.h"
-#include "agg_path_storage.h"
-#include "agg_pixfmt_gray.h"
-#include "agg_pixfmt_rgb.h"
-#include "agg_pixfmt_rgba.h"
-#include "agg_rasterizer_scanline_aa.h"
-#include "agg_renderer_base.h"
-#include "agg_renderer_scanline.h"
-#include "agg_rendering_buffer.h"
-#include "agg_scanline_p.h"
-#include "ctrl/agg_polygon_ctrl.h"
+#include <agg_bezier_arc.h>
+#include <agg_bspline.h>
+#include <agg_conv_bspline.h>
+#include <agg_conv_contour.h>
+#include <agg_conv_curve.h>
+#include <agg_conv_stroke.h>
+#include <agg_path_storage.h>
+#include <agg_pixfmt_gray.h>
+#include <agg_pixfmt_rgb.h>
+#include <agg_pixfmt_rgba.h>
+#include <agg_rasterizer_scanline_aa.h>
+#include <agg_renderer_base.h>
+#include <agg_renderer_scanline.h>
+#include <agg_rendering_buffer.h>
+#include <agg_scanline_p.h>
+#include <ctrl/agg_polygon_ctrl.h>
 
 #if defined(__UINT32_MAX__) || defined(UINT32_MAX)
  #include <inttypes.h>
@@ -52,6 +52,8 @@
  typedef unsigned long uint32_t;
  typedef unsigned long long uint64_t;
 #endif
+
+#include "graphics_state.h"
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
 // able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
@@ -68,48 +70,34 @@ public:
 
     virtual void draw_line(const double& x0, const double& y0,
                            const double& x1, const double& y1,
-                           const double& w,
-                           const value_type_T* c,
-                           const bool& aa) = 0;
+                           const GraphicsState& gs) = 0;
 
     virtual void draw_polygon(const double* points, const size_t& point_count,
-                              const bool& line, const double& line_w, const value_type_T* line_c,
-                              const bool& fill, const value_type_T* fill_c,
-                              const bool& aa) = 0;
+                              const GraphicsState& gs) = 0;
 
     virtual void draw_ellipse(const double& cx, const double& cy,
                               const double& rx, const double& ry,
-                              const bool& line, const double& line_w, const value_type_T* line_c,
-                              const bool& fill, const value_type_T* fill_c,
-                              const bool& aa) = 0;
+                              const GraphicsState& gs) = 0;
 
     virtual void draw_bezier3(const double& x0, const double& y0,
                               const double& x_ctrl, const double& y_ctrl,
                               const double& x1, const double& y1,
-                              const double& w, const value_type_T* c,
-                              const bool& aa) = 0;
+                              const GraphicsState& gs) = 0;
 
     virtual void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                        const bool& line, const double& line_w, const value_type_T* line_c,
-                                        const bool& fill, const value_type_T* fill_c,
-                                        const bool& aa) = 0;
+                                        const GraphicsState& gs) = 0;
 
     virtual void draw_bezier4(const double& x0, const double& y0,
                               const double& x_ctrl0, const double& y_ctrl0,
                               const double& x_ctrl1, const double& y_ctrl1,
                               const double& x1, const double& y1,
-                              const double& w, const value_type_T* c,
-                              const bool& aa) = 0;
+                              const GraphicsState& gs) = 0;
 
     virtual void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                        const bool& line, const double& line_w, const value_type_T* line_c,
-                                        const bool& fill, const value_type_T* fill_c,
-                                        const bool& aa) = 0;
+                                        const GraphicsState& gs) = 0;
 
     virtual void draw_bspline(const double* points, const size_t& point_count,
-                              const bool& line, const double& line_w, const value_type_T* line_c,
-                              const bool& fill, const value_type_T* fill_c,
-                              const bool& aa) = 0;
+                              const GraphicsState& gs) = 0;
 };
 
 template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
@@ -128,48 +116,34 @@ public:
 
     void draw_line(const double& x0, const double& y0,
                    const double& x1, const double& y1,
-                   const double& w,
-                   const value_type_T* c,
-                   const bool& aa);
+                   const GraphicsState& gs);
 
     void draw_polygon(const double* points, const size_t& point_count,
-                      const bool& line, const double& line_w, const value_type_T* line_c,
-                      const bool& fill, const value_type_T* fill_c,
-                      const bool& aa);
+                      const GraphicsState& gs);
 
     void draw_ellipse(const double& cx, const double& cy,
                       const double& rx, const double& ry,
-                      const bool& line, const double& line_w, const value_type_T* line_c,
-                      const bool& fill, const value_type_T* fill_c,
-                      const bool& aa);
+                      const GraphicsState& gs);
 
     void draw_bezier3(const double& x0, const double& y0,
                       const double& x_ctrl, const double& y_ctrl,
                       const double& x1, const double& y1,
-                      const double& w, const value_type_T* c,
-                      const bool& aa);
+                      const GraphicsState& gs);
 
     void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                const bool& line, const double& line_w, const value_type_T* line_c,
-                                const bool& fill, const value_type_T* fill_c,
-                                const bool& aa);
+                                const GraphicsState& gs);
 
     void draw_bezier4(const double& x0, const double& y0,
                       const double& x_ctrl0, const double& y_ctrl0,
                       const double& x_ctrl1, const double& y_ctrl1,
                       const double& x1, const double& y1,
-                      const double& w, const value_type_T* c,
-                      const bool& aa);
+                      const GraphicsState& gs);
 
     void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                const bool& line, const double& line_w, const value_type_T* line_c,
-                                const bool& fill, const value_type_T* fill_c,
-                                const bool& aa);
+                                const GraphicsState& gs);
 
     void draw_bspline(const double* points, const size_t& point_count,
-                      const bool& line, const double& line_w, const value_type_T* line_c,
-                      const bool& fill, const value_type_T* fill_c,
-                      const bool& aa);
+                      const GraphicsState& gs);
 
 protected:
     typedef agg::renderer_base<pixfmt_T> rendererbase_t;
@@ -201,16 +175,23 @@ private:
 typedef agg::pixfmt_alpha_blend_gray<agg::blender_gray8, agg::rendering_buffer, 1, 0> pixfmt_gray8_no_alpha;
 
 template<typename pixfmt_T>
-typename pixfmt_T::color_type color_from_channel_array(const typename pixfmt_T::value_type* c);
+typename pixfmt_T::color_type color_from_srgba8(const agg::srgba8& c);
+template<typename pixfmt_T>
+bool color_is_visible(const agg::srgba8& c);
 
 template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const uint8_t* c);
+agg::pixfmt_rgba32::color_type color_from_srgba8<agg::pixfmt_rgba32>(const agg::srgba8& c);
+template<>
+agg::pixfmt_rgb24::color_type color_from_srgba8<agg::pixfmt_rgb24>(const agg::srgba8& c);
+template<>
+agg::pixfmt_gray8::color_type color_from_srgba8<agg::pixfmt_gray8>(const agg::srgba8& c);
 
 template<>
-agg::pixfmt_rgb24::color_type color_from_channel_array<agg::pixfmt_rgb24>(const uint8_t* c);
-
+bool color_is_visible<agg::pixfmt_rgba32>(const agg::srgba8& c);
 template<>
-agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const uint8_t* c);
+bool color_is_visible<agg::pixfmt_rgb24>(const agg::srgba8& c);
+template<>
+bool color_is_visible<agg::pixfmt_gray8>(const agg::srgba8& c);
 
 #include "ndarray_canvas.hxx"
 

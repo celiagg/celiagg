@@ -27,6 +27,7 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
+cimport _graphics_state
 
 cdef extern from "ndarray_canvas.h" namespace "agg":
     cdef cppclass pixfmt_rgb24:
@@ -52,81 +53,57 @@ cdef extern from "ndarray_canvas.h":
         unsigned height() const
         void draw_line(const double& x0, const double& y0,
                        const double& x1, const double& y1,
-                       const double& w,
-                       const value_type_T* c,
-                       const bool& aa)
+                       const _graphics_state.GraphicsState& gs)
         void draw_polygon(const double* points, const size_t& point_count,
-                          const bool& line, const double& line_w, const value_type_T* line_c,
-                          const bool& fill, const value_type_T* fill_c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_ellipse(const double& cx, const double& cy,
                           const double& rx, const double& ry,
-                          const bool& line, const double& line_w, const value_type_T* line_c,
-                          const bool& fill, const value_type_T* fill_c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_bezier3(const double& x0, const double& y0,
                           const double& x_ctrl, const double& y_ctrl,
                           const double& x1, const double& y1,
-                          const double& w, const value_type_T* c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                    const bool& line, const double& line_w, const value_type_T* line_c,
-                                    const bool& fill, const value_type_T* fill_c,
-                                    const bool& aa)
+                                    const _graphics_state.GraphicsState& gs)
         void draw_bezier4(const double& x0, const double& y0,
                           const double& x_ctrl0, const double& y_ctrl0,
                           const double& x_ctrl1, const double& y_ctrl1,
                           const double& x1, const double& y1,
-                          const double& w, const value_type_T* c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                    const bool& line, const double& line_w, const value_type_T* line_c,
-                                    const bool& fill, const value_type_T* fill_c,
-                                    const bool& aa)
+                                    const _graphics_state.GraphicsState& gs);
         void draw_bspline(const double* points, const size_t& point_count,
-                          const bool& line, const double& line_w, const value_type_T* line_c,
-                          const bool& fill, const value_type_T* fill_c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
 
     cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
-        ndarray_canvas(value_type_T* buf, const unsigned& width, const unsigned& height, const int& stride, const size_t& channel_count)
+        ndarray_canvas(value_type_T* buf,
+                       const unsigned& width,
+                       const unsigned& height,
+                       const int& stride,
+                       const size_t& channel_count)
         const size_t& channel_count() const
         unsigned width() const
         unsigned height() const
         void draw_line(const double& x0, const double& y0,
                        const double& x1, const double& y1,
-                       const double& w,
-                       const value_type_T* c,
-                       const bool& aa)
+                       const _graphics_state.GraphicsState& gs)
         void draw_polygon(const double* points, const size_t& point_count,
-                          const bool& line, const double& line_w, const uint8_t* line_c,
-                          const bool& fill, const value_type_T* fill_c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_ellipse(const double& cx, const double& cy,
                           const double& rx, const double& ry,
-                          const bool& line, const double& line_w, const value_type_T* line_c,
-                          const bool& fill, const value_type_T* fill_c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_bezier3(const double& x0, const double& y0,
                           const double& x_ctrl, const double& y_ctrl,
                           const double& x1, const double& y1,
-                          const double& w, const value_type_T* c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                    const bool& line, const double& line_w, const value_type_T* line_c,
-                                    const bool& fill, const value_type_T* fill_c,
-                                    const bool& aa)
+                                    const _graphics_state.GraphicsState& gs)
         void draw_bezier4(const double& x0, const double& y0,
                           const double& x_ctrl0, const double& y_ctrl0,
                           const double& x_ctrl1, const double& y_ctrl1,
                           const double& x1, const double& y1,
-                          const double& w, const value_type_T* c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)
         void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                    const bool& line, const double& line_w, const value_type_T* line_c,
-                                    const bool& fill, const value_type_T* fill_c,
-                                    const bool& aa)
+                                    const _graphics_state.GraphicsState& gs)
         void draw_bspline(const double* points, const size_t& point_count,
-                          const bool& line, const double& line_w, const value_type_T* line_c,
-                          const bool& fill, const value_type_T* fill_c,
-                          const bool& aa)
+                          const _graphics_state.GraphicsState& gs)

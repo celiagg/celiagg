@@ -25,19 +25,37 @@
 #include "ndarray_canvas.h"
 
 template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgba32>(const uint8_t* c)
+agg::pixfmt_rgba32::color_type color_from_srgba8<agg::pixfmt_rgba32>(const agg::srgba8& c)
 {
-    return agg::pixfmt_rgba32::color_type(c[0], c[1], c[2], c[3]);
+    return agg::pixfmt_rgba32::color_type(c.r, c.g, c.b, c.a);
 }
 
 template<>
-agg::pixfmt_rgba32::color_type color_from_channel_array<agg::pixfmt_rgb24>(const uint8_t* c)
+agg::pixfmt_rgb24::color_type color_from_srgba8<agg::pixfmt_rgb24>(const agg::srgba8& c)
 {
-    return agg::pixfmt_rgb24::color_type(c[0], c[1], c[2], c[3]);
+    return agg::pixfmt_rgb24::color_type(c.r, c.g, c.b, c.a);
 }
 
 template<>
-agg::pixfmt_gray8::color_type color_from_channel_array<agg::pixfmt_gray8>(const uint8_t* c)
+agg::pixfmt_gray8::color_type color_from_srgba8<agg::pixfmt_gray8>(const agg::srgba8& c)
 {
-    return agg::pixfmt_gray8::color_type(c[0], c[1]);
+    return agg::pixfmt_gray8::color_type(c.r, c.a);
+}
+
+template<>
+bool color_is_visible<agg::pixfmt_rgba32>(const agg::srgba8& c)
+{
+    return c.r != 0 && c.g != 0 && c.b != 0 && c.a != 0;
+}
+
+template<>
+bool color_is_visible<agg::pixfmt_rgb24>(const agg::srgba8& c)
+{
+    return c.r != 0 && c.g != 0 && c.b != 0 && c.a != 0;
+}
+
+template<>
+bool color_is_visible<agg::pixfmt_gray8>(const agg::srgba8& c)
+{
+    return c.r != 0 && c.a != 0;
 }

@@ -64,29 +64,28 @@ unsigned ndarray_canvas<pixfmt_T, value_type_T>::height() const
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_line(const double& x0, const double& y0,
                                                        const double& x1, const double& y1,
-                                                       const double& w,
-                                                       const value_type_T* c,
-                                                       const bool& aa)
+                                                       const GraphicsState& gs)
 {
-    set_aa(aa);
+    set_aa(gs.antiAliased());
     agg::path_storage path;
     path.move_to(x0, y0);
     path.line_to(x1, y1);
     agg::conv_stroke<agg::path_storage> stroke(path);
-    stroke.width(w / 2);
+    stroke.width(gs.lineWidth() / 2);
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
-    m_renderer.color(color_from_channel_array<pixfmt_T>(c));
+    m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
     agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
 }
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, const size_t& point_count,
-                                                          const bool& line, const double& line_w, const value_type_T* line_c,
-                                                          const bool& fill, const value_type_T* fill_c,
-                                                          const bool& aa)
+                                                          const GraphicsState& gs)
 {
-    set_aa(aa);
+    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
+    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+
+    set_aa(gs.antiAliased());
     if(point_count >= 2 && (line || fill))
     {
         agg::path_storage path;
@@ -107,17 +106,17 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
             contour.auto_detect_orientation(true);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if(line)
         {
             agg::conv_stroke<agg::path_storage> stroke(path);
-            stroke.width(line_w / 2);
+            stroke.width(gs.lineWidth() / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
     }
@@ -126,13 +125,14 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, const double& cy,
                                                           const double& rx, const double& ry,
-                                                          const bool& line, const double& line_w, const value_type_T* line_c,
-                                                          const bool& fill, const value_type_T* fill_c,
-                                                          const bool& aa)
+                                                          const GraphicsState& gs)
 {
+    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
+    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+
     if(line || fill)
     {
-        set_aa(aa);
+        set_aa(gs.antiAliased());
         agg::bezier_arc arc(cx, cy, rx, ry, 0, M_PI + M_PI);
         agg::path_storage path;
         path.concat_path(arc, 0);
@@ -146,17 +146,17 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, cons
             contour.auto_detect_orientation(true);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if(line)
         {
             agg::conv_stroke<conv_curve_t> stroke(curve);
-            stroke.width(line_w / 2);
+            stroke.width(gs.lineWidth() / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
     }
@@ -166,32 +166,32 @@ template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3(const double& x0, const double& y0,
                                                           const double& x_ctrl, const double& y_ctrl,
                                                           const double& x1, const double& y1,
-                                                          const double& w, const value_type_T* c,
-                                                          const bool& aa)
+                                                          const GraphicsState& gs)
 {
-    set_aa(aa);
+    set_aa(gs.antiAliased());
     agg::path_storage path;
     path.move_to(x0, y0);
     path.curve3(x_ctrl, y_ctrl, x1, y1);
     typedef agg::conv_curve<agg::path_storage> conv_curve_t;
     conv_curve_t curve(path);
     agg::conv_stroke<conv_curve_t> stroke(curve);
-    stroke.width(w / 2);
+    stroke.width(gs.lineWidth() / 2);
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
-    m_renderer.color(color_from_channel_array<pixfmt_T>(c));
+    m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
     agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
 }
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double* points, const size_t& point_count,
-                                                                    const bool& line, const double& line_w, const value_type_T* line_c,
-                                                                    const bool& fill, const value_type_T* fill_c,
-                                                                    const bool& aa)
+                                                                    const GraphicsState& gs)
 {
+    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
+    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+
     if(line || fill)
     {
-        set_aa(aa);
+        set_aa(gs.antiAliased());
         agg::path_storage path;
         const double* point = points;
         const double*const points_end = point + point_count;
@@ -212,17 +212,17 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double
             contour.auto_detect_orientation(true);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if(line)
         {
             agg::conv_stroke<conv_curve_t> stroke(curve);
-            stroke.width(line_w / 2);
+            stroke.width(gs.lineWidth() / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
     }
@@ -233,32 +233,32 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4(const double& x0, cons
                                                           const double& x_ctrl0, const double& y_ctrl0,
                                                           const double& x_ctrl1, const double& y_ctrl1,
                                                           const double& x1, const double& y1,
-                                                          const double& w, const value_type_T* c,
-                                                          const bool& aa)
+                                                          const GraphicsState& gs)
 {
-    set_aa(aa);
+    set_aa(gs.antiAliased());
     agg::path_storage path;
     path.move_to(x0, y0);
     path.curve4(x_ctrl0, y_ctrl0, x_ctrl1, y_ctrl1, x1, y1);
     typedef agg::conv_curve<agg::path_storage> conv_curve_t;
     conv_curve_t curve(path);
     agg::conv_stroke<conv_curve_t> stroke(curve);
-    stroke.width(w / 2);
+    stroke.width(gs.lineWidth() / 2);
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
-    m_renderer.color(color_from_channel_array<pixfmt_T>(c));
+    m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
     agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
 }
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double* points, const size_t& point_count,
-                                                                    const bool& line, const double& line_w, const value_type_T* line_c,
-                                                                    const bool& fill, const value_type_T* fill_c,
-                                                                    const bool& aa)
+                                                                    const GraphicsState& gs)
 {
+    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
+    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+
     if(line || fill)
     {
-        set_aa(aa);
+        set_aa(gs.antiAliased());
         agg::path_storage path;
         const double* point = points;
         const double*const points_end = point + point_count;
@@ -279,17 +279,17 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
             contour.auto_detect_orientation(true);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if(line)
         {
             agg::conv_stroke<conv_curve_t> stroke(curve);
-            stroke.width(line_w / 2);
+            stroke.width(gs.lineWidth() / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
     }
@@ -297,13 +297,14 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, const size_t& point_count,
-                                                          const bool& line, const double& line_w, const value_type_T* line_c,
-                                                          const bool& fill, const value_type_T* fill_c,
-                                                          const bool& aa)
+                                                          const GraphicsState& gs)
 {
+    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
+    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+
     if(line || fill)
     {
-        set_aa(aa);
+        set_aa(gs.antiAliased());
         agg::simple_polygon_vertex_source path(points, point_count, false, false);
         typedef agg::conv_bspline<agg::simple_polygon_vertex_source> conv_bspline_t;
         conv_bspline_t bspline(path);
@@ -315,17 +316,17 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, 
             contour.auto_detect_orientation(true);
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(fill_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if(line)
         {
             agg::conv_stroke<conv_bspline_t> stroke(bspline);
-            stroke.width(line_w / 2);
+            stroke.width(gs.lineWidth() / 2);
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            m_renderer.color(color_from_channel_array<pixfmt_T>(line_c));
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
     }
