@@ -25,7 +25,7 @@
 
 from ._pyagg import (
     Agg2D, BlendMode, Color, Direction, DrawPathFlag, FontCacheType,
-    GraphicsState, Image, ImageFilter, ImageResample, LineCap, LineJoin,
+    GraphicsState, Image, ImageFilter, ImageResample, LineCap, LineJoin, Path,
     Rect, TextAlignment, Transform, ViewportOption
 )
 

@@ -28,14 +28,16 @@ from cython.operator cimport dereference
 from enum import IntEnum
 cimport numpy
 import numpy
-from libc.stdint cimport (uint8_t, uint16_t, uint32_t, uint64_t)
+from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
 cimport _pyagg
 cimport _agg2d
 cimport _graphics_state
+cimport _path
 cimport _transform
 
 include "ndarray_canvas.pxi"
 include "agg2d.pxi"
 include "graphics_state.pxi"
+include "path.pxi"
 include "transform.pxi"
 include "fast_hist.pxi"
