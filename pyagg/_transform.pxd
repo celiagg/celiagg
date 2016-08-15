@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2014 WUSTL ZPLAB
+# Copyright (c) 2016 WUSTL ZPLAB
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,22 +20,32 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Authors: Erik Hvatum <ice.rikh@gmail.com>
+# Authors: John Wiggins
 
-from libcpp cimport bool
-import cython
-from cython.operator cimport dereference
-from enum import IntEnum
-cimport numpy
-import numpy
-from libc.stdint cimport (uint8_t, uint16_t, uint32_t, uint64_t)
-cimport _pyagg
-cimport _agg2d
-cimport _graphics_state
-cimport _transform
 
-include "ndarray_canvas.pxi"
-include "agg2d.pxi"
-include "graphics_state.pxi"
-include "transform.pxi"
-include "fast_hist.pxi"
+cdef extern from "agg_trans_affine.h" namespace "agg":
+
+    cdef cppclass trans_affine:
+        double sx
+        double shy
+        double shx
+        double sy
+        double tx
+        double ty
+        trans_affine()
+
+        const trans_affine& reset()
+        const trans_affine& translate(double x, double y)
+        const trans_affine& rotate(double a)
+        const trans_affine& scale(double s)
+        const trans_affine& scale(double x, double y)
+        const trans_affine& multiply(const trans_affine& m)
+        const trans_affine& premultiply(const trans_affine& m)
+        const trans_affine& multiply_inv(const trans_affine& m)
+        const trans_affine& premultiply_inv(const trans_affine& m)
+        const trans_affine& invert()
+        void transform(double* x, double* y) const
+        void inverse_transform(double* x, double* y) const
+
+    cdef cppclass trans_affine_skewing(trans_affine):
+        trans_affine_skewing(double x, double y)

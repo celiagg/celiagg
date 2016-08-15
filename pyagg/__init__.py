@@ -25,8 +25,8 @@
 
 from ._pyagg import (
     Agg2D, BlendMode, Color, Direction, DrawPathFlag, FontCacheType,
-    GraphicsState, Image, ImageFilter, ImageResample, LineCap, LineJoin, Rect,
-    TextAlignment, ViewportOption
+    GraphicsState, Image, ImageFilter, ImageResample, LineCap, LineJoin,
+    Rect, TextAlignment, Transform, ViewportOption
 )
 
 from ._pyagg import (hist_min_max_float32, hist_min_max_uint12,
