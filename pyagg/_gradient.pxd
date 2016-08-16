@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2016 WUSTL ZPLAB
+# Copyright (c) 2016 WUSTL ZPLAB
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -9,8 +9,8 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,18 +20,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Authors: Erik Hvatum <ice.rikh@gmail.com>
-#          John Wiggins <john.wiggins@xfel.eu>
+# Authors: John Wiggins
 
-from ._pyagg import (
-    Agg2D, BlendMode, Color, Direction, DrawPathFlag, FontCacheType,
-    Gradient, GraphicsState, Image, ImageFilter, ImageResample, LineCap,
-    LineJoin, LinearGradient, Path, RadialGradient, Rect, TextAlignment,
-    Transform, ViewportOption
-)
+cimport _graphics_state
 
-from ._pyagg import (hist_min_max_float32, hist_min_max_uint12,
-                     hist_min_max_uint16, hist_min_max_uint8)
 
-from ._pyagg import (ndarray_canvas_g8, ndarray_canvas_ga16,
-                     ndarray_canvas_rgb24, ndarray_canvas_rgba32)
+cdef extern from "gradient.h":
+    cdef cppclass LinearGradientByte:
+        LinearGradientByte(double x1, double y1, double x2, double y2,
+                           _graphics_state.Color c1, _graphics_state.Color c2,
+                           double profile)
+
+    cdef cppclass RadialGradientByte:
+        RadialGradientByte(double x, double y, double r,
+                           _graphics_state.Color c1, _graphics_state.Color c2,
+                           double profile)

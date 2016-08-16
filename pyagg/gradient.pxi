@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2014 WUSTL ZPLAB
+# Copyright (c) 2016 WUSTL ZPLAB
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,33 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Authors: Erik Hvatum <ice.rikh@gmail.com>
+# Authors: John Wiggins
 
-from libcpp cimport bool
-import cython
-from cython.operator cimport dereference
-from enum import IntEnum
-cimport numpy
-import numpy
-from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
-cimport _pyagg
-cimport _agg2d
-cimport _gradient
-cimport _graphics_state
-cimport _path
-cimport _transform
+cdef class Gradient:
+    pass
 
-include "ndarray_canvas.pxi"
-include "agg2d.pxi"
-include "gradient.pxi"
-include "graphics_state.pxi"
-include "path.pxi"
-include "transform.pxi"
-include "fast_hist.pxi"
+
+cdef class LinearGradient(Gradient):
+    cdef _gradient.LinearGradientByte* _this
+
+    def __cinit__(self, double x1, double y1, double x2, double y2,
+                  Color c1, Color c2, double profile):
+        self._this = new _gradient.LinearGradientByte(x1, y1, x2, y2,
+                                                      c1._this[0], c2._this[0],
+                                                      profile)
+
+    def __dealloc__(self):
+        del self._this
+
+
+cdef class RadialGradient(Gradient):
+    cdef _gradient.RadialGradientByte* _this
+
+    def __cinit__(self, double x, double y, double r, Color c1, Color c2,
+                  double profile):
+        self._this = new _gradient.RadialGradientByte(x, y, r,
+                                                      c1._this[0], c2._this[0],
+                                                      profile)
+
+    def __dealloc__(self):
+        del self._this
