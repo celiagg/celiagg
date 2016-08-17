@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2014 WUSTL ZPLAB
+# Copyright (c) 2016 WUSTL ZPLAB
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,26 +20,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Authors: Erik Hvatum <ice.rikh@gmail.com>
+# Authors: John Wiggins
 
-from libcpp cimport bool
-import cython
-from cython.operator cimport dereference
-cimport numpy
-import numpy
-from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
+cdef extern from "graphics_state.h" namespace "GraphicsState":
+    cdef enum LineJoin:
+        JoinMiter
+        JoinRound
+        JoinBevel
 
-cimport _enums
-cimport _gradient
-cimport _graphics_state
-cimport _path
-cimport _pyagg
-cimport _transform
+    cdef enum LineCap:
+        CapButt
+        CapSquare
+        CapRound
 
-include "enums.pxi"
-include "fast_hist.pxi"
-include "gradient.pxi"
-include "graphics_state.pxi"
-include "ndarray_canvas.pxi"
-include "path.pxi"
-include "transform.pxi"
+    cdef enum BlendMode:
+        BlendAlpha
+        BlendClear
+        BlendSrc
+        BlendDst
+        BlendSrcOver
+        BlendDstOver
+        BlendSrcIn
+        BlendDstIn
+        BlendSrcOut
+        BlendDstOut
+        BlendSrcAtop
+        BlendDstAtop
+        BlendXor
+        BlendAdd
+        BlendMultiply
+        BlendScreen
+        BlendOverlay
+        BlendDarken
+        BlendLighten
+        BlendColorDodge
+        BlendColorBurn
+        BlendHardLight
+        BlendSoftLight
+        BlendDifference
+        BlendExclusion

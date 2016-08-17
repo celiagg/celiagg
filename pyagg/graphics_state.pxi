@@ -22,43 +22,6 @@
 #
 # Authors: John Wiggins
 
-class LineJoin(IntEnum):
-    JoinMiter = _graphics_state.JoinMiter
-    JoinRound = _graphics_state.JoinRound
-    JoinBevel = _graphics_state.JoinBevel
-
-class LineCap(IntEnum):
-    CapButt = _graphics_state.CapButt
-    CapSquare = _graphics_state.CapSquare
-    CapRound = _graphics_state.CapRound
-
-class BlendMode(IntEnum):
-    BlendAlpha = _graphics_state.BlendAlpha
-    BlendClear = _graphics_state.BlendClear
-    BlendSrc = _graphics_state.BlendSrc
-    BlendDst = _graphics_state.BlendDst
-    BlendSrcOver = _graphics_state.BlendSrcOver
-    BlendDstOver = _graphics_state.BlendDstOver
-    BlendSrcIn = _graphics_state.BlendSrcIn
-    BlendDstIn = _graphics_state.BlendDstIn
-    BlendSrcOut = _graphics_state.BlendSrcOut
-    BlendDstOut = _graphics_state.BlendDstOut
-    BlendSrcAtop = _graphics_state.BlendSrcAtop
-    BlendDstAtop = _graphics_state.BlendDstAtop
-    BlendXor = _graphics_state.BlendXor
-    BlendAdd = _graphics_state.BlendAdd
-    BlendMultiply = _graphics_state.BlendMultiply
-    BlendScreen = _graphics_state.BlendScreen
-    BlendOverlay = _graphics_state.BlendOverlay
-    BlendDarken = _graphics_state.BlendDarken
-    BlendLighten = _graphics_state.BlendLighten
-    BlendColorDodge = _graphics_state.BlendColorDodge
-    BlendColorBurn = _graphics_state.BlendColorBurn
-    BlendHardLight = _graphics_state.BlendHardLight
-    BlendSoftLight = _graphics_state.BlendSoftLight
-    BlendDifference = _graphics_state.BlendDifference
-    BlendExclusion = _graphics_state.BlendExclusion
-
 
 cdef class Color:
     cdef _graphics_state.Color* _this

@@ -27,6 +27,7 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
+cimport _enums
 
 
 cdef extern from "graphics_state.h" namespace "GraphicsState":
@@ -47,42 +48,6 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         Rect(double x1, double y1, double x2, double y2)
         bool is_valid() const
 
-    cdef enum LineJoin:
-        JoinMiter
-        JoinRound
-        JoinBevel
-
-    cdef enum LineCap:
-        CapButt
-        CapSquare
-        CapRound
-
-    cdef enum BlendMode:
-        BlendAlpha
-        BlendClear
-        BlendSrc
-        BlendDst
-        BlendSrcOver
-        BlendDstOver
-        BlendSrcIn
-        BlendDstIn
-        BlendSrcOut
-        BlendDstOut
-        BlendSrcAtop
-        BlendDstAtop
-        BlendXor
-        BlendAdd
-        BlendMultiply
-        BlendScreen
-        BlendOverlay
-        BlendDarken
-        BlendLighten
-        BlendColorDodge
-        BlendColorBurn
-        BlendHardLight
-        BlendSoftLight
-        BlendDifference
-        BlendExclusion
 
 cdef extern from "graphics_state.h":
     cdef cppclass GraphicsState:
@@ -95,11 +60,11 @@ cdef extern from "graphics_state.h":
         void  clipBox(double x1, double y1, double x2, double y2)
         Rect clipBox() const
 
-        void blendMode(BlendMode m)
-        BlendMode blendMode() const
+        void blendMode(_enums.BlendMode m)
+        _enums.BlendMode blendMode() const
 
-        void imageBlendMode(BlendMode m)
-        BlendMode imageBlendMode() const
+        void imageBlendMode(_enums.BlendMode m)
+        _enums.BlendMode imageBlendMode() const
 
         void imageBlendColor(Color c)
         void imageBlendColor(unsigned r, unsigned g, unsigned b, unsigned a)
@@ -124,11 +89,11 @@ cdef extern from "graphics_state.h":
         void lineWidth(double w)
         double lineWidth() const
 
-        void lineCap(LineCap cap)
-        LineCap lineCap() const
+        void lineCap(_enums.LineCap cap)
+        _enums.LineCap lineCap() const
 
-        void lineJoin(LineJoin join)
-        LineJoin lineJoin() const
+        void lineJoin(_enums.LineJoin join)
+        _enums.LineJoin lineJoin() const
 
         void fillEvenOdd(bool evenOddFlag)
         bool fillEvenOdd() const

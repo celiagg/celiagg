@@ -22,6 +22,7 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
+from __future__ import print_function
 import os
 import os.path as op
 import subprocess
@@ -46,8 +47,9 @@ def get_freetype_info():
     pkgconfig directory for the currently running Python interpreter.
     """
     def run_cmd(cmd, env=None):
-        output = subprocess.check_output(cmd, universal_newlines=True, env=env,
-                                         stderr=subprocess.DEVNULL)
+        with open("/dev/null", "w") as dev_null:
+            output = subprocess.check_output(cmd, universal_newlines=True,
+                                             env=env, stderr=dev_null.fileno())
         return output.split()
 
     def collect_data(env=None):
@@ -83,7 +85,6 @@ def get_freetype_info():
 def configuration(parent_package='', top_path=None):
     sources = [
         'ndarray_canvas.cpp',
-        'agg-svn/agg-2.4/agg2d/agg2d.cpp',
         'agg-svn/agg-2.4/src/agg_arc.cpp',
         'agg-svn/agg-2.4/src/agg_arrowhead.cpp',
         'agg-svn/agg-2.4/src/agg_bezier_arc.cpp',

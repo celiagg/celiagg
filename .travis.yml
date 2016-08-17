@@ -3,10 +3,16 @@ matrix:
     include:
         - os: linux
           language: generic
+          env: PYTHON="2.7" MINICONDA_OS="Linux"
+        - os: linux
+          language: generic
           env: PYTHON="3.4" MINICONDA_OS="Linux"
         - os: linux
           language: generic
           env: PYTHON="3.5" MINICONDA_OS="Linux"
+        - os: osx
+          language: generic
+          env: PYTHON="2.7" MINICONDA_OS="MacOSX"
         - os: osx
           language: generic
           env: PYTHON="3.4" MINICONDA_OS="MacOSX"

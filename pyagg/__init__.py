@@ -23,11 +23,11 @@
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins <john.wiggins@xfel.eu>
 
+from __future__ import absolute_import
+
 from ._pyagg import (
-    Agg2D, BlendMode, Color, Direction, DrawPathFlag, FontCacheType,
-    Gradient, GraphicsState, Image, ImageFilter, ImageResample, LineCap,
-    LineJoin, LinearGradient, Path, RadialGradient, Rect, TextAlignment,
-    Transform, ViewportOption
+    BlendMode, Color, Gradient, GraphicsState, LineCap, LineJoin,
+    LinearGradient, Path, RadialGradient, Rect, Transform
 )
 
 from ._pyagg import (hist_min_max_float32, hist_min_max_uint12,
