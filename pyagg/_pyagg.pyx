@@ -37,7 +37,6 @@ cimport _pyagg
 cimport _transform
 
 include "enums.pxi"
-include "fast_hist.pxi"
 include "gradient.pxi"
 include "graphics_state.pxi"
 include "ndarray_canvas.pxi"

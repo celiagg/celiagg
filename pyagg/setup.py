@@ -84,7 +84,6 @@ def get_freetype_info():
 
 def configuration(parent_package='', top_path=None):
     sources = [
-        'ndarray_canvas.cpp',
         'agg-svn/agg-2.4/src/agg_arc.cpp',
         'agg-svn/agg-2.4/src/agg_arrowhead.cpp',
         'agg-svn/agg-2.4/src/agg_bezier_arc.cpp',
@@ -113,15 +112,10 @@ def configuration(parent_package='', top_path=None):
         'agg-svn/agg-2.4/src/agg_vpgen_segmentator.cpp',
     ]
     base_path = op.abspath(op.dirname(__file__))
-    cython_source = op.join(base_path, '_pyagg.pyx')
-    cythonized_source = '_pyagg.cpp'
-    cython_source_deps = [
-        '_agg2d.pxd',
-        '_pyagg.pxd',
-        '_graphics_state.pxd',
-        'agg2d.pxi',
-        'ndarray_canvas.pxi',
-        'graphics_state.pxi']
+    agg2d_cython_source = op.join(base_path, 'agg2d.pyx')
+    pyagg_cython_source = op.join(base_path, '_pyagg.pyx')
+    agg2d_sources = ['agg-svn/agg-2.4/agg2d/agg2d.cpp', 'agg2d.cpp']
+    pyagg_sources = ['ndarray_canvas.cpp', '_pyagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
@@ -156,7 +150,6 @@ def configuration(parent_package='', top_path=None):
         sources.append('agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp')
 
     ext_kwargs = {
-        'sources': [cythonized_source] + sources,
         'include_dirs': include_dirs,
         'define_macros': define_macros,
         'language':  'c++',
@@ -166,10 +159,14 @@ def configuration(parent_package='', top_path=None):
 
     if cythonize is not None:
         # Run Cython first
-        cythonize(cython_source, language='c++')
+        cythonize(pyagg_cython_source, language='c++')
+        cythonize(agg2d_cython_source, language='c++')
 
     config = Configuration('pyagg', parent_package, top_path)
-    config.add_extension('_pyagg', **ext_kwargs)
+    config.add_extension('_pyagg', sources=pyagg_sources + sources,
+                         **ext_kwargs)
+    config.add_extension('agg2d', sources=agg2d_sources + sources,
+                         **ext_kwargs)
     config.add_subpackage('tests')
     return config
 
