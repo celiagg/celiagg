@@ -37,6 +37,16 @@ cdef class Color:
         return "{}({}, {}, {}, {})".format(name, self._this.r, self._this.g,
                                            self._this.b, self._this.a)
 
+    def __richcmp__(Color self, Color other, int op):
+        if op == 2:  # ==
+            return (self._this.a == other._this.a and
+                    self._this.r == other._this.r and
+                    self._this.g == other._this.g and
+                    self._this.b == other._this.b)
+        else:
+            msg = "That type of comparison is not implemented for Color"
+            raise NotImplementedError(msg)
+
     property a:
         def __get__(self):
             return self._this.a
@@ -80,6 +90,16 @@ cdef class Rect:
         name = type(self).__name__
         return "{}({}, {}, {}, {})".format(name, self._this.x1, self._this.y1,
                                            self._this.x2, self._this.y2)
+
+    def __richcmp__(Rect self, Rect other, int op):
+        if op == 2:  # ==
+            return (self._this.x1 == other._this.x1 and
+                    self._this.x2 == other._this.x2 and
+                    self._this.y1 == other._this.y1 and
+                    self._this.y2 == other._this.y2)
+        else:
+            msg = "That type of comparison is not implemented for Rect"
+            raise NotImplementedError(msg)
 
     property x1:
         def __get__(self):
@@ -135,15 +155,13 @@ cdef class GraphicsState:
     property blend_mode:
         def __get__(self):
             return BlendMode(self._this.blendMode())
-        def __set__(self, m):
-            m = BlendMode(m)
+        def __set__(self, BlendMode m):
             self._this.blendMode(m)
 
     property image_blend_mode:
         def __get__(self):
             return BlendMode(self._this.imageBlendMode())
-        def __set__(self, m):
-            m = BlendMode(m)
+        def __set__(self, BlendMode m):
             self._this.imageBlendMode(m)
 
     property image_blend_color:
@@ -196,15 +214,13 @@ cdef class GraphicsState:
     property line_cap:
         def __get__(self):
             return LineCap(self._this.lineCap())
-        def __set__(self, cap):
-            cap = LineCap(cap)
+        def __set__(self, LineCap cap):
             self._this.lineCap(cap)
 
     property line_join:
         def __get__(self):
             return LineJoin(self._this.lineJoin())
-        def __set__(self, join):
-            join = LineJoin(join)
+        def __set__(self, LineJoin join):
             self._this.lineJoin(join)
 
     property fill_even_odd:
