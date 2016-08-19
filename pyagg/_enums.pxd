@@ -33,6 +33,13 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         CapSquare
         CapRound
 
+    cdef enum DrawingMode:
+        DrawFill
+        DrawEofFill
+        DrawStroke
+        DrawFillStroke
+        DrawEofFillStroke
+
     cdef enum BlendMode:
         BlendAlpha
         BlendClear

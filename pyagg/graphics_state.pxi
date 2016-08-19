@@ -152,6 +152,12 @@ cdef class GraphicsState:
         def __set__(self, Rect box):
             self._this.clipBox(box._this[0])
 
+    property drawing_mode:
+        def __get__(self):
+            return DrawingMode(self._this.drawingMode())
+        def __set__(self, DrawingMode m):
+            self._this.drawingMode(m)
+
     property blend_mode:
         def __get__(self):
             return BlendMode(self._this.blendMode())
@@ -222,9 +228,3 @@ cdef class GraphicsState:
             return LineJoin(self._this.lineJoin())
         def __set__(self, LineJoin join):
             self._this.lineJoin(join)
-
-    property fill_even_odd:
-        def __get__(self):
-            return self._this.fillEvenOdd()
-        def __set__(self, even_odd_flag):
-            self._this.fillEvenOdd(even_odd_flag)

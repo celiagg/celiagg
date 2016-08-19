@@ -1,4 +1,5 @@
-from pyagg import GraphicsState, BlendMode, Color, LineCap, LineJoin, Rect
+from pyagg import (GraphicsState, BlendMode, Color, DrawingMode, LineCap,
+                   LineJoin, Rect)
 
 
 def test_state_properties():
@@ -8,10 +9,11 @@ def test_state_properties():
     assert gs.anti_aliased is True
     gs.anti_aliased = False
     assert gs.anti_aliased is False
-    gs.fill_even_odd = True
-    assert gs.fill_even_odd is True
-    gs.fill_even_odd = False
-    assert gs.fill_even_odd is False
+
+    gs.drawing_mode = DrawingMode.DrawEofFill
+    assert gs.drawing_mode == DrawingMode.DrawEofFill
+    gs.drawing_mode = DrawingMode.DrawFillStroke
+    assert gs.drawing_mode == DrawingMode.DrawFillStroke
 
     gs.blend_mode = BlendMode.BlendXor
     assert gs.blend_mode == BlendMode.BlendXor

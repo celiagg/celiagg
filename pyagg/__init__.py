@@ -26,7 +26,7 @@
 from __future__ import absolute_import
 
 from ._pyagg import (
-    BlendMode, Color, Gradient, GraphicsState, LineCap, LineJoin,
+    BlendMode, Color, DrawingMode, Gradient, GraphicsState, LineCap, LineJoin,
     LinearGradient, Path, RadialGradient, Rect, Transform
 )
 from ._pyagg import (ndarray_canvas_g8, ndarray_canvas_ga16,

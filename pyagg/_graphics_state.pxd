@@ -60,6 +60,9 @@ cdef extern from "graphics_state.h":
         void  clipBox(double x1, double y1, double x2, double y2)
         Rect clipBox() const
 
+        void drawingMode(_enums.DrawingMode m)
+        _enums.DrawingMode drawingMode() const
+
         void blendMode(_enums.BlendMode m)
         _enums.BlendMode blendMode() const
 
@@ -94,6 +97,3 @@ cdef extern from "graphics_state.h":
 
         void lineJoin(_enums.LineJoin join)
         _enums.LineJoin lineJoin() const
-
-        void fillEvenOdd(bool evenOddFlag)
-        bool fillEvenOdd() const

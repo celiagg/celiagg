@@ -50,6 +50,15 @@ public:
         CapRound  = agg::round_cap
     };
 
+    enum DrawingMode
+    {
+        DrawFill = 0,
+        DrawEofFill,
+        DrawStroke,
+        DrawFillStroke,
+        DrawEofFillStroke
+    };
+
     enum BlendMode
     {
         BlendAlpha      = agg::end_of_comp_op_e,
@@ -81,6 +90,7 @@ public:
 
     GraphicsState() :
         m_clipBox(0, 0, 0, 0),
+        m_drawingMode(DrawFillStroke),
         m_blendMode(BlendAlpha),
         m_imageBlendMode(BlendDst),
         m_imageBlendColor(0, 0, 0),
@@ -91,8 +101,8 @@ public:
         m_lineCap(CapRound),
         m_lineJoin(JoinRound),
         m_lineWidth(1),
-        m_antiAliased(true),
-        m_evenOddFlag(false) {}
+        m_antiAliased(true)
+        {}
 
     void antiAliased(bool aa) { m_antiAliased = aa; }
     bool antiAliased() const { return m_antiAliased; }
@@ -100,6 +110,9 @@ public:
     void clipBox(Rect r) { m_clipBox = r; }
     void clipBox(double x1, double y1, double x2, double y2) { clipBox(Rect(x1, y1, x2, y2)); }
     Rect clipBox() const { return m_clipBox; }
+
+    void drawingMode(DrawingMode m) { m_drawingMode = m; }
+    DrawingMode drawingMode() const { return m_drawingMode; }
 
     void blendMode(BlendMode m) { m_blendMode = m; }
     BlendMode blendMode() const { return m_blendMode; }
@@ -136,11 +149,9 @@ public:
     void lineJoin(LineJoin join) { m_lineJoin = join; }
     LineJoin lineJoin() const { return m_lineJoin; }
 
-    void fillEvenOdd(bool evenOddFlag) { m_evenOddFlag = evenOddFlag; }
-    bool fillEvenOdd() const { return m_evenOddFlag; }
-
 private:
     Rect        m_clipBox;
+    DrawingMode m_drawingMode;
     BlendMode   m_blendMode;
     BlendMode   m_imageBlendMode;
     Color       m_imageBlendColor;
@@ -152,7 +163,6 @@ private:
     LineJoin    m_lineJoin;
     double      m_lineWidth;
     bool        m_antiAliased;
-    bool        m_evenOddFlag;
 };
 
 #endif // GRAPHICS_STATE_H

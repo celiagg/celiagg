@@ -32,6 +32,13 @@ cpdef enum LineCap:
     CapSquare = _enums.CapSquare
     CapRound = _enums.CapRound
 
+cpdef enum DrawingMode:
+    DrawFill = _enums.DrawFill
+    DrawEofFill = _enums.DrawEofFill
+    DrawStroke = _enums.DrawStroke
+    DrawFillStroke = _enums.DrawFillStroke
+    DrawEofFillStroke = _enums.DrawEofFillStroke
+
 cpdef enum BlendMode:
     BlendAlpha = _enums.BlendAlpha
     BlendClear = _enums.BlendClear

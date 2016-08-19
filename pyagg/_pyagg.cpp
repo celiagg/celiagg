@@ -951,7 +951,7 @@ enum __pyx_t_5pyagg_6_pyagg_LineCap {
  *     CapSquare = _enums.CapSquare
  *     CapRound = _enums.CapRound             # <<<<<<<<<<<<<<
  * 
- * cpdef enum BlendMode:
+ * cpdef enum DrawingMode:
  */
   __pyx_e_5pyagg_6_pyagg_CapButt = GraphicsState::CapButt,
   __pyx_e_5pyagg_6_pyagg_CapSquare = GraphicsState::CapSquare,
@@ -961,13 +961,36 @@ enum __pyx_t_5pyagg_6_pyagg_LineCap {
 /* "pyagg/enums.pxi":35
  *     CapRound = _enums.CapRound
  * 
+ * cpdef enum DrawingMode:             # <<<<<<<<<<<<<<
+ *     DrawFill = _enums.DrawFill
+ *     DrawEofFill = _enums.DrawEofFill
+ */
+enum __pyx_t_5pyagg_6_pyagg_DrawingMode {
+
+  /* "pyagg/enums.pxi":40
+ *     DrawStroke = _enums.DrawStroke
+ *     DrawFillStroke = _enums.DrawFillStroke
+ *     DrawEofFillStroke = _enums.DrawEofFillStroke             # <<<<<<<<<<<<<<
+ * 
+ * cpdef enum BlendMode:
+ */
+  __pyx_e_5pyagg_6_pyagg_DrawFill = GraphicsState::DrawFill,
+  __pyx_e_5pyagg_6_pyagg_DrawEofFill = GraphicsState::DrawEofFill,
+  __pyx_e_5pyagg_6_pyagg_DrawStroke = GraphicsState::DrawStroke,
+  __pyx_e_5pyagg_6_pyagg_DrawFillStroke = GraphicsState::DrawFillStroke,
+  __pyx_e_5pyagg_6_pyagg_DrawEofFillStroke = GraphicsState::DrawEofFillStroke
+};
+
+/* "pyagg/enums.pxi":42
+ *     DrawEofFillStroke = _enums.DrawEofFillStroke
+ * 
  * cpdef enum BlendMode:             # <<<<<<<<<<<<<<
  *     BlendAlpha = _enums.BlendAlpha
  *     BlendClear = _enums.BlendClear
  */
 enum __pyx_t_5pyagg_6_pyagg_BlendMode {
 
-  /* "pyagg/enums.pxi":60
+  /* "pyagg/enums.pxi":67
  *     BlendSoftLight = _enums.BlendSoftLight
  *     BlendDifference = _enums.BlendDifference
  *     BlendExclusion = _enums.BlendExclusion             # <<<<<<<<<<<<<<
@@ -1988,6 +2011,9 @@ static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_n
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_uint8_t(uint8_t value);
 
 /* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__GraphicsState_3a__3a_DrawingMode(enum GraphicsState::DrawingMode value);
+
+/* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__GraphicsState_3a__3a_BlendMode(enum GraphicsState::BlendMode value);
 
 /* CIntToPy.proto */
@@ -2129,6 +2155,9 @@ static CYTHON_INLINE uint8_t __Pyx_PyInt_As_uint8_t(PyObject *);
 static CYTHON_INLINE int __Pyx_PyInt_As_int(PyObject *);
 
 /* CIntFromPy.proto */
+static CYTHON_INLINE enum __pyx_t_5pyagg_6_pyagg_DrawingMode __Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(PyObject *);
+
+/* CIntFromPy.proto */
 static CYTHON_INLINE enum __pyx_t_5pyagg_6_pyagg_BlendMode __Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_BlendMode(PyObject *);
 
 /* CIntFromPy.proto */
@@ -2145,6 +2174,9 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_Lin
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_LineCap(enum __pyx_t_5pyagg_6_pyagg_LineCap value);
+
+/* CIntToPy.proto */
+static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(enum __pyx_t_5pyagg_6_pyagg_DrawingMode value);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(enum __pyx_t_5pyagg_6_pyagg_BlendMode value);
@@ -2441,6 +2473,7 @@ static const char __pyx_k_BlendDst[] = "BlendDst";
 static const char __pyx_k_BlendSrc[] = "BlendSrc";
 static const char __pyx_k_BlendXor[] = "BlendXor";
 static const char __pyx_k_CapRound[] = "CapRound";
+static const char __pyx_k_DrawFill[] = "DrawFill";
 static const char __pyx_k_Ellipsis[] = "Ellipsis";
 static const char __pyx_k_EnumBase[] = "EnumBase";
 static const char __pyx_k_EnumType[] = "EnumType";
@@ -2460,6 +2493,7 @@ static const char __pyx_k_BlendAlpha[] = "BlendAlpha";
 static const char __pyx_k_BlendClear[] = "BlendClear";
 static const char __pyx_k_BlendDstIn[] = "BlendDstIn";
 static const char __pyx_k_BlendSrcIn[] = "BlendSrcIn";
+static const char __pyx_k_DrawStroke[] = "DrawStroke";
 static const char __pyx_k_IndexError[] = "IndexError";
 static const char __pyx_k_ValueError[] = "ValueError";
 static const char __pyx_k_pyx_vtable[] = "__pyx_vtable__";
@@ -2467,6 +2501,8 @@ static const char __pyx_k_BlendDarken[] = "BlendDarken";
 static const char __pyx_k_BlendDstOut[] = "BlendDstOut";
 static const char __pyx_k_BlendScreen[] = "BlendScreen";
 static const char __pyx_k_BlendSrcOut[] = "BlendSrcOut";
+static const char __pyx_k_DrawEofFill[] = "DrawEofFill";
+static const char __pyx_k_DrawingMode[] = "DrawingMode";
 static const char __pyx_k_MemoryError[] = "MemoryError";
 static const char __pyx_k_OrderedDict[] = "OrderedDict";
 static const char __pyx_k_collections[] = "collections";
@@ -2486,10 +2522,12 @@ static const char __pyx_k_BlendColorBurn[] = "BlendColorBurn";
 static const char __pyx_k_BlendExclusion[] = "BlendExclusion";
 static const char __pyx_k_BlendHardLight[] = "BlendHardLight";
 static const char __pyx_k_BlendSoftLight[] = "BlendSoftLight";
+static const char __pyx_k_DrawFillStroke[] = "DrawFillStroke";
 static const char __pyx_k_BlendColorDodge[] = "BlendColorDodge";
 static const char __pyx_k_BlendDifference[] = "BlendDifference";
 static const char __pyx_k_allocate_buffer[] = "allocate_buffer";
 static const char __pyx_k_dtype_is_object[] = "dtype_is_object";
+static const char __pyx_k_DrawEofFillStroke[] = "DrawEofFillStroke";
 static const char __pyx_k_Pyx_EnumBase___new[] = "__Pyx_EnumBase.__new__";
 static const char __pyx_k_Pyx_EnumBase___str[] = "__Pyx_EnumBase.__str__";
 static const char __pyx_k_strided_and_direct[] = "<strided and direct>";
@@ -2565,6 +2603,12 @@ static PyObject *__pyx_kp_s_Cannot_index_with_type_s;
 static PyObject *__pyx_n_s_CapButt;
 static PyObject *__pyx_n_s_CapRound;
 static PyObject *__pyx_n_s_CapSquare;
+static PyObject *__pyx_n_s_DrawEofFill;
+static PyObject *__pyx_n_s_DrawEofFillStroke;
+static PyObject *__pyx_n_s_DrawFill;
+static PyObject *__pyx_n_s_DrawFillStroke;
+static PyObject *__pyx_n_s_DrawStroke;
+static PyObject *__pyx_n_s_DrawingMode;
 static PyObject *__pyx_n_s_Ellipsis;
 static PyObject *__pyx_kp_s_Empty_shape_tuple_for_cython_arr;
 static PyObject *__pyx_n_s_EnumBase;
@@ -2775,6 +2819,8 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_12anti_aliased___get__(
 static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12anti_aliased_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, PyObject *__pyx_v_aa); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_8clip_box___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8clip_box_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, struct __pyx_obj_5pyagg_6_pyagg_Rect *__pyx_v_box); /* proto */
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_12drawing_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
+static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_DrawingMode __pyx_v_m); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_BlendMode __pyx_v_m); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
@@ -2797,8 +2843,6 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap___get__(struc
 static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_LineCap __pyx_v_cap); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_LineJoin __pyx_v_join); /* proto */
-static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
-static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, PyObject *__pyx_v_even_odd_flag); /* proto */
 static void __pyx_pf_5pyagg_6_pyagg_25ndarray_canvas_base_uint8___dealloc__(struct __pyx_obj_5pyagg_6_pyagg_ndarray_canvas_base_uint8 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_25ndarray_canvas_base_uint8_13channel_count___get__(struct __pyx_obj_5pyagg_6_pyagg_ndarray_canvas_base_uint8 *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_25ndarray_canvas_base_uint8_5width___get__(struct __pyx_obj_5pyagg_6_pyagg_ndarray_canvas_base_uint8 *__pyx_v_self); /* proto */
@@ -5738,7 +5782,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8clip_box_2__set__(struct __p
  *         def __set__(self, Rect box):
  *             self._this.clipBox(box._this[0])             # <<<<<<<<<<<<<<
  * 
- *     property blend_mode:
+ *     property drawing_mode:
  */
   __pyx_v_self->_this->clipBox((__pyx_v_box->_this[0]));
 
@@ -5758,26 +5802,26 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8clip_box_2__set__(struct __p
 
 /* "pyagg/graphics_state.pxi":156
  * 
- *     property blend_mode:
+ *     property drawing_mode:
  *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return BlendMode(self._this.blendMode())
- *         def __set__(self, BlendMode m):
+ *             return DrawingMode(self._this.drawingMode())
+ *         def __set__(self, DrawingMode m):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12drawing_mode___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_12drawing_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5788,16 +5832,16 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(st
   __Pyx_RefNannySetupContext("__get__", 0);
 
   /* "pyagg/graphics_state.pxi":157
- *     property blend_mode:
+ *     property drawing_mode:
  *         def __get__(self):
- *             return BlendMode(self._this.blendMode())             # <<<<<<<<<<<<<<
- *         def __set__(self, BlendMode m):
- *             self._this.blendMode(m)
+ *             return DrawingMode(self._this.drawingMode())             # <<<<<<<<<<<<<<
+ *         def __set__(self, DrawingMode m):
+ *             self._this.drawingMode(m)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_BlendMode(__pyx_v_self->_this->blendMode()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_DrawingMode(__pyx_v_self->_this->drawingMode()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -5831,10 +5875,10 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(st
 
   /* "pyagg/graphics_state.pxi":156
  * 
- *     property blend_mode:
+ *     property drawing_mode:
  *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return BlendMode(self._this.blendMode())
- *         def __set__(self, BlendMode m):
+ *             return DrawingMode(self._this.drawingMode())
+ *         def __set__(self, DrawingMode m):
  */
 
   /* function exit code */
@@ -5844,7 +5888,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(st
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.blend_mode.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.drawing_mode.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5854,54 +5898,54 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(st
 
 /* "pyagg/graphics_state.pxi":158
  *         def __get__(self):
- *             return BlendMode(self._this.blendMode())
- *         def __set__(self, BlendMode m):             # <<<<<<<<<<<<<<
- *             self._this.blendMode(m)
+ *             return DrawingMode(self._this.drawingMode())
+ *         def __set__(self, DrawingMode m):             # <<<<<<<<<<<<<<
+ *             self._this.drawingMode(m)
  * 
  */
 
 /* Python wrapper */
-static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_m); /*proto*/
-static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_m) {
-  enum __pyx_t_5pyagg_6_pyagg_BlendMode __pyx_v_m;
+static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_m); /*proto*/
+static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_m) {
+  enum __pyx_t_5pyagg_6_pyagg_DrawingMode __pyx_v_m;
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_m); {
-    __pyx_v_m = ((enum __pyx_t_5pyagg_6_pyagg_BlendMode)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_arg_m)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L3_error)
+    __pyx_v_m = ((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_arg_m)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 158, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
-  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.blend_mode.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.drawing_mode.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((enum __pyx_t_5pyagg_6_pyagg_BlendMode)__pyx_v_m));
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)__pyx_v_m));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_BlendMode __pyx_v_m) {
+static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_DrawingMode __pyx_v_m) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
   /* "pyagg/graphics_state.pxi":159
- *             return BlendMode(self._this.blendMode())
- *         def __set__(self, BlendMode m):
- *             self._this.blendMode(m)             # <<<<<<<<<<<<<<
+ *             return DrawingMode(self._this.drawingMode())
+ *         def __set__(self, DrawingMode m):
+ *             self._this.drawingMode(m)             # <<<<<<<<<<<<<<
  * 
- *     property image_blend_mode:
+ *     property blend_mode:
  */
-  __pyx_v_self->_this->blendMode(((enum GraphicsState::BlendMode)__pyx_v_m));
+  __pyx_v_self->_this->drawingMode(((enum GraphicsState::DrawingMode)__pyx_v_m));
 
   /* "pyagg/graphics_state.pxi":158
  *         def __get__(self):
- *             return BlendMode(self._this.blendMode())
- *         def __set__(self, BlendMode m):             # <<<<<<<<<<<<<<
- *             self._this.blendMode(m)
+ *             return DrawingMode(self._this.drawingMode())
+ *         def __set__(self, DrawingMode m):             # <<<<<<<<<<<<<<
+ *             self._this.drawingMode(m)
  * 
  */
 
@@ -5913,26 +5957,26 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode_2__set__(struct 
 
 /* "pyagg/graphics_state.pxi":162
  * 
- *     property image_blend_mode:
+ *     property blend_mode:
  *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return BlendMode(self._this.imageBlendMode())
+ *             return BlendMode(self._this.blendMode())
  *         def __set__(self, BlendMode m):
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_1__get__(PyObject *__pyx_v_self) {
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_1__get__(PyObject *__pyx_v_self) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -5943,16 +5987,16 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___ge
   __Pyx_RefNannySetupContext("__get__", 0);
 
   /* "pyagg/graphics_state.pxi":163
- *     property image_blend_mode:
+ *     property blend_mode:
  *         def __get__(self):
- *             return BlendMode(self._this.imageBlendMode())             # <<<<<<<<<<<<<<
+ *             return BlendMode(self._this.blendMode())             # <<<<<<<<<<<<<<
  *         def __set__(self, BlendMode m):
- *             self._this.imageBlendMode(m)
+ *             self._this.blendMode(m)
  */
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_BlendMode(__pyx_v_self->_this->imageBlendMode()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_BlendMode(__pyx_v_self->_this->blendMode()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -5986,6 +6030,161 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___ge
 
   /* "pyagg/graphics_state.pxi":162
  * 
+ *     property blend_mode:
+ *         def __get__(self):             # <<<<<<<<<<<<<<
+ *             return BlendMode(self._this.blendMode())
+ *         def __set__(self, BlendMode m):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.blend_mode.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/graphics_state.pxi":164
+ *         def __get__(self):
+ *             return BlendMode(self._this.blendMode())
+ *         def __set__(self, BlendMode m):             # <<<<<<<<<<<<<<
+ *             self._this.blendMode(m)
+ * 
+ */
+
+/* Python wrapper */
+static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_m); /*proto*/
+static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_m) {
+  enum __pyx_t_5pyagg_6_pyagg_BlendMode __pyx_v_m;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  assert(__pyx_arg_m); {
+    __pyx_v_m = ((enum __pyx_t_5pyagg_6_pyagg_BlendMode)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_arg_m)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.blend_mode.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((enum __pyx_t_5pyagg_6_pyagg_BlendMode)__pyx_v_m));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10blend_mode_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_BlendMode __pyx_v_m) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__", 0);
+
+  /* "pyagg/graphics_state.pxi":165
+ *             return BlendMode(self._this.blendMode())
+ *         def __set__(self, BlendMode m):
+ *             self._this.blendMode(m)             # <<<<<<<<<<<<<<
+ * 
+ *     property image_blend_mode:
+ */
+  __pyx_v_self->_this->blendMode(((enum GraphicsState::BlendMode)__pyx_v_m));
+
+  /* "pyagg/graphics_state.pxi":164
+ *         def __get__(self):
+ *             return BlendMode(self._this.blendMode())
+ *         def __set__(self, BlendMode m):             # <<<<<<<<<<<<<<
+ *             self._this.blendMode(m)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/graphics_state.pxi":168
+ * 
+ *     property image_blend_mode:
+ *         def __get__(self):             # <<<<<<<<<<<<<<
+ *             return BlendMode(self._this.imageBlendMode())
+ *         def __set__(self, BlendMode m):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+
+  /* "pyagg/graphics_state.pxi":169
+ *     property image_blend_mode:
+ *         def __get__(self):
+ *             return BlendMode(self._this.imageBlendMode())             # <<<<<<<<<<<<<<
+ *         def __set__(self, BlendMode m):
+ *             self._this.imageBlendMode(m)
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_BlendMode(__pyx_v_self->_this->imageBlendMode()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "pyagg/graphics_state.pxi":168
+ * 
  *     property image_blend_mode:
  *         def __get__(self):             # <<<<<<<<<<<<<<
  *             return BlendMode(self._this.imageBlendMode())
@@ -6007,7 +6206,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode___ge
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":164
+/* "pyagg/graphics_state.pxi":170
  *         def __get__(self):
  *             return BlendMode(self._this.imageBlendMode())
  *         def __set__(self, BlendMode m):             # <<<<<<<<<<<<<<
@@ -6023,7 +6222,7 @@ static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_3__set__(P
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_m); {
-    __pyx_v_m = ((enum __pyx_t_5pyagg_6_pyagg_BlendMode)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_arg_m)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 164, __pyx_L3_error)
+    __pyx_v_m = ((enum __pyx_t_5pyagg_6_pyagg_BlendMode)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_arg_m)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -6043,7 +6242,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_2__set__(s
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":165
+  /* "pyagg/graphics_state.pxi":171
  *             return BlendMode(self._this.imageBlendMode())
  *         def __set__(self, BlendMode m):
  *             self._this.imageBlendMode(m)             # <<<<<<<<<<<<<<
@@ -6052,7 +6251,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_2__set__(s
  */
   __pyx_v_self->_this->imageBlendMode(((enum GraphicsState::BlendMode)__pyx_v_m));
 
-  /* "pyagg/graphics_state.pxi":164
+  /* "pyagg/graphics_state.pxi":170
  *         def __get__(self):
  *             return BlendMode(self._this.imageBlendMode())
  *         def __set__(self, BlendMode m):             # <<<<<<<<<<<<<<
@@ -6066,7 +6265,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16image_blend_mode_2__set__(s
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":168
+/* "pyagg/graphics_state.pxi":174
  * 
  *     property image_blend_color:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6098,7 +6297,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color___g
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":169
+  /* "pyagg/graphics_state.pxi":175
  *     property image_blend_color:
  *         def __get__(self):
  *             cdef _graphics_state.Color ret = self._this.imageBlendColor()             # <<<<<<<<<<<<<<
@@ -6107,7 +6306,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color___g
  */
   __pyx_v_ret = __pyx_v_self->_this->imageBlendColor();
 
-  /* "pyagg/graphics_state.pxi":170
+  /* "pyagg/graphics_state.pxi":176
  *         def __get__(self):
  *             cdef _graphics_state.Color ret = self._this.imageBlendColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)             # <<<<<<<<<<<<<<
@@ -6115,15 +6314,15 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color___g
  *             self._this.imageBlendColor(col._this[0])
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
@@ -6137,14 +6336,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color___g
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_Color), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 170, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_Color), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 176, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/graphics_state.pxi":168
+  /* "pyagg/graphics_state.pxi":174
  * 
  *     property image_blend_color:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6167,7 +6366,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color___g
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":171
+/* "pyagg/graphics_state.pxi":177
  *             cdef _graphics_state.Color ret = self._this.imageBlendColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):             # <<<<<<<<<<<<<<
@@ -6181,7 +6380,7 @@ static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_17image_blend_color_3__set__(
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), __pyx_ptype_5pyagg_6_pyagg_Color, 1, "col", 0))) __PYX_ERR(0, 171, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), __pyx_ptype_5pyagg_6_pyagg_Color, 1, "col", 0))) __PYX_ERR(0, 177, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((struct __pyx_obj_5pyagg_6_pyagg_Color *)__pyx_v_col));
 
   /* function exit code */
@@ -6198,7 +6397,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color_2__set__(
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":172
+  /* "pyagg/graphics_state.pxi":178
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):
  *             self._this.imageBlendColor(col._this[0])             # <<<<<<<<<<<<<<
@@ -6207,7 +6406,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color_2__set__(
  */
   __pyx_v_self->_this->imageBlendColor((__pyx_v_col->_this[0]));
 
-  /* "pyagg/graphics_state.pxi":171
+  /* "pyagg/graphics_state.pxi":177
  *             cdef _graphics_state.Color ret = self._this.imageBlendColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):             # <<<<<<<<<<<<<<
@@ -6221,7 +6420,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_17image_blend_color_2__set__(
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":175
+/* "pyagg/graphics_state.pxi":181
  * 
  *     property master_alpha:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6248,7 +6447,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_12master_alpha___get__(
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":176
+  /* "pyagg/graphics_state.pxi":182
  *     property master_alpha:
  *         def __get__(self):
  *             return self._this.masterAlpha()             # <<<<<<<<<<<<<<
@@ -6256,13 +6455,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_12master_alpha___get__(
  *             self._this.masterAlpha(a)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_this->masterAlpha()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 176, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_this->masterAlpha()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/graphics_state.pxi":175
+  /* "pyagg/graphics_state.pxi":181
  * 
  *     property master_alpha:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6281,7 +6480,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_12master_alpha___get__(
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":177
+/* "pyagg/graphics_state.pxi":183
  *         def __get__(self):
  *             return self._this.masterAlpha()
  *         def __set__(self, a):             # <<<<<<<<<<<<<<
@@ -6308,17 +6507,17 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12master_alpha_2__set__(struc
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":178
+  /* "pyagg/graphics_state.pxi":184
  *             return self._this.masterAlpha()
  *         def __set__(self, a):
  *             self._this.masterAlpha(a)             # <<<<<<<<<<<<<<
  * 
  *     property anti_alias_gamma:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 178, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_a); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 184, __pyx_L1_error)
   __pyx_v_self->_this->masterAlpha(__pyx_t_1);
 
-  /* "pyagg/graphics_state.pxi":177
+  /* "pyagg/graphics_state.pxi":183
  *         def __get__(self):
  *             return self._this.masterAlpha()
  *         def __set__(self, a):             # <<<<<<<<<<<<<<
@@ -6337,7 +6536,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_12master_alpha_2__set__(struc
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":181
+/* "pyagg/graphics_state.pxi":187
  * 
  *     property anti_alias_gamma:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6364,7 +6563,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16anti_alias_gamma___ge
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":182
+  /* "pyagg/graphics_state.pxi":188
  *     property anti_alias_gamma:
  *         def __get__(self):
  *             return self._this.antiAliasGamma()             # <<<<<<<<<<<<<<
@@ -6372,13 +6571,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16anti_alias_gamma___ge
  *             self._this.antiAliasGamma(g)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_this->antiAliasGamma()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 182, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_this->antiAliasGamma()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/graphics_state.pxi":181
+  /* "pyagg/graphics_state.pxi":187
  * 
  *     property anti_alias_gamma:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6397,7 +6596,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_16anti_alias_gamma___ge
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":183
+/* "pyagg/graphics_state.pxi":189
  *         def __get__(self):
  *             return self._this.antiAliasGamma()
  *         def __set__(self, g):             # <<<<<<<<<<<<<<
@@ -6424,17 +6623,17 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16anti_alias_gamma_2__set__(s
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":184
+  /* "pyagg/graphics_state.pxi":190
  *             return self._this.antiAliasGamma()
  *         def __set__(self, g):
  *             self._this.antiAliasGamma(g)             # <<<<<<<<<<<<<<
  * 
  *     property fill_color:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_g); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_g); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 190, __pyx_L1_error)
   __pyx_v_self->_this->antiAliasGamma(__pyx_t_1);
 
-  /* "pyagg/graphics_state.pxi":183
+  /* "pyagg/graphics_state.pxi":189
  *         def __get__(self):
  *             return self._this.antiAliasGamma()
  *         def __set__(self, g):             # <<<<<<<<<<<<<<
@@ -6453,7 +6652,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_16anti_alias_gamma_2__set__(s
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":187
+/* "pyagg/graphics_state.pxi":193
  * 
  *     property fill_color:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6485,7 +6684,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color___get__(st
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":188
+  /* "pyagg/graphics_state.pxi":194
  *     property fill_color:
  *         def __get__(self):
  *             cdef _graphics_state.Color ret = self._this.fillColor()             # <<<<<<<<<<<<<<
@@ -6494,7 +6693,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color___get__(st
  */
   __pyx_v_ret = __pyx_v_self->_this->fillColor();
 
-  /* "pyagg/graphics_state.pxi":189
+  /* "pyagg/graphics_state.pxi":195
  *         def __get__(self):
  *             cdef _graphics_state.Color ret = self._this.fillColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)             # <<<<<<<<<<<<<<
@@ -6502,15 +6701,15 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color___get__(st
  *             self._this.fillColor(col._this[0])
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
@@ -6524,14 +6723,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color___get__(st
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_Color), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_Color), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 195, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/graphics_state.pxi":187
+  /* "pyagg/graphics_state.pxi":193
  * 
  *     property fill_color:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6554,7 +6753,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color___get__(st
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":190
+/* "pyagg/graphics_state.pxi":196
  *             cdef _graphics_state.Color ret = self._this.fillColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):             # <<<<<<<<<<<<<<
@@ -6568,7 +6767,7 @@ static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10fill_color_3__set__(PyObjec
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), __pyx_ptype_5pyagg_6_pyagg_Color, 1, "col", 0))) __PYX_ERR(0, 190, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), __pyx_ptype_5pyagg_6_pyagg_Color, 1, "col", 0))) __PYX_ERR(0, 196, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((struct __pyx_obj_5pyagg_6_pyagg_Color *)__pyx_v_col));
 
   /* function exit code */
@@ -6585,7 +6784,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color_2__set__(struct 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":191
+  /* "pyagg/graphics_state.pxi":197
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):
  *             self._this.fillColor(col._this[0])             # <<<<<<<<<<<<<<
@@ -6594,7 +6793,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color_2__set__(struct 
  */
   __pyx_v_self->_this->fillColor((__pyx_v_col->_this[0]));
 
-  /* "pyagg/graphics_state.pxi":190
+  /* "pyagg/graphics_state.pxi":196
  *             cdef _graphics_state.Color ret = self._this.fillColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):             # <<<<<<<<<<<<<<
@@ -6608,7 +6807,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10fill_color_2__set__(struct 
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":194
+/* "pyagg/graphics_state.pxi":200
  * 
  *     property line_color:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6640,7 +6839,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color___get__(st
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":195
+  /* "pyagg/graphics_state.pxi":201
  *     property line_color:
  *         def __get__(self):
  *             cdef _graphics_state.Color ret = self._this.lineColor()             # <<<<<<<<<<<<<<
@@ -6649,7 +6848,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color___get__(st
  */
   __pyx_v_ret = __pyx_v_self->_this->lineColor();
 
-  /* "pyagg/graphics_state.pxi":196
+  /* "pyagg/graphics_state.pxi":202
  *         def __get__(self):
  *             cdef _graphics_state.Color ret = self._this.lineColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)             # <<<<<<<<<<<<<<
@@ -6657,15 +6856,15 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color___get__(st
  *             self._this.lineColor(col._this[0])
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.r); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.g); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.b); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_uint8_t(__pyx_v_ret.a); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_5 = PyTuple_New(4); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_1);
@@ -6679,14 +6878,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color___get__(st
   __pyx_t_2 = 0;
   __pyx_t_3 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_Color), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_Color), __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_r = __pyx_t_4;
   __pyx_t_4 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/graphics_state.pxi":194
+  /* "pyagg/graphics_state.pxi":200
  * 
  *     property line_color:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6709,7 +6908,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color___get__(st
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":197
+/* "pyagg/graphics_state.pxi":203
  *             cdef _graphics_state.Color ret = self._this.lineColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):             # <<<<<<<<<<<<<<
@@ -6723,7 +6922,7 @@ static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10line_color_3__set__(PyObjec
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), __pyx_ptype_5pyagg_6_pyagg_Color, 1, "col", 0))) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_col), __pyx_ptype_5pyagg_6_pyagg_Color, 1, "col", 0))) __PYX_ERR(0, 203, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((struct __pyx_obj_5pyagg_6_pyagg_Color *)__pyx_v_col));
 
   /* function exit code */
@@ -6740,7 +6939,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color_2__set__(struct 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":198
+  /* "pyagg/graphics_state.pxi":204
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):
  *             self._this.lineColor(col._this[0])             # <<<<<<<<<<<<<<
@@ -6749,7 +6948,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color_2__set__(struct 
  */
   __pyx_v_self->_this->lineColor((__pyx_v_col->_this[0]));
 
-  /* "pyagg/graphics_state.pxi":197
+  /* "pyagg/graphics_state.pxi":203
  *             cdef _graphics_state.Color ret = self._this.lineColor()
  *             return Color(ret.r, ret.g, ret.b, ret.a)
  *         def __set__(self, Color col):             # <<<<<<<<<<<<<<
@@ -6763,7 +6962,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_color_2__set__(struct 
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":200
+/* "pyagg/graphics_state.pxi":206
  *             self._this.lineColor(col._this[0])
  * 
  *     def no_fill(self):             # <<<<<<<<<<<<<<
@@ -6790,7 +6989,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_4no_fill(struct __pyx_o
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("no_fill", 0);
 
-  /* "pyagg/graphics_state.pxi":202
+  /* "pyagg/graphics_state.pxi":208
  *     def no_fill(self):
  *         """no_fill(self)"""
  *         self._this.noFill()             # <<<<<<<<<<<<<<
@@ -6799,7 +6998,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_4no_fill(struct __pyx_o
  */
   __pyx_v_self->_this->noFill();
 
-  /* "pyagg/graphics_state.pxi":200
+  /* "pyagg/graphics_state.pxi":206
  *             self._this.lineColor(col._this[0])
  * 
  *     def no_fill(self):             # <<<<<<<<<<<<<<
@@ -6814,7 +7013,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_4no_fill(struct __pyx_o
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":204
+/* "pyagg/graphics_state.pxi":210
  *         self._this.noFill()
  * 
  *     def no_line(self):             # <<<<<<<<<<<<<<
@@ -6841,7 +7040,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_6no_line(struct __pyx_o
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("no_line", 0);
 
-  /* "pyagg/graphics_state.pxi":206
+  /* "pyagg/graphics_state.pxi":212
  *     def no_line(self):
  *         """no_line(self)"""
  *         self._this.noLine()             # <<<<<<<<<<<<<<
@@ -6850,7 +7049,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_6no_line(struct __pyx_o
  */
   __pyx_v_self->_this->noLine();
 
-  /* "pyagg/graphics_state.pxi":204
+  /* "pyagg/graphics_state.pxi":210
  *         self._this.noFill()
  * 
  *     def no_line(self):             # <<<<<<<<<<<<<<
@@ -6865,7 +7064,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_6no_line(struct __pyx_o
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":209
+/* "pyagg/graphics_state.pxi":215
  * 
  *     property line_width:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6892,7 +7091,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_width___get__(st
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":210
+  /* "pyagg/graphics_state.pxi":216
  *     property line_width:
  *         def __get__(self):
  *             return self._this.lineWidth()             # <<<<<<<<<<<<<<
@@ -6900,13 +7099,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_width___get__(st
  *             self._this.lineWidth(w)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_this->lineWidth()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->_this->lineWidth()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/graphics_state.pxi":209
+  /* "pyagg/graphics_state.pxi":215
  * 
  *     property line_width:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -6925,7 +7124,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_width___get__(st
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":211
+/* "pyagg/graphics_state.pxi":217
  *         def __get__(self):
  *             return self._this.lineWidth()
  *         def __set__(self, w):             # <<<<<<<<<<<<<<
@@ -6952,17 +7151,17 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_width_2__set__(struct 
   double __pyx_t_1;
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":212
+  /* "pyagg/graphics_state.pxi":218
  *             return self._this.lineWidth()
  *         def __set__(self, w):
  *             self._this.lineWidth(w)             # <<<<<<<<<<<<<<
  * 
  *     property line_cap:
  */
-  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_w); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 212, __pyx_L1_error)
+  __pyx_t_1 = __pyx_PyFloat_AsDouble(__pyx_v_w); if (unlikely((__pyx_t_1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(0, 218, __pyx_L1_error)
   __pyx_v_self->_this->lineWidth(__pyx_t_1);
 
-  /* "pyagg/graphics_state.pxi":211
+  /* "pyagg/graphics_state.pxi":217
  *         def __get__(self):
  *             return self._this.lineWidth()
  *         def __set__(self, w):             # <<<<<<<<<<<<<<
@@ -6981,7 +7180,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_10line_width_2__set__(struct 
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":215
+/* "pyagg/graphics_state.pxi":221
  * 
  *     property line_cap:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -7012,7 +7211,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap___get__(struc
   PyObject *__pyx_t_5 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/graphics_state.pxi":216
+  /* "pyagg/graphics_state.pxi":222
  *     property line_cap:
  *         def __get__(self):
  *             return LineCap(self._this.lineCap())             # <<<<<<<<<<<<<<
@@ -7020,164 +7219,9 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap___get__(struc
  *             self._this.lineCap(cap)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LineCap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 216, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LineCap); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_LineCap(__pyx_v_self->_this->lineCap()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 216, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = NULL;
-  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
-    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
-    if (likely(__pyx_t_4)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
-      __Pyx_INCREF(__pyx_t_4);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_2, function);
-    }
-  }
-  if (!__pyx_t_4) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __Pyx_GOTREF(__pyx_t_1);
-  } else {
-    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 216, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
-    __pyx_t_3 = 0;
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 216, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  }
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "pyagg/graphics_state.pxi":215
- * 
- *     property line_cap:
- *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return LineCap(self._this.lineCap())
- *         def __set__(self, LineCap cap):
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
-  __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_XDECREF(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_5);
-  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.line_cap.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "pyagg/graphics_state.pxi":217
- *         def __get__(self):
- *             return LineCap(self._this.lineCap())
- *         def __set__(self, LineCap cap):             # <<<<<<<<<<<<<<
- *             self._this.lineCap(cap)
- * 
- */
-
-/* Python wrapper */
-static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_8line_cap_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_cap); /*proto*/
-static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_8line_cap_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_cap) {
-  enum __pyx_t_5pyagg_6_pyagg_LineCap __pyx_v_cap;
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  assert(__pyx_arg_cap); {
-    __pyx_v_cap = ((enum __pyx_t_5pyagg_6_pyagg_LineCap)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_LineCap(__pyx_arg_cap)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 217, __pyx_L3_error)
-  }
-  goto __pyx_L4_argument_unpacking_done;
-  __pyx_L3_error:;
-  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.line_cap.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __Pyx_RefNannyFinishContext();
-  return -1;
-  __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((enum __pyx_t_5pyagg_6_pyagg_LineCap)__pyx_v_cap));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_LineCap __pyx_v_cap) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__", 0);
-
-  /* "pyagg/graphics_state.pxi":218
- *             return LineCap(self._this.lineCap())
- *         def __set__(self, LineCap cap):
- *             self._this.lineCap(cap)             # <<<<<<<<<<<<<<
- * 
- *     property line_join:
- */
-  __pyx_v_self->_this->lineCap(((enum GraphicsState::LineCap)__pyx_v_cap));
-
-  /* "pyagg/graphics_state.pxi":217
- *         def __get__(self):
- *             return LineCap(self._this.lineCap())
- *         def __set__(self, LineCap cap):             # <<<<<<<<<<<<<<
- *             self._this.lineCap(cap)
- * 
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "pyagg/graphics_state.pxi":221
- * 
- *     property line_join:
- *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return LineJoin(self._this.lineJoin())
- *         def __set__(self, LineJoin join):
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_9line_join_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_9line_join_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
-  PyObject *__pyx_t_3 = NULL;
-  PyObject *__pyx_t_4 = NULL;
-  PyObject *__pyx_t_5 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "pyagg/graphics_state.pxi":222
- *     property line_join:
- *         def __get__(self):
- *             return LineJoin(self._this.lineJoin())             # <<<<<<<<<<<<<<
- *         def __set__(self, LineJoin join):
- *             self._this.lineJoin(join)
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LineJoin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 222, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_LineJoin(__pyx_v_self->_this->lineJoin()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 222, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_LineCap(__pyx_v_self->_this->lineCap()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 222, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __pyx_t_4 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
@@ -7211,6 +7255,161 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(stru
 
   /* "pyagg/graphics_state.pxi":221
  * 
+ *     property line_cap:
+ *         def __get__(self):             # <<<<<<<<<<<<<<
+ *             return LineCap(self._this.lineCap())
+ *         def __set__(self, LineCap cap):
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.line_cap.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/graphics_state.pxi":223
+ *         def __get__(self):
+ *             return LineCap(self._this.lineCap())
+ *         def __set__(self, LineCap cap):             # <<<<<<<<<<<<<<
+ *             self._this.lineCap(cap)
+ * 
+ */
+
+/* Python wrapper */
+static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_8line_cap_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_cap); /*proto*/
+static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_8line_cap_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_arg_cap) {
+  enum __pyx_t_5pyagg_6_pyagg_LineCap __pyx_v_cap;
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
+  assert(__pyx_arg_cap); {
+    __pyx_v_cap = ((enum __pyx_t_5pyagg_6_pyagg_LineCap)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_LineCap(__pyx_arg_cap)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 223, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.line_cap.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((enum __pyx_t_5pyagg_6_pyagg_LineCap)__pyx_v_cap));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_LineCap __pyx_v_cap) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__set__", 0);
+
+  /* "pyagg/graphics_state.pxi":224
+ *             return LineCap(self._this.lineCap())
+ *         def __set__(self, LineCap cap):
+ *             self._this.lineCap(cap)             # <<<<<<<<<<<<<<
+ * 
+ *     property line_join:
+ */
+  __pyx_v_self->_this->lineCap(((enum GraphicsState::LineCap)__pyx_v_cap));
+
+  /* "pyagg/graphics_state.pxi":223
+ *         def __get__(self):
+ *             return LineCap(self._this.lineCap())
+ *         def __set__(self, LineCap cap):             # <<<<<<<<<<<<<<
+ *             self._this.lineCap(cap)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/graphics_state.pxi":227
+ * 
+ *     property line_join:
+ *         def __get__(self):             # <<<<<<<<<<<<<<
+ *             return LineJoin(self._this.lineJoin())
+ *         def __set__(self, LineJoin join):
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_9line_join_1__get__(PyObject *__pyx_v_self); /*proto*/
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_9line_join_1__get__(PyObject *__pyx_v_self) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  __Pyx_RefNannySetupContext("__get__", 0);
+
+  /* "pyagg/graphics_state.pxi":228
+ *     property line_join:
+ *         def __get__(self):
+ *             return LineJoin(self._this.lineJoin())             # <<<<<<<<<<<<<<
+ *         def __set__(self, LineJoin join):
+ *             self._this.lineJoin(join)
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_LineJoin); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __pyx_t_3 = __Pyx_PyInt_From_enum__GraphicsState_3a__3a_LineJoin(__pyx_v_self->_this->lineJoin()); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 228, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = NULL;
+  if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_2))) {
+    __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_2);
+    if (likely(__pyx_t_4)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_2);
+      __Pyx_INCREF(__pyx_t_4);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_2, function);
+    }
+  }
+  if (!__pyx_t_4) {
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_GOTREF(__pyx_t_1);
+  } else {
+    __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_3);
+    __pyx_t_3 = 0;
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_5, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  }
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __pyx_r = __pyx_t_1;
+  __pyx_t_1 = 0;
+  goto __pyx_L0;
+
+  /* "pyagg/graphics_state.pxi":227
+ * 
  *     property line_join:
  *         def __get__(self):             # <<<<<<<<<<<<<<
  *             return LineJoin(self._this.lineJoin())
@@ -7232,12 +7431,11 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(stru
   return __pyx_r;
 }
 
-/* "pyagg/graphics_state.pxi":223
+/* "pyagg/graphics_state.pxi":229
  *         def __get__(self):
  *             return LineJoin(self._this.lineJoin())
  *         def __set__(self, LineJoin join):             # <<<<<<<<<<<<<<
  *             self._this.lineJoin(join)
- * 
  */
 
 /* Python wrapper */
@@ -7248,7 +7446,7 @@ static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_9line_join_3__set__(PyObject 
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_join); {
-    __pyx_v_join = ((enum __pyx_t_5pyagg_6_pyagg_LineJoin)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_LineJoin(__pyx_arg_join)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 223, __pyx_L3_error)
+    __pyx_v_join = ((enum __pyx_t_5pyagg_6_pyagg_LineJoin)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_LineJoin(__pyx_arg_join)); if (unlikely(PyErr_Occurred())) __PYX_ERR(0, 229, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -7268,137 +7466,22 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join_2__set__(struct __
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/graphics_state.pxi":224
+  /* "pyagg/graphics_state.pxi":230
  *             return LineJoin(self._this.lineJoin())
  *         def __set__(self, LineJoin join):
  *             self._this.lineJoin(join)             # <<<<<<<<<<<<<<
- * 
- *     property fill_even_odd:
  */
   __pyx_v_self->_this->lineJoin(((enum GraphicsState::LineJoin)__pyx_v_join));
 
-  /* "pyagg/graphics_state.pxi":223
+  /* "pyagg/graphics_state.pxi":229
  *         def __get__(self):
  *             return LineJoin(self._this.lineJoin())
  *         def __set__(self, LineJoin join):             # <<<<<<<<<<<<<<
  *             self._this.lineJoin(join)
- * 
  */
 
   /* function exit code */
   __pyx_r = 0;
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "pyagg/graphics_state.pxi":227
- * 
- *     property fill_even_odd:
- *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return self._this.fillEvenOdd()
- *         def __set__(self, even_odd_flag):
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd___get__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "pyagg/graphics_state.pxi":228
- *     property fill_even_odd:
- *         def __get__(self):
- *             return self._this.fillEvenOdd()             # <<<<<<<<<<<<<<
- *         def __set__(self, even_odd_flag):
- *             self._this.fillEvenOdd(even_odd_flag)
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyBool_FromLong(__pyx_v_self->_this->fillEvenOdd()); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 228, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "pyagg/graphics_state.pxi":227
- * 
- *     property fill_even_odd:
- *         def __get__(self):             # <<<<<<<<<<<<<<
- *             return self._this.fillEvenOdd()
- *         def __set__(self, even_odd_flag):
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.fill_even_odd.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "pyagg/graphics_state.pxi":229
- *         def __get__(self):
- *             return self._this.fillEvenOdd()
- *         def __set__(self, even_odd_flag):             # <<<<<<<<<<<<<<
- *             self._this.fillEvenOdd(even_odd_flag)
- */
-
-/* Python wrapper */
-static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_even_odd_flag); /*proto*/
-static int __pyx_pw_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_3__set__(PyObject *__pyx_v_self, PyObject *__pyx_v_even_odd_flag) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_2__set__(((struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *)__pyx_v_self), ((PyObject *)__pyx_v_even_odd_flag));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, PyObject *__pyx_v_even_odd_flag) {
-  int __pyx_r;
-  __Pyx_RefNannyDeclarations
-  bool __pyx_t_1;
-  __Pyx_RefNannySetupContext("__set__", 0);
-
-  /* "pyagg/graphics_state.pxi":230
- *             return self._this.fillEvenOdd()
- *         def __set__(self, even_odd_flag):
- *             self._this.fillEvenOdd(even_odd_flag)             # <<<<<<<<<<<<<<
- */
-  __pyx_t_1 = __Pyx_PyObject_IsTrue(__pyx_v_even_odd_flag); if (unlikely((__pyx_t_1 == (bool)-1) && PyErr_Occurred())) __PYX_ERR(0, 230, __pyx_L1_error)
-  __pyx_v_self->_this->fillEvenOdd(__pyx_t_1);
-
-  /* "pyagg/graphics_state.pxi":229
- *         def __get__(self):
- *             return self._this.fillEvenOdd()
- *         def __set__(self, even_odd_flag):             # <<<<<<<<<<<<<<
- *             self._this.fillEvenOdd(even_odd_flag)
- */
-
-  /* function exit code */
-  __pyx_r = 0;
-  goto __pyx_L0;
-  __pyx_L1_error:;
-  __Pyx_AddTraceback("pyagg._pyagg.GraphicsState.fill_even_odd.__set__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = -1;
-  __pyx_L0:;
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
@@ -28158,6 +28241,20 @@ static int __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_clip_box(PyObject *o, Py
   }
 }
 
+static PyObject *__pyx_getprop_5pyagg_6_pyagg_13GraphicsState_drawing_mode(PyObject *o, CYTHON_UNUSED void *x) {
+  return __pyx_pw_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_1__get__(o);
+}
+
+static int __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_drawing_mode(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
+  if (v) {
+    return __pyx_pw_5pyagg_6_pyagg_13GraphicsState_12drawing_mode_3__set__(o, v);
+  }
+  else {
+    PyErr_SetString(PyExc_NotImplementedError, "__del__");
+    return -1;
+  }
+}
+
 static PyObject *__pyx_getprop_5pyagg_6_pyagg_13GraphicsState_blend_mode(PyObject *o, CYTHON_UNUSED void *x) {
   return __pyx_pw_5pyagg_6_pyagg_13GraphicsState_10blend_mode_1__get__(o);
 }
@@ -28298,20 +28395,6 @@ static int __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_line_join(PyObject *o, P
   }
 }
 
-static PyObject *__pyx_getprop_5pyagg_6_pyagg_13GraphicsState_fill_even_odd(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_1__get__(o);
-}
-
-static int __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_fill_even_odd(PyObject *o, PyObject *v, CYTHON_UNUSED void *x) {
-  if (v) {
-    return __pyx_pw_5pyagg_6_pyagg_13GraphicsState_13fill_even_odd_3__set__(o, v);
-  }
-  else {
-    PyErr_SetString(PyExc_NotImplementedError, "__del__");
-    return -1;
-  }
-}
-
 static PyMethodDef __pyx_methods_5pyagg_6_pyagg_GraphicsState[] = {
   {"no_fill", (PyCFunction)__pyx_pw_5pyagg_6_pyagg_13GraphicsState_5no_fill, METH_NOARGS, __pyx_doc_5pyagg_6_pyagg_13GraphicsState_4no_fill},
   {"no_line", (PyCFunction)__pyx_pw_5pyagg_6_pyagg_13GraphicsState_7no_line, METH_NOARGS, __pyx_doc_5pyagg_6_pyagg_13GraphicsState_6no_line},
@@ -28321,6 +28404,7 @@ static PyMethodDef __pyx_methods_5pyagg_6_pyagg_GraphicsState[] = {
 static struct PyGetSetDef __pyx_getsets_5pyagg_6_pyagg_GraphicsState[] = {
   {(char *)"anti_aliased", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_anti_aliased, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_anti_aliased, (char *)0, 0},
   {(char *)"clip_box", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_clip_box, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_clip_box, (char *)0, 0},
+  {(char *)"drawing_mode", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_drawing_mode, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_drawing_mode, (char *)0, 0},
   {(char *)"blend_mode", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_blend_mode, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_blend_mode, (char *)0, 0},
   {(char *)"image_blend_mode", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_image_blend_mode, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_image_blend_mode, (char *)0, 0},
   {(char *)"image_blend_color", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_image_blend_color, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_image_blend_color, (char *)0, 0},
@@ -28331,7 +28415,6 @@ static struct PyGetSetDef __pyx_getsets_5pyagg_6_pyagg_GraphicsState[] = {
   {(char *)"line_width", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_line_width, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_line_width, (char *)0, 0},
   {(char *)"line_cap", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_line_cap, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_line_cap, (char *)0, 0},
   {(char *)"line_join", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_line_join, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_line_join, (char *)0, 0},
-  {(char *)"fill_even_odd", __pyx_getprop_5pyagg_6_pyagg_13GraphicsState_fill_even_odd, __pyx_setprop_5pyagg_6_pyagg_13GraphicsState_fill_even_odd, (char *)0, 0},
   {0, 0, 0, 0, 0}
 };
 
@@ -29884,6 +29967,12 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_CapButt, __pyx_k_CapButt, sizeof(__pyx_k_CapButt), 0, 0, 1, 1},
   {&__pyx_n_s_CapRound, __pyx_k_CapRound, sizeof(__pyx_k_CapRound), 0, 0, 1, 1},
   {&__pyx_n_s_CapSquare, __pyx_k_CapSquare, sizeof(__pyx_k_CapSquare), 0, 0, 1, 1},
+  {&__pyx_n_s_DrawEofFill, __pyx_k_DrawEofFill, sizeof(__pyx_k_DrawEofFill), 0, 0, 1, 1},
+  {&__pyx_n_s_DrawEofFillStroke, __pyx_k_DrawEofFillStroke, sizeof(__pyx_k_DrawEofFillStroke), 0, 0, 1, 1},
+  {&__pyx_n_s_DrawFill, __pyx_k_DrawFill, sizeof(__pyx_k_DrawFill), 0, 0, 1, 1},
+  {&__pyx_n_s_DrawFillStroke, __pyx_k_DrawFillStroke, sizeof(__pyx_k_DrawFillStroke), 0, 0, 1, 1},
+  {&__pyx_n_s_DrawStroke, __pyx_k_DrawStroke, sizeof(__pyx_k_DrawStroke), 0, 0, 1, 1},
+  {&__pyx_n_s_DrawingMode, __pyx_k_DrawingMode, sizeof(__pyx_k_DrawingMode), 0, 0, 1, 1},
   {&__pyx_n_s_Ellipsis, __pyx_k_Ellipsis, sizeof(__pyx_k_Ellipsis), 0, 0, 1, 1},
   {&__pyx_kp_s_Empty_shape_tuple_for_cython_arr, __pyx_k_Empty_shape_tuple_for_cython_arr, sizeof(__pyx_k_Empty_shape_tuple_for_cython_arr), 0, 0, 1, 0},
   {&__pyx_n_s_EnumBase, __pyx_k_EnumBase, sizeof(__pyx_k_EnumBase), 0, 0, 1, 1},
@@ -31767,6 +31856,559 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  * cdef dict __Pyx_globals = globals()
  * if PY_VERSION_HEX >= 0x03040000:             # <<<<<<<<<<<<<<
  * 
+ *     DrawingMode = __Pyx_EnumBase('DrawingMode', __Pyx_OrderedDict([
+ */
+  __pyx_t_2 = ((PY_VERSION_HEX >= 0x03040000) != 0);
+  if (__pyx_t_2) {
+
+    /* "EnumType":54
+ * 
+ *     DrawingMode = __Pyx_EnumBase('DrawingMode', __Pyx_OrderedDict([
+ *         ('DrawFill', DrawFill),             # <<<<<<<<<<<<<<
+ *         ('DrawEofFill', DrawEofFill),
+ *         ('DrawStroke', DrawStroke),
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawFill); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 54, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 54, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
+    __Pyx_INCREF(__pyx_n_s_DrawFill);
+    __Pyx_GIVEREF(__pyx_n_s_DrawFill);
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_DrawFill);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "EnumType":55
+ *     DrawingMode = __Pyx_EnumBase('DrawingMode', __Pyx_OrderedDict([
+ *         ('DrawFill', DrawFill),
+ *         ('DrawEofFill', DrawEofFill),             # <<<<<<<<<<<<<<
+ *         ('DrawStroke', DrawStroke),
+ *         ('DrawFillStroke', DrawFillStroke),
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawEofFill); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(6, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_INCREF(__pyx_n_s_DrawEofFill);
+    __Pyx_GIVEREF(__pyx_n_s_DrawEofFill);
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_DrawEofFill);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "EnumType":56
+ *         ('DrawFill', DrawFill),
+ *         ('DrawEofFill', DrawEofFill),
+ *         ('DrawStroke', DrawStroke),             # <<<<<<<<<<<<<<
+ *         ('DrawFillStroke', DrawFillStroke),
+ *         ('DrawEofFillStroke', DrawEofFillStroke),
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawStroke); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 56, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 56, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_INCREF(__pyx_n_s_DrawStroke);
+    __Pyx_GIVEREF(__pyx_n_s_DrawStroke);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_DrawStroke);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "EnumType":57
+ *         ('DrawEofFill', DrawEofFill),
+ *         ('DrawStroke', DrawStroke),
+ *         ('DrawFillStroke', DrawFillStroke),             # <<<<<<<<<<<<<<
+ *         ('DrawEofFillStroke', DrawEofFillStroke),
+ *     ]))
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawFillStroke); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(6, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
+    __Pyx_INCREF(__pyx_n_s_DrawFillStroke);
+    __Pyx_GIVEREF(__pyx_n_s_DrawFillStroke);
+    PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_s_DrawFillStroke);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "EnumType":58
+ *         ('DrawStroke', DrawStroke),
+ *         ('DrawFillStroke', DrawFillStroke),
+ *         ('DrawEofFillStroke', DrawEofFillStroke),             # <<<<<<<<<<<<<<
+ *     ]))
+ *     __Pyx_globals['DrawFill'] = DrawingMode.DrawFill
+ */
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawEofFillStroke); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_INCREF(__pyx_n_s_DrawEofFillStroke);
+    __Pyx_GIVEREF(__pyx_n_s_DrawEofFillStroke);
+    PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_n_s_DrawEofFillStroke);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_4);
+    __pyx_t_4 = 0;
+
+    /* "EnumType":53
+ * if PY_VERSION_HEX >= 0x03040000:
+ * 
+ *     DrawingMode = __Pyx_EnumBase('DrawingMode', __Pyx_OrderedDict([             # <<<<<<<<<<<<<<
+ *         ('DrawFill', DrawFill),
+ *         ('DrawEofFill', DrawEofFill),
+ */
+    __pyx_t_4 = PyList_New(5); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyList_SET_ITEM(__pyx_t_4, 2, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_9);
+    PyList_SET_ITEM(__pyx_t_4, 3, __pyx_t_9);
+    __Pyx_GIVEREF(__pyx_t_10);
+    PyList_SET_ITEM(__pyx_t_4, 4, __pyx_t_10);
+    __pyx_t_1 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_5 = 0;
+    __pyx_t_9 = 0;
+    __pyx_t_10 = 0;
+    __Pyx_INCREF(__Pyx_OrderedDict);
+    __pyx_t_10 = __Pyx_OrderedDict; __pyx_t_9 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_9 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_9)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_9);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
+      }
+    }
+    if (!__pyx_t_9) {
+      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_10, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 53, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+      __Pyx_GOTREF(__pyx_t_7);
+    } else {
+      __pyx_t_5 = PyTuple_New(1+1); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 53, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_5);
+      __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_9); __pyx_t_9 = NULL;
+      __Pyx_GIVEREF(__pyx_t_4);
+      PyTuple_SET_ITEM(__pyx_t_5, 0+1, __pyx_t_4);
+      __pyx_t_4 = 0;
+      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_5, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 53, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    __Pyx_INCREF(__Pyx_EnumBase);
+    __pyx_t_10 = __Pyx_EnumBase; __pyx_t_5 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (__pyx_t_5) {
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    }
+    __Pyx_INCREF(__pyx_n_s_DrawingMode);
+    __Pyx_GIVEREF(__pyx_n_s_DrawingMode);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_n_s_DrawingMode);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_t_7);
+    __pyx_t_7 = 0;
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_DrawingMode, __pyx_t_6) < 0) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "EnumType":60
+ *         ('DrawEofFillStroke', DrawEofFillStroke),
+ *     ]))
+ *     __Pyx_globals['DrawFill'] = DrawingMode.DrawFill             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode.DrawEofFill
+ *     __Pyx_globals['DrawStroke'] = DrawingMode.DrawStroke
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 60, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DrawFill); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 60, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 60, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawFill, __pyx_t_10) < 0)) __PYX_ERR(6, 60, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":61
+ *     ]))
+ *     __Pyx_globals['DrawFill'] = DrawingMode.DrawFill
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode.DrawEofFill             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawStroke'] = DrawingMode.DrawStroke
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode.DrawFillStroke
+ */
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 61, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_DrawEofFill); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 61, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 61, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawEofFill, __pyx_t_6) < 0)) __PYX_ERR(6, 61, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "EnumType":62
+ *     __Pyx_globals['DrawFill'] = DrawingMode.DrawFill
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode.DrawEofFill
+ *     __Pyx_globals['DrawStroke'] = DrawingMode.DrawStroke             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode.DrawFillStroke
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode.DrawEofFillStroke
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DrawStroke); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 62, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawStroke, __pyx_t_10) < 0)) __PYX_ERR(6, 62, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":63
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode.DrawEofFill
+ *     __Pyx_globals['DrawStroke'] = DrawingMode.DrawStroke
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode.DrawFillStroke             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode.DrawEofFillStroke
+ * else:
+ */
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 63, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_DrawFillStroke); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 63, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 63, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawFillStroke, __pyx_t_6) < 0)) __PYX_ERR(6, 63, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+
+    /* "EnumType":64
+ *     __Pyx_globals['DrawStroke'] = DrawingMode.DrawStroke
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode.DrawFillStroke
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode.DrawEofFillStroke             # <<<<<<<<<<<<<<
+ * else:
+ *     class DrawingMode(__Pyx_EnumBase):
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 64, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_DrawEofFillStroke); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 64, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 64, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawEofFillStroke, __pyx_t_10) < 0)) __PYX_ERR(6, 64, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":51
+ * 
+ * cdef dict __Pyx_globals = globals()
+ * if PY_VERSION_HEX >= 0x03040000:             # <<<<<<<<<<<<<<
+ * 
+ *     DrawingMode = __Pyx_EnumBase('DrawingMode', __Pyx_OrderedDict([
+ */
+    goto __pyx_L6;
+  }
+
+  /* "EnumType":66
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode.DrawEofFillStroke
+ * else:
+ *     class DrawingMode(__Pyx_EnumBase):             # <<<<<<<<<<<<<<
+ *         pass
+ *     __Pyx_globals['DrawFill'] = DrawingMode(DrawFill, 'DrawFill')
+ */
+  /*else*/ {
+    __pyx_t_10 = PyTuple_New(1); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_INCREF(__Pyx_EnumBase);
+    __Pyx_GIVEREF(__Pyx_EnumBase);
+    PyTuple_SET_ITEM(__pyx_t_10, 0, __Pyx_EnumBase);
+    __pyx_t_6 = __Pyx_CalculateMetaclass(NULL, __pyx_t_10); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __Pyx_Py3MetaclassPrepare(__pyx_t_6, __pyx_t_10, __pyx_n_s_DrawingMode, __pyx_n_s_DrawingMode, (PyObject *) NULL, __pyx_n_s_EnumType, (PyObject *) NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_6, __pyx_n_s_DrawingMode, __pyx_t_10, __pyx_t_4, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_DrawingMode, __pyx_t_7) < 0) __PYX_ERR(6, 66, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":68
+ *     class DrawingMode(__Pyx_EnumBase):
+ *         pass
+ *     __Pyx_globals['DrawFill'] = DrawingMode(DrawFill, 'DrawFill')             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode(DrawEofFill, 'DrawEofFill')
+ *     __Pyx_globals['DrawStroke'] = DrawingMode(DrawStroke, 'DrawStroke')
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawFill); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_INCREF(__pyx_n_s_DrawFill);
+    __Pyx_GIVEREF(__pyx_n_s_DrawFill);
+    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_8, __pyx_n_s_DrawFill);
+    __pyx_t_4 = 0;
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 68, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawFill, __pyx_t_10) < 0)) __PYX_ERR(6, 68, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":69
+ *         pass
+ *     __Pyx_globals['DrawFill'] = DrawingMode(DrawFill, 'DrawFill')
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode(DrawEofFill, 'DrawEofFill')             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawStroke'] = DrawingMode(DrawStroke, 'DrawStroke')
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode(DrawFillStroke, 'DrawFillStroke')
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawEofFill); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_5);
+    __Pyx_INCREF(__pyx_n_s_DrawEofFill);
+    __Pyx_GIVEREF(__pyx_n_s_DrawEofFill);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_DrawEofFill);
+    __pyx_t_5 = 0;
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 69, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawEofFill, __pyx_t_10) < 0)) __PYX_ERR(6, 69, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":70
+ *     __Pyx_globals['DrawFill'] = DrawingMode(DrawFill, 'DrawFill')
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode(DrawEofFill, 'DrawEofFill')
+ *     __Pyx_globals['DrawStroke'] = DrawingMode(DrawStroke, 'DrawStroke')             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode(DrawFillStroke, 'DrawFillStroke')
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode(DrawEofFillStroke, 'DrawEofFillStroke')
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawStroke); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    if (__pyx_t_5) {
+      __Pyx_GIVEREF(__pyx_t_5); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_5); __pyx_t_5 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_INCREF(__pyx_n_s_DrawStroke);
+    __Pyx_GIVEREF(__pyx_n_s_DrawStroke);
+    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_DrawStroke);
+    __pyx_t_7 = 0;
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 70, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawStroke, __pyx_t_10) < 0)) __PYX_ERR(6, 70, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":71
+ *     __Pyx_globals['DrawEofFill'] = DrawingMode(DrawEofFill, 'DrawEofFill')
+ *     __Pyx_globals['DrawStroke'] = DrawingMode(DrawStroke, 'DrawStroke')
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode(DrawFillStroke, 'DrawFillStroke')             # <<<<<<<<<<<<<<
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode(DrawEofFillStroke, 'DrawEofFillStroke')
+ * 
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawFillStroke); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_7);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    __pyx_t_5 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyTuple_SET_ITEM(__pyx_t_5, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_INCREF(__pyx_n_s_DrawFillStroke);
+    __Pyx_GIVEREF(__pyx_n_s_DrawFillStroke);
+    PyTuple_SET_ITEM(__pyx_t_5, 1+__pyx_t_8, __pyx_n_s_DrawFillStroke);
+    __pyx_t_4 = 0;
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_5, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 71, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawFillStroke, __pyx_t_10) < 0)) __PYX_ERR(6, 71, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+
+    /* "EnumType":72
+ *     __Pyx_globals['DrawStroke'] = DrawingMode(DrawStroke, 'DrawStroke')
+ *     __Pyx_globals['DrawFillStroke'] = DrawingMode(DrawFillStroke, 'DrawFillStroke')
+ *     __Pyx_globals['DrawEofFillStroke'] = DrawingMode(DrawEofFillStroke, 'DrawEofFillStroke')             # <<<<<<<<<<<<<<
+ * 
+ */
+    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_DrawingMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_5 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(__pyx_e_5pyagg_6_pyagg_DrawEofFillStroke); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_4 = NULL;
+    __pyx_t_8 = 0;
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_4)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_4);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __pyx_t_8 = 1;
+      }
+    }
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    if (__pyx_t_4) {
+      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    }
+    __Pyx_GIVEREF(__pyx_t_5);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_5);
+    __Pyx_INCREF(__pyx_n_s_DrawEofFillStroke);
+    __Pyx_GIVEREF(__pyx_n_s_DrawEofFillStroke);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_DrawEofFillStroke);
+    __pyx_t_5 = 0;
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(__Pyx_globals == Py_None)) {
+      PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
+      __PYX_ERR(6, 72, __pyx_L1_error)
+    }
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_DrawEofFillStroke, __pyx_t_10) < 0)) __PYX_ERR(6, 72, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
+  }
+  __pyx_L6:;
+
+  /* "EnumType":50
+ * 
+ * 
+ * cdef dict __Pyx_globals = globals()             # <<<<<<<<<<<<<<
+ * if PY_VERSION_HEX >= 0x03040000:
+ * 
+ */
+  __pyx_t_10 = __Pyx_Globals(); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 50, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_10);
+  if (!(likely(PyDict_CheckExact(__pyx_t_10))||((__pyx_t_10) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "dict", Py_TYPE(__pyx_t_10)->tp_name), 0))) __PYX_ERR(6, 50, __pyx_L1_error)
+  __Pyx_XGOTREF(__Pyx_globals);
+  __Pyx_DECREF_SET(__Pyx_globals, ((PyObject*)__pyx_t_10));
+  __Pyx_GIVEREF(__pyx_t_10);
+  __pyx_t_10 = 0;
+
+  /* "EnumType":51
+ * 
+ * cdef dict __Pyx_globals = globals()
+ * if PY_VERSION_HEX >= 0x03040000:             # <<<<<<<<<<<<<<
+ * 
  *     BlendMode = __Pyx_EnumBase('BlendMode', __Pyx_OrderedDict([
  */
   __pyx_t_2 = ((PY_VERSION_HEX >= 0x03040000) != 0);
@@ -31779,16 +32421,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendClear', BlendClear),
  *         ('BlendSrc', BlendSrc),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAlpha); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 54, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAlpha); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 54, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 54, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_n_s_BlendAlpha);
     __Pyx_GIVEREF(__pyx_n_s_BlendAlpha);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_BlendAlpha);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_BlendAlpha);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":55
  *     BlendMode = __Pyx_EnumBase('BlendMode', __Pyx_OrderedDict([
@@ -31797,16 +32439,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendSrc', BlendSrc),
  *         ('BlendDst', BlendDst),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendClear); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 55, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendClear); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 55, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_4 = PyTuple_New(2); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 55, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(6, 55, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_n_s_BlendClear);
     __Pyx_GIVEREF(__pyx_n_s_BlendClear);
-    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_BlendClear);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_n_s_BlendClear);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_4, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":56
  *         ('BlendAlpha', BlendAlpha),
@@ -31815,16 +32457,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDst', BlendDst),
  *         ('BlendSrcOver', BlendSrcOver),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrc); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 56, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(6, 56, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrc); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 56, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(6, 56, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_9);
     __Pyx_INCREF(__pyx_n_s_BlendSrc);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrc);
-    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_n_s_BlendSrc);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_s_BlendSrc);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":57
  *         ('BlendClear', BlendClear),
@@ -31833,16 +32475,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendSrcOver', BlendSrcOver),
  *         ('BlendDstOver', BlendDstOver),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDst); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 57, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_9 = PyTuple_New(2); if (unlikely(!__pyx_t_9)) __PYX_ERR(6, 57, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_9);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDst); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_3 = PyTuple_New(2); if (unlikely(!__pyx_t_3)) __PYX_ERR(6, 57, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_n_s_BlendDst);
     __Pyx_GIVEREF(__pyx_n_s_BlendDst);
-    PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_n_s_BlendDst);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_9, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_n_s_BlendDst);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_3, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":58
  *         ('BlendSrc', BlendSrc),
@@ -31851,16 +32493,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDstOver', BlendDstOver),
  *         ('BlendSrcIn', BlendSrcIn),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOver); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 58, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_10 = PyTuple_New(2); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 58, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOver); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_1 = PyTuple_New(2); if (unlikely(!__pyx_t_1)) __PYX_ERR(6, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_1);
     __Pyx_INCREF(__pyx_n_s_BlendSrcOver);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcOver);
-    PyTuple_SET_ITEM(__pyx_t_10, 0, __pyx_n_s_BlendSrcOver);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_10, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_n_s_BlendSrcOver);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_1, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":59
  *         ('BlendDst', BlendDst),
@@ -31869,16 +32511,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendSrcIn', BlendSrcIn),
  *         ('BlendDstIn', BlendDstIn),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOver); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 59, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOver); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 59, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_11 = PyTuple_New(2); if (unlikely(!__pyx_t_11)) __PYX_ERR(6, 59, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_INCREF(__pyx_n_s_BlendDstOver);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstOver);
     PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_n_s_BlendDstOver);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_11, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":60
  *         ('BlendSrcOver', BlendSrcOver),
@@ -31887,16 +32529,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDstIn', BlendDstIn),
  *         ('BlendSrcOut', BlendSrcOut),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcIn); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 60, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcIn); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 60, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_12 = PyTuple_New(2); if (unlikely(!__pyx_t_12)) __PYX_ERR(6, 60, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_12);
     __Pyx_INCREF(__pyx_n_s_BlendSrcIn);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcIn);
     PyTuple_SET_ITEM(__pyx_t_12, 0, __pyx_n_s_BlendSrcIn);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_12, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":61
  *         ('BlendDstOver', BlendDstOver),
@@ -31905,16 +32547,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendSrcOut', BlendSrcOut),
  *         ('BlendDstOut', BlendDstOut),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstIn); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 61, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstIn); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 61, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_13 = PyTuple_New(2); if (unlikely(!__pyx_t_13)) __PYX_ERR(6, 61, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_13);
     __Pyx_INCREF(__pyx_n_s_BlendDstIn);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstIn);
     PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_n_s_BlendDstIn);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_13, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":62
  *         ('BlendSrcIn', BlendSrcIn),
@@ -31923,16 +32565,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDstOut', BlendDstOut),
  *         ('BlendSrcAtop', BlendSrcAtop),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOut); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 62, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOut); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 62, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_14 = PyTuple_New(2); if (unlikely(!__pyx_t_14)) __PYX_ERR(6, 62, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_14);
     __Pyx_INCREF(__pyx_n_s_BlendSrcOut);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcOut);
     PyTuple_SET_ITEM(__pyx_t_14, 0, __pyx_n_s_BlendSrcOut);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_14, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":63
  *         ('BlendDstIn', BlendDstIn),
@@ -31941,16 +32583,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendSrcAtop', BlendSrcAtop),
  *         ('BlendDstAtop', BlendDstAtop),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOut); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 63, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOut); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 63, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_15 = PyTuple_New(2); if (unlikely(!__pyx_t_15)) __PYX_ERR(6, 63, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_15);
     __Pyx_INCREF(__pyx_n_s_BlendDstOut);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstOut);
     PyTuple_SET_ITEM(__pyx_t_15, 0, __pyx_n_s_BlendDstOut);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_15, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":64
  *         ('BlendSrcOut', BlendSrcOut),
@@ -31959,16 +32601,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDstAtop', BlendDstAtop),
  *         ('BlendXor', BlendXor),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcAtop); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 64, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcAtop); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 64, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_16 = PyTuple_New(2); if (unlikely(!__pyx_t_16)) __PYX_ERR(6, 64, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_16);
     __Pyx_INCREF(__pyx_n_s_BlendSrcAtop);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcAtop);
     PyTuple_SET_ITEM(__pyx_t_16, 0, __pyx_n_s_BlendSrcAtop);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_16, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":65
  *         ('BlendDstOut', BlendDstOut),
@@ -31977,16 +32619,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendXor', BlendXor),
  *         ('BlendAdd', BlendAdd),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstAtop); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 65, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstAtop); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 65, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_17 = PyTuple_New(2); if (unlikely(!__pyx_t_17)) __PYX_ERR(6, 65, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_17);
     __Pyx_INCREF(__pyx_n_s_BlendDstAtop);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstAtop);
     PyTuple_SET_ITEM(__pyx_t_17, 0, __pyx_n_s_BlendDstAtop);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_17, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_17, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":66
  *         ('BlendSrcAtop', BlendSrcAtop),
@@ -31995,16 +32637,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendAdd', BlendAdd),
  *         ('BlendMultiply', BlendMultiply),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendXor); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 66, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendXor); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 66, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_18 = PyTuple_New(2); if (unlikely(!__pyx_t_18)) __PYX_ERR(6, 66, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_18);
     __Pyx_INCREF(__pyx_n_s_BlendXor);
     __Pyx_GIVEREF(__pyx_n_s_BlendXor);
     PyTuple_SET_ITEM(__pyx_t_18, 0, __pyx_n_s_BlendXor);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_18, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":67
  *         ('BlendDstAtop', BlendDstAtop),
@@ -32013,16 +32655,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendMultiply', BlendMultiply),
  *         ('BlendScreen', BlendScreen),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAdd); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 67, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAdd); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 67, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_19 = PyTuple_New(2); if (unlikely(!__pyx_t_19)) __PYX_ERR(6, 67, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_19);
     __Pyx_INCREF(__pyx_n_s_BlendAdd);
     __Pyx_GIVEREF(__pyx_n_s_BlendAdd);
     PyTuple_SET_ITEM(__pyx_t_19, 0, __pyx_n_s_BlendAdd);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_19, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":68
  *         ('BlendXor', BlendXor),
@@ -32031,16 +32673,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendScreen', BlendScreen),
  *         ('BlendOverlay', BlendOverlay),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendMultiply); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 68, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendMultiply); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 68, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_20 = PyTuple_New(2); if (unlikely(!__pyx_t_20)) __PYX_ERR(6, 68, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_20);
     __Pyx_INCREF(__pyx_n_s_BlendMultiply);
     __Pyx_GIVEREF(__pyx_n_s_BlendMultiply);
     PyTuple_SET_ITEM(__pyx_t_20, 0, __pyx_n_s_BlendMultiply);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_20, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":69
  *         ('BlendAdd', BlendAdd),
@@ -32049,16 +32691,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendOverlay', BlendOverlay),
  *         ('BlendDarken', BlendDarken),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendScreen); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 69, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendScreen); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 69, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_21 = PyTuple_New(2); if (unlikely(!__pyx_t_21)) __PYX_ERR(6, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_21);
     __Pyx_INCREF(__pyx_n_s_BlendScreen);
     __Pyx_GIVEREF(__pyx_n_s_BlendScreen);
     PyTuple_SET_ITEM(__pyx_t_21, 0, __pyx_n_s_BlendScreen);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_21, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_21, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":70
  *         ('BlendMultiply', BlendMultiply),
@@ -32067,16 +32709,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDarken', BlendDarken),
  *         ('BlendLighten', BlendLighten),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendOverlay); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 70, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendOverlay); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 70, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_22 = PyTuple_New(2); if (unlikely(!__pyx_t_22)) __PYX_ERR(6, 70, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_22);
     __Pyx_INCREF(__pyx_n_s_BlendOverlay);
     __Pyx_GIVEREF(__pyx_n_s_BlendOverlay);
     PyTuple_SET_ITEM(__pyx_t_22, 0, __pyx_n_s_BlendOverlay);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_22, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_22, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":71
  *         ('BlendScreen', BlendScreen),
@@ -32085,16 +32727,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendLighten', BlendLighten),
  *         ('BlendColorDodge', BlendColorDodge),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDarken); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDarken); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_23 = PyTuple_New(2); if (unlikely(!__pyx_t_23)) __PYX_ERR(6, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_23);
     __Pyx_INCREF(__pyx_n_s_BlendDarken);
     __Pyx_GIVEREF(__pyx_n_s_BlendDarken);
     PyTuple_SET_ITEM(__pyx_t_23, 0, __pyx_n_s_BlendDarken);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_23, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_23, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":72
  *         ('BlendOverlay', BlendOverlay),
@@ -32103,16 +32745,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendColorDodge', BlendColorDodge),
  *         ('BlendColorBurn', BlendColorBurn),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendLighten); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 72, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendLighten); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 72, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_24 = PyTuple_New(2); if (unlikely(!__pyx_t_24)) __PYX_ERR(6, 72, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_24);
     __Pyx_INCREF(__pyx_n_s_BlendLighten);
     __Pyx_GIVEREF(__pyx_n_s_BlendLighten);
     PyTuple_SET_ITEM(__pyx_t_24, 0, __pyx_n_s_BlendLighten);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_24, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_24, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":73
  *         ('BlendDarken', BlendDarken),
@@ -32121,16 +32763,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendColorBurn', BlendColorBurn),
  *         ('BlendHardLight', BlendHardLight),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorDodge); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 73, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorDodge); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 73, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_25 = PyTuple_New(2); if (unlikely(!__pyx_t_25)) __PYX_ERR(6, 73, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_25);
     __Pyx_INCREF(__pyx_n_s_BlendColorDodge);
     __Pyx_GIVEREF(__pyx_n_s_BlendColorDodge);
     PyTuple_SET_ITEM(__pyx_t_25, 0, __pyx_n_s_BlendColorDodge);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_25, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":74
  *         ('BlendLighten', BlendLighten),
@@ -32139,16 +32781,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendHardLight', BlendHardLight),
  *         ('BlendSoftLight', BlendSoftLight),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorBurn); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 74, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorBurn); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 74, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_26 = PyTuple_New(2); if (unlikely(!__pyx_t_26)) __PYX_ERR(6, 74, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_26);
     __Pyx_INCREF(__pyx_n_s_BlendColorBurn);
     __Pyx_GIVEREF(__pyx_n_s_BlendColorBurn);
     PyTuple_SET_ITEM(__pyx_t_26, 0, __pyx_n_s_BlendColorBurn);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_26, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_26, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":75
  *         ('BlendColorDodge', BlendColorDodge),
@@ -32157,16 +32799,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendSoftLight', BlendSoftLight),
  *         ('BlendDifference', BlendDifference),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendHardLight); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 75, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendHardLight); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 75, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_27 = PyTuple_New(2); if (unlikely(!__pyx_t_27)) __PYX_ERR(6, 75, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_27);
     __Pyx_INCREF(__pyx_n_s_BlendHardLight);
     __Pyx_GIVEREF(__pyx_n_s_BlendHardLight);
     PyTuple_SET_ITEM(__pyx_t_27, 0, __pyx_n_s_BlendHardLight);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_27, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_27, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":76
  *         ('BlendColorBurn', BlendColorBurn),
@@ -32175,16 +32817,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendDifference', BlendDifference),
  *         ('BlendExclusion', BlendExclusion),
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSoftLight); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 76, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSoftLight); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 76, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = PyTuple_New(2); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 76, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendSoftLight);
     __Pyx_GIVEREF(__pyx_n_s_BlendSoftLight);
     PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_n_s_BlendSoftLight);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":77
  *         ('BlendHardLight', BlendHardLight),
@@ -32193,16 +32835,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendExclusion', BlendExclusion),
  *     ]))
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDifference); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 77, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDifference); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 77, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_29 = PyTuple_New(2); if (unlikely(!__pyx_t_29)) __PYX_ERR(6, 77, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_29);
     __Pyx_INCREF(__pyx_n_s_BlendDifference);
     __Pyx_GIVEREF(__pyx_n_s_BlendDifference);
     PyTuple_SET_ITEM(__pyx_t_29, 0, __pyx_n_s_BlendDifference);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_29, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":78
  *         ('BlendSoftLight', BlendSoftLight),
@@ -32211,16 +32853,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     ]))
  *     __Pyx_globals['BlendAlpha'] = BlendMode.BlendAlpha
  */
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendExclusion); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 78, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendExclusion); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 78, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_30 = PyTuple_New(2); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 78, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_INCREF(__pyx_n_s_BlendExclusion);
     __Pyx_GIVEREF(__pyx_n_s_BlendExclusion);
     PyTuple_SET_ITEM(__pyx_t_30, 0, __pyx_n_s_BlendExclusion);
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_30, 1, __pyx_t_4);
-    __pyx_t_4 = 0;
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_30, 1, __pyx_t_7);
+    __pyx_t_7 = 0;
 
     /* "EnumType":53
  * if PY_VERSION_HEX >= 0x03040000:
@@ -32229,63 +32871,63 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *         ('BlendAlpha', BlendAlpha),
  *         ('BlendClear', BlendClear),
  */
-    __pyx_t_4 = PyList_New(25); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_GIVEREF(__pyx_t_1);
-    PyList_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
-    __Pyx_GIVEREF(__pyx_t_3);
-    PyList_SET_ITEM(__pyx_t_4, 1, __pyx_t_3);
+    __pyx_t_7 = PyList_New(25); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     __Pyx_GIVEREF(__pyx_t_5);
-    PyList_SET_ITEM(__pyx_t_4, 2, __pyx_t_5);
+    PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_5);
+    __Pyx_GIVEREF(__pyx_t_4);
+    PyList_SET_ITEM(__pyx_t_7, 1, __pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_9);
-    PyList_SET_ITEM(__pyx_t_4, 3, __pyx_t_9);
-    __Pyx_GIVEREF(__pyx_t_10);
-    PyList_SET_ITEM(__pyx_t_4, 4, __pyx_t_10);
+    PyList_SET_ITEM(__pyx_t_7, 2, __pyx_t_9);
+    __Pyx_GIVEREF(__pyx_t_3);
+    PyList_SET_ITEM(__pyx_t_7, 3, __pyx_t_3);
+    __Pyx_GIVEREF(__pyx_t_1);
+    PyList_SET_ITEM(__pyx_t_7, 4, __pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_11);
-    PyList_SET_ITEM(__pyx_t_4, 5, __pyx_t_11);
+    PyList_SET_ITEM(__pyx_t_7, 5, __pyx_t_11);
     __Pyx_GIVEREF(__pyx_t_12);
-    PyList_SET_ITEM(__pyx_t_4, 6, __pyx_t_12);
+    PyList_SET_ITEM(__pyx_t_7, 6, __pyx_t_12);
     __Pyx_GIVEREF(__pyx_t_13);
-    PyList_SET_ITEM(__pyx_t_4, 7, __pyx_t_13);
+    PyList_SET_ITEM(__pyx_t_7, 7, __pyx_t_13);
     __Pyx_GIVEREF(__pyx_t_14);
-    PyList_SET_ITEM(__pyx_t_4, 8, __pyx_t_14);
+    PyList_SET_ITEM(__pyx_t_7, 8, __pyx_t_14);
     __Pyx_GIVEREF(__pyx_t_15);
-    PyList_SET_ITEM(__pyx_t_4, 9, __pyx_t_15);
+    PyList_SET_ITEM(__pyx_t_7, 9, __pyx_t_15);
     __Pyx_GIVEREF(__pyx_t_16);
-    PyList_SET_ITEM(__pyx_t_4, 10, __pyx_t_16);
+    PyList_SET_ITEM(__pyx_t_7, 10, __pyx_t_16);
     __Pyx_GIVEREF(__pyx_t_17);
-    PyList_SET_ITEM(__pyx_t_4, 11, __pyx_t_17);
+    PyList_SET_ITEM(__pyx_t_7, 11, __pyx_t_17);
     __Pyx_GIVEREF(__pyx_t_18);
-    PyList_SET_ITEM(__pyx_t_4, 12, __pyx_t_18);
+    PyList_SET_ITEM(__pyx_t_7, 12, __pyx_t_18);
     __Pyx_GIVEREF(__pyx_t_19);
-    PyList_SET_ITEM(__pyx_t_4, 13, __pyx_t_19);
+    PyList_SET_ITEM(__pyx_t_7, 13, __pyx_t_19);
     __Pyx_GIVEREF(__pyx_t_20);
-    PyList_SET_ITEM(__pyx_t_4, 14, __pyx_t_20);
+    PyList_SET_ITEM(__pyx_t_7, 14, __pyx_t_20);
     __Pyx_GIVEREF(__pyx_t_21);
-    PyList_SET_ITEM(__pyx_t_4, 15, __pyx_t_21);
+    PyList_SET_ITEM(__pyx_t_7, 15, __pyx_t_21);
     __Pyx_GIVEREF(__pyx_t_22);
-    PyList_SET_ITEM(__pyx_t_4, 16, __pyx_t_22);
+    PyList_SET_ITEM(__pyx_t_7, 16, __pyx_t_22);
     __Pyx_GIVEREF(__pyx_t_23);
-    PyList_SET_ITEM(__pyx_t_4, 17, __pyx_t_23);
+    PyList_SET_ITEM(__pyx_t_7, 17, __pyx_t_23);
     __Pyx_GIVEREF(__pyx_t_24);
-    PyList_SET_ITEM(__pyx_t_4, 18, __pyx_t_24);
+    PyList_SET_ITEM(__pyx_t_7, 18, __pyx_t_24);
     __Pyx_GIVEREF(__pyx_t_25);
-    PyList_SET_ITEM(__pyx_t_4, 19, __pyx_t_25);
+    PyList_SET_ITEM(__pyx_t_7, 19, __pyx_t_25);
     __Pyx_GIVEREF(__pyx_t_26);
-    PyList_SET_ITEM(__pyx_t_4, 20, __pyx_t_26);
+    PyList_SET_ITEM(__pyx_t_7, 20, __pyx_t_26);
     __Pyx_GIVEREF(__pyx_t_27);
-    PyList_SET_ITEM(__pyx_t_4, 21, __pyx_t_27);
+    PyList_SET_ITEM(__pyx_t_7, 21, __pyx_t_27);
     __Pyx_GIVEREF(__pyx_t_28);
-    PyList_SET_ITEM(__pyx_t_4, 22, __pyx_t_28);
+    PyList_SET_ITEM(__pyx_t_7, 22, __pyx_t_28);
     __Pyx_GIVEREF(__pyx_t_29);
-    PyList_SET_ITEM(__pyx_t_4, 23, __pyx_t_29);
+    PyList_SET_ITEM(__pyx_t_7, 23, __pyx_t_29);
     __Pyx_GIVEREF(__pyx_t_30);
-    PyList_SET_ITEM(__pyx_t_4, 24, __pyx_t_30);
-    __pyx_t_1 = 0;
-    __pyx_t_3 = 0;
+    PyList_SET_ITEM(__pyx_t_7, 24, __pyx_t_30);
     __pyx_t_5 = 0;
+    __pyx_t_4 = 0;
     __pyx_t_9 = 0;
-    __pyx_t_10 = 0;
+    __pyx_t_3 = 0;
+    __pyx_t_1 = 0;
     __pyx_t_11 = 0;
     __pyx_t_12 = 0;
     __pyx_t_13 = 0;
@@ -32318,18 +32960,18 @@ PyMODINIT_FUNC PyInit__pyagg(void)
       }
     }
     if (!__pyx_t_29) {
-      __pyx_t_7 = __Pyx_PyObject_CallOneArg(__pyx_t_30, __pyx_t_4); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 53, __pyx_L1_error)
-      __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-      __Pyx_GOTREF(__pyx_t_7);
+      __pyx_t_6 = __Pyx_PyObject_CallOneArg(__pyx_t_30, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 53, __pyx_L1_error)
+      __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+      __Pyx_GOTREF(__pyx_t_6);
     } else {
       __pyx_t_28 = PyTuple_New(1+1); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 53, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_28);
       __Pyx_GIVEREF(__pyx_t_29); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_29); __pyx_t_29 = NULL;
-      __Pyx_GIVEREF(__pyx_t_4);
-      PyTuple_SET_ITEM(__pyx_t_28, 0+1, __pyx_t_4);
-      __pyx_t_4 = 0;
-      __pyx_t_7 = __Pyx_PyObject_Call(__pyx_t_30, __pyx_t_28, NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 53, __pyx_L1_error)
-      __Pyx_GOTREF(__pyx_t_7);
+      __Pyx_GIVEREF(__pyx_t_7);
+      PyTuple_SET_ITEM(__pyx_t_28, 0+1, __pyx_t_7);
+      __pyx_t_7 = 0;
+      __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_30, __pyx_t_28, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 53, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
     }
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
@@ -32346,23 +32988,23 @@ PyMODINIT_FUNC PyInit__pyagg(void)
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
     __Pyx_INCREF(__pyx_n_s_BlendMode);
     __Pyx_GIVEREF(__pyx_n_s_BlendMode);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_n_s_BlendMode);
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_t_7);
-    __pyx_t_7 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_t_30, __pyx_t_4, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_n_s_BlendMode);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_t_6);
+    __pyx_t_6 = 0;
+    __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_30, __pyx_t_7, NULL); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_BlendMode, __pyx_t_6) < 0) __PYX_ERR(6, 53, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_BlendMode, __pyx_t_10) < 0) __PYX_ERR(6, 53, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":80
  *         ('BlendExclusion', BlendExclusion),
@@ -32371,11 +33013,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendClear'] = BlendMode.BlendClear
  *     __Pyx_globals['BlendSrc'] = BlendMode.BlendSrc
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 80, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendAlpha); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 80, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 80, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendAlpha); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 80, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 80, __pyx_L1_error)
@@ -32392,15 +33034,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 81, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendClear); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 81, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendClear); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 81, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 81, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendClear, __pyx_t_6) < 0)) __PYX_ERR(6, 81, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendClear, __pyx_t_10) < 0)) __PYX_ERR(6, 81, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":82
  *     __Pyx_globals['BlendAlpha'] = BlendMode.BlendAlpha
@@ -32409,11 +33051,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDst'] = BlendMode.BlendDst
  *     __Pyx_globals['BlendSrcOver'] = BlendMode.BlendSrcOver
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 82, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendSrc); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 82, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 82, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendSrc); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 82, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 82, __pyx_L1_error)
@@ -32430,15 +33072,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 83, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDst); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 83, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDst); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 83, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 83, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDst, __pyx_t_6) < 0)) __PYX_ERR(6, 83, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDst, __pyx_t_10) < 0)) __PYX_ERR(6, 83, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":84
  *     __Pyx_globals['BlendSrc'] = BlendMode.BlendSrc
@@ -32447,11 +33089,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstOver'] = BlendMode.BlendDstOver
  *     __Pyx_globals['BlendSrcIn'] = BlendMode.BlendSrcIn
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 84, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendSrcOver); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 84, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 84, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendSrcOver); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 84, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 84, __pyx_L1_error)
@@ -32468,15 +33110,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 85, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstOver); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 85, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstOver); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 85, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 85, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstOver, __pyx_t_6) < 0)) __PYX_ERR(6, 85, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstOver, __pyx_t_10) < 0)) __PYX_ERR(6, 85, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":86
  *     __Pyx_globals['BlendSrcOver'] = BlendMode.BlendSrcOver
@@ -32485,11 +33127,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstIn'] = BlendMode.BlendDstIn
  *     __Pyx_globals['BlendSrcOut'] = BlendMode.BlendSrcOut
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 86, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendSrcIn); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 86, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 86, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendSrcIn); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 86, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 86, __pyx_L1_error)
@@ -32506,15 +33148,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 87, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstIn); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 87, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstIn); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 87, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 87, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstIn, __pyx_t_6) < 0)) __PYX_ERR(6, 87, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstIn, __pyx_t_10) < 0)) __PYX_ERR(6, 87, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":88
  *     __Pyx_globals['BlendSrcIn'] = BlendMode.BlendSrcIn
@@ -32523,11 +33165,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstOut'] = BlendMode.BlendDstOut
  *     __Pyx_globals['BlendSrcAtop'] = BlendMode.BlendSrcAtop
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 88, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendSrcOut); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 88, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 88, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendSrcOut); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 88, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 88, __pyx_L1_error)
@@ -32544,15 +33186,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 89, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstOut); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 89, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstOut); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 89, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 89, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstOut, __pyx_t_6) < 0)) __PYX_ERR(6, 89, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstOut, __pyx_t_10) < 0)) __PYX_ERR(6, 89, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":90
  *     __Pyx_globals['BlendSrcOut'] = BlendMode.BlendSrcOut
@@ -32561,11 +33203,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstAtop'] = BlendMode.BlendDstAtop
  *     __Pyx_globals['BlendXor'] = BlendMode.BlendXor
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 90, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendSrcAtop); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 90, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 90, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendSrcAtop); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 90, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 90, __pyx_L1_error)
@@ -32582,15 +33224,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 91, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstAtop); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 91, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDstAtop); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 91, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 91, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstAtop, __pyx_t_6) < 0)) __PYX_ERR(6, 91, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDstAtop, __pyx_t_10) < 0)) __PYX_ERR(6, 91, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":92
  *     __Pyx_globals['BlendSrcAtop'] = BlendMode.BlendSrcAtop
@@ -32599,11 +33241,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendAdd'] = BlendMode.BlendAdd
  *     __Pyx_globals['BlendMultiply'] = BlendMode.BlendMultiply
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 92, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendXor); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 92, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 92, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendXor); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 92, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 92, __pyx_L1_error)
@@ -32620,15 +33262,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 93, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendAdd); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 93, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendAdd); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 93, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 93, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendAdd, __pyx_t_6) < 0)) __PYX_ERR(6, 93, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendAdd, __pyx_t_10) < 0)) __PYX_ERR(6, 93, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":94
  *     __Pyx_globals['BlendXor'] = BlendMode.BlendXor
@@ -32637,11 +33279,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendScreen'] = BlendMode.BlendScreen
  *     __Pyx_globals['BlendOverlay'] = BlendMode.BlendOverlay
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 94, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendMultiply); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 94, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 94, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendMultiply); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 94, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 94, __pyx_L1_error)
@@ -32658,15 +33300,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 95, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendScreen); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 95, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendScreen); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 95, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 95, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendScreen, __pyx_t_6) < 0)) __PYX_ERR(6, 95, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendScreen, __pyx_t_10) < 0)) __PYX_ERR(6, 95, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":96
  *     __Pyx_globals['BlendMultiply'] = BlendMode.BlendMultiply
@@ -32675,11 +33317,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDarken'] = BlendMode.BlendDarken
  *     __Pyx_globals['BlendLighten'] = BlendMode.BlendLighten
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 96, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendOverlay); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 96, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 96, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendOverlay); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 96, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 96, __pyx_L1_error)
@@ -32696,15 +33338,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 97, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDarken); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 97, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDarken); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 97, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 97, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDarken, __pyx_t_6) < 0)) __PYX_ERR(6, 97, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDarken, __pyx_t_10) < 0)) __PYX_ERR(6, 97, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":98
  *     __Pyx_globals['BlendOverlay'] = BlendMode.BlendOverlay
@@ -32713,11 +33355,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendColorDodge'] = BlendMode.BlendColorDodge
  *     __Pyx_globals['BlendColorBurn'] = BlendMode.BlendColorBurn
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 98, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendLighten); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 98, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 98, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendLighten); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 98, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 98, __pyx_L1_error)
@@ -32734,15 +33376,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 99, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendColorDodge); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 99, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendColorDodge); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 99, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 99, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendColorDodge, __pyx_t_6) < 0)) __PYX_ERR(6, 99, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendColorDodge, __pyx_t_10) < 0)) __PYX_ERR(6, 99, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":100
  *     __Pyx_globals['BlendLighten'] = BlendMode.BlendLighten
@@ -32751,11 +33393,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendHardLight'] = BlendMode.BlendHardLight
  *     __Pyx_globals['BlendSoftLight'] = BlendMode.BlendSoftLight
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 100, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendColorBurn); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 100, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 100, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendColorBurn); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 100, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 100, __pyx_L1_error)
@@ -32772,15 +33414,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 101, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendHardLight); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 101, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendHardLight); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 101, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 101, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendHardLight, __pyx_t_6) < 0)) __PYX_ERR(6, 101, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendHardLight, __pyx_t_10) < 0)) __PYX_ERR(6, 101, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":102
  *     __Pyx_globals['BlendColorBurn'] = BlendMode.BlendColorBurn
@@ -32789,11 +33431,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDifference'] = BlendMode.BlendDifference
  *     __Pyx_globals['BlendExclusion'] = BlendMode.BlendExclusion
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 102, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendSoftLight); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 102, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 102, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendSoftLight); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 102, __pyx_L1_error)
@@ -32810,15 +33452,15 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  */
     __pyx_t_30 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 103, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDifference); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 103, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_30, __pyx_n_s_BlendDifference); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 103, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 103, __pyx_L1_error)
     }
-    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDifference, __pyx_t_6) < 0)) __PYX_ERR(6, 103, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendDifference, __pyx_t_10) < 0)) __PYX_ERR(6, 103, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
 
     /* "EnumType":104
  *     __Pyx_globals['BlendSoftLight'] = BlendMode.BlendSoftLight
@@ -32827,11 +33469,11 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  * else:
  *     class BlendMode(__Pyx_EnumBase):
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 104, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_BlendExclusion); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 104, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 104, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_30 = __Pyx_PyObject_GetAttrStr(__pyx_t_10, __pyx_n_s_BlendExclusion); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 104, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 104, __pyx_L1_error)
@@ -32846,7 +33488,7 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  * 
  *     BlendMode = __Pyx_EnumBase('BlendMode', __Pyx_OrderedDict([
  */
-    goto __pyx_L6;
+    goto __pyx_L7;
   }
 
   /* "EnumType":106
@@ -32862,16 +33504,16 @@ PyMODINIT_FUNC PyInit__pyagg(void)
     __Pyx_INCREF(__Pyx_EnumBase);
     __Pyx_GIVEREF(__Pyx_EnumBase);
     PyTuple_SET_ITEM(__pyx_t_30, 0, __Pyx_EnumBase);
-    __pyx_t_6 = __Pyx_CalculateMetaclass(NULL, __pyx_t_30); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 106, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_Py3MetaclassPrepare(__pyx_t_6, __pyx_t_30, __pyx_n_s_BlendMode, __pyx_n_s_BlendMode, (PyObject *) NULL, __pyx_n_s_EnumType, (PyObject *) NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 106, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = __Pyx_Py3ClassCreate(__pyx_t_6, __pyx_n_s_BlendMode, __pyx_t_30, __pyx_t_4, NULL, 0, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 106, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_CalculateMetaclass(NULL, __pyx_t_30); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 106, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_Py3MetaclassPrepare(__pyx_t_10, __pyx_t_30, __pyx_n_s_BlendMode, __pyx_n_s_BlendMode, (PyObject *) NULL, __pyx_n_s_EnumType, (PyObject *) NULL); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 106, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (PyDict_SetItem(__pyx_d, __pyx_n_s_BlendMode, __pyx_t_7) < 0) __PYX_ERR(6, 106, __pyx_L1_error)
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_6 = __Pyx_Py3ClassCreate(__pyx_t_10, __pyx_n_s_BlendMode, __pyx_t_30, __pyx_t_7, NULL, 0, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 106, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (PyDict_SetItem(__pyx_d, __pyx_n_s_BlendMode, __pyx_t_6) < 0) __PYX_ERR(6, 106, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
 
     /* "EnumType":108
@@ -32881,37 +33523,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendClear'] = BlendMode(BlendClear, 'BlendClear')
  *     __Pyx_globals['BlendSrc'] = BlendMode(BlendSrc, 'BlendSrc')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 108, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAlpha); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 108, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAlpha); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 108, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendAlpha);
     __Pyx_GIVEREF(__pyx_n_s_BlendAlpha);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendAlpha);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 108, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 108, __pyx_L1_error)
@@ -32926,37 +33568,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendSrc'] = BlendMode(BlendSrc, 'BlendSrc')
  *     __Pyx_globals['BlendDst'] = BlendMode(BlendDst, 'BlendDst')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 109, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 109, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendClear); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 109, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 109, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendClear);
     __Pyx_GIVEREF(__pyx_n_s_BlendClear);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendClear);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendClear);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 109, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 109, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 109, __pyx_L1_error)
@@ -32971,37 +33613,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDst'] = BlendMode(BlendDst, 'BlendDst')
  *     __Pyx_globals['BlendSrcOver'] = BlendMode(BlendSrcOver, 'BlendSrcOver')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 110, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 110, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrc); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrc); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 110, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 110, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 110, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendSrc);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrc);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendSrc);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 110, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendSrc);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 110, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 110, __pyx_L1_error)
@@ -33016,37 +33658,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendSrcOver'] = BlendMode(BlendSrcOver, 'BlendSrcOver')
  *     __Pyx_globals['BlendDstOver'] = BlendMode(BlendDstOver, 'BlendDstOver')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 111, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDst); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 111, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 111, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDst); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 111, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 111, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendDst);
     __Pyx_GIVEREF(__pyx_n_s_BlendDst);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendDst);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 111, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 111, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 111, __pyx_L1_error)
@@ -33061,37 +33703,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstOver'] = BlendMode(BlendDstOver, 'BlendDstOver')
  *     __Pyx_globals['BlendSrcIn'] = BlendMode(BlendSrcIn, 'BlendSrcIn')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 112, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 112, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOver); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 112, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 112, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendSrcOver);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcOver);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendSrcOver);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendSrcOver);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 112, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 112, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 112, __pyx_L1_error)
@@ -33106,37 +33748,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendSrcIn'] = BlendMode(BlendSrcIn, 'BlendSrcIn')
  *     __Pyx_globals['BlendDstIn'] = BlendMode(BlendDstIn, 'BlendDstIn')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 113, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 113, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOver); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 113, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOver); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 113, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 113, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 113, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendDstOver);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstOver);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendDstOver);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 113, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendDstOver);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 113, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 113, __pyx_L1_error)
@@ -33151,37 +33793,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstIn'] = BlendMode(BlendDstIn, 'BlendDstIn')
  *     __Pyx_globals['BlendSrcOut'] = BlendMode(BlendSrcOut, 'BlendSrcOut')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 114, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcIn); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 114, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcIn); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 114, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendSrcIn);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcIn);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendSrcIn);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 114, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 114, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 114, __pyx_L1_error)
@@ -33196,37 +33838,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendSrcOut'] = BlendMode(BlendSrcOut, 'BlendSrcOut')
  *     __Pyx_globals['BlendDstOut'] = BlendMode(BlendDstOut, 'BlendDstOut')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 115, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 115, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstIn); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 115, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 115, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendDstIn);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstIn);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendDstIn);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendDstIn);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 115, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 115, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 115, __pyx_L1_error)
@@ -33241,37 +33883,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstOut'] = BlendMode(BlendDstOut, 'BlendDstOut')
  *     __Pyx_globals['BlendSrcAtop'] = BlendMode(BlendSrcAtop, 'BlendSrcAtop')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 116, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 116, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOut); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcOut); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 116, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 116, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 116, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendSrcOut);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcOut);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendSrcOut);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 116, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendSrcOut);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 116, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 116, __pyx_L1_error)
@@ -33286,37 +33928,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendSrcAtop'] = BlendMode(BlendSrcAtop, 'BlendSrcAtop')
  *     __Pyx_globals['BlendDstAtop'] = BlendMode(BlendDstAtop, 'BlendDstAtop')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOut); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 117, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 117, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstOut); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 117, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendDstOut);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstOut);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendDstOut);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 117, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 117, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 117, __pyx_L1_error)
@@ -33331,37 +33973,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDstAtop'] = BlendMode(BlendDstAtop, 'BlendDstAtop')
  *     __Pyx_globals['BlendXor'] = BlendMode(BlendXor, 'BlendXor')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 118, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 118, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSrcAtop); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 118, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 118, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendSrcAtop);
     __Pyx_GIVEREF(__pyx_n_s_BlendSrcAtop);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendSrcAtop);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendSrcAtop);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 118, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 118, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 118, __pyx_L1_error)
@@ -33376,37 +34018,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendXor'] = BlendMode(BlendXor, 'BlendXor')
  *     __Pyx_globals['BlendAdd'] = BlendMode(BlendAdd, 'BlendAdd')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 119, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 119, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstAtop); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDstAtop); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 119, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 119, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 119, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendDstAtop);
     __Pyx_GIVEREF(__pyx_n_s_BlendDstAtop);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendDstAtop);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 119, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendDstAtop);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 119, __pyx_L1_error)
@@ -33421,37 +34063,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendAdd'] = BlendMode(BlendAdd, 'BlendAdd')
  *     __Pyx_globals['BlendMultiply'] = BlendMode(BlendMultiply, 'BlendMultiply')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 120, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendXor); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 120, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 120, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendXor); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 120, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendXor);
     __Pyx_GIVEREF(__pyx_n_s_BlendXor);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendXor);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 120, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 120, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 120, __pyx_L1_error)
@@ -33466,37 +34108,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendMultiply'] = BlendMode(BlendMultiply, 'BlendMultiply')
  *     __Pyx_globals['BlendScreen'] = BlendMode(BlendScreen, 'BlendScreen')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 121, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 121, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendAdd); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 121, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 121, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendAdd);
     __Pyx_GIVEREF(__pyx_n_s_BlendAdd);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendAdd);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendAdd);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 121, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 121, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 121, __pyx_L1_error)
@@ -33511,37 +34153,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendScreen'] = BlendMode(BlendScreen, 'BlendScreen')
  *     __Pyx_globals['BlendOverlay'] = BlendMode(BlendOverlay, 'BlendOverlay')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 122, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendMultiply); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendMultiply); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 122, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 122, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 122, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendMultiply);
     __Pyx_GIVEREF(__pyx_n_s_BlendMultiply);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendMultiply);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 122, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendMultiply);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 122, __pyx_L1_error)
@@ -33556,37 +34198,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendOverlay'] = BlendMode(BlendOverlay, 'BlendOverlay')
  *     __Pyx_globals['BlendDarken'] = BlendMode(BlendDarken, 'BlendDarken')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 123, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendScreen); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 123, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 123, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendScreen); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 123, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendScreen);
     __Pyx_GIVEREF(__pyx_n_s_BlendScreen);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendScreen);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 123, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 123, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 123, __pyx_L1_error)
@@ -33601,37 +34243,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDarken'] = BlendMode(BlendDarken, 'BlendDarken')
  *     __Pyx_globals['BlendLighten'] = BlendMode(BlendLighten, 'BlendLighten')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 124, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 124, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendOverlay); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 124, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 124, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendOverlay);
     __Pyx_GIVEREF(__pyx_n_s_BlendOverlay);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendOverlay);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendOverlay);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 124, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 124, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 124, __pyx_L1_error)
@@ -33646,37 +34288,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendLighten'] = BlendMode(BlendLighten, 'BlendLighten')
  *     __Pyx_globals['BlendColorDodge'] = BlendMode(BlendColorDodge, 'BlendColorDodge')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 125, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDarken); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDarken); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 125, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 125, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 125, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendDarken);
     __Pyx_GIVEREF(__pyx_n_s_BlendDarken);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendDarken);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 125, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendDarken);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 125, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 125, __pyx_L1_error)
@@ -33691,37 +34333,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendColorDodge'] = BlendMode(BlendColorDodge, 'BlendColorDodge')
  *     __Pyx_globals['BlendColorBurn'] = BlendMode(BlendColorBurn, 'BlendColorBurn')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 126, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendLighten); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 126, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 126, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendLighten); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 126, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendLighten);
     __Pyx_GIVEREF(__pyx_n_s_BlendLighten);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendLighten);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 126, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 126, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 126, __pyx_L1_error)
@@ -33736,37 +34378,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendColorBurn'] = BlendMode(BlendColorBurn, 'BlendColorBurn')
  *     __Pyx_globals['BlendHardLight'] = BlendMode(BlendHardLight, 'BlendHardLight')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 127, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 127, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorDodge); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 127, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 127, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendColorDodge);
     __Pyx_GIVEREF(__pyx_n_s_BlendColorDodge);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendColorDodge);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendColorDodge);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 127, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 127, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 127, __pyx_L1_error)
@@ -33781,37 +34423,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendHardLight'] = BlendMode(BlendHardLight, 'BlendHardLight')
  *     __Pyx_globals['BlendSoftLight'] = BlendMode(BlendSoftLight, 'BlendSoftLight')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 128, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 128, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorBurn); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendColorBurn); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 128, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 128, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 128, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendColorBurn);
     __Pyx_GIVEREF(__pyx_n_s_BlendColorBurn);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendColorBurn);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 128, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendColorBurn);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 128, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 128, __pyx_L1_error)
@@ -33826,37 +34468,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendSoftLight'] = BlendMode(BlendSoftLight, 'BlendSoftLight')
  *     __Pyx_globals['BlendDifference'] = BlendMode(BlendDifference, 'BlendDifference')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 129, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendHardLight); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 129, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 129, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendHardLight); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 129, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendHardLight);
     __Pyx_GIVEREF(__pyx_n_s_BlendHardLight);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendHardLight);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 129, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 129, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 129, __pyx_L1_error)
@@ -33871,37 +34513,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendDifference'] = BlendMode(BlendDifference, 'BlendDifference')
  *     __Pyx_globals['BlendExclusion'] = BlendMode(BlendExclusion, 'BlendExclusion')
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 130, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 130, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_28 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendSoftLight); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    __pyx_t_4 = NULL;
+    __pyx_t_7 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_4);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 130, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
-    if (__pyx_t_4) {
-      __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4); __pyx_t_4 = NULL;
+    __pyx_t_6 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 130, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    if (__pyx_t_7) {
+      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_7); __pyx_t_7 = NULL;
     }
     __Pyx_GIVEREF(__pyx_t_28);
-    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_28);
+    PyTuple_SET_ITEM(__pyx_t_6, 0+__pyx_t_8, __pyx_t_28);
     __Pyx_INCREF(__pyx_n_s_BlendSoftLight);
     __Pyx_GIVEREF(__pyx_n_s_BlendSoftLight);
-    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendSoftLight);
+    PyTuple_SET_ITEM(__pyx_t_6, 1+__pyx_t_8, __pyx_n_s_BlendSoftLight);
     __pyx_t_28 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 130, __pyx_L1_error)
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_6, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 130, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 130, __pyx_L1_error)
@@ -33916,37 +34558,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendExclusion'] = BlendMode(BlendExclusion, 'BlendExclusion')
  * 
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 131, __pyx_L1_error)
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 131, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_6 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDifference); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendDifference); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 131, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_7);
     __pyx_t_28 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_6);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_28 = PyMethod_GET_SELF(__pyx_t_10);
       if (likely(__pyx_t_28)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
         __Pyx_INCREF(__pyx_t_28);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
-    __pyx_t_4 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 131, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_7 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 131, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
     if (__pyx_t_28) {
-      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_28); __pyx_t_28 = NULL;
+      __Pyx_GIVEREF(__pyx_t_28); PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_28); __pyx_t_28 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_7);
-    PyTuple_SET_ITEM(__pyx_t_4, 0+__pyx_t_8, __pyx_t_7);
+    __Pyx_GIVEREF(__pyx_t_6);
+    PyTuple_SET_ITEM(__pyx_t_7, 0+__pyx_t_8, __pyx_t_6);
     __Pyx_INCREF(__pyx_n_s_BlendDifference);
     __Pyx_GIVEREF(__pyx_n_s_BlendDifference);
-    PyTuple_SET_ITEM(__pyx_t_4, 1+__pyx_t_8, __pyx_n_s_BlendDifference);
-    __pyx_t_7 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_4, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 131, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_7, 1+__pyx_t_8, __pyx_n_s_BlendDifference);
+    __pyx_t_6 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_7, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 131, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 131, __pyx_L1_error)
@@ -33960,37 +34602,37 @@ PyMODINIT_FUNC PyInit__pyagg(void)
  *     __Pyx_globals['BlendExclusion'] = BlendMode(BlendExclusion, 'BlendExclusion')             # <<<<<<<<<<<<<<
  * 
  */
-    __pyx_t_6 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_6)) __PYX_ERR(6, 132, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_4 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendExclusion); if (unlikely(!__pyx_t_4)) __PYX_ERR(6, 132, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_7 = NULL;
+    __pyx_t_10 = __Pyx_GetModuleGlobalName(__pyx_n_s_BlendMode); if (unlikely(!__pyx_t_10)) __PYX_ERR(6, 132, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_10);
+    __pyx_t_7 = __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_BlendMode(__pyx_e_5pyagg_6_pyagg_BlendExclusion); if (unlikely(!__pyx_t_7)) __PYX_ERR(6, 132, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_7);
+    __pyx_t_6 = NULL;
     __pyx_t_8 = 0;
-    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_6))) {
-      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
-      if (likely(__pyx_t_7)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
-        __Pyx_INCREF(__pyx_t_7);
+    if (CYTHON_COMPILING_IN_CPYTHON && unlikely(PyMethod_Check(__pyx_t_10))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_10);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_10);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_6, function);
+        __Pyx_DECREF_SET(__pyx_t_10, function);
         __pyx_t_8 = 1;
       }
     }
     __pyx_t_28 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_28)) __PYX_ERR(6, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_28);
-    if (__pyx_t_7) {
-      __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_7); __pyx_t_7 = NULL;
+    if (__pyx_t_6) {
+      __Pyx_GIVEREF(__pyx_t_6); PyTuple_SET_ITEM(__pyx_t_28, 0, __pyx_t_6); __pyx_t_6 = NULL;
     }
-    __Pyx_GIVEREF(__pyx_t_4);
-    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_4);
+    __Pyx_GIVEREF(__pyx_t_7);
+    PyTuple_SET_ITEM(__pyx_t_28, 0+__pyx_t_8, __pyx_t_7);
     __Pyx_INCREF(__pyx_n_s_BlendExclusion);
     __Pyx_GIVEREF(__pyx_n_s_BlendExclusion);
     PyTuple_SET_ITEM(__pyx_t_28, 1+__pyx_t_8, __pyx_n_s_BlendExclusion);
-    __pyx_t_4 = 0;
-    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 132, __pyx_L1_error)
+    __pyx_t_7 = 0;
+    __pyx_t_30 = __Pyx_PyObject_Call(__pyx_t_10, __pyx_t_28, NULL); if (unlikely(!__pyx_t_30)) __PYX_ERR(6, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_30);
     __Pyx_DECREF(__pyx_t_28); __pyx_t_28 = 0;
-    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     if (unlikely(__Pyx_globals == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(6, 132, __pyx_L1_error)
@@ -33998,7 +34640,7 @@ PyMODINIT_FUNC PyInit__pyagg(void)
     if (unlikely(PyDict_SetItem(__Pyx_globals, __pyx_n_s_BlendExclusion, __pyx_t_30) < 0)) __PYX_ERR(6, 132, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_30); __pyx_t_30 = 0;
   }
-  __pyx_L6:;
+  __pyx_L7:;
 
   /* "View.MemoryView":207
  *         info.obj = self
@@ -37426,6 +38068,33 @@ __pyx_fail:
 }
 
 /* CIntToPy */
+                static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__GraphicsState_3a__3a_DrawingMode(enum GraphicsState::DrawingMode value) {
+    const enum GraphicsState::DrawingMode neg_one = (enum GraphicsState::DrawingMode) -1, const_zero = (enum GraphicsState::DrawingMode) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(enum GraphicsState::DrawingMode) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(enum GraphicsState::DrawingMode) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+        } else if (sizeof(enum GraphicsState::DrawingMode) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+        }
+    } else {
+        if (sizeof(enum GraphicsState::DrawingMode) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(enum GraphicsState::DrawingMode) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(enum GraphicsState::DrawingMode),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntToPy */
                 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum__GraphicsState_3a__3a_BlendMode(enum GraphicsState::BlendMode value) {
     const enum GraphicsState::BlendMode neg_one = (enum GraphicsState::BlendMode) -1, const_zero = (enum GraphicsState::BlendMode) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -38308,6 +38977,191 @@ raise_neg_overflow:
 }
 
 /* CIntFromPy */
+                static CYTHON_INLINE enum __pyx_t_5pyagg_6_pyagg_DrawingMode __Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(PyObject *x) {
+    const enum __pyx_t_5pyagg_6_pyagg_DrawingMode neg_one = (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1, const_zero = (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) 0;
+    const int is_unsigned = neg_one > const_zero;
+#if PY_MAJOR_VERSION < 3
+    if (likely(PyInt_Check(x))) {
+        if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) < sizeof(long)) {
+            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, long, PyInt_AS_LONG(x))
+        } else {
+            long val = PyInt_AS_LONG(x);
+            if (is_unsigned && unlikely(val < 0)) {
+                goto raise_neg_overflow;
+            }
+            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) val;
+        }
+    } else
+#endif
+    if (likely(PyLong_Check(x))) {
+        if (is_unsigned) {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) 0;
+                case  1: __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, digit, digits[0])
+                case 2:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) >= 2 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) (((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0]));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) >= 3 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) (((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0]));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) >= 4 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) (((((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[3]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0]));
+                        }
+                    }
+                    break;
+            }
+#endif
+#if CYTHON_COMPILING_IN_CPYTHON
+            if (unlikely(Py_SIZE(x) < 0)) {
+                goto raise_neg_overflow;
+            }
+#else
+            {
+                int result = PyObject_RichCompareBool(x, Py_False, Py_LT);
+                if (unlikely(result < 0))
+                    return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1;
+                if (unlikely(result == 1))
+                    goto raise_neg_overflow;
+            }
+#endif
+            if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(unsigned long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, PyLong_AsUnsignedLong(x))
+            } else if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(unsigned PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned PY_LONG_LONG, PyLong_AsUnsignedLongLong(x))
+            }
+        } else {
+#if CYTHON_USE_PYLONG_INTERNALS
+            const digit* digits = ((PyLongObject*)x)->ob_digit;
+            switch (Py_SIZE(x)) {
+                case  0: return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) 0;
+                case -1: __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, sdigit, (sdigit) (-(sdigit)digits[0]))
+                case  1: __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode,  digit, +digits[0])
+                case -2:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, long, -(long) (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) (((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)-1)*(((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0])));
+                        }
+                    }
+                    break;
+                case 2:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) > 1 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 2 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, (((((unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 2 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) ((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0])));
+                        }
+                    }
+                    break;
+                case -3:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, long, -(long) (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) (((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)-1)*(((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0])));
+                        }
+                    }
+                    break;
+                case 3:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) > 2 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 3 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, (((((((unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 3 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) ((((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0])));
+                        }
+                    }
+                    break;
+                case -4:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, long, -(long) (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) (((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)-1)*(((((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[3]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0])));
+                        }
+                    }
+                    break;
+                case 4:
+                    if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) > 3 * PyLong_SHIFT) {
+                        if (8 * sizeof(unsigned long) > 4 * PyLong_SHIFT) {
+                            __PYX_VERIFY_RETURN_INT(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, unsigned long, (((((((((unsigned long)digits[3]) << PyLong_SHIFT) | (unsigned long)digits[2]) << PyLong_SHIFT) | (unsigned long)digits[1]) << PyLong_SHIFT) | (unsigned long)digits[0])))
+                        } else if (8 * sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) - 1 > 4 * PyLong_SHIFT) {
+                            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) ((((((((((enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[3]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[2]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[1]) << PyLong_SHIFT) | (enum __pyx_t_5pyagg_6_pyagg_DrawingMode)digits[0])));
+                        }
+                    }
+                    break;
+            }
+#endif
+            if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(long)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, long, PyLong_AsLong(x))
+            } else if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(PY_LONG_LONG)) {
+                __PYX_VERIFY_RETURN_INT_EXC(enum __pyx_t_5pyagg_6_pyagg_DrawingMode, PY_LONG_LONG, PyLong_AsLongLong(x))
+            }
+        }
+        {
+#if CYTHON_COMPILING_IN_PYPY && !defined(_PyLong_AsByteArray)
+            PyErr_SetString(PyExc_RuntimeError,
+                            "_PyLong_AsByteArray() not available in PyPy, cannot convert large numbers");
+#else
+            enum __pyx_t_5pyagg_6_pyagg_DrawingMode val;
+            PyObject *v = __Pyx_PyNumber_IntOrLong(x);
+ #if PY_MAJOR_VERSION < 3
+            if (likely(v) && !PyLong_Check(v)) {
+                PyObject *tmp = v;
+                v = PyNumber_Long(tmp);
+                Py_DECREF(tmp);
+            }
+ #endif
+            if (likely(v)) {
+                int one = 1; int is_little = (int)*(unsigned char *)&one;
+                unsigned char *bytes = (unsigned char *)&val;
+                int ret = _PyLong_AsByteArray((PyLongObject *)v,
+                                              bytes, sizeof(val),
+                                              is_little, !is_unsigned);
+                Py_DECREF(v);
+                if (likely(!ret))
+                    return val;
+            }
+#endif
+            return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1;
+        }
+    } else {
+        enum __pyx_t_5pyagg_6_pyagg_DrawingMode val;
+        PyObject *tmp = __Pyx_PyNumber_IntOrLong(x);
+        if (!tmp) return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1;
+        val = __Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(tmp);
+        Py_DECREF(tmp);
+        return val;
+    }
+raise_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "value too large to convert to enum __pyx_t_5pyagg_6_pyagg_DrawingMode");
+    return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1;
+raise_neg_overflow:
+    PyErr_SetString(PyExc_OverflowError,
+        "can't convert negative value to enum __pyx_t_5pyagg_6_pyagg_DrawingMode");
+    return (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1;
+}
+
+/* CIntFromPy */
                 static CYTHON_INLINE enum __pyx_t_5pyagg_6_pyagg_BlendMode __Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_BlendMode(PyObject *x) {
     const enum __pyx_t_5pyagg_6_pyagg_BlendMode neg_one = (enum __pyx_t_5pyagg_6_pyagg_BlendMode) -1, const_zero = (enum __pyx_t_5pyagg_6_pyagg_BlendMode) 0;
     const int is_unsigned = neg_one > const_zero;
@@ -39097,6 +39951,33 @@ raise_neg_overflow:
         int one = 1; int little = (int)*(unsigned char *)&one;
         unsigned char *bytes = (unsigned char *)&value;
         return _PyLong_FromByteArray(bytes, sizeof(enum __pyx_t_5pyagg_6_pyagg_LineCap),
+                                     little, !is_unsigned);
+    }
+}
+
+/* CIntToPy */
+                static CYTHON_INLINE PyObject* __Pyx_PyInt_From_enum____pyx_t_5pyagg_6_pyagg_DrawingMode(enum __pyx_t_5pyagg_6_pyagg_DrawingMode value) {
+    const enum __pyx_t_5pyagg_6_pyagg_DrawingMode neg_one = (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) -1, const_zero = (enum __pyx_t_5pyagg_6_pyagg_DrawingMode) 0;
+    const int is_unsigned = neg_one > const_zero;
+    if (is_unsigned) {
+        if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) < sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(unsigned long)) {
+            return PyLong_FromUnsignedLong((unsigned long) value);
+        } else if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(unsigned PY_LONG_LONG)) {
+            return PyLong_FromUnsignedLongLong((unsigned PY_LONG_LONG) value);
+        }
+    } else {
+        if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(long)) {
+            return PyInt_FromLong((long) value);
+        } else if (sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode) <= sizeof(PY_LONG_LONG)) {
+            return PyLong_FromLongLong((PY_LONG_LONG) value);
+        }
+    }
+    {
+        int one = 1; int little = (int)*(unsigned char *)&one;
+        unsigned char *bytes = (unsigned char *)&value;
+        return _PyLong_FromByteArray(bytes, sizeof(enum __pyx_t_5pyagg_6_pyagg_DrawingMode),
                                      little, !is_unsigned);
     }
 }
