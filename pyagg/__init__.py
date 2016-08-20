@@ -26,10 +26,10 @@
 from __future__ import absolute_import
 
 from ._pyagg import (
-    BlendMode, Color, DrawingMode, Font, FontCacheType, Gradient, GraphicsState,
-    LineCap, LineJoin, LinearGradient, Path, RadialGradient, Rect, Transform
+    BlendMode, Color, DrawingMode, Font, FontCacheType, Gradient,
+    GraphicsState, LineCap, LineJoin, LinearGradient, Path, RadialGradient,
+    Rect, Transform
 )
-from ._pyagg import (ndarray_canvas_g8, ndarray_canvas_ga16,
-                     ndarray_canvas_rgb24, ndarray_canvas_rgba32)
+from ._pyagg import CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32
 from .agg2d import (hist_min_max_float32, hist_min_max_uint12,
                     hist_min_max_uint16, hist_min_max_uint8)

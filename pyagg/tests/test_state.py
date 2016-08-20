@@ -53,3 +53,39 @@ def test_state_properties():
     gs.clip_box = box
     assert gs.clip_box == box
     assert not (gs.clip_box is box)
+
+
+def test_kwargs_initialization():
+    box = Rect(0.0, 0.0, 10.0, 20.0)
+    red = Color(255, 0, 0)
+    yellow = Color(255, 255, 0)
+    magenta = Color(255, 0, 255)
+    gs = GraphicsState(
+        anti_aliased=True,
+        drawing_mode=DrawingMode.DrawEofFill,
+        blend_mode=BlendMode.BlendXor,
+        image_blend_mode=BlendMode.BlendXor,
+        line_cap=LineCap.CapSquare,
+        line_join=LineJoin.JoinRound,
+        master_alpha=0.42,
+        anti_alias_gamma=1.337,
+        line_width=10.0,
+        fill_color=red,
+        line_color=yellow,
+        image_blend_color=magenta,
+        clip_box=box
+    )
+
+    assert gs.anti_aliased is True
+    assert gs.drawing_mode == DrawingMode.DrawEofFill
+    assert gs.blend_mode == BlendMode.BlendXor
+    assert gs.image_blend_mode == BlendMode.BlendXor
+    assert gs.line_cap == LineCap.CapSquare
+    assert gs.line_join == LineJoin.JoinRound
+    assert gs.master_alpha == 0.42
+    assert gs.anti_alias_gamma == 1.337
+    assert gs.line_width == 10.0
+    assert gs.fill_color == red
+    assert gs.line_color == yellow
+    assert gs.image_blend_color == magenta
+    assert gs.clip_box == box

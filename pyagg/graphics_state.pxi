@@ -22,6 +22,8 @@
 #
 # Authors: John Wiggins
 
+from types import GetSetDescriptorType
+
 
 cdef class Color:
     cdef _graphics_state.Color* _this
@@ -138,6 +140,14 @@ cdef class GraphicsState:
 
     def __dealloc__(self):
         del self._this
+
+    def __init__(self, **kwargs):
+        properties = [name for name in GraphicsState.__dict__.keys()
+                      if isinstance(getattr(GraphicsState, name),
+                                    GetSetDescriptorType)]
+        for key, value in kwargs.items():
+            if key in properties:
+                setattr(self, key, value)
 
     property anti_aliased:
         def __get__(self):

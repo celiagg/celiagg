@@ -22,14 +22,14 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
-ctypedef _pyagg.ndarray_canvas_base[uint8_t] canvas_base_t
-ctypedef _pyagg.ndarray_canvas[_pyagg.pixfmt_rgba32, uint8_t] canvas_rgba32_t
-ctypedef _pyagg.ndarray_canvas[_pyagg.pixfmt_rgb24, uint8_t] canvas_rgb24_t
-ctypedef _pyagg.ndarray_canvas[_pyagg.pixfmt_gray8, uint8_t] canvas_ga16_t
-ctypedef _pyagg.ndarray_canvas[_pyagg.pixfmt_gray8_no_alpha, uint8_t] canvas_g8_t
+ctypedef _ndarray_canvas.ndarray_canvas_base[uint8_t] canvas_base_t
+ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32, uint8_t] canvas_rgba32_t
+ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24, uint8_t] canvas_rgb24_t
+ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8, uint8_t] canvas_ga16_t
+ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8_no_alpha, uint8_t] canvas_g8_t
 
 @cython.internal
-cdef class ndarray_canvas_base_uint8:
+cdef class CanvasBaseUInt8:
     cdef canvas_base_t* _this
     cdef uint8_t[::1] default_color
     cdef uint64_t blend_channel_count
@@ -247,12 +247,12 @@ cdef class ndarray_canvas_base_uint8:
                                 state._this[0])
 
 
-cdef class ndarray_canvas_rgba32(ndarray_canvas_base_uint8):
-    """ndarray_canvas_rgba32 provides AGG (Anti-Grain Geometry) drawing
-    routines that render to the numpy array passed as ndarray_canvas_rgba32's
-    constructor argument.  Because this array is modified in place, it must be
-    of type numpy.uint8, must be C-contiguous, and must
-    be MxNx4 (4 channels: red, green, blue, and alpha).
+cdef class CanvasRGBA32(CanvasBaseUInt8):
+    """CanvasRGBA32 provides AGG (Anti-Grain Geometry) drawing routines that
+    render to the numpy array passed as CanvasRGBA32's constructor argument.
+    Because this array is modified in place, it must be of type numpy.uint8,
+    must be C-contiguous, and must be
+    MxNx4 (4 channels: red, green, blue, and alpha).
     """
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, (255,)*4, True)
@@ -262,12 +262,11 @@ cdef class ndarray_canvas_rgba32(ndarray_canvas_base_uint8):
                                                           image.strides[0], 4)
 
 
-cdef class ndarray_canvas_rgb24(ndarray_canvas_base_uint8):
-    """ndarray_canvas_rgb24 provides AGG (Anti-Grain Geometry) drawing routines
-    that render to the numpy array passed as ndarray_canvas_rgb24's constructor
-    argument.  Because this array is modified in place, it must be of type
-    numpy.uint8, must be C-contiguous, and
-    must be MxNx3 (3 channels: red, green, blue).
+cdef class CanvasRGB24(CanvasBaseUInt8):
+    """CanvasRGB24 provides AGG (Anti-Grain Geometry) drawing routines that
+    render to the numpy array passed as CanvasRGB24's constructor argument.
+    Because this array is modified in place, it must be of type numpy.uint8,
+    must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
     """
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, (255,)*4, False)
@@ -277,12 +276,11 @@ cdef class ndarray_canvas_rgb24(ndarray_canvas_base_uint8):
                                                          image.strides[0], 3)
 
 
-cdef class ndarray_canvas_ga16(ndarray_canvas_base_uint8):
-    """ndarray_canvas_ga16 provides AGG (Anti-Grain Geometry) drawing routines
-    that render to the numpy array passed as ndarray_canvas_ga16's constructor
-    argument.  Because this array is modified in place, it must be of type
-    numpy.uint8, must be C-contiguous, and must
-    be MxNx2 (2 channels: intensity and alpha).
+cdef class CanvasGA16(CanvasBaseUInt8):
+    """CanvasGA16 provides AGG (Anti-Grain Geometry) drawing routines that
+    render to the numpy array passed as CanvasGA16's constructor argument.
+    Because this array is modified in place, it must be of type numpy.uint8,
+    must be C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
     """
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, (255,)*2, True)
@@ -292,11 +290,11 @@ cdef class ndarray_canvas_ga16(ndarray_canvas_base_uint8):
                                                         image.strides[0], 2)
 
 
-cdef class ndarray_canvas_g8(ndarray_canvas_base_uint8):
-    """ndarray_canvas_g8 provides AGG (Anti-Grain Geometry) drawing routines
-    that render to the numpy array passed as ndarray_canvas_g8's constructor
-    argument.  Because this array is modified in place, it must be of type
-    numpy.uint8, must be C-contiguous, and must be MxN (1 channel: intensity).
+cdef class CanvasG8(CanvasBaseUInt8):
+    """CanvasG8 provides AGG (Anti-Grain Geometry) drawing routines that render
+    to the numpy array passed as CanvasG8's constructor argument.  Because this
+    array is modified in place, it must be of type numpy.uint8, must be
+    C-contiguous, and must be MxN (1 channel: intensity).
     """
     def __cinit__(self, uint8_t[:,::1] image):
         self.base_init(image, (255,)*2, False)
