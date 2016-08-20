@@ -66,3 +66,9 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         BlendSoftLight
         BlendDifference
         BlendExclusion
+
+
+cdef extern from "text.h" namespace "Font":
+    cdef enum FontCacheType:
+        RasterFontCache
+        VectorFontCache

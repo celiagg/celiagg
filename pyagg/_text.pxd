@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2016 WUSTL ZPLAB
+# Copyright (c) 2016 WUSTL ZPLAB
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -9,8 +9,8 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in
-# all copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -20,16 +20,20 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Authors: Erik Hvatum <ice.rikh@gmail.com>
-#          John Wiggins <john.wiggins@xfel.eu>
+# Authors: John Wiggins
 
-from __future__ import absolute_import
+from libcpp cimport bool
+cimport _enums
 
-from ._pyagg import (
-    BlendMode, Color, DrawingMode, Font, FontCacheType, Gradient, GraphicsState,
-    LineCap, LineJoin, LinearGradient, Path, RadialGradient, Rect, Transform
-)
-from ._pyagg import (ndarray_canvas_g8, ndarray_canvas_ga16,
-                     ndarray_canvas_rgb24, ndarray_canvas_rgba32)
-from .agg2d import (hist_min_max_float32, hist_min_max_uint12,
-                    hist_min_max_uint16, hist_min_max_uint8)
+
+cdef extern from "text.h":
+    cdef cppclass Font:
+        Font(char* fileName,
+             double height,
+             bool bold,
+             bool italic,
+             _enums.FontCacheType ch)
+        bool hinting() const
+        void hinting(bool hint)
+        double height() const
+        double stringWidth(char* str)

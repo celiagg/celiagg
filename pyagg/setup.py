@@ -115,7 +115,7 @@ def configuration(parent_package='', top_path=None):
     agg2d_cython_source = op.join(base_path, 'agg2d.pyx')
     pyagg_cython_source = op.join(base_path, '_pyagg.pyx')
     agg2d_sources = ['agg-svn/agg-2.4/agg2d/agg2d.cpp', 'agg2d.cpp']
-    pyagg_sources = ['ndarray_canvas.cpp', '_pyagg.cpp']
+    pyagg_sources = ['ndarray_canvas.cpp', 'text.cpp', '_pyagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
@@ -144,7 +144,7 @@ def configuration(parent_package='', top_path=None):
             extra_link_args.extend(ldflags)
         include_dirs.append('agg-svn/agg-2.4/font_freetype')
         sources.append('agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp')
-        define_macros.append(('AGG2D_USE_FREETYPE', 1))
+        define_macros.extend([('AGG2D_USE_FREETYPE', 1), ('_USE_FREETYPE', 1)])
     else:
         include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
         sources.append('agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp')

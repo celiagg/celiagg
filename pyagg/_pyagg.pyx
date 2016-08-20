@@ -34,6 +34,7 @@ cimport _gradient
 cimport _graphics_state
 cimport _path
 cimport _pyagg
+cimport _text
 cimport _transform
 
 include "enums.pxi"
@@ -41,4 +42,5 @@ include "gradient.pxi"
 include "graphics_state.pxi"
 include "ndarray_canvas.pxi"
 include "path.pxi"
+include "text.pxi"
 include "transform.pxi"
