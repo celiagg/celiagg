@@ -1,7 +1,26 @@
+import weakref
+
 import numpy as np
 from numpy.testing import assert_equal
 
 from pyagg import GraphicsState, Color, CanvasRGB24
+
+
+def test_cleanup():
+    # Make sure our array references don't linger
+    buffer = np.zeros((10, 10, 3), dtype=np.uint8)
+    canvas = CanvasRGB24(buffer)
+
+    weak_buf = weakref.ref(buffer)
+    weak_img = weakref.ref(canvas.image)
+
+    assert weak_buf() is weak_img()
+
+    del buffer
+    assert weak_buf() is not None
+
+    del canvas
+    assert weak_buf() is None
 
 
 def test_line():
