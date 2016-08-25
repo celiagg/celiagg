@@ -68,35 +68,7 @@ public:
     virtual unsigned width() const = 0;
     virtual unsigned height() const = 0;
 
-    virtual void draw_line(const double& x0, const double& y0,
-                           const double& x1, const double& y1,
-                           const GraphicsState& gs) = 0;
-
     virtual void draw_path(const agg::path_storage& path, const GraphicsState& gs) = 0;
-
-    virtual void draw_polygon(const double* points, const size_t& point_count,
-                              const GraphicsState& gs) = 0;
-
-    virtual void draw_ellipse(const double& cx, const double& cy,
-                              const double& rx, const double& ry,
-                              const GraphicsState& gs) = 0;
-
-    virtual void draw_bezier3(const double& x0, const double& y0,
-                              const double& x_ctrl, const double& y_ctrl,
-                              const double& x1, const double& y1,
-                              const GraphicsState& gs) = 0;
-
-    virtual void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                        const GraphicsState& gs) = 0;
-
-    virtual void draw_bezier4(const double& x0, const double& y0,
-                              const double& x_ctrl0, const double& y_ctrl0,
-                              const double& x_ctrl1, const double& y_ctrl1,
-                              const double& x1, const double& y1,
-                              const GraphicsState& gs) = 0;
-
-    virtual void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                        const GraphicsState& gs) = 0;
 
     virtual void draw_bspline(const double* points, const size_t& point_count,
                               const GraphicsState& gs) = 0;
@@ -116,35 +88,7 @@ public:
     unsigned width() const;
     unsigned height() const;
 
-    void draw_line(const double& x0, const double& y0,
-                   const double& x1, const double& y1,
-                   const GraphicsState& gs);
-
     void draw_path(const agg::path_storage& path, const GraphicsState& gs);
-
-    void draw_polygon(const double* points, const size_t& point_count,
-                      const GraphicsState& gs);
-
-    void draw_ellipse(const double& cx, const double& cy,
-                      const double& rx, const double& ry,
-                      const GraphicsState& gs);
-
-    void draw_bezier3(const double& x0, const double& y0,
-                      const double& x_ctrl, const double& y_ctrl,
-                      const double& x1, const double& y1,
-                      const GraphicsState& gs);
-
-    void draw_bezier3_composite(const double* points, const size_t& point_count,
-                                const GraphicsState& gs);
-
-    void draw_bezier4(const double& x0, const double& y0,
-                      const double& x_ctrl0, const double& y_ctrl0,
-                      const double& x_ctrl1, const double& y_ctrl1,
-                      const double& x1, const double& y1,
-                      const GraphicsState& gs);
-
-    void draw_bezier4_composite(const double* points, const size_t& point_count,
-                                const GraphicsState& gs);
 
     void draw_bspline(const double* points, const size_t& point_count,
                       const GraphicsState& gs);
