@@ -25,11 +25,6 @@
 from libcpp cimport bool
 
 
-cdef extern from "agg_bezier_arc.h" namespace "agg":
-    cdef cppclass bezier_arc:
-        bezier_arc(double x, double y, double rx, double ry, double start_angle, double sweep_angle)
-
-
 cdef extern from "agg_path_storage.h" namespace "agg":
     cdef cppclass path_storage:
         path_storage()
@@ -37,6 +32,8 @@ cdef extern from "agg_path_storage.h" namespace "agg":
         void remove_all()
         void free_all()
         unsigned start_new_path()
+        unsigned total_vertices() const
+        unsigned vertex(unsigned idx, double* x, double* y) const
         void move_to(double x, double y)
         void move_rel(double dx, double dy)
         void line_to(double x, double y)
@@ -52,3 +49,9 @@ cdef extern from "agg_path_storage.h" namespace "agg":
         void curve4_rel(double dx_ctrl1, double dy_ctrl1, double dx_ctrl2,
                         double dy_ctrl2, double dx_to, double dy_to)
         void close_polygon()
+
+
+cdef extern from "path.h":
+    cdef void add_ellipse_to_path(path_storage& path,
+                                  const double x, const double y,
+                                  const double rx, const double ry)

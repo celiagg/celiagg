@@ -79,6 +79,42 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_line(const double& x0, const d
 }
 
 template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_path(const agg::path_storage& path, const GraphicsState& gs)
+{
+    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
+
+    if (line || fill)
+    {
+        set_aa(gs.antiAliased());
+        agg::path_storage path_copy(path);
+        path_copy.close_polygon();
+        typedef agg::conv_curve<agg::path_storage> conv_curve_t;
+        conv_curve_t curve(path_copy);
+
+        if (fill)
+        {
+            agg::conv_contour<conv_curve_t> contour(curve);
+            contour.auto_detect_orientation(true);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(contour);
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+
+        if (line)
+        {
+            agg::conv_stroke<conv_curve_t> stroke(curve);
+            stroke.width(gs.lineWidth() / 2);
+            m_rasterizer.reset();
+            m_rasterizer.add_path(stroke);
+            m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
+            agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
+        }
+    }
+}
+
+template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, const size_t& point_count,
                                                           const GraphicsState& gs)
 {

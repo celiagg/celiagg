@@ -102,6 +102,14 @@ cdef class CanvasBaseUInt8:
         """
         self._this.draw_line(x0, y0, x1, y1, state._this[0])
 
+    def draw_path(self, Path path, GraphicsState state):
+        """draw_path(self, path, state)
+          path: A Path object
+          state: A GraphicsState object
+                 line width, line color, fill color, anti-aliased
+        """
+        self._this.draw_path(dereference(path._this), dereference(state._this))
+
     def draw_polygon(self, points, GraphicsState state):
         """draw_polygon(self, points, state):
           points: Iterable of (x, y) pairs

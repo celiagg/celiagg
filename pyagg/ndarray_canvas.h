@@ -72,6 +72,8 @@ public:
                            const double& x1, const double& y1,
                            const GraphicsState& gs) = 0;
 
+    virtual void draw_path(const agg::path_storage& path, const GraphicsState& gs) = 0;
+
     virtual void draw_polygon(const double* points, const size_t& point_count,
                               const GraphicsState& gs) = 0;
 
@@ -117,6 +119,8 @@ public:
     void draw_line(const double& x0, const double& y0,
                    const double& x1, const double& y1,
                    const GraphicsState& gs);
+
+    void draw_path(const agg::path_storage& path, const GraphicsState& gs);
 
     void draw_polygon(const double* points, const size_t& point_count,
                       const GraphicsState& gs);

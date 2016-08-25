@@ -27,7 +27,10 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
+
 cimport _graphics_state
+cimport _path
+
 
 cdef extern from "ndarray_canvas.h" namespace "agg":
     cdef cppclass pixfmt_rgb24:
@@ -53,6 +56,8 @@ cdef extern from "ndarray_canvas.h":
         unsigned height() const
         void draw_line(const double& x0, const double& y0,
                        const double& x1, const double& y1,
+                       const _graphics_state.GraphicsState& gs)
+        void draw_path(const _path.path_storage& path,
                        const _graphics_state.GraphicsState& gs)
         void draw_polygon(const double* points, const size_t& point_count,
                           const _graphics_state.GraphicsState& gs)
@@ -86,6 +91,8 @@ cdef extern from "ndarray_canvas.h":
         unsigned height() const
         void draw_line(const double& x0, const double& y0,
                        const double& x1, const double& y1,
+                       const _graphics_state.GraphicsState& gs)
+        void draw_path(const _path.path_storage& path,
                        const _graphics_state.GraphicsState& gs)
         void draw_polygon(const double* points, const size_t& point_count,
                           const _graphics_state.GraphicsState& gs)
