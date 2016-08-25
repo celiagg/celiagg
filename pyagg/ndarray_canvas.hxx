@@ -82,8 +82,8 @@ template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_polygon(const double* points, const size_t& point_count,
                                                           const GraphicsState& gs)
 {
-    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
-    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
     set_aa(gs.antiAliased());
     if(point_count >= 2 && (line || fill))
@@ -127,8 +127,8 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_ellipse(const double& cx, cons
                                                           const double& rx, const double& ry,
                                                           const GraphicsState& gs)
 {
-    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
-    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
     if(line || fill)
     {
@@ -186,8 +186,8 @@ template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier3_composite(const double* points, const size_t& point_count,
                                                                     const GraphicsState& gs)
 {
-    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
-    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
     if(line || fill)
     {
@@ -253,8 +253,8 @@ template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bezier4_composite(const double* points, const size_t& point_count,
                                                                     const GraphicsState& gs)
 {
-    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
-    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
     if(line || fill)
     {
@@ -299,8 +299,8 @@ template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, const size_t& point_count,
                                                           const GraphicsState& gs)
 {
-    const bool line = color_is_visible<pixfmt_T>(gs.lineColor());
-    const bool fill = color_is_visible<pixfmt_T>(gs.fillColor());
+    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
     if(line || fill)
     {

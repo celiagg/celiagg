@@ -52,11 +52,12 @@ public:
 
     enum DrawingMode
     {
-        DrawFill = 0,
-        DrawEofFill,
-        DrawStroke,
-        DrawFillStroke,
-        DrawEofFillStroke
+        // Bit 0: fill, Bit 1: stroke, Bit 2: EO flag
+        DrawFill = 0x0001,
+        DrawStroke = 0x0002,
+        DrawEofFill = 0x0004 | DrawFill,
+        DrawFillStroke = DrawFill | DrawStroke,
+        DrawEofFillStroke = DrawEofFill | DrawStroke
     };
 
     enum BlendMode

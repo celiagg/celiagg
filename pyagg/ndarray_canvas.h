@@ -176,8 +176,6 @@ typedef agg::pixfmt_alpha_blend_gray<agg::blender_gray8, agg::rendering_buffer, 
 
 template<typename pixfmt_T>
 typename pixfmt_T::color_type color_from_srgba8(const agg::srgba8& c);
-template<typename pixfmt_T>
-bool color_is_visible(const agg::srgba8& c);
 
 template<>
 agg::pixfmt_rgba32::color_type color_from_srgba8<agg::pixfmt_rgba32>(const agg::srgba8& c);
@@ -185,13 +183,6 @@ template<>
 agg::pixfmt_rgb24::color_type color_from_srgba8<agg::pixfmt_rgb24>(const agg::srgba8& c);
 template<>
 agg::pixfmt_gray8::color_type color_from_srgba8<agg::pixfmt_gray8>(const agg::srgba8& c);
-
-template<>
-bool color_is_visible<agg::pixfmt_rgba32>(const agg::srgba8& c);
-template<>
-bool color_is_visible<agg::pixfmt_rgb24>(const agg::srgba8& c);
-template<>
-bool color_is_visible<agg::pixfmt_gray8>(const agg::srgba8& c);
 
 #include "ndarray_canvas.hxx"
 

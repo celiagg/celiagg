@@ -41,21 +41,3 @@ agg::pixfmt_gray8::color_type color_from_srgba8<agg::pixfmt_gray8>(const agg::sr
 {
     return agg::pixfmt_gray8::color_type(c.r, c.a);
 }
-
-template<>
-bool color_is_visible<agg::pixfmt_rgba32>(const agg::srgba8& c)
-{
-    return c.r != 0 && c.g != 0 && c.b != 0 && c.a != 0;
-}
-
-template<>
-bool color_is_visible<agg::pixfmt_rgb24>(const agg::srgba8& c)
-{
-    return c.r != 0 && c.g != 0 && c.b != 0 && c.a != 0;
-}
-
-template<>
-bool color_is_visible<agg::pixfmt_gray8>(const agg::srgba8& c)
-{
-    return c.r != 0 && c.a != 0;
-}
