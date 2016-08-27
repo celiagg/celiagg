@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef GRAPHICS_STATE_H
-#define GRAPHICS_STATE_H
+#ifndef PYAGG_GRAPHICS_STATE_H
+#define PYAGG_GRAPHICS_STATE_H
 
 #include "agg_basics.h"
 #include "agg_color_rgba.h"
@@ -166,4 +166,4 @@ private:
     bool        m_antiAliased;
 };
 
-#endif // GRAPHICS_STATE_H
+#endif // PYAGG_GRAPHICS_STATE_H

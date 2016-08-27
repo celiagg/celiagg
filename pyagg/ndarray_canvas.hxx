@@ -62,8 +62,12 @@ unsigned ndarray_canvas<pixfmt_T, value_type_T>::height() const
 }
 
 template<typename pixfmt_T, typename value_type_T>
-void ndarray_canvas<pixfmt_T, value_type_T>::draw_path(const agg::path_storage& path, const GraphicsState& gs)
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_path(const agg::path_storage& path,
+    const agg::trans_affine& transform, const GraphicsState& gs)
 {
+    typedef agg::conv_transform<agg::path_storage> conv_trans_t;
+    typedef agg::conv_curve<conv_trans_t> conv_curve_t;
+
     const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
     const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
@@ -71,9 +75,10 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_path(const agg::path_storage& 
     {
         set_aa(gs.antiAliased());
         agg::path_storage path_copy(path);
+        agg::trans_affine mtx = transform;
         path_copy.close_polygon();
-        typedef agg::conv_curve<agg::path_storage> conv_curve_t;
-        conv_curve_t curve(path_copy);
+        conv_trans_t trans_path(path_copy, mtx);
+        conv_curve_t curve(trans_path);
 
         if (fill)
         {
@@ -98,18 +103,22 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_path(const agg::path_storage& 
 }
 
 template<typename pixfmt_T, typename value_type_T>
-void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, const size_t& point_count,
-                                                          const GraphicsState& gs)
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points,
+    const size_t& point_count, const agg::trans_affine& transform, const GraphicsState& gs)
 {
+    typedef agg::conv_transform<agg::simple_polygon_vertex_source> trans_verts_t;
+    typedef agg::conv_bspline<trans_verts_t> conv_bspline_t;
+
     const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
     const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
 
-    if(line || fill)
+    if (line || fill)
     {
         set_aa(gs.antiAliased());
         agg::simple_polygon_vertex_source path(points, point_count, false, false);
-        typedef agg::conv_bspline<agg::simple_polygon_vertex_source> conv_bspline_t;
-        conv_bspline_t bspline(path);
+        agg::trans_affine mtx = transform;
+        trans_verts_t trans_verts(path, mtx);
+        conv_bspline_t bspline(trans_verts);
 //      bspline.interpolation_step(1.0 / point_count);
 
         if(fill)
@@ -136,7 +145,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, 
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_image(Image& img,
-    const double x, const double y, const GraphicsState& gs)
+    const agg::trans_affine& transform, const GraphicsState& gs)
 {
     typedef typename image_filters<pixfmt_T>::nearest_type span_gen_type;
     typedef typename image_filters<pixfmt_T>::source_type source_type;
@@ -148,15 +157,12 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_image(Image& img,
     agg::rendering_buffer* src_buf = img.rendering_buffer_ptr();
     pixfmt_T src_pix(*src_buf);
 
-    agg::trans_affine src_mtx;
-    src_mtx *= agg::trans_affine_translation(x, y);
-
-    agg::trans_affine inv_img_mtx;
-    inv_img_mtx *= agg::trans_affine_translation(x, y);
+    agg::trans_affine src_mtx = transform;
+    agg::trans_affine inv_img_mtx = transform;
     inv_img_mtx.invert();
     interpolator_type interpolator(inv_img_mtx);
 
-    typename pixfmt_T::color_type back_color = color_from_srgba8<pixfmt_T>(agg::srgba8(128, 128, 128, 128));
+    typename pixfmt_T::color_type back_color = color_from_srgba8<pixfmt_T>(agg::srgba8(128, 128, 128, 0));
     source_type source(src_pix, back_color);
     span_gen_type span_generator(source, interpolator);
     span_alloc_type span_allocator;
@@ -170,14 +176,15 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_image(Image& img,
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
-    const double x, const double y, Font& font, const GraphicsState& gs)
+    Font& font, const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    double start_x = x;
-    double start_y = y;
+    typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
 
-    agg::trans_affine  mtx;
-    mtx *= agg::trans_affine_translation(x, y);
-    agg::conv_transform<Font::FontCacheManager::path_adaptor_type> tr(font.cache().path_adaptor(), mtx);
+    double start_x = 0.0, start_y = 0.0;
+    transform.translation(&start_x, &start_y);
+
+    agg::trans_affine mtx = transform;
+    trans_font_t tr(font.cache().path_adaptor(), mtx);
     agg::path_storage path;
 
     for (int i = 0; text[i]; i++)
@@ -195,7 +202,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
             {
                 path.remove_all();
                 path.concat_path(tr, 0);
-                draw_path(path, gs);
+                draw_path(path, mtx, gs);
             }
             if (glyph->data_type == agg::glyph_data_gray8)
             {
