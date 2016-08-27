@@ -67,33 +67,39 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_path(const agg::path_storage& 
 {
     typedef agg::conv_transform<agg::path_storage> conv_trans_t;
     typedef agg::conv_curve<conv_trans_t> conv_curve_t;
+    typedef agg::conv_contour<conv_curve_t> contour_curve_t;
+    typedef agg::conv_stroke<conv_curve_t> stroke_curve_t;
 
-    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
-    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
+    const GraphicsState::DrawingMode mode = gs.drawingMode();
+    const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (mode & GraphicsState::DrawFill) == GraphicsState::DrawFill;
+    const bool eof = (mode & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
 
     if (line || fill)
     {
         set_aa(gs.antiAliased());
         agg::path_storage path_copy(path);
         agg::trans_affine mtx = transform;
-        path_copy.close_polygon();
         conv_trans_t trans_path(path_copy, mtx);
         conv_curve_t curve(trans_path);
 
         if (fill)
         {
-            agg::conv_contour<conv_curve_t> contour(curve);
+            contour_curve_t contour(curve);
             contour.auto_detect_orientation(true);
+
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
+            m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if (line)
         {
-            agg::conv_stroke<conv_curve_t> stroke(curve);
-            stroke.width(gs.lineWidth() / 2);
+            stroke_curve_t stroke(curve);
+            stroke.width(gs.lineWidth());
+
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
             m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
@@ -108,9 +114,13 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points,
 {
     typedef agg::conv_transform<agg::simple_polygon_vertex_source> trans_verts_t;
     typedef agg::conv_bspline<trans_verts_t> conv_bspline_t;
+    typedef agg::conv_contour<conv_bspline_t> contour_bspline_t;
+    typedef agg::conv_stroke<conv_bspline_t> stroke_bspline_t;
 
-    const bool line = (gs.drawingMode() & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
-    const bool fill = (gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill;
+    const GraphicsState::DrawingMode mode = gs.drawingMode();
+    const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (mode & GraphicsState::DrawFill) == GraphicsState::DrawFill;
+    const bool eof = (mode & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
 
     if (line || fill)
     {
@@ -123,18 +133,21 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points,
 
         if(fill)
         {
-            agg::conv_contour<conv_bspline_t> contour(bspline);
+            contour_bspline_t contour(bspline);
             contour.auto_detect_orientation(true);
+
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
+            m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
             agg::render_scanlines(m_rasterizer, m_scanline, m_renderer);
         }
 
         if(line)
         {
-            agg::conv_stroke<conv_bspline_t> stroke(bspline);
+            stroke_bspline_t stroke(bspline);
             stroke.width(gs.lineWidth() / 2);
+
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
             m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
@@ -186,6 +199,8 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
     agg::trans_affine mtx = transform;
     trans_font_t tr(font.cache().path_adaptor(), mtx);
     agg::path_storage path;
+
+    m_rasterizer.filling_rule(agg::fill_non_zero);
 
     for (int i = 0; text[i]; i++)
     {
