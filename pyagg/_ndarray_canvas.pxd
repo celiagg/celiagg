@@ -46,10 +46,13 @@ cdef extern from "ndarray_canvas.h" namespace "agg":
     cdef cppclass pixfmt_gray16:
         pass
 
-cdef extern from "ndarray_canvas.h":
-    cdef cppclass pixfmt_gray8_no_alpha:
-        pass
+cdef extern from "image.h":
+    cdef cppclass Image:
+        Image(unsigned char* buf, unsigned width, unsigned height, int stride)
+        int width()
+        int height()
 
+cdef extern from "ndarray_canvas.h":
     cdef cppclass ndarray_canvas_base[value_type_T]:
         const size_t& channel_count() const
         unsigned width() const
@@ -58,6 +61,8 @@ cdef extern from "ndarray_canvas.h":
                        const _graphics_state.GraphicsState& gs)
         void draw_bspline(const double* points, const size_t& point_count,
                           const _graphics_state.GraphicsState& gs)
+        void draw_image(Image& img, const double x, const double y,
+                        const _graphics_state.GraphicsState& gs)
 
     cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
         ndarray_canvas(value_type_T* buf,
@@ -72,3 +77,5 @@ cdef extern from "ndarray_canvas.h":
                        const _graphics_state.GraphicsState& gs)
         void draw_bspline(const double* points, const size_t& point_count,
                           const _graphics_state.GraphicsState& gs)
+        void draw_image(Image& img, const double x, const double y,
+                        const _graphics_state.GraphicsState& gs)

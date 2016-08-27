@@ -135,6 +135,40 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_bspline(const double* points, 
 }
 
 template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_image(Image& img,
+    const double x, const double y, const GraphicsState& gs)
+{
+    typedef typename image_filters<pixfmt_T>::nearest_type span_gen_type;
+    typedef typename image_filters<pixfmt_T>::source_type source_type;
+    typedef typename agg::span_allocator<typename pixfmt_T::color_type> span_alloc_type;
+    typedef agg::renderer_scanline_aa<rendererbase_t, span_alloc_type, span_gen_type> renderer_type;
+    typedef agg::conv_transform<agg::path_storage> trans_curve_t;
+
+    agg::path_storage img_outline = img.image_outline();
+    agg::rendering_buffer* src_buf = img.rendering_buffer_ptr();
+    pixfmt_T src_pix(*src_buf);
+
+    agg::trans_affine src_mtx;
+    src_mtx *= agg::trans_affine_translation(x, y);
+
+    agg::trans_affine inv_img_mtx;
+    inv_img_mtx *= agg::trans_affine_translation(x, y);
+    inv_img_mtx.invert();
+    interpolator_type interpolator(inv_img_mtx);
+
+    typename pixfmt_T::color_type back_color = color_from_srgba8<pixfmt_T>(agg::srgba8(128, 128, 128, 128));
+    source_type source(src_pix, back_color);
+    span_gen_type span_generator(source, interpolator);
+    span_alloc_type span_allocator;
+    renderer_type renderer(m_rendererbase, span_allocator, span_generator);
+
+    m_rasterizer.reset();
+    trans_curve_t trans_outline(img_outline, src_mtx);
+    m_rasterizer.add_path(trans_outline);
+    agg::render_scanlines(m_rasterizer, m_scanline, renderer);
+}
+
+template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::set_aa(const bool& aa)
 {
     if(aa)
@@ -145,4 +179,4 @@ void ndarray_canvas<pixfmt_T, value_type_T>::set_aa(const bool& aa)
     {
         m_rasterizer.gamma(agg::gamma_threshold(0.5));
     }
-} 
+}

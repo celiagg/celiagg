@@ -26,7 +26,54 @@ ctypedef _ndarray_canvas.ndarray_canvas_base[uint8_t] canvas_base_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32, uint8_t] canvas_rgba32_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24, uint8_t] canvas_rgb24_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8, uint8_t] canvas_ga16_t
-ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8_no_alpha, uint8_t] canvas_g8_t
+
+@cython.internal
+cdef class ImageBase:
+    cdef _ndarray_canvas.Image* _this
+
+    def __dealloc__(self):
+            del self._this
+
+    @property
+    def width(self):
+        return self._this.width()
+
+    @property
+    def height(self):
+        return self._this.height()
+
+
+@cython.internal
+cdef class ImageRGBA32(ImageBase):
+    def __cinit__(self, uint8_t[:,:,::1] arr):
+        self._this = new _ndarray_canvas.Image(&arr[0][0][0],
+                                               arr.shape[1], arr.shape[0],
+                                               arr.strides[0])
+
+
+@cython.internal
+cdef class ImageRGB24(ImageBase):
+    def __cinit__(self, uint8_t[:,:,::1] arr):
+        self._this = new _ndarray_canvas.Image(&arr[0][0][0],
+                                               arr.shape[1], arr.shape[0],
+                                               arr.strides[0])
+
+
+@cython.internal
+cdef class ImageGA16(ImageBase):
+    def __cinit__(self, uint8_t[:,:,::1] arr):
+        self._this = new _ndarray_canvas.Image(&arr[0][0][0],
+                                               arr.shape[1], arr.shape[0],
+                                               arr.strides[0])
+
+
+@cython.internal
+cdef class ImageG8(ImageBase):
+    def __cinit__(self, uint8_t[:,::1] arr):
+        self._this = new _ndarray_canvas.Image(&arr[0][0],
+                                               arr.shape[1], arr.shape[0],
+                                               arr.strides[0])
+
 
 @cython.internal
 cdef class CanvasBaseUInt8:
@@ -117,7 +164,18 @@ cdef class CanvasBaseUInt8:
             raise ValueError(msg)
 
         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
-                                state._this[0])
+                                dereference(state._this))
+
+    def draw_image(self, image, double x, double y, GraphicsState state):
+        """draw_image(self, image, x, y, state):
+          image: A 2D or 3D numpy array containing image data
+          x, y: The (x, y) position where the image should be drawn. 
+          state: A GraphicsState object
+                 anti-aliased
+        """
+        cdef ImageBase img = self._get_image(image)
+        self._this.draw_image(dereference(img._this), x, y,
+                              dereference(state._this))
 
 
 cdef class CanvasRGBA32(CanvasBaseUInt8):
@@ -134,6 +192,9 @@ cdef class CanvasRGBA32(CanvasBaseUInt8):
                                                           image.shape[0],
                                                           image.strides[0], 4)
 
+    def _get_image(self, image):
+        return ImageRGBA32(image)
+
 
 cdef class CanvasRGB24(CanvasBaseUInt8):
     """CanvasRGB24 provides AGG (Anti-Grain Geometry) drawing routines that
@@ -147,6 +208,9 @@ cdef class CanvasRGB24(CanvasBaseUInt8):
                                                          image.shape[1],
                                                          image.shape[0],
                                                          image.strides[0], 3)
+
+    def _get_image(self, image):
+        return ImageRGB24(image)
 
 
 cdef class CanvasGA16(CanvasBaseUInt8):
@@ -162,6 +226,9 @@ cdef class CanvasGA16(CanvasBaseUInt8):
                                                         image.shape[0],
                                                         image.strides[0], 2)
 
+    def _get_image(self, image):
+        return ImageGA16(image)
+
 
 cdef class CanvasG8(CanvasBaseUInt8):
     """CanvasG8 provides AGG (Anti-Grain Geometry) drawing routines that render
@@ -171,7 +238,10 @@ cdef class CanvasG8(CanvasBaseUInt8):
     """
     def __cinit__(self, uint8_t[:,::1] image):
         self.base_init(image, (255,)*2, False)
-        self._this = <canvas_base_t*> new canvas_g8_t(&image[0][0],
-                                                      image.shape[1],
-                                                      image.shape[0],
-                                                      image.strides[0], 1)
+        self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
+                                                        image.shape[1],
+                                                        image.shape[0],
+                                                        image.strides[0], 1)
+
+    def _get_image(self, image):
+        return ImageG8(image)

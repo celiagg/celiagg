@@ -27,6 +27,9 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
+// for integer typedefs
+#include <stdint.h>
+
 #include <agg_bezier_arc.h>
 #include <agg_bspline.h>
 #include <agg_conv_bspline.h>
@@ -44,16 +47,8 @@
 #include <agg_scanline_p.h>
 #include <ctrl/agg_polygon_ctrl.h>
 
-#if defined(__UINT32_MAX__) || defined(UINT32_MAX)
- #include <inttypes.h>
-#else
- typedef unsigned char uint8_t;
- typedef unsigned short uint16_t;
- typedef unsigned long uint32_t;
- typedef unsigned long long uint64_t;
-#endif
-
 #include "graphics_state.h"
+#include "image.h"
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
 // able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
@@ -69,9 +64,9 @@ public:
     virtual unsigned height() const = 0;
 
     virtual void draw_path(const agg::path_storage& path, const GraphicsState& gs) = 0;
-
     virtual void draw_bspline(const double* points, const size_t& point_count,
                               const GraphicsState& gs) = 0;
+    virtual void draw_image(Image& img, const double x, const double y, const GraphicsState& gs) = 0;
 };
 
 template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
@@ -89,9 +84,9 @@ public:
     unsigned height() const;
 
     void draw_path(const agg::path_storage& path, const GraphicsState& gs);
-
     void draw_bspline(const double* points, const size_t& point_count,
                       const GraphicsState& gs);
+    void draw_image(Image& img, const double x, const double y, const GraphicsState& gs);
 
 protected:
     typedef agg::renderer_base<pixfmt_T> rendererbase_t;
@@ -119,8 +114,6 @@ private:
     ndarray_canvas(const ndarray_canvas&){}
     ndarray_canvas& operator = (const ndarray_canvas&){return *this;}
 };
-
-typedef agg::pixfmt_alpha_blend_gray<agg::blender_gray8, agg::rendering_buffer, 1, 0> pixfmt_gray8_no_alpha;
 
 template<typename pixfmt_T>
 typename pixfmt_T::color_type color_from_srgba8(const agg::srgba8& c);
