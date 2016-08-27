@@ -171,11 +171,22 @@ cdef class CanvasBaseUInt8:
           image: A 2D or 3D numpy array containing image data
           x, y: The (x, y) position where the image should be drawn. 
           state: A GraphicsState object
-                 anti-aliased
         """
         cdef ImageBase img = self._get_image(image)
         self._this.draw_image(dereference(img._this), x, y,
                               dereference(state._this))
+
+    def draw_text(self, text, double x, double y, Font font,
+                  GraphicsState state):
+        """draw_text(self, text, x, y, font, state):
+          text: A UTF-8 string of text to be renderered.
+          x, y: The (x, y) position where the text should begin drawing.
+          font: A Font object
+          state: A GraphicsState object
+                line color, line width, fill color, drawing mode, anti-aliased
+        """
+        self._this.draw_text(text, x, y, dereference(font._this),
+                             dereference(state._this))
 
 
 cdef class CanvasRGBA32(CanvasBaseUInt8):

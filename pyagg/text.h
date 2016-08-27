@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef TEXT_H
-#define TEXT_H
+#ifndef PYAGG_TEXT_H
+#define PYAGG_TEXT_H
 
 #include <agg_basics.h>
 #include <agg_font_cache_manager.h>
@@ -35,14 +35,14 @@
 
 class Font
 {
+public:
+
 #ifdef _USE_FREETYPE
     typedef agg::font_engine_freetype_int32       FontEngine;
 #else
     typedef agg::font_engine_win32_tt_int32       FontEngine;
 #endif
     typedef agg::font_cache_manager<FontEngine>   FontCacheManager;
-
-public:
 
     enum FontCacheType
     {
@@ -56,6 +56,8 @@ public:
          bool const bold = false,
          bool const italic = false,
          FontCacheType const ch = RasterFontCache);
+
+    FontCacheManager& cache();
 
     bool    hinting() const;
     void    hinting(bool const hint);
@@ -72,4 +74,4 @@ private:
     FontCacheManager    m_fontCacheManager;
 };
 
-#endif // TEXT_H
+#endif // PYAGG_TEXT_H

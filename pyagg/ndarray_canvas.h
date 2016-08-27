@@ -49,6 +49,7 @@
 
 #include "graphics_state.h"
 #include "image.h"
+#include "text.h"
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
 // able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
@@ -66,7 +67,10 @@ public:
     virtual void draw_path(const agg::path_storage& path, const GraphicsState& gs) = 0;
     virtual void draw_bspline(const double* points, const size_t& point_count,
                               const GraphicsState& gs) = 0;
-    virtual void draw_image(Image& img, const double x, const double y, const GraphicsState& gs) = 0;
+    virtual void draw_image(Image& img, const double x, const double y,
+                            const GraphicsState& gs) = 0;
+    virtual void draw_text(const char* text, const double x, const double y,
+                           Font& font, const GraphicsState& gs) = 0;
 };
 
 template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
@@ -86,8 +90,10 @@ public:
     void draw_path(const agg::path_storage& path, const GraphicsState& gs);
     void draw_bspline(const double* points, const size_t& point_count,
                       const GraphicsState& gs);
-    void draw_image(Image& img, const double x, const double y, const GraphicsState& gs);
-
+    void draw_image(Image& img, const double x, const double y,
+                    const GraphicsState& gs);
+    void draw_text(const char* text, const double x, const double y,
+                   Font& font, const GraphicsState& gs);
 protected:
     typedef agg::renderer_base<pixfmt_T> rendererbase_t;
     typedef agg::renderer_scanline_aa_solid<rendererbase_t> renderer_t;

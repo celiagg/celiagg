@@ -55,6 +55,13 @@ Font::Font(char const* fontName, double const height, bool const bold,
                               bold ? 700 : 400,
                               italic);
 #endif
+    m_fontEngine.flip_y(true);
+}
+
+Font::FontCacheManager&
+Font::cache()
+{
+    return m_fontCacheManager;
 }
 
 double

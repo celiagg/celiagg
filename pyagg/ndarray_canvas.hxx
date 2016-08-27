@@ -169,6 +169,48 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_image(Image& img,
 }
 
 template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
+    const double x, const double y, Font& font, const GraphicsState& gs)
+{
+    double start_x = x;
+    double start_y = y;
+
+    agg::trans_affine  mtx;
+    mtx *= agg::trans_affine_translation(x, y);
+    agg::conv_transform<Font::FontCacheManager::path_adaptor_type> tr(font.cache().path_adaptor(), mtx);
+    agg::path_storage path;
+
+    for (int i = 0; text[i]; i++)
+    {
+        const agg::glyph_cache* glyph = font.cache().glyph(text[i]);
+        if (glyph)
+        {
+            if (i > 0)
+            {
+                font.cache().add_kerning(&start_x, &start_y);
+            }
+            font.cache().init_embedded_adaptors(glyph, start_x, start_y);
+
+            if (glyph->data_type == agg::glyph_data_outline)
+            {
+                path.remove_all();
+                path.concat_path(tr, 0);
+                draw_path(path, gs);
+            }
+            if (glyph->data_type == agg::glyph_data_gray8)
+            {
+                agg::render_scanlines(font.cache().gray8_adaptor(),
+                                      font.cache().gray8_scanline(),
+                                      m_renderer);
+            }
+            start_x += glyph->advance_x;
+            start_y += glyph->advance_y;
+        }
+    }
+}
+
+
+template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::set_aa(const bool& aa)
 {
     if(aa)
