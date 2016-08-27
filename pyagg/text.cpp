@@ -105,3 +105,77 @@ Font::hinting(bool const hint)
 {
     m_fontEngine.hinting(hint);
 }
+
+unsigned
+Font::get_next_codepoint(const char *utf8, int& index)
+{
+    const char start = utf8[index];
+    if ((start & 0x80) == 0)
+    {
+        return (unsigned)utf8[index++];
+    }
+
+
+    if ((start & 0xfc) == 0xfc)
+    {
+        // If an UCS fits 31 bits, it is coded as 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
+        const unsigned result = (
+            (utf8[index + 0] & 0x01) << 30 |
+            (utf8[index + 1] & 0x3f) << 24 |
+            (utf8[index + 2] & 0x3f) << 18 |
+            (utf8[index + 3] & 0x3f) << 12 |
+            (utf8[index + 4] & 0x3f) << 6 |
+            (utf8[index + 5] & 0x3f)
+        );
+        index += 6;
+        return result;
+    }
+    else if ((start & 0xf8) == 0xf8)
+    {
+        // If an UCS fits 26 bits, it is coded as 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
+        const unsigned result = (
+            (utf8[index + 0] & 0x03) << 24 |
+            (utf8[index + 1] & 0x3f) << 18 |
+            (utf8[index + 2] & 0x3f) << 12 |
+            (utf8[index + 3] & 0x3f) << 6 |
+            (utf8[index + 4] & 0x3f)
+        );
+        index += 5;
+        return result;
+    }
+    else if ((start & 0xf0) == 0xf0)
+    {
+        // If an UCS fits 21 bits, it is coded as 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+        const unsigned result = (
+            (utf8[index + 0] & 0x07) << 18 |
+            (utf8[index + 1] & 0x3f) << 12 |
+            (utf8[index + 2] & 0x3f) << 6 |
+            (utf8[index + 3] & 0x3f)
+        );
+        index += 4;
+        return result;
+    }
+    else if ((start & 0xe0) == 0xe0)
+    {
+        // If an UCS fits 16 bits, it is coded as 1110xxxx 10xxxxxx 10xxxxxx
+        const unsigned result = (
+            (utf8[index + 0] & 0x0f) << 12 |
+            (utf8[index + 1] & 0x3f) << 6 |
+            (utf8[index + 2] & 0x3f)
+        );
+        index += 3;
+        return result;
+    }
+    else if ((start & 0xc0) == 0xc0)
+    {
+        // If an UCS fits 11 bits, it is coded as 110xxxxx 10xxxxxx
+        const unsigned result = (
+            (utf8[index + 0] & 0x1f) << 6 |
+            (utf8[index + 1] & 0x3f)
+        );
+        index += 2;
+        return result;
+    }
+
+    return 0;
+}

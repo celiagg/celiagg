@@ -202,12 +202,14 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
 
     m_rasterizer.filling_rule(agg::fill_non_zero);
 
-    for (int i = 0; text[i]; i++)
+    int index = 0;
+    unsigned code = Font::get_next_codepoint(text, index);
+    while (code != 0)
     {
-        const agg::glyph_cache* glyph = font.cache().glyph(text[i]);
+        const agg::glyph_cache* glyph = font.cache().glyph(code);
         if (glyph)
         {
-            if (i > 0)
+            if (index > 0)
             {
                 font.cache().add_kerning(&start_x, &start_y);
             }
@@ -228,6 +230,9 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
             start_x += glyph->advance_x;
             start_y += glyph->advance_y;
         }
+
+        // Get the next codepoint
+        code = Font::get_next_codepoint(text, index);
     }
 }
 

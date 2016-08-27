@@ -64,6 +64,9 @@ public:
     double  height() const;
     double  stringWidth(char const* str);
 
+    // Decoder for UTF-8 strings
+    static unsigned get_next_codepoint(const char *utf8, int& index);
+
 private:
 
     FontCacheType       m_cacheType;
