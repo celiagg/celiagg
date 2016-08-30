@@ -185,12 +185,13 @@ cdef class CanvasBaseUInt8:
     def draw_text(self, text, Font font, Transform transform,
                   GraphicsState state):
         """draw_text(self, text, font, transform, state):
-          text: A UTF-8 string of text to be renderered.
+          text: A Unicode string of text to be renderered.
           font: A Font object
           transform: A Transform object
           state: A GraphicsState object
                 line color, line width, fill color, drawing mode, anti-aliased
         """
+        text = _get_utf8_text(text, "The text argument must be unicode.")
         self._this.draw_text(text, dereference(font._this),
                              dereference(transform._this),
                              dereference(state._this))

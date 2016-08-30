@@ -203,7 +203,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
     m_rasterizer.filling_rule(agg::fill_non_zero);
 
     int index = 0;
-    unsigned code = Font::get_next_codepoint(text, index);
+    unsigned code = Font::getNextCodepoint(text, index);
     while (code != 0)
     {
         const agg::glyph_cache* glyph = font.cache().glyph(code);
@@ -232,7 +232,7 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
         }
 
         // Get the next codepoint
-        code = Font::get_next_codepoint(text, index);
+        code = Font::getNextCodepoint(text, index);
     }
 }
 

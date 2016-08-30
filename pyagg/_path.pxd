@@ -9,8 +9,8 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -35,19 +35,12 @@ cdef extern from "agg_path_storage.h" namespace "agg":
         unsigned total_vertices() const
         unsigned vertex(unsigned idx, double* x, double* y) const
         void move_to(double x, double y)
-        void move_rel(double dx, double dy)
         void line_to(double x, double y)
-        void line_rel(double dx, double dy)
         void arc_to(double rx, double ry, double angle, bool large_arc_flag,
                     bool sweep_flag, double x, double y)
-        void arc_rel(double rx, double ry, double angle, bool large_arc_flag,
-                     bool sweep_flag, double dx, double dy)
         void curve3(double x_ctrl, double y_ctrl, double x_to, double y_to)
-        void curve3_rel(double dx_ctrl, double dy_ctrl, double dx_to, double dy_to)
         void curve4(double x_ctrl1, double y_ctrl1, double x_ctrl2,
                     double y_ctrl2,  double x_to, double y_to)
-        void curve4_rel(double dx_ctrl1, double dy_ctrl1, double dx_ctrl2,
-                        double dy_ctrl2, double dx_to, double dy_to)
         void close_polygon()
 
 

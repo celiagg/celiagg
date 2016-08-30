@@ -9,8 +9,8 @@
 # copies of the Software, and to permit persons to whom the Software is
 # furnished to do so, subject to the following conditions:
 #
-# The above copyright notice and this permission notice shall be included in all
-# copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
 #
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 # IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -31,10 +31,39 @@ cpdef enum FontCacheType:
 cdef class Font:
     cdef _text.Font* _this
 
-    def __cinit__(self, char* fontName, double height, bool bold,
+    def __cinit__(self, fontName, double size, bool bold,
                   bool italic, FontCacheType ch):
-        self._this = new _text.Font(fontName, height, bold, italic, ch)
+        """Font(path, height, bold, italic, cache_type)
+        path : A unicode string containing the path of a Font file
+        height : The size of the font
+        bold : A boolean flag indicating if the font is bold
+        italic : A boolean flag indicating if the font is italic
+        cache_type : A FontCacheType
+        """
+        fontName = _get_utf8_text(fontName,
+                                  "Font path must be a unicode string")
+        self._this = new _text.Font(fontName, size, bold, italic, ch)
 
     def __dealloc__(self):
         del self._this
 
+    property cache_type:
+        def __get__(self):
+            return FontCacheType(self._this.cacheType())
+
+    property height:
+        def __get__(self):
+            return self._this.height()
+
+    property hinting:
+        def __get__(self):
+            return self._this.hinting()
+        def __set__(self, bool value):
+            self._this.hinting(value)
+
+    def width(self, text):
+        """width(self, text):
+        text : a unicode string
+        """
+        text = _get_utf8_text(text, "Argument must be a unicode string")
+        return self._this.stringWidth(text)

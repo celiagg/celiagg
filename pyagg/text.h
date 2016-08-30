@@ -52,20 +52,21 @@ public:
 
 public:
 
-    Font(char const* fileName, double const height,
-         bool const bold = false,
-         bool const italic = false,
-         FontCacheType const ch = RasterFontCache);
+                        Font(char const* fileName, double const height,
+                             bool const bold = false,
+                             bool const italic = false,
+                             FontCacheType const ch = RasterFontCache);
 
-    FontCacheManager& cache();
+    FontCacheManager&   cache();
 
-    bool    hinting() const;
-    void    hinting(bool const hint);
-    double  height() const;
-    double  stringWidth(char const* str);
+    FontCacheType       cacheType() const;
+    bool                hinting() const;
+    void                hinting(bool const hint);
+    double              height() const;
+    double              stringWidth(char const* str);
 
     // Decoder for UTF-8 strings
-    static unsigned get_next_codepoint(const char *utf8, int& index);
+    static unsigned     getNextCodepoint(const char *utf8, int& index);
 
 private:
 
