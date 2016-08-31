@@ -32,6 +32,7 @@
 #else
 #include <agg_font_win32_tt.h>
 #endif
+#include <agg_trans_affine.h>
 
 class Font
 {
@@ -64,6 +65,7 @@ public:
     void                hinting(bool const hint);
     double              height() const;
     double              stringWidth(char const* str);
+    void                transform(const agg::trans_affine& transform);
 
     // Decoder for UTF-8 strings
     static unsigned     getNextCodepoint(const char *utf8, int& index);

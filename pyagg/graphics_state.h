@@ -25,10 +25,10 @@
 #ifndef PYAGG_GRAPHICS_STATE_H
 #define PYAGG_GRAPHICS_STATE_H
 
-#include "agg_basics.h"
-#include "agg_color_rgba.h"
-#include "agg_math_stroke.h"
-#include "agg_pixfmt_rgba.h"
+#include <agg_basics.h>
+#include <agg_color_rgba.h>
+#include <agg_math_stroke.h>
+#include <agg_pixfmt_rgba.h>
 
 class GraphicsState
 {

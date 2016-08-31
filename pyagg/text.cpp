@@ -75,6 +75,18 @@ Font::height() const
     return m_fontEngine.height();
 }
 
+bool
+Font::hinting() const
+{
+    return m_fontEngine.hinting();
+}
+
+void
+Font::hinting(bool const hint)
+{
+    m_fontEngine.hinting(hint);
+}
+
 double
 Font::stringWidth(char const* str)
 {
@@ -104,16 +116,10 @@ Font::stringWidth(char const* str)
     return x;
 }
 
-bool
-Font::hinting() const
-{
-    return m_fontEngine.hinting();
-}
-
 void
-Font::hinting(bool const hint)
+Font::transform(const agg::trans_affine& transform)
 {
-    m_fontEngine.hinting(hint);
+    m_fontEngine.transform(transform);
 }
 
 unsigned

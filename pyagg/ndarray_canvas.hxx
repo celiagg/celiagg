@@ -193,17 +193,38 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
 {
     typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
 
-    double start_x = 0.0, start_y = 0.0;
-    transform.translation(&start_x, &start_y);
-
     agg::trans_affine mtx = transform;
-    trans_font_t tr(font.cache().path_adaptor(), mtx);
-    agg::path_storage path;
+    double transform_array[6];
+    double start_x, start_y;
+    int index = 0;
+    unsigned code = 0;
+
+    // Pull the translation values out of the matrix as our starting offset and
+    // then replace them with zeros for use in the font engine.
+    mtx.store_to(transform_array);
+    start_x = transform_array[4];
+    start_y = transform_array[5];
+    transform_array[4] = 0.0;
+    transform_array[5] = 0.0;
+    mtx.load_from(transform_array);
+
+    if ((gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill)
+    {
+        m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
+    }
+    else
+    {
+        m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
+    }
+
+    if (font.cacheType() == Font::RasterFontCache)
+    {
+        font.transform(mtx);
+    }
 
     m_rasterizer.filling_rule(agg::fill_non_zero);
 
-    int index = 0;
-    unsigned code = Font::getNextCodepoint(text, index);
+    code = Font::getNextCodepoint(text, index);
     while (code != 0)
     {
         const agg::glyph_cache* glyph = font.cache().glyph(code);
@@ -217,7 +238,8 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
 
             if (glyph->data_type == agg::glyph_data_outline)
             {
-                path.remove_all();
+                trans_font_t tr(font.cache().path_adaptor(), mtx);
+                agg::path_storage path;
                 path.concat_path(tr, 0);
                 draw_path(path, mtx, gs);
             }
