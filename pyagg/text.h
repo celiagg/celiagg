@@ -67,9 +67,6 @@ public:
     double              stringWidth(char const* str);
     void                transform(const agg::trans_affine& transform);
 
-    // Decoder for UTF-8 strings
-    static unsigned     getNextCodepoint(const char *utf8, int& index);
-
 private:
 
     FontCacheType       m_cacheType;

@@ -23,6 +23,7 @@
 // Authors: John Wiggins
 
 #include "text.h"
+#include "glyph_iter.h"
 
 Font::Font(char const* fontName, double const height, bool const bold,
            bool const italic, FontCacheType const ch)
@@ -90,104 +91,13 @@ Font::hinting(bool const hint)
 double
 Font::stringWidth(char const* str)
 {
-    double x = 0;
-    double y = 0;
-    bool first = true;
-    int index = 0;
-    unsigned code = 0;
-
-    code = getNextCodepoint(str, index);
-    while (code > 0)
-    {
-        agg::glyph_cache const * glyph = m_fontCacheManager.glyph(code);
-        if (glyph)
-        {
-            if (!first)
-            {
-                m_fontCacheManager.add_kerning(&x, &y);
-            }
-            x += glyph->advance_x;
-            y += glyph->advance_y;
-            first = false;
-        }
-        code = getNextCodepoint(str, index);
-    }
-
-    return x;
+    GlyphIterator iterator(str, *this);
+    while (iterator.step() != GlyphIterator::k_StepActionEnd) {}
+    return iterator.xOffset();
 }
 
 void
 Font::transform(const agg::trans_affine& transform)
 {
     m_fontEngine.transform(transform);
-}
-
-unsigned
-Font::getNextCodepoint(const char *utf8, int& index)
-{
-    const char start = utf8[index];
-
-    if ((start & 0x80) == 0)
-    {
-        // If a UCS fits 7 bits, just return it.
-        return (unsigned)utf8[index++];
-    }
-
-    if ((start & 0xfc) == 0xfc)
-    {
-        // If a UCS fits 31 bits, it is coded as:
-        // 1111110x 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
-        const unsigned result = (utf8[index + 0] & 0x01) << 30 |
-                                (utf8[index + 1] & 0x3f) << 24 |
-                                (utf8[index + 2] & 0x3f) << 18 |
-                                (utf8[index + 3] & 0x3f) << 12 |
-                                (utf8[index + 4] & 0x3f) << 6 |
-                                (utf8[index + 5] & 0x3f);
-        index += 6;
-        return result;
-    }
-    else if ((start & 0xf8) == 0xf8)
-    {
-        // If a UCS fits 26 bits, it is coded as:
-        // 111110xx 10xxxxxx 10xxxxxx 10xxxxxx 10xxxxxx
-        const unsigned result = (utf8[index + 0] & 0x03) << 24 |
-                                (utf8[index + 1] & 0x3f) << 18 |
-                                (utf8[index + 2] & 0x3f) << 12 |
-                                (utf8[index + 3] & 0x3f) << 6 |
-                                (utf8[index + 4] & 0x3f);
-        index += 5;
-        return result;
-    }
-    else if ((start & 0xf0) == 0xf0)
-    {
-        // If a UCS fits 21 bits, it is coded as:
-        // 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-        const unsigned result = (utf8[index + 0] & 0x07) << 18 |
-                                (utf8[index + 1] & 0x3f) << 12 |
-                                (utf8[index + 2] & 0x3f) << 6 |
-                                (utf8[index + 3] & 0x3f);
-        index += 4;
-        return result;
-    }
-    else if ((start & 0xe0) == 0xe0)
-    {
-        // If a UCS fits 16 bits, it is coded as:
-        // 1110xxxx 10xxxxxx 10xxxxxx
-        const unsigned result = (utf8[index + 0] & 0x0f) << 12 |
-                                (utf8[index + 1] & 0x3f) << 6 |
-                                (utf8[index + 2] & 0x3f);
-        index += 3;
-        return result;
-    }
-    else if ((start & 0xc0) == 0xc0)
-    {
-        // If a UCS fits 11 bits, it is coded as:
-        // 110xxxxx 10xxxxxx
-        const unsigned result = (utf8[index + 0] & 0x1f) << 6 |
-                                (utf8[index + 1] & 0x3f);
-        index += 2;
-        return result;
-    }
-
-    return 0;
 }

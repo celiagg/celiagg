@@ -47,6 +47,7 @@
 #include <agg_scanline_p.h>
 #include <ctrl/agg_polygon_ctrl.h>
 
+#include "glyph_iter.h"
 #include "graphics_state.h"
 #include "image.h"
 #include "text.h"
@@ -118,6 +119,8 @@ protected:
     agg::scanline_p8 m_scanline;
 
     inline void set_aa(const bool& aa);
+    void _draw_text_raster(GlyphIterator& iterator, Font& font, const GraphicsState& gs);
+    void _draw_text_vector(GlyphIterator& iterator, Font& font, agg::trans_affine& transform, const GraphicsState& gs);
 
 private:
     // Target buffer/numpy array must be supplied to constructor.  The following line ensures that no default 

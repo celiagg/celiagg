@@ -191,13 +191,9 @@ template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
-
     agg::trans_affine mtx = transform;
     double transform_array[6];
     double start_x, start_y;
-    int index = 0;
-    unsigned code = 0;
 
     // Pull the translation values out of the matrix as our starting offset and
     // then replace them with zeros for use in the font engine.
@@ -208,6 +204,24 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
     transform_array[5] = 0.0;
     mtx.load_from(transform_array);
 
+    GlyphIterator iterator(text, font, true, start_x, start_y);
+    if (font.cacheType() == Font::RasterFontCache)
+    {
+        font.transform(mtx);
+        _draw_text_raster(iterator, font, gs);
+    }
+    else
+    {
+        _draw_text_vector(iterator, font, mtx, gs);
+    }
+
+}
+
+template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::_draw_text_raster(GlyphIterator& iterator,
+    Font& font, const GraphicsState& gs)
+{
+    m_rasterizer.filling_rule(agg::fill_non_zero);
     if ((gs.drawingMode() & GraphicsState::DrawFill) == GraphicsState::DrawFill)
     {
         m_renderer.color(color_from_srgba8<pixfmt_T>(gs.fillColor()));
@@ -217,47 +231,39 @@ void ndarray_canvas<pixfmt_T, value_type_T>::draw_text(const char* text,
         m_renderer.color(color_from_srgba8<pixfmt_T>(gs.lineColor()));
     }
 
-    if (font.cacheType() == Font::RasterFontCache)
+    GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
+    while (action != GlyphIterator::k_StepActionEnd)
     {
-        font.transform(mtx);
-    }
-
-    m_rasterizer.filling_rule(agg::fill_non_zero);
-
-    code = Font::getNextCodepoint(text, index);
-    while (code != 0)
-    {
-        const agg::glyph_cache* glyph = font.cache().glyph(code);
-        if (glyph)
+        if (action == GlyphIterator::k_StepActionDraw)
         {
-            if (index > 0)
-            {
-                font.cache().add_kerning(&start_x, &start_y);
-            }
-            font.cache().init_embedded_adaptors(glyph, start_x, start_y);
-
-            if (glyph->data_type == agg::glyph_data_outline)
-            {
-                trans_font_t tr(font.cache().path_adaptor(), mtx);
-                agg::path_storage path;
-                path.concat_path(tr, 0);
-                draw_path(path, mtx, gs);
-            }
-            if (glyph->data_type == agg::glyph_data_gray8)
-            {
-                agg::render_scanlines(font.cache().gray8_adaptor(),
-                                      font.cache().gray8_scanline(),
-                                      m_renderer);
-            }
-            start_x += glyph->advance_x;
-            start_y += glyph->advance_y;
+            agg::render_scanlines(font.cache().gray8_adaptor(),
+                                    font.cache().gray8_scanline(),
+                                    m_renderer);
         }
-
-        // Get the next codepoint
-        code = Font::getNextCodepoint(text, index);
+        action = iterator.step();
     }
 }
 
+template<typename pixfmt_T, typename value_type_T>
+void ndarray_canvas<pixfmt_T, value_type_T>::_draw_text_vector(GlyphIterator& iterator,
+    Font& font, agg::trans_affine& transform, const GraphicsState& gs)
+{
+    typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
+
+    GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
+    while (action != GlyphIterator::k_StepActionEnd)
+    {
+        if (action == GlyphIterator::k_StepActionDraw)
+        {
+            trans_font_t tr(font.cache().path_adaptor(), transform);
+            agg::path_storage path;
+
+            path.concat_path(tr, 0);
+            draw_path(path, transform, gs);
+        }
+        action = iterator.step();
+    }
+}
 
 template<typename pixfmt_T, typename value_type_T>
 void ndarray_canvas<pixfmt_T, value_type_T>::set_aa(const bool& aa)
