@@ -21,6 +21,7 @@
 // SOFTWARE.
 // 
 // Authors: Erik Hvatum <ice.rikh@gmail.com>
+//          John Wiggins
 
 #pragma once
 
@@ -50,12 +51,13 @@
 #include "glyph_iter.h"
 #include "graphics_state.h"
 #include "image.h"
+#include "paint.h"
 #include "text.h"
 
 // Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
 // able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
 // with shared value_types in a cython base class. 
-template<typename value_type_T>
+template<typename value_type_t>
 class ndarray_canvas_base
 {
 public:
@@ -67,24 +69,27 @@ public:
 
     virtual void draw_path(const agg::path_storage& path,
                            const agg::trans_affine& transform,
+                           Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs) = 0;
     virtual void draw_bspline(const double* points, const size_t& point_count,
                               const agg::trans_affine& transform,
+                              Paint& linePaint, Paint& fillPaint,
                               const GraphicsState& gs) = 0;
     virtual void draw_image(Image& img,
                             const agg::trans_affine& transform,
                             const GraphicsState& gs) = 0;
     virtual void draw_text(const char* text, Font& font,
                            const agg::trans_affine& transform,
+                           Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs) = 0;
 };
 
-template<typename pixfmt_T, typename value_type_T = typename pixfmt_T::value_type>
+template<typename pixfmt_t, typename value_type_t = typename pixfmt_t::value_type>
 class ndarray_canvas
-  : public ndarray_canvas_base<value_type_T>
+  : public ndarray_canvas_base<value_type_t>
 {
 public:
-    ndarray_canvas(value_type_T* buf,
+    ndarray_canvas(value_type_t* buf,
                    const unsigned& width, const unsigned& height, const int& stride,
                    const size_t& channel_count);
     virtual ~ndarray_canvas(){}
@@ -95,32 +100,35 @@ public:
 
     void draw_path(const agg::path_storage& path,
                    const agg::trans_affine& transform,
+                   Paint& linePaint, Paint& fillPaint,
                    const GraphicsState& gs);
     void draw_bspline(const double* points, const size_t& point_count,
                       const agg::trans_affine& transform,
+                      Paint& linePaint, Paint& fillPaint,
                       const GraphicsState& gs);
     void draw_image(Image& img,
                     const agg::trans_affine& transform,
                     const GraphicsState& gs);
     void draw_text(const char* text, Font& font,
                    const agg::trans_affine& transform,
+                   Paint& linePaint, Paint& fillPaint,
                    const GraphicsState& gs);
 protected:
-    typedef agg::renderer_base<pixfmt_T> rendererbase_t;
-    typedef agg::renderer_scanline_aa_solid<rendererbase_t> renderer_t;
+    typedef agg::renderer_base<pixfmt_t> renderer_t;
+    typedef agg::rasterizer_scanline_aa<> rasterizer_t;
 
     size_t m_channel_count;
-    agg::row_accessor<value_type_T> m_renbuf;
-    pixfmt_T m_pixfmt;
-    rendererbase_t m_rendererbase;
+    agg::row_accessor<value_type_t> m_renbuf;
+    pixfmt_t m_pixfmt;
     renderer_t m_renderer;
-
-    agg::rasterizer_scanline_aa<> m_rasterizer;
+    rasterizer_t m_rasterizer;
     agg::scanline_p8 m_scanline;
 
     inline void set_aa(const bool& aa);
-    void _draw_text_raster(GlyphIterator& iterator, Font& font, const GraphicsState& gs);
-    void _draw_text_vector(GlyphIterator& iterator, Font& font, agg::trans_affine& transform, const GraphicsState& gs);
+    void _draw_text_raster(GlyphIterator& iterator, Font& font, Paint& linePaint,
+                           Paint& fillPaint, const GraphicsState& gs);
+    void _draw_text_vector(GlyphIterator& iterator, Font& font, agg::trans_affine& transform,
+                           Paint& linePaint, Paint& fillPaint, const GraphicsState& gs);
 
 private:
     // Target buffer/numpy array must be supplied to constructor.  The following line ensures that no default 
@@ -133,16 +141,6 @@ private:
     ndarray_canvas(const ndarray_canvas&){}
     ndarray_canvas& operator = (const ndarray_canvas&){return *this;}
 };
-
-template<typename pixfmt_T>
-typename pixfmt_T::color_type color_from_srgba8(const agg::srgba8& c);
-
-template<>
-agg::pixfmt_rgba32::color_type color_from_srgba8<agg::pixfmt_rgba32>(const agg::srgba8& c);
-template<>
-agg::pixfmt_rgb24::color_type color_from_srgba8<agg::pixfmt_rgb24>(const agg::srgba8& c);
-template<>
-agg::pixfmt_gray8::color_type color_from_srgba8<agg::pixfmt_gray8>(const agg::srgba8& c);
 
 #include "ndarray_canvas.hxx"
 

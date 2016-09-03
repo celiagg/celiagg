@@ -26,14 +26,12 @@
 #define PYAGG_GRAPHICS_STATE_H
 
 #include <agg_basics.h>
-#include <agg_color_rgba.h>
 #include <agg_math_stroke.h>
 #include <agg_pixfmt_rgba.h>
 
 class GraphicsState
 {
 public:
-    typedef agg::srgba8 Color;
     typedef agg::rect_d Rect;
 
     enum LineJoin
@@ -94,11 +92,8 @@ public:
         m_drawingMode(DrawFillStroke),
         m_blendMode(BlendAlpha),
         m_imageBlendMode(BlendDst),
-        m_imageBlendColor(0, 0, 0),
         m_masterAlpha(1.0),
         m_antiAliasGamma(1.0),
-        m_fillColor(255, 255, 255),
-        m_lineColor(0, 0, 0),
         m_lineCap(CapRound),
         m_lineJoin(JoinRound),
         m_lineWidth(1),
@@ -121,25 +116,11 @@ public:
     void imageBlendMode(BlendMode m) { m_imageBlendMode = m; }
     BlendMode imageBlendMode() const { return m_imageBlendMode; }
 
-    void imageBlendColor(Color c) { m_imageBlendColor = c; }
-    void imageBlendColor(unsigned r, unsigned g, unsigned b, unsigned a) { imageBlendColor(Color(r, g, b, a)); }
-    Color imageBlendColor() const { return m_imageBlendColor; }
-
     void masterAlpha(double a) { m_masterAlpha = a; }
     double masterAlpha() const { return m_masterAlpha; }
 
     void antiAliasGamma(double g) { m_antiAliasGamma = g; }
     double antiAliasGamma() const { return m_antiAliasGamma; }
-
-    Color fillColor() const { return m_fillColor; }
-    void fillColor(Color c) { m_fillColor = c; }
-    void fillColor(unsigned r, unsigned g, unsigned b, unsigned a) { fillColor(Color(r, g, b, a)); }
-    void noFill() { fillColor(Color(0, 0, 0, 0)); }
-
-    Color lineColor() const { return m_lineColor; }
-    void lineColor(Color c) { m_lineColor = c; }
-    void lineColor(unsigned r, unsigned g, unsigned b, unsigned a) { lineColor(Color(r, g, b, a)); }
-    void noLine() { lineColor(Color(0, 0, 0, 0)); }
 
     void lineWidth(double w) { m_lineWidth = w; }
     double lineWidth() const { return m_lineWidth; }
@@ -155,11 +136,8 @@ private:
     DrawingMode m_drawingMode;
     BlendMode   m_blendMode;
     BlendMode   m_imageBlendMode;
-    Color       m_imageBlendColor;
     double      m_masterAlpha;
     double      m_antiAliasGamma;
-    Color       m_fillColor;
-    Color       m_lineColor;
     LineCap     m_lineCap;
     LineJoin    m_lineJoin;
     double      m_lineWidth;

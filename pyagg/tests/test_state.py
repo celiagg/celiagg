@@ -1,5 +1,5 @@
-from pyagg import (GraphicsState, BlendMode, Color, DrawingMode, LineCap,
-                   LineJoin, Rect)
+from pyagg import (GraphicsState, BlendMode, DrawingMode, LineCap, LineJoin,
+                   Rect)
 
 
 def test_state_properties():
@@ -42,13 +42,6 @@ def test_state_properties():
     gs.line_width = 10.0
     assert gs.line_width == 10.0
 
-    gs.fill_color = Color(255, 0, 0)
-    assert gs.fill_color == Color(255, 0, 0)
-    gs.line_color = Color(255, 255, 0)
-    assert gs.line_color == Color(255, 255, 0)
-    gs.image_blend_color = Color(255, 0, 255)
-    assert gs.image_blend_color == Color(255, 0, 255)
-
     box = Rect(0.0, 0.0, 10.0, 20.0)
     gs.clip_box = box
     assert gs.clip_box == box
@@ -57,9 +50,6 @@ def test_state_properties():
 
 def test_kwargs_initialization():
     box = Rect(0.0, 0.0, 10.0, 20.0)
-    red = Color(255, 0, 0)
-    yellow = Color(255, 255, 0)
-    magenta = Color(255, 0, 255)
     gs = GraphicsState(
         anti_aliased=True,
         drawing_mode=DrawingMode.DrawEofFill,
@@ -70,9 +60,6 @@ def test_kwargs_initialization():
         master_alpha=0.42,
         anti_alias_gamma=1.337,
         line_width=10.0,
-        fill_color=red,
-        line_color=yellow,
-        image_blend_color=magenta,
         clip_box=box
     )
 
@@ -85,7 +72,4 @@ def test_kwargs_initialization():
     assert gs.master_alpha == 0.42
     assert gs.anti_alias_gamma == 1.337
     assert gs.line_width == 10.0
-    assert gs.fill_color == red
-    assert gs.line_color == yellow
-    assert gs.image_blend_color == magenta
     assert gs.clip_box == box

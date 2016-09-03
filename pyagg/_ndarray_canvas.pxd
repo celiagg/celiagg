@@ -29,6 +29,7 @@ from libc.stdint cimport uint8_t
 from libcpp cimport bool
 
 cimport _graphics_state
+cimport _paint
 cimport _path
 cimport _text
 cimport _transform
@@ -61,16 +62,18 @@ cdef extern from "ndarray_canvas.h":
         unsigned height() const
         void draw_path(const _path.path_storage& path,
                        const _transform.trans_affine& transform,
-                       const _graphics_state.GraphicsState& gs);
+                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                       const _graphics_state.GraphicsState& gs)
         void draw_bspline(const double* points, const size_t& point_count,
                           const _transform.trans_affine& transform,
-                          const _graphics_state.GraphicsState& gs);
-        void draw_image(Image& img,
-                        const _transform.trans_affine& transform,
-                        const _graphics_state.GraphicsState& gs);
+                          _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                          const _graphics_state.GraphicsState& gs)
+        void draw_image(Image& img, const _transform.trans_affine& transform,
+                        const _graphics_state.GraphicsState& gs)
         void draw_text(const char* text, _text.Font& font,
                        const _transform.trans_affine& transform,
-                       const _graphics_state.GraphicsState& gs);
+                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                       const _graphics_state.GraphicsState& gs)
 
     cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
         ndarray_canvas(value_type_T* buf,
@@ -83,13 +86,15 @@ cdef extern from "ndarray_canvas.h":
         unsigned height() const
         void draw_path(const _path.path_storage& path,
                        const _transform.trans_affine& transform,
-                       const _graphics_state.GraphicsState& gs);
+                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                       const _graphics_state.GraphicsState& gs)
         void draw_bspline(const double* points, const size_t& point_count,
                           const _transform.trans_affine& transform,
-                          const _graphics_state.GraphicsState& gs);
-        void draw_image(Image& img,
-                        const _transform.trans_affine& transform,
-                        const _graphics_state.GraphicsState& gs);
+                          _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                          const _graphics_state.GraphicsState& gs)
+        void draw_image(Image& img, const _transform.trans_affine& transform,
+                        const _graphics_state.GraphicsState& gs)
         void draw_text(const char* text, _text.Font& font,
                        const _transform.trans_affine& transform,
-                       const _graphics_state.GraphicsState& gs);
+                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                       const _graphics_state.GraphicsState& gs)

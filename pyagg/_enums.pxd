@@ -68,6 +68,24 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         BlendExclusion
 
 
+cdef extern from "paint.h" namespace "Paint":
+    cdef enum PaintType:
+        k_PaintTypeSolid
+        k_PaintTypeLinearGradient
+        k_PaintTypeRadialGradient
+
+    cdef enum GradientSpread:
+        k_GradientSpreadInvalid
+        k_GradientSpreadPad
+        k_GradientSpreadReflect
+        k_GradientSpreadRepeat
+
+    cdef enum GradientUnits:
+        k_GradientUnitsInvalid
+        k_GradientUnitsUserSpace
+        k_GradientUnitsObjectBoundingBox
+
+
 cdef extern from "text.h" namespace "Font":
     cdef enum FontCacheType:
         RasterFontCache

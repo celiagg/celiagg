@@ -38,7 +38,7 @@
 #include <agg_span_interpolator_linear.h>
 
 
-typedef agg::span_interpolator_linear<> interpolator_type;
+typedef agg::span_interpolator_linear<> interpolator_t;
 
 template<typename pixel_format>
 struct image_filters {};
@@ -47,72 +47,72 @@ template<>
 struct image_filters<agg::pixfmt_rgba32>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_rgba32> source_type;
-    typedef agg::span_image_filter_rgba_nn<source_type,  interpolator_type> nearest_type;
-    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_rgba<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_rgba_nn<source_type,  interpolator_t> nearest_type;
+    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_rgba<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_bgra32>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_bgra32> source_type;
-    typedef agg::span_image_filter_rgba_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_rgba<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_rgba_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_rgba<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_argb32>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_argb32> source_type;
-    typedef agg::span_image_filter_rgba_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_rgba<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_rgba_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_rgba<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_abgr32>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_abgr32> source_type;
-    typedef agg::span_image_filter_rgba_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_rgba<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_rgba_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_rgba_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_rgba<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_rgb24>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_rgb24> source_type;
-    typedef agg::span_image_filter_rgb_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_rgb_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_rgb<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_rgb_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_rgb_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_rgb<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_bgr24>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_bgr24> source_type;
-    typedef agg::span_image_filter_rgb_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_rgb_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_rgb<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_rgb_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_rgb_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_rgb<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_gray16>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_gray16> source_type;
-    typedef agg::span_image_filter_gray_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_gray_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_gray<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_gray_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_gray_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_gray<source_type, interpolator_t> general_type;                   
 };
 
 template<>
 struct image_filters<agg::pixfmt_gray8>
 {
     typedef agg::image_accessor_clip<agg::pixfmt_gray8> source_type;
-    typedef agg::span_image_filter_gray_nn<source_type, interpolator_type> nearest_type;
-    typedef agg::span_image_filter_gray_bilinear<source_type, interpolator_type> bilinear_type;
-    typedef agg::span_image_filter_gray<source_type, interpolator_type> general_type;                   
+    typedef agg::span_image_filter_gray_nn<source_type, interpolator_t> nearest_type;
+    typedef agg::span_image_filter_gray_bilinear<source_type, interpolator_t> bilinear_type;
+    typedef agg::span_image_filter_gray<source_type, interpolator_t> general_type;                   
 };
 
 

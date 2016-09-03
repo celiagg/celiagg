@@ -31,14 +31,6 @@ cimport _enums
 
 
 cdef extern from "graphics_state.h" namespace "GraphicsState":
-    cdef cppclass Color:
-        uint8_t r
-        uint8_t g
-        uint8_t b
-        uint8_t a
-        Color()
-        Color(unsigned r_, unsigned g_, unsigned b_, unsigned a_)
-
     cdef cppclass Rect:
         double x1
         double y1
@@ -69,25 +61,11 @@ cdef extern from "graphics_state.h":
         void imageBlendMode(_enums.BlendMode m)
         _enums.BlendMode imageBlendMode() const
 
-        void imageBlendColor(Color c)
-        void imageBlendColor(unsigned r, unsigned g, unsigned b, unsigned a)
-        Color imageBlendColor() const
-
         void masterAlpha(double a)
         double masterAlpha() const
 
         void antiAliasGamma(double g)
         double antiAliasGamma() const
-
-        Color fillColor() const
-        void fillColor(Color c)
-        void fillColor(unsigned r, unsigned g, unsigned b, unsigned a)
-        void noFill()
-
-        Color lineColor() const
-        void lineColor(Color c)
-        void lineColor(unsigned r, unsigned g, unsigned b, unsigned a)
-        void noLine()
 
         void lineWidth(double w)
         double lineWidth() const

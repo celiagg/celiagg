@@ -1,12 +1,4 @@
-from pyagg import Color, Rect
-
-
-def test_color():
-    c = Color(255, 255, 255, 255)
-    assert (repr(c) == 'Color(255, 255, 255, 255)')
-
-    c = Color(0, 0, 0, 0)
-    assert c.invisible
+from pyagg import Rect
 
 
 def test_rect():

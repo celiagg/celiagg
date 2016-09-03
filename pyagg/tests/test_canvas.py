@@ -3,7 +3,7 @@ import weakref
 import numpy as np
 from numpy.testing import assert_equal
 
-from pyagg import CanvasRGB24, Color, GraphicsState, Path, Transform
+from pyagg import CanvasRGB24, GraphicsState, Path, SolidPaint, Transform
 
 
 def test_cleanup():
@@ -29,21 +29,21 @@ def test_line():
     canvas = CanvasRGB24(buffer)
     path = Path()
     transform = Transform()
-    gs = GraphicsState(anti_aliased=False, line_color=Color(10, 10, 10),
-                       line_width=1.0)
+    line_paint = SolidPaint(1.0, 1.0, 1.0)
+    gs = GraphicsState(anti_aliased=False, line_width=1.0)
 
-    expected[1, ...] = 10
+    expected[1, ...] = 255
     path.move_to(0, 1.5)
     path.line_to(100, 1.5)
-    canvas.draw_path(path, transform, gs)
+    canvas.draw_path(path, transform, line_paint, line_paint, gs)
     assert_equal(expected, canvas.image)
 
     buffer[:] = 0
     expected[:] = 0
 
-    expected[:, 1, :] = 10
+    expected[:, 1, :] = 255
     path.reset()
     path.move_to(1.5, 0)
     path.line_to(1.5, 100)
-    canvas.draw_path(path, transform, gs)
+    canvas.draw_path(path, transform, line_paint, line_paint, gs)
     assert_equal(expected, buffer)

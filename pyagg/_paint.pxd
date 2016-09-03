@@ -22,16 +22,34 @@
 #
 # Authors: John Wiggins
 
-cimport _graphics_state
+cimport _enums
 
 
-cdef extern from "gradient.h":
-    cdef cppclass LinearGradientByte:
-        LinearGradientByte(double x1, double y1, double x2, double y2,
-                           _graphics_state.Color c1, _graphics_state.Color c2,
-                           double profile)
+cdef extern from "paint.h":
+    cdef cppclass GradientStop:
+        double off
+        double r
+        double g
+        double b
+        double a
 
-    cdef cppclass RadialGradientByte:
-        RadialGradientByte(double x, double y, double r,
-                           _graphics_state.Color c1, _graphics_state.Color c2,
-                           double profile)
+        GradientStop(const double o, const double r, const double g,
+                     const double b, const double a)
+
+    cdef cppclass Paint:
+        Paint(const double r, const double g, const double b,
+              const double a)
+        Paint(const _enums.PaintType type,
+              double* points, const unsigned n_points,
+              double* stops, const unsigned n_stops,
+              const _enums.GradientSpread spread,
+              const _enums.GradientUnits units)
+
+        double  a()
+        double  r()
+        double  g()
+        double  b()
+        void  a(const double _a)
+        void  r(const double _r)
+        void  g(const double _g)
+        void  b(const double _b)

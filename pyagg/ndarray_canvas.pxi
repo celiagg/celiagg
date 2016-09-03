@@ -141,21 +141,29 @@ cdef class CanvasBaseUInt8:
         # why self.py_image.base is returned rather than self.py_image).
         return self.py_image.base
 
-    def draw_path(self, Path path, Transform transform, GraphicsState state):
+    def draw_path(self, Path path, Transform transform, Paint line_paint,
+                  Paint fill_paint, GraphicsState state):
         """draw_path(self, path, state)
           path: A Path object
           transform: A Transform object
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
           state: A GraphicsState object
                  line width, line color, fill color, anti-aliased
         """
         self._this.draw_path(dereference(path._this),
                              dereference(transform._this),
+                             dereference(line_paint._this),
+                             dereference(fill_paint._this),
                              dereference(state._this))
 
-    def draw_bspline(self, points, Transform transform, GraphicsState state):
+    def draw_bspline(self, points, Transform transform, Paint line_paint,
+                  Paint fill_paint, GraphicsState state):
         """draw_bspline(self, points, state):
           points: Iterable of (x, y) pairs representing B-spline control points
           transform: A Transform object
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
           state: A GraphicsState object
                  line color, line width, fill color, anti-aliased
         """
@@ -169,6 +177,8 @@ cdef class CanvasBaseUInt8:
 
         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
                                 dereference(transform._this),
+                                dereference(line_paint._this),
+                                dereference(fill_paint._this),
                                 dereference(state._this))
 
     def draw_image(self, image, Transform transform, GraphicsState state):
@@ -182,18 +192,22 @@ cdef class CanvasBaseUInt8:
                               dereference(transform._this),
                               dereference(state._this))
 
-    def draw_text(self, text, Font font, Transform transform,
-                  GraphicsState state):
+    def draw_text(self, text, Font font, Transform transform, Paint line_paint,
+                  Paint fill_paint, GraphicsState state):
         """draw_text(self, text, font, transform, state):
           text: A Unicode string of text to be renderered.
           font: A Font object
           transform: A Transform object
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
           state: A GraphicsState object
                 line color, line width, fill color, drawing mode, anti-aliased
         """
         text = _get_utf8_text(text, "The text argument must be unicode.")
         self._this.draw_text(text, dereference(font._this),
                              dereference(transform._this),
+                             dereference(line_paint._this),
+                             dereference(fill_paint._this),
                              dereference(state._this))
 
 

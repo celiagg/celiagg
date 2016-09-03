@@ -115,13 +115,12 @@ def configuration(parent_package='', top_path=None):
     agg2d_cython_source = op.join(base_path, 'agg2d.pyx')
     pyagg_cython_source = op.join(base_path, '_pyagg.pyx')
     agg2d_sources = ['agg-svn/agg-2.4/agg2d/agg2d.cpp', 'agg2d.cpp']
-    pyagg_sources = ['glyph_iter.cpp', 'ndarray_canvas.cpp', 'text.cpp',
-                     '_pyagg.cpp']
+    pyagg_sources = ['glyph_iter.cpp', 'paint.cpp', 'text.cpp', '_pyagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
                     numpy.get_include()]
-    extra_compile_args = ['-Wno-unused-function']
+    extra_compile_args = ['-Wfatal-errors', '-Wno-unused-function']
     extra_link_args = []
     define_macros = []
 

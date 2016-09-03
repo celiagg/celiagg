@@ -25,60 +25,6 @@
 from types import GetSetDescriptorType
 
 
-cdef class Color:
-    cdef _graphics_state.Color* _this
-
-    def __cinit__(self, uint8_t r=0, uint8_t g=0, uint8_t b=0, uint8_t a=255):
-        self._this = new _graphics_state.Color(r, g, b, a)
-
-    def __dealloc__(self):
-        del self._this
-
-    def __repr__(self):
-        name = type(self).__name__
-        return "{}({}, {}, {}, {})".format(name, self._this.r, self._this.g,
-                                           self._this.b, self._this.a)
-
-    def __richcmp__(Color self, Color other, int op):
-        if op == 2:  # ==
-            return (self._this.a == other._this.a and
-                    self._this.r == other._this.r and
-                    self._this.g == other._this.g and
-                    self._this.b == other._this.b)
-        else:
-            msg = "That type of comparison is not implemented for Color"
-            raise NotImplementedError(msg)
-
-    property a:
-        def __get__(self):
-            return self._this.a
-        def __set__(self, value):
-            self._this.a = value
-
-    property r:
-        def __get__(self):
-            return self._this.r
-        def __set__(self, value):
-            self._this.r = value
-
-    property g:
-        def __get__(self):
-            return self._this.g
-        def __set__(self, value):
-            self._this.g = value
-
-    property b:
-        def __get__(self):
-            return self._this.b
-        def __set__(self, value):
-            self._this.b = value
-
-    property invisible:
-        def __get__(self):
-            cdef _graphics_state.Color* obj = self._this
-            return (obj.r == 0 and obj.g == 0 and obj.b == 0 and obj.a == 0)
-
-
 cdef class Rect:
     cdef _graphics_state.Rect* _this
 
@@ -180,13 +126,6 @@ cdef class GraphicsState:
         def __set__(self, BlendMode m):
             self._this.imageBlendMode(m)
 
-    property image_blend_color:
-        def __get__(self):
-            cdef _graphics_state.Color ret = self._this.imageBlendColor()
-            return Color(ret.r, ret.g, ret.b, ret.a)
-        def __set__(self, Color col):
-            self._this.imageBlendColor(col._this[0])
-
     property master_alpha:
         def __get__(self):
             return self._this.masterAlpha()
@@ -198,28 +137,6 @@ cdef class GraphicsState:
             return self._this.antiAliasGamma()
         def __set__(self, g):
             self._this.antiAliasGamma(g)
-
-    property fill_color:
-        def __get__(self):
-            cdef _graphics_state.Color ret = self._this.fillColor()
-            return Color(ret.r, ret.g, ret.b, ret.a)
-        def __set__(self, Color col):
-            self._this.fillColor(col._this[0])
-
-    property line_color:
-        def __get__(self):
-            cdef _graphics_state.Color ret = self._this.lineColor()
-            return Color(ret.r, ret.g, ret.b, ret.a)
-        def __set__(self, Color col):
-            self._this.lineColor(col._this[0])
-
-    def no_fill(self):
-        """no_fill(self)"""
-        self._this.noFill()
-
-    def no_line(self):
-        """no_line(self)"""
-        self._this.noLine()
 
     property line_width:
         def __get__(self):
