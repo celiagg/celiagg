@@ -37,24 +37,27 @@ cpdef enum GradientUnits:
     ObjectBoundingBox = _enums.k_GradientUnitsObjectBoundingBox
 
 
-cdef _get_gradient_args(points, stops):
-    cdef:
-        double[:,::1] points_npy = numpy.asarray(points,
-                                                 dtype=numpy.float64,
-                                                 order='c')
-        double[:,::1] stops_npy = numpy.asarray(stops,
-                                                dtype=numpy.float64,
-                                                order='c')
-
-    if points_npy.shape[1] != 2:
-        msg = 'points argument must be an iterable of (x, y) pairs.'
+cdef _get_gradient_points(points, length):
+    cdef double[::1] arr = numpy.asarray(points,
+                                         dtype=numpy.float64,
+                                         order='c')
+    if arr.shape[0] != length:
+        msg = 'points argument must be an iterable of length {}'.format(length)
         raise ValueError(msg)
-    if stops_npy.shape[1] != 5:
+
+    return arr
+
+
+cdef _get_gradient_stops(stops):
+    cdef double[:,::1] arr = numpy.asarray(stops,
+                                           dtype=numpy.float64,
+                                           order='c')
+    if arr.shape[1] != 5:
         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
                 'tuples.')
         raise ValueError(msg)
 
-    return points_npy, stops_npy
+    return arr
 
 
 @cython.internal
@@ -67,19 +70,23 @@ cdef class Paint:
 
 cdef class LinearGradientPaint(Paint):
     """ LinearGradientPaint(points, stops, spread, units)
-          points: An iterable of (x, y) points
+          x1, y1: Gradient start point (x, y)
+          x2, y2: Gradient end point (x, y)
           stops: An iterable of gradient stops (offset, r, g, b, a)
           spread: The GradientSpread type for this gradient
           units: The GradientUnits type for this gradient
     """
-    def __cinit__(self, points, stops, GradientSpread spread,
-                  GradientUnits units):
-        cdef double[:,::1] points_npy
-        cdef double[:,::1] stops_npy
-        points_npy, stops_npy = _get_gradient_args(points, stops)
+    cdef object _points
+    cdef object _stops
+
+    def __cinit__(self, double x1, double y1, double x2, double y2,
+                  stops, GradientSpread spread, GradientUnits units):
+        cdef double[::1] points_npy
+        cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
+        points_npy = _get_gradient_points((x1, y1, x2, y2), 4)
         self._this = new _paint.Paint(
             _enums.k_PaintTypeLinearGradient,
-            &points_npy[0][0], points_npy.shape[0],
+            &points_npy[0], points_npy.shape[0],
             &stops_npy[0][0], stops_npy.shape[0], spread, units
         )
 
@@ -90,19 +97,24 @@ cdef class LinearGradientPaint(Paint):
 
 cdef class RadialGradientPaint(Paint):
     """ RadialGradientPaint(points, stops, spread, units)
-          points: An iterable of (x, y) points
+          cx, cy: Gradient center point (x, y)
+          r: Gradient radius
+          fx, fy: Gradient focus point (x, y)
           stops: An iterable of gradient stops (offset, r, g, b, a)
           spread: The GradientSpread type for this gradient
           units: The GradientUnits type for this gradient
     """
-    def __cinit__(self, points, stops, GradientSpread spread,
-                  GradientUnits units):
-        cdef double[:,::1] points_npy
-        cdef double[:,::1] stops_npy
-        points_npy, stops_npy = _get_gradient_args(points, stops)
+    cdef object _points
+    cdef object _stops
+
+    def __cinit__(self, double cx, double cy, double r, double fx, double fy,
+                  stops, GradientSpread spread, GradientUnits units):
+        cdef double[::1] points_npy
+        cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
+        points_npy = _get_gradient_points([cx, cy, r, fx, fy], 5)
         self._this = new _paint.Paint(
             _enums.k_PaintTypeRadialGradient,
-            &points_npy[0][0], points_npy.shape[0],
+            &points_npy[0], points_npy.shape[0],
             &stops_npy[0][0], stops_npy.shape[0], spread, units
         )
 

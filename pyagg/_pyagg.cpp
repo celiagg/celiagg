@@ -1304,7 +1304,7 @@ struct __pyx_obj_5pyagg_6_pyagg_CanvasG8 {
 };
 
 
-/* "pyagg/paint.pxi":61
+/* "pyagg/paint.pxi":64
  * 
  * @cython.internal
  * cdef class Paint:             # <<<<<<<<<<<<<<
@@ -1317,31 +1317,35 @@ struct __pyx_obj_5pyagg_6_pyagg_Paint {
 };
 
 
-/* "pyagg/paint.pxi":68
+/* "pyagg/paint.pxi":71
  * 
  * 
  * cdef class LinearGradientPaint(Paint):             # <<<<<<<<<<<<<<
  *     """ LinearGradientPaint(points, stops, spread, units)
- *           points: An iterable of (x, y) points
+ *           x1, y1: Gradient start point (x, y)
  */
 struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint {
   struct __pyx_obj_5pyagg_6_pyagg_Paint __pyx_base;
+  PyObject *_points;
+  PyObject *_stops;
 };
 
 
-/* "pyagg/paint.pxi":91
+/* "pyagg/paint.pxi":98
  * 
  * 
  * cdef class RadialGradientPaint(Paint):             # <<<<<<<<<<<<<<
  *     """ RadialGradientPaint(points, stops, spread, units)
- *           points: An iterable of (x, y) points
+ *           cx, cy: Gradient center point (x, y)
  */
 struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint {
   struct __pyx_obj_5pyagg_6_pyagg_Paint __pyx_base;
+  PyObject *_points;
+  PyObject *_stops;
 };
 
 
-/* "pyagg/paint.pxi":114
+/* "pyagg/paint.pxi":126
  * 
  * 
  * cdef class SolidPaint(Paint):             # <<<<<<<<<<<<<<
@@ -1874,24 +1878,6 @@ static void __Pyx_RaiseBufferIndexError(int axis);
 /* ExtTypeTest.proto */
 static CYTHON_INLINE int __Pyx_TypeTest(PyObject *obj, PyTypeObject *type);
 
-/* PyObjectSetAttrStr.proto */
-#if CYTHON_COMPILING_IN_CPYTHON
-#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o,n,NULL)
-static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
-    PyTypeObject* tp = Py_TYPE(obj);
-    if (likely(tp->tp_setattro))
-        return tp->tp_setattro(obj, attr_name, value);
-#if PY_MAJOR_VERSION < 3
-    if (likely(tp->tp_setattr))
-        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
-#endif
-    return PyObject_SetAttr(obj, attr_name, value);
-}
-#else
-#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
-#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
-#endif
-
 /* DictGetItem.proto */
 #if PY_MAJOR_VERSION >= 3 && !CYTHON_COMPILING_IN_PYPY
 static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
@@ -1915,6 +1901,24 @@ static PyObject *__Pyx_PyDict_GetItem(PyObject *d, PyObject* key) {
 
 /* RaiseNoneIterError.proto */
 static CYTHON_INLINE void __Pyx_RaiseNoneNotIterableError(void);
+
+/* PyObjectSetAttrStr.proto */
+#if CYTHON_COMPILING_IN_CPYTHON
+#define __Pyx_PyObject_DelAttrStr(o,n) __Pyx_PyObject_SetAttrStr(o,n,NULL)
+static CYTHON_INLINE int __Pyx_PyObject_SetAttrStr(PyObject* obj, PyObject* attr_name, PyObject* value) {
+    PyTypeObject* tp = Py_TYPE(obj);
+    if (likely(tp->tp_setattro))
+        return tp->tp_setattro(obj, attr_name, value);
+#if PY_MAJOR_VERSION < 3
+    if (likely(tp->tp_setattr))
+        return tp->tp_setattr(obj, PyString_AS_STRING(attr_name), value);
+#endif
+    return PyObject_SetAttr(obj, attr_name, value);
+}
+#else
+#define __Pyx_PyObject_DelAttrStr(o,n)   PyObject_DelAttr(o,n)
+#define __Pyx_PyObject_SetAttrStr(o,n,v) PyObject_SetAttr(o,n,v)
+#endif
 
 /* IncludeStringH.proto */
 #include <string.h>
@@ -2061,6 +2065,12 @@ static CYTHON_INLINE long __Pyx_div_long(long, long);
 static void __Pyx_WriteUnraisable(const char *name, int clineno,
                                   int lineno, const char *filename,
                                   int full_traceback, int nogil);
+
+/* CallNextTpTraverse.proto */
+static int __Pyx_call_next_tp_traverse(PyObject* obj, visitproc v, void *a, traverseproc current_tp_traverse);
+
+/* CallNextTpClear.proto */
+static void __Pyx_call_next_tp_clear(PyObject* obj, inquiry current_tp_dealloc);
 
 /* SetVTable.proto */
 static int __Pyx_SetVtable(PyObject *dict, void *vtable);
@@ -2435,6 +2445,9 @@ static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_nn_
 /* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(PyObject *);
 
+/* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *);
+
 /* PyObjectCallMethod1.proto */
 static PyObject* __Pyx_PyObject_CallMethod1(PyObject* obj, PyObject* method_name, PyObject* arg);
 
@@ -2602,7 +2615,8 @@ static PyObject *indirect_contiguous = 0;
 static int __pyx_memoryview_thread_locks_used;
 static PyThread_type_lock __pyx_memoryview_thread_locks[8];
 static PyObject *__pyx_f_5pyagg_6_pyagg__get_utf8_text(PyObject *, PyObject *); /*proto*/
-static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_args(PyObject *, PyObject *); /*proto*/
+static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_points(PyObject *, PyObject *); /*proto*/
+static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_stops(PyObject *); /*proto*/
 static struct __pyx_array_obj *__pyx_array_new(PyObject *, Py_ssize_t, char *, char *, char *); /*proto*/
 static void *__pyx_align_pointer(void *, size_t); /*proto*/
 static PyObject *__pyx_memoryview_new(PyObject *, int, int, __Pyx_TypeInfo *); /*proto*/
@@ -2666,6 +2680,8 @@ static const char __pyx_k__7[] = "{}({}, {}, {}, {}, {}, {})";
 static const char __pyx_k_ch[] = "ch";
 static const char __pyx_k_cx[] = "cx";
 static const char __pyx_k_cy[] = "cy";
+static const char __pyx_k_fx[] = "fx";
+static const char __pyx_k_fy[] = "fy";
 static const char __pyx_k_id[] = "id";
 static const char __pyx_k_rx[] = "rx";
 static const char __pyx_k_ry[] = "ry";
@@ -2770,7 +2786,6 @@ static const char __pyx_k_members[] = "__members__";
 static const char __pyx_k_memview[] = "memview";
 static const char __pyx_k_parents[] = "parents";
 static const char __pyx_k_prepare[] = "__prepare__";
-static const char __pyx_k_stops_2[] = "_stops";
 static const char __pyx_k_x_ctrl1[] = "x_ctrl1";
 static const char __pyx_k_x_ctrl2[] = "x_ctrl2";
 static const char __pyx_k_y_ctrl1[] = "y_ctrl1";
@@ -2787,7 +2802,6 @@ static const char __pyx_k_EnumType[] = "EnumType";
 static const char __pyx_k_LineJoin[] = "LineJoin";
 static const char __pyx_k_fontName[] = "fontName";
 static const char __pyx_k_itemsize[] = "itemsize";
-static const char __pyx_k_points_2[] = "_points";
 static const char __pyx_k_qualname[] = "__qualname__";
 static const char __pyx_k_vertices[] = "vertices";
 static const char __pyx_k_BlendMode[] = "BlendMode";
@@ -2890,7 +2904,7 @@ static const char __pyx_k_ends_argument_must_be_an_iterabl[] = "ends argument mu
 static const char __pyx_k_got_differing_extents_in_dimensi[] = "got differing extents in dimension %d (got %d and %d)";
 static const char __pyx_k_image_argument_must_be_channel_i[] = "image argument must be {} channel (ie, must be {}).";
 static const char __pyx_k_ndarray_is_not_Fortran_contiguou[] = "ndarray is not Fortran contiguous";
-static const char __pyx_k_points_argument_must_be_an_itera[] = "points argument must be an iterable of (x, y) pairs.";
+static const char __pyx_k_points_argument_must_be_an_itera[] = "points argument must be an iterable of length {}";
 static const char __pyx_k_rects_argument_must_be_an_iterab[] = "rects argument must be an iterable of (x, y, w, h) tuples.";
 static const char __pyx_k_starts_argument_must_be_an_itera[] = "starts argument must be an iterable of (x, y) tuples.";
 static const char __pyx_k_starts_argument_must_match_lengt[] = "starts argument must match length of ends argument.";
@@ -3037,6 +3051,8 @@ static PyObject *__pyx_n_s_fontName;
 static PyObject *__pyx_n_s_format;
 static PyObject *__pyx_n_s_fortran;
 static PyObject *__pyx_n_u_fortran;
+static PyObject *__pyx_n_s_fx;
+static PyObject *__pyx_n_s_fy;
 static PyObject *__pyx_n_s_g;
 static PyObject *__pyx_n_s_get_image;
 static PyObject *__pyx_kp_s_got_differing_extents_in_dimensi;
@@ -3074,7 +3090,6 @@ static PyObject *__pyx_n_s_pack;
 static PyObject *__pyx_n_s_parents;
 static PyObject *__pyx_n_s_path;
 static PyObject *__pyx_n_s_points;
-static PyObject *__pyx_n_s_points_2;
 static PyObject *__pyx_kp_s_points_argument_must_be_an_itera;
 static PyObject *__pyx_kp_s_points_argument_must_be_an_itera_2;
 static PyObject *__pyx_n_s_prepare;
@@ -3104,7 +3119,6 @@ static PyObject *__pyx_n_s_state;
 static PyObject *__pyx_n_s_step;
 static PyObject *__pyx_n_s_stop;
 static PyObject *__pyx_n_s_stops;
-static PyObject *__pyx_n_s_stops_2;
 static PyObject *__pyx_kp_s_stops_argument_must_be_an_iterab;
 static PyObject *__pyx_n_s_str;
 static PyObject *__pyx_kp_s_strided_and_direct;
@@ -3209,8 +3223,8 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasGA16_2_get_image(CYTHON_UNUSED 
 static int __pyx_pf_5pyagg_6_pyagg_8CanvasG8___cinit__(struct __pyx_obj_5pyagg_6_pyagg_CanvasG8 *__pyx_v_self, __Pyx_memviewslice __pyx_v_image); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_8CanvasG8_2_get_image(CYTHON_UNUSED struct __pyx_obj_5pyagg_6_pyagg_CanvasG8 *__pyx_v_self, PyObject *__pyx_v_image); /* proto */
 static void __pyx_pf_5pyagg_6_pyagg_5Paint___dealloc__(struct __pyx_obj_5pyagg_6_pyagg_Paint *__pyx_v_self); /* proto */
-static int __pyx_pf_5pyagg_6_pyagg_19LinearGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *__pyx_v_self, PyObject *__pyx_v_points, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units); /* proto */
-static int __pyx_pf_5pyagg_6_pyagg_19RadialGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *__pyx_v_self, PyObject *__pyx_v_points, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units); /* proto */
+static int __pyx_pf_5pyagg_6_pyagg_19LinearGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *__pyx_v_self, double __pyx_v_x1, double __pyx_v_y1, double __pyx_v_x2, double __pyx_v_y2, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units); /* proto */
+static int __pyx_pf_5pyagg_6_pyagg_19RadialGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *__pyx_v_self, double __pyx_v_cx, double __pyx_v_cy, double __pyx_v_r, double __pyx_v_fx, double __pyx_v_fy, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_SolidPaint *__pyx_v_self, double __pyx_v_r, double __pyx_v_g, double __pyx_v_b, double __pyx_v_a); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj_5pyagg_6_pyagg_SolidPaint *__pyx_v_self); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_obj_5pyagg_6_pyagg_SolidPaint *__pyx_v_self, struct __pyx_obj_5pyagg_6_pyagg_SolidPaint *__pyx_v_other, int __pyx_v_op); /* proto */
@@ -3326,6 +3340,8 @@ static __Pyx_CachedCFunction __pyx_umethod_PyDict_Type_items = {0, &__pyx_n_s_it
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_int_2;
+static PyObject *__pyx_int_4;
+static PyObject *__pyx_int_5;
 static PyObject *__pyx_int_255;
 static PyObject *__pyx_int_neg_1;
 static PyObject *__pyx_tuple__2;
@@ -9580,14 +9596,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_8CanvasG8_2_get_image(CYTHON_UNUSED str
 /* "pyagg/paint.pxi":40
  * 
  * 
- * cdef _get_gradient_args(points, stops):             # <<<<<<<<<<<<<<
- *     cdef:
- *         double[:,::1] points_npy = numpy.asarray(points,
+ * cdef _get_gradient_points(points, length):             # <<<<<<<<<<<<<<
+ *     cdef double[::1] arr = numpy.asarray(points,
+ *                                          dtype=numpy.float64,
  */
 
-static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_args(PyObject *__pyx_v_points, PyObject *__pyx_v_stops) {
-  __Pyx_memviewslice __pyx_v_points_npy = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_v_stops_npy = { 0, 0, { 0 }, { 0 }, { 0 } };
+static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_points(PyObject *__pyx_v_points, PyObject *__pyx_v_length) {
+  __Pyx_memviewslice __pyx_v_arr = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_v_msg = NULL;
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -9598,234 +9613,153 @@ static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_args(PyObject *__pyx_v_poi
   PyObject *__pyx_t_5 = NULL;
   __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_t_7;
-  __Pyx_RefNannySetupContext("_get_gradient_args", 0);
+  __Pyx_RefNannySetupContext("_get_gradient_points", 0);
 
-  /* "pyagg/paint.pxi":42
- * cdef _get_gradient_args(points, stops):
- *     cdef:
- *         double[:,::1] points_npy = numpy.asarray(points,             # <<<<<<<<<<<<<<
- *                                                  dtype=numpy.float64,
- *                                                  order='c')
+  /* "pyagg/paint.pxi":41
+ * 
+ * cdef _get_gradient_points(points, length):
+ *     cdef double[::1] arr = numpy.asarray(points,             # <<<<<<<<<<<<<<
+ *                                          dtype=numpy.float64,
+ *                                          order='c')
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 42, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 42, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 42, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 41, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_points);
   __Pyx_GIVEREF(__pyx_v_points);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_points);
 
-  /* "pyagg/paint.pxi":43
- *     cdef:
- *         double[:,::1] points_npy = numpy.asarray(points,
- *                                                  dtype=numpy.float64,             # <<<<<<<<<<<<<<
- *                                                  order='c')
- *         double[:,::1] stops_npy = numpy.asarray(stops,
- */
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(4, 43, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(4, 43, __pyx_L1_error)
-
   /* "pyagg/paint.pxi":42
- * cdef _get_gradient_args(points, stops):
- *     cdef:
- *         double[:,::1] points_npy = numpy.asarray(points,             # <<<<<<<<<<<<<<
- *                                                  dtype=numpy.float64,
- *                                                  order='c')
+ * cdef _get_gradient_points(points, length):
+ *     cdef double[::1] arr = numpy.asarray(points,
+ *                                          dtype=numpy.float64,             # <<<<<<<<<<<<<<
+ *                                          order='c')
+ *     if arr.shape[0] != length:
  */
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 42, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5);
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(4, 42, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_v_points_npy = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
-
-  /* "pyagg/paint.pxi":45
- *                                                  dtype=numpy.float64,
- *                                                  order='c')
- *         double[:,::1] stops_npy = numpy.asarray(stops,             # <<<<<<<<<<<<<<
- *                                                 dtype=numpy.float64,
- *                                                 order='c')
- */
-  __pyx_t_5 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_asarray); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 45, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 45, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 42, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 42, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_INCREF(__pyx_v_stops);
-  __Pyx_GIVEREF(__pyx_v_stops);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_stops);
-
-  /* "pyagg/paint.pxi":46
- *                                                  order='c')
- *         double[:,::1] stops_npy = numpy.asarray(stops,
- *                                                 dtype=numpy.float64,             # <<<<<<<<<<<<<<
- *                                                 order='c')
- * 
- */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_float64); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 46, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_4) < 0) __PYX_ERR(4, 46, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(4, 46, __pyx_L1_error)
-
-  /* "pyagg/paint.pxi":45
- *                                                  dtype=numpy.float64,
- *                                                  order='c')
- *         double[:,::1] stops_npy = numpy.asarray(stops,             # <<<<<<<<<<<<<<
- *                                                 dtype=numpy.float64,
- *                                                 order='c')
- */
-  __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_3, __pyx_t_5, __pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 45, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(4, 42, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(4, 42, __pyx_L1_error)
+
+  /* "pyagg/paint.pxi":41
+ * 
+ * cdef _get_gradient_points(points, length):
+ *     cdef double[::1] arr = numpy.asarray(points,             # <<<<<<<<<<<<<<
+ *                                          dtype=numpy.float64,
+ *                                          order='c')
+ */
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 41, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_4);
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(4, 45, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_v_stops_npy = __pyx_t_6;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5);
+  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(4, 41, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_arr = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "pyagg/paint.pxi":49
- *                                                 order='c')
- * 
- *     if points_npy.shape[1] != 2:             # <<<<<<<<<<<<<<
- *         msg = 'points argument must be an iterable of (x, y) pairs.'
+  /* "pyagg/paint.pxi":44
+ *                                          dtype=numpy.float64,
+ *                                          order='c')
+ *     if arr.shape[0] != length:             # <<<<<<<<<<<<<<
+ *         msg = 'points argument must be an iterable of length {}'.format(length)
  *         raise ValueError(msg)
  */
-  __pyx_t_7 = (((__pyx_v_points_npy.shape[1]) != 2) != 0);
+  __pyx_t_5 = PyInt_FromSsize_t((__pyx_v_arr.shape[0])); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 44, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_3 = PyObject_RichCompare(__pyx_t_5, __pyx_v_length, Py_NE); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 44, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_7 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_7 < 0)) __PYX_ERR(4, 44, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   if (__pyx_t_7) {
 
-    /* "pyagg/paint.pxi":50
- * 
- *     if points_npy.shape[1] != 2:
- *         msg = 'points argument must be an iterable of (x, y) pairs.'             # <<<<<<<<<<<<<<
+    /* "pyagg/paint.pxi":45
+ *                                          order='c')
+ *     if arr.shape[0] != length:
+ *         msg = 'points argument must be an iterable of length {}'.format(length)             # <<<<<<<<<<<<<<
  *         raise ValueError(msg)
- *     if stops_npy.shape[1] != 5:
+ * 
  */
-    __Pyx_INCREF(__pyx_kp_s_points_argument_must_be_an_itera);
-    __pyx_v_msg = __pyx_kp_s_points_argument_must_be_an_itera;
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_points_argument_must_be_an_itera, __pyx_n_s_format); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 45, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __pyx_t_1 = NULL;
+    if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_5))) {
+      __pyx_t_1 = PyMethod_GET_SELF(__pyx_t_5);
+      if (likely(__pyx_t_1)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+        __Pyx_INCREF(__pyx_t_1);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_5, function);
+      }
+    }
+    if (!__pyx_t_1) {
+      __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_length); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 45, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+    } else {
+      __pyx_t_2 = PyTuple_New(1+1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 45, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_2);
+      __Pyx_GIVEREF(__pyx_t_1); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_1); __pyx_t_1 = NULL;
+      __Pyx_INCREF(__pyx_v_length);
+      __Pyx_GIVEREF(__pyx_v_length);
+      PyTuple_SET_ITEM(__pyx_t_2, 0+1, __pyx_v_length);
+      __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 45, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+    }
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_v_msg = __pyx_t_3;
+    __pyx_t_3 = 0;
 
-    /* "pyagg/paint.pxi":51
- *     if points_npy.shape[1] != 2:
- *         msg = 'points argument must be an iterable of (x, y) pairs.'
+    /* "pyagg/paint.pxi":46
+ *     if arr.shape[0] != length:
+ *         msg = 'points argument must be an iterable of length {}'.format(length)
  *         raise ValueError(msg)             # <<<<<<<<<<<<<<
- *     if stops_npy.shape[1] != 5:
- *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
+ * 
+ *     return arr
  */
-    __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
+    __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 46, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
     __Pyx_INCREF(__pyx_v_msg);
     __Pyx_GIVEREF(__pyx_v_msg);
-    PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_v_msg);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 51, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __Pyx_Raise(__pyx_t_1, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __PYX_ERR(4, 51, __pyx_L1_error)
+    PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_v_msg);
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_3, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 46, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __Pyx_Raise(__pyx_t_5, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __PYX_ERR(4, 46, __pyx_L1_error)
 
-    /* "pyagg/paint.pxi":49
- *                                                 order='c')
- * 
- *     if points_npy.shape[1] != 2:             # <<<<<<<<<<<<<<
- *         msg = 'points argument must be an iterable of (x, y) pairs.'
+    /* "pyagg/paint.pxi":44
+ *                                          dtype=numpy.float64,
+ *                                          order='c')
+ *     if arr.shape[0] != length:             # <<<<<<<<<<<<<<
+ *         msg = 'points argument must be an iterable of length {}'.format(length)
  *         raise ValueError(msg)
  */
   }
 
-  /* "pyagg/paint.pxi":52
- *         msg = 'points argument must be an iterable of (x, y) pairs.'
- *         raise ValueError(msg)
- *     if stops_npy.shape[1] != 5:             # <<<<<<<<<<<<<<
- *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
- *                 'tuples.')
- */
-  __pyx_t_7 = (((__pyx_v_stops_npy.shape[1]) != 5) != 0);
-  if (__pyx_t_7) {
-
-    /* "pyagg/paint.pxi":53
- *         raise ValueError(msg)
- *     if stops_npy.shape[1] != 5:
- *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '             # <<<<<<<<<<<<<<
- *                 'tuples.')
- *         raise ValueError(msg)
- */
-    __Pyx_INCREF(__pyx_kp_s_stops_argument_must_be_an_iterab);
-    __pyx_v_msg = __pyx_kp_s_stops_argument_must_be_an_iterab;
-
-    /* "pyagg/paint.pxi":55
- *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
- *                 'tuples.')
- *         raise ValueError(msg)             # <<<<<<<<<<<<<<
- * 
- *     return points_npy, stops_npy
- */
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 55, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_1);
-    __Pyx_INCREF(__pyx_v_msg);
-    __Pyx_GIVEREF(__pyx_v_msg);
-    PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_msg);
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 55, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __Pyx_Raise(__pyx_t_4, 0, 0, 0);
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __PYX_ERR(4, 55, __pyx_L1_error)
-
-    /* "pyagg/paint.pxi":52
- *         msg = 'points argument must be an iterable of (x, y) pairs.'
- *         raise ValueError(msg)
- *     if stops_npy.shape[1] != 5:             # <<<<<<<<<<<<<<
- *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
- *                 'tuples.')
- */
-  }
-
-  /* "pyagg/paint.pxi":57
+  /* "pyagg/paint.pxi":48
  *         raise ValueError(msg)
  * 
- *     return points_npy, stops_npy             # <<<<<<<<<<<<<<
+ *     return arr             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_4 = __pyx_memoryview_fromslice(__pyx_v_points_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_stops_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 57, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_5 = PyTuple_New(2); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 57, __pyx_L1_error)
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_arr, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 48, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_GIVEREF(__pyx_t_4);
-  PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_4);
-  __Pyx_GIVEREF(__pyx_t_1);
-  PyTuple_SET_ITEM(__pyx_t_5, 1, __pyx_t_1);
-  __pyx_t_4 = 0;
-  __pyx_t_1 = 0;
   __pyx_r = __pyx_t_5;
   __pyx_t_5 = 0;
   goto __pyx_L0;
@@ -9833,9 +9767,9 @@ static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_args(PyObject *__pyx_v_poi
   /* "pyagg/paint.pxi":40
  * 
  * 
- * cdef _get_gradient_args(points, stops):             # <<<<<<<<<<<<<<
- *     cdef:
- *         double[:,::1] points_npy = numpy.asarray(points,
+ * cdef _get_gradient_points(points, length):             # <<<<<<<<<<<<<<
+ *     cdef double[::1] arr = numpy.asarray(points,
+ *                                          dtype=numpy.float64,
  */
 
   /* function exit code */
@@ -9846,18 +9780,182 @@ static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_args(PyObject *__pyx_v_poi
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-  __Pyx_AddTraceback("pyagg._pyagg._get_gradient_args", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("pyagg._pyagg._get_gradient_points", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
-  __PYX_XDEC_MEMVIEW(&__pyx_v_points_npy, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_v_stops_npy, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_arr, 1);
   __Pyx_XDECREF(__pyx_v_msg);
   __Pyx_XGIVEREF(__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":64
+/* "pyagg/paint.pxi":51
+ * 
+ * 
+ * cdef _get_gradient_stops(stops):             # <<<<<<<<<<<<<<
+ *     cdef double[:,::1] arr = numpy.asarray(stops,
+ *                                            dtype=numpy.float64,
+ */
+
+static PyObject *__pyx_f_5pyagg_6_pyagg__get_gradient_stops(PyObject *__pyx_v_stops) {
+  __Pyx_memviewslice __pyx_v_arr = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_v_msg = NULL;
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  PyObject *__pyx_t_3 = NULL;
+  PyObject *__pyx_t_4 = NULL;
+  PyObject *__pyx_t_5 = NULL;
+  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_t_7;
+  __Pyx_RefNannySetupContext("_get_gradient_stops", 0);
+
+  /* "pyagg/paint.pxi":52
+ * 
+ * cdef _get_gradient_stops(stops):
+ *     cdef double[:,::1] arr = numpy.asarray(stops,             # <<<<<<<<<<<<<<
+ *                                            dtype=numpy.float64,
+ *                                            order='c')
+ */
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_v_stops);
+  __Pyx_GIVEREF(__pyx_v_stops);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_stops);
+
+  /* "pyagg/paint.pxi":53
+ * cdef _get_gradient_stops(stops):
+ *     cdef double[:,::1] arr = numpy.asarray(stops,
+ *                                            dtype=numpy.float64,             # <<<<<<<<<<<<<<
+ *                                            order='c')
+ *     if arr.shape[1] != 5:
+ */
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 53, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(4, 53, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(4, 53, __pyx_L1_error)
+
+  /* "pyagg/paint.pxi":52
+ * 
+ * cdef _get_gradient_stops(stops):
+ *     cdef double[:,::1] arr = numpy.asarray(stops,             # <<<<<<<<<<<<<<
+ *                                            dtype=numpy.float64,
+ *                                            order='c')
+ */
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 52, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5);
+  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(4, 52, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_arr = __pyx_t_6;
+  __pyx_t_6.memview = NULL;
+  __pyx_t_6.data = NULL;
+
+  /* "pyagg/paint.pxi":55
+ *                                            dtype=numpy.float64,
+ *                                            order='c')
+ *     if arr.shape[1] != 5:             # <<<<<<<<<<<<<<
+ *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
+ *                 'tuples.')
+ */
+  __pyx_t_7 = (((__pyx_v_arr.shape[1]) != 5) != 0);
+  if (__pyx_t_7) {
+
+    /* "pyagg/paint.pxi":56
+ *                                            order='c')
+ *     if arr.shape[1] != 5:
+ *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '             # <<<<<<<<<<<<<<
+ *                 'tuples.')
+ *         raise ValueError(msg)
+ */
+    __Pyx_INCREF(__pyx_kp_s_stops_argument_must_be_an_iterab);
+    __pyx_v_msg = __pyx_kp_s_stops_argument_must_be_an_iterab;
+
+    /* "pyagg/paint.pxi":58
+ *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
+ *                 'tuples.')
+ *         raise ValueError(msg)             # <<<<<<<<<<<<<<
+ * 
+ *     return arr
+ */
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_INCREF(__pyx_v_msg);
+    __Pyx_GIVEREF(__pyx_v_msg);
+    PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_msg);
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 58, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_3);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __Pyx_Raise(__pyx_t_3, 0, 0, 0);
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    __PYX_ERR(4, 58, __pyx_L1_error)
+
+    /* "pyagg/paint.pxi":55
+ *                                            dtype=numpy.float64,
+ *                                            order='c')
+ *     if arr.shape[1] != 5:             # <<<<<<<<<<<<<<
+ *         msg = ('stops argument must be an iterable of (off, r, g, b, a) '
+ *                 'tuples.')
+ */
+  }
+
+  /* "pyagg/paint.pxi":60
+ *         raise ValueError(msg)
+ * 
+ *     return arr             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_3 = __pyx_memoryview_fromslice(__pyx_v_arr, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 60, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_r = __pyx_t_3;
+  __pyx_t_3 = 0;
+  goto __pyx_L0;
+
+  /* "pyagg/paint.pxi":51
+ * 
+ * 
+ * cdef _get_gradient_stops(stops):             # <<<<<<<<<<<<<<
+ *     cdef double[:,::1] arr = numpy.asarray(stops,
+ *                                            dtype=numpy.float64,
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_XDECREF(__pyx_t_3);
+  __Pyx_XDECREF(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __Pyx_AddTraceback("pyagg._pyagg._get_gradient_stops", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = 0;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_arr, 1);
+  __Pyx_XDECREF(__pyx_v_msg);
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/paint.pxi":67
  *     cdef _paint.Paint* _this
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -9880,7 +9978,7 @@ static void __pyx_pf_5pyagg_6_pyagg_5Paint___dealloc__(struct __pyx_obj_5pyagg_6
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "pyagg/paint.pxi":65
+  /* "pyagg/paint.pxi":68
  * 
  *     def __dealloc__(self):
  *         del self._this             # <<<<<<<<<<<<<<
@@ -9889,7 +9987,7 @@ static void __pyx_pf_5pyagg_6_pyagg_5Paint___dealloc__(struct __pyx_obj_5pyagg_6
  */
   delete __pyx_v_self->_this;
 
-  /* "pyagg/paint.pxi":64
+  /* "pyagg/paint.pxi":67
  *     cdef _paint.Paint* _this
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -9901,18 +9999,21 @@ static void __pyx_pf_5pyagg_6_pyagg_5Paint___dealloc__(struct __pyx_obj_5pyagg_6
   __Pyx_RefNannyFinishContext();
 }
 
-/* "pyagg/paint.pxi":75
- *           units: The GradientUnits type for this gradient
- *     """
- *     def __cinit__(self, points, stops, GradientSpread spread,             # <<<<<<<<<<<<<<
- *                   GradientUnits units):
- *         cdef double[:,::1] points_npy
+/* "pyagg/paint.pxi":82
+ *     cdef object _stops
+ * 
+ *     def __cinit__(self, double x1, double y1, double x2, double y2,             # <<<<<<<<<<<<<<
+ *                   stops, GradientSpread spread, GradientUnits units):
+ *         cdef double[::1] points_npy
  */
 
 /* Python wrapper */
 static int __pyx_pw_5pyagg_6_pyagg_19LinearGradientPaint_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_5pyagg_6_pyagg_19LinearGradientPaint_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_points = 0;
+  double __pyx_v_x1;
+  double __pyx_v_y1;
+  double __pyx_v_x2;
+  double __pyx_v_y2;
   PyObject *__pyx_v_stops = 0;
   enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread;
   enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units;
@@ -9920,12 +10021,15 @@ static int __pyx_pw_5pyagg_6_pyagg_19LinearGradientPaint_1__cinit__(PyObject *__
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_points,&__pyx_n_s_stops,&__pyx_n_s_spread,&__pyx_n_s_units,0};
-    PyObject* values[4] = {0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_x1,&__pyx_n_s_y1,&__pyx_n_s_x2,&__pyx_n_s_y2,&__pyx_n_s_stops,&__pyx_n_s_spread,&__pyx_n_s_units,0};
+    PyObject* values[7] = {0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
@@ -9936,194 +10040,176 @@ static int __pyx_pw_5pyagg_6_pyagg_19LinearGradientPaint_1__cinit__(PyObject *__
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_points)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x1)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stops)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y1)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 1); __PYX_ERR(4, 75, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, 1); __PYX_ERR(4, 82, __pyx_L3_error)
         }
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_spread)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_x2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 2); __PYX_ERR(4, 75, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, 2); __PYX_ERR(4, 82, __pyx_L3_error)
         }
         case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_units)) != 0)) kw_args--;
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_y2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 3); __PYX_ERR(4, 75, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, 3); __PYX_ERR(4, 82, __pyx_L3_error)
+        }
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stops)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, 4); __PYX_ERR(4, 82, __pyx_L3_error)
+        }
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_spread)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, 5); __PYX_ERR(4, 82, __pyx_L3_error)
+        }
+        case  6:
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_units)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, 6); __PYX_ERR(4, 82, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(4, 75, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(4, 82, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 7) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
     }
-    __pyx_v_points = values[0];
-    __pyx_v_stops = values[1];
-    __pyx_v_spread = ((enum __pyx_t_5pyagg_6_pyagg_GradientSpread)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientSpread(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 75, __pyx_L3_error)
-    __pyx_v_units = ((enum __pyx_t_5pyagg_6_pyagg_GradientUnits)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientUnits(values[3])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 76, __pyx_L3_error)
+    __pyx_v_x1 = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_x1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 82, __pyx_L3_error)
+    __pyx_v_y1 = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_y1 == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 82, __pyx_L3_error)
+    __pyx_v_x2 = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_x2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 82, __pyx_L3_error)
+    __pyx_v_y2 = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_y2 == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 82, __pyx_L3_error)
+    __pyx_v_stops = values[4];
+    __pyx_v_spread = ((enum __pyx_t_5pyagg_6_pyagg_GradientSpread)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientSpread(values[5])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 83, __pyx_L3_error)
+    __pyx_v_units = ((enum __pyx_t_5pyagg_6_pyagg_GradientUnits)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientUnits(values[6])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 83, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 75, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 7, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 82, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.LinearGradientPaint.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_19LinearGradientPaint___cinit__(((struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *)__pyx_v_self), __pyx_v_points, __pyx_v_stops, __pyx_v_spread, __pyx_v_units);
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_19LinearGradientPaint___cinit__(((struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *)__pyx_v_self), __pyx_v_x1, __pyx_v_y1, __pyx_v_x2, __pyx_v_y2, __pyx_v_stops, __pyx_v_spread, __pyx_v_units);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_5pyagg_6_pyagg_19LinearGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *__pyx_v_self, PyObject *__pyx_v_points, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units) {
+static int __pyx_pf_5pyagg_6_pyagg_19LinearGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *__pyx_v_self, double __pyx_v_x1, double __pyx_v_y1, double __pyx_v_x2, double __pyx_v_y2, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units) {
   __Pyx_memviewslice __pyx_v_points_npy = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_stops_npy = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
   __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_9;
-  int __pyx_t_10;
-  __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_8;
+  int __pyx_t_9;
+  Py_ssize_t __pyx_t_10;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/paint.pxi":79
- *         cdef double[:,::1] points_npy
- *         cdef double[:,::1] stops_npy
- *         points_npy, stops_npy = _get_gradient_args(points, stops)             # <<<<<<<<<<<<<<
+  /* "pyagg/paint.pxi":85
+ *                   stops, GradientSpread spread, GradientUnits units):
+ *         cdef double[::1] points_npy
+ *         cdef double[:,::1] stops_npy = _get_gradient_stops(stops)             # <<<<<<<<<<<<<<
+ *         points_npy = _get_gradient_points((x1, y1, x2, y2), 4)
+ *         self._this = new _paint.Paint(
+ */
+  __pyx_t_1 = __pyx_f_5pyagg_6_pyagg__get_gradient_stops(__pyx_v_stops); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 85, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1);
+  if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(4, 85, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_stops_npy = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
+
+  /* "pyagg/paint.pxi":86
+ *         cdef double[::1] points_npy
+ *         cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
+ *         points_npy = _get_gradient_points((x1, y1, x2, y2), 4)             # <<<<<<<<<<<<<<
  *         self._this = new _paint.Paint(
  *             _enums.k_PaintTypeLinearGradient,
  */
-  __pyx_t_1 = __pyx_f_5pyagg_6_pyagg__get_gradient_args(__pyx_v_points, __pyx_v_stops); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 79, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_x1); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-    PyObject* sequence = __pyx_t_1;
-    #if CYTHON_COMPILING_IN_CPYTHON
-    Py_ssize_t size = Py_SIZE(sequence);
-    #else
-    Py_ssize_t size = PySequence_Size(sequence);
-    #endif
-    if (unlikely(size != 2)) {
-      if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-      else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(4, 79, __pyx_L1_error)
-    }
-    #if CYTHON_COMPILING_IN_CPYTHON
-    if (likely(PyTuple_CheckExact(sequence))) {
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
-    } else {
-      __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
-      __pyx_t_3 = PyList_GET_ITEM(sequence, 1); 
-    }
-    __Pyx_INCREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_3);
-    #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 79, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 79, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  } else {
-    Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 79, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
-    index = 0; __pyx_t_2 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_2)) goto __pyx_L3_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_2);
-    index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(4, 79, __pyx_L1_error)
-    __pyx_t_5 = NULL;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    goto __pyx_L4_unpacking_done;
-    __pyx_L3_unpacking_failed:;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-    if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(4, 79, __pyx_L1_error)
-    __pyx_L4_unpacking_done:;
-  }
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2);
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(4, 79, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3);
-  if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(4, 79, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_points_npy = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
-  __pyx_v_stops_npy = __pyx_t_7;
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_y1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_x2); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_y2); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = PyTuple_New(4); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyTuple_SET_ITEM(__pyx_t_6, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyTuple_SET_ITEM(__pyx_t_6, 1, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyTuple_SET_ITEM(__pyx_t_6, 2, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyTuple_SET_ITEM(__pyx_t_6, 3, __pyx_t_5);
+  __pyx_t_1 = 0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_5 = 0;
+  __pyx_t_5 = __pyx_f_5pyagg_6_pyagg__get_gradient_points(__pyx_t_6, __pyx_int_4); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 86, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_5);
+  if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(4, 86, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_v_points_npy = __pyx_t_7;
   __pyx_t_7.memview = NULL;
   __pyx_t_7.data = NULL;
 
-  /* "pyagg/paint.pxi":82
+  /* "pyagg/paint.pxi":89
  *         self._this = new _paint.Paint(
  *             _enums.k_PaintTypeLinearGradient,
- *             &points_npy[0][0], points_npy.shape[0],             # <<<<<<<<<<<<<<
+ *             &points_npy[0], points_npy.shape[0],             # <<<<<<<<<<<<<<
  *             &stops_npy[0][0], stops_npy.shape[0], spread, units
  *         )
  */
-  __pyx_t_8.data = __pyx_v_points_npy.data;
-  __pyx_t_8.memview = __pyx_v_points_npy.memview;
-  __PYX_INC_MEMVIEW(&__pyx_t_8, 0);
-  {
-    Py_ssize_t __pyx_tmp_idx = 0;
-    Py_ssize_t __pyx_tmp_shape = __pyx_v_points_npy.shape[0];
-    Py_ssize_t __pyx_tmp_stride = __pyx_v_points_npy.strides[0];
-    if (1 && (__pyx_tmp_idx < 0))
-        __pyx_tmp_idx += __pyx_tmp_shape;
-    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
-        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(4, 82, __pyx_L1_error)
-    }
-        __pyx_t_8.data += __pyx_tmp_idx * __pyx_tmp_stride;
-}
-
-__pyx_t_8.shape[0] = __pyx_v_points_npy.shape[1];
-__pyx_t_8.strides[0] = __pyx_v_points_npy.strides[1];
-    __pyx_t_8.suboffsets[0] = -1;
-
-__pyx_t_9 = 0;
-  __pyx_t_10 = -1;
-  if (__pyx_t_9 < 0) {
-    __pyx_t_9 += __pyx_t_8.shape[0];
-    if (unlikely(__pyx_t_9 < 0)) __pyx_t_10 = 0;
-  } else if (unlikely(__pyx_t_9 >= __pyx_t_8.shape[0])) __pyx_t_10 = 0;
-  if (unlikely(__pyx_t_10 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(4, 82, __pyx_L1_error)
+  __pyx_t_8 = 0;
+  __pyx_t_9 = -1;
+  if (__pyx_t_8 < 0) {
+    __pyx_t_8 += __pyx_v_points_npy.shape[0];
+    if (unlikely(__pyx_t_8 < 0)) __pyx_t_9 = 0;
+  } else if (unlikely(__pyx_t_8 >= __pyx_v_points_npy.shape[0])) __pyx_t_9 = 0;
+  if (unlikely(__pyx_t_9 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_9);
+    __PYX_ERR(4, 89, __pyx_L1_error)
   }
 
-  /* "pyagg/paint.pxi":83
+  /* "pyagg/paint.pxi":90
  *             _enums.k_PaintTypeLinearGradient,
- *             &points_npy[0][0], points_npy.shape[0],
+ *             &points_npy[0], points_npy.shape[0],
  *             &stops_npy[0][0], stops_npy.shape[0], spread, units             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_11.data = __pyx_v_stops_npy.data;
-  __pyx_t_11.memview = __pyx_v_stops_npy.memview;
-  __PYX_INC_MEMVIEW(&__pyx_t_11, 0);
+  __pyx_t_7.data = __pyx_v_stops_npy.data;
+  __pyx_t_7.memview = __pyx_v_stops_npy.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_7, 0);
   {
     Py_ssize_t __pyx_tmp_idx = 0;
     Py_ssize_t __pyx_tmp_shape = __pyx_v_stops_npy.shape[0];
@@ -10132,67 +10218,72 @@ __pyx_t_9 = 0;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(4, 83, __pyx_L1_error)
+        __PYX_ERR(4, 90, __pyx_L1_error)
     }
-        __pyx_t_11.data += __pyx_tmp_idx * __pyx_tmp_stride;
+        __pyx_t_7.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
 
-__pyx_t_11.shape[0] = __pyx_v_stops_npy.shape[1];
-__pyx_t_11.strides[0] = __pyx_v_stops_npy.strides[1];
-    __pyx_t_11.suboffsets[0] = -1;
+__pyx_t_7.shape[0] = __pyx_v_stops_npy.shape[1];
+__pyx_t_7.strides[0] = __pyx_v_stops_npy.strides[1];
+    __pyx_t_7.suboffsets[0] = -1;
 
-__pyx_t_12 = 0;
-  __pyx_t_10 = -1;
-  if (__pyx_t_12 < 0) {
-    __pyx_t_12 += __pyx_t_11.shape[0];
-    if (unlikely(__pyx_t_12 < 0)) __pyx_t_10 = 0;
-  } else if (unlikely(__pyx_t_12 >= __pyx_t_11.shape[0])) __pyx_t_10 = 0;
-  if (unlikely(__pyx_t_10 != -1)) {
-    __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(4, 83, __pyx_L1_error)
+__pyx_t_10 = 0;
+  __pyx_t_9 = -1;
+  if (__pyx_t_10 < 0) {
+    __pyx_t_10 += __pyx_t_7.shape[0];
+    if (unlikely(__pyx_t_10 < 0)) __pyx_t_9 = 0;
+  } else if (unlikely(__pyx_t_10 >= __pyx_t_7.shape[0])) __pyx_t_9 = 0;
+  if (unlikely(__pyx_t_9 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_9);
+    __PYX_ERR(4, 90, __pyx_L1_error)
   }
 
-  /* "pyagg/paint.pxi":80
- *         cdef double[:,::1] stops_npy
- *         points_npy, stops_npy = _get_gradient_args(points, stops)
+  /* "pyagg/paint.pxi":87
+ *         cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
+ *         points_npy = _get_gradient_points((x1, y1, x2, y2), 4)
  *         self._this = new _paint.Paint(             # <<<<<<<<<<<<<<
  *             _enums.k_PaintTypeLinearGradient,
- *             &points_npy[0][0], points_npy.shape[0],
+ *             &points_npy[0], points_npy.shape[0],
  */
-  __pyx_v_self->__pyx_base._this = new Paint(Paint::k_PaintTypeLinearGradient, (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_8.data) + __pyx_t_9)) )))), (__pyx_v_points_npy.shape[0]), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_11.data) + __pyx_t_12)) )))), (__pyx_v_stops_npy.shape[0]), ((enum Paint::GradientSpread const )__pyx_v_spread), ((enum Paint::GradientUnits const )__pyx_v_units));
-  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
+  __pyx_v_self->__pyx_base._this = new Paint(Paint::k_PaintTypeLinearGradient, (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_points_npy.data) + __pyx_t_8)) )))), (__pyx_v_points_npy.shape[0]), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_7.data) + __pyx_t_10)) )))), (__pyx_v_stops_npy.shape[0]), ((enum Paint::GradientSpread const )__pyx_v_spread), ((enum Paint::GradientUnits const )__pyx_v_units));
+  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
 
-  /* "pyagg/paint.pxi":87
+  /* "pyagg/paint.pxi":94
  * 
  *         # Hold on to the allocated arrays for safety
  *         self._points = points_npy             # <<<<<<<<<<<<<<
  *         self._stops = stops_npy
  * 
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_points_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 87, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_points_2, __pyx_t_1) < 0) __PYX_ERR(4, 87, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_points_npy, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 94, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_5);
+  __Pyx_GOTREF(__pyx_v_self->_points);
+  __Pyx_DECREF(__pyx_v_self->_points);
+  __pyx_v_self->_points = __pyx_t_5;
+  __pyx_t_5 = 0;
 
-  /* "pyagg/paint.pxi":88
+  /* "pyagg/paint.pxi":95
  *         # Hold on to the allocated arrays for safety
  *         self._points = points_npy
  *         self._stops = stops_npy             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_stops_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 88, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_stops_2, __pyx_t_1) < 0) __PYX_ERR(4, 88, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_5 = __pyx_memoryview_fromslice(__pyx_v_stops_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 95, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_5);
+  __Pyx_GOTREF(__pyx_v_self->_stops);
+  __Pyx_DECREF(__pyx_v_self->_stops);
+  __pyx_v_self->_stops = __pyx_t_5;
+  __pyx_t_5 = 0;
 
-  /* "pyagg/paint.pxi":75
- *           units: The GradientUnits type for this gradient
- *     """
- *     def __cinit__(self, points, stops, GradientSpread spread,             # <<<<<<<<<<<<<<
- *                   GradientUnits units):
- *         cdef double[:,::1] points_npy
+  /* "pyagg/paint.pxi":82
+ *     cdef object _stops
+ * 
+ *     def __cinit__(self, double x1, double y1, double x2, double y2,             # <<<<<<<<<<<<<<
+ *                   stops, GradientSpread spread, GradientUnits units):
+ *         cdef double[::1] points_npy
  */
 
   /* function exit code */
@@ -10200,13 +10291,12 @@ __pyx_t_12 = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
   __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
   __Pyx_AddTraceback("pyagg._pyagg.LinearGradientPaint.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
@@ -10216,18 +10306,22 @@ __pyx_t_12 = 0;
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":98
- *           units: The GradientUnits type for this gradient
- *     """
- *     def __cinit__(self, points, stops, GradientSpread spread,             # <<<<<<<<<<<<<<
- *                   GradientUnits units):
- *         cdef double[:,::1] points_npy
+/* "pyagg/paint.pxi":110
+ *     cdef object _stops
+ * 
+ *     def __cinit__(self, double cx, double cy, double r, double fx, double fy,             # <<<<<<<<<<<<<<
+ *                   stops, GradientSpread spread, GradientUnits units):
+ *         cdef double[::1] points_npy
  */
 
 /* Python wrapper */
 static int __pyx_pw_5pyagg_6_pyagg_19RadialGradientPaint_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
 static int __pyx_pw_5pyagg_6_pyagg_19RadialGradientPaint_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
-  PyObject *__pyx_v_points = 0;
+  double __pyx_v_cx;
+  double __pyx_v_cy;
+  double __pyx_v_r;
+  double __pyx_v_fx;
+  double __pyx_v_fy;
   PyObject *__pyx_v_stops = 0;
   enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread;
   enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units;
@@ -10235,12 +10329,16 @@ static int __pyx_pw_5pyagg_6_pyagg_19RadialGradientPaint_1__cinit__(PyObject *__
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
   {
-    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_points,&__pyx_n_s_stops,&__pyx_n_s_spread,&__pyx_n_s_units,0};
-    PyObject* values[4] = {0,0,0,0};
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_cx,&__pyx_n_s_cy,&__pyx_n_s_r,&__pyx_n_s_fx,&__pyx_n_s_fy,&__pyx_n_s_stops,&__pyx_n_s_spread,&__pyx_n_s_units,0};
+    PyObject* values[8] = {0,0,0,0,0,0,0,0};
     if (unlikely(__pyx_kwds)) {
       Py_ssize_t kw_args;
       const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
       switch (pos_args) {
+        case  8: values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
+        case  7: values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+        case  6: values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+        case  5: values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
         case  4: values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
         case  3: values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
         case  2: values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
@@ -10251,194 +10349,189 @@ static int __pyx_pw_5pyagg_6_pyagg_19RadialGradientPaint_1__cinit__(PyObject *__
       kw_args = PyDict_Size(__pyx_kwds);
       switch (pos_args) {
         case  0:
-        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_points)) != 0)) kw_args--;
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_cx)) != 0)) kw_args--;
         else goto __pyx_L5_argtuple_error;
         case  1:
-        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stops)) != 0)) kw_args--;
+        if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_cy)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 1); __PYX_ERR(4, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 1); __PYX_ERR(4, 110, __pyx_L3_error)
         }
         case  2:
-        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_spread)) != 0)) kw_args--;
+        if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_r)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 2); __PYX_ERR(4, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 2); __PYX_ERR(4, 110, __pyx_L3_error)
         }
         case  3:
-        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_units)) != 0)) kw_args--;
+        if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fx)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, 3); __PYX_ERR(4, 98, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 3); __PYX_ERR(4, 110, __pyx_L3_error)
+        }
+        case  4:
+        if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fy)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 4); __PYX_ERR(4, 110, __pyx_L3_error)
+        }
+        case  5:
+        if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_stops)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 5); __PYX_ERR(4, 110, __pyx_L3_error)
+        }
+        case  6:
+        if (likely((values[6] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_spread)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 6); __PYX_ERR(4, 110, __pyx_L3_error)
+        }
+        case  7:
+        if (likely((values[7] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_units)) != 0)) kw_args--;
+        else {
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, 7); __PYX_ERR(4, 110, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(4, 98, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(4, 110, __pyx_L3_error)
       }
-    } else if (PyTuple_GET_SIZE(__pyx_args) != 4) {
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 8) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
       values[1] = PyTuple_GET_ITEM(__pyx_args, 1);
       values[2] = PyTuple_GET_ITEM(__pyx_args, 2);
       values[3] = PyTuple_GET_ITEM(__pyx_args, 3);
+      values[4] = PyTuple_GET_ITEM(__pyx_args, 4);
+      values[5] = PyTuple_GET_ITEM(__pyx_args, 5);
+      values[6] = PyTuple_GET_ITEM(__pyx_args, 6);
+      values[7] = PyTuple_GET_ITEM(__pyx_args, 7);
     }
-    __pyx_v_points = values[0];
-    __pyx_v_stops = values[1];
-    __pyx_v_spread = ((enum __pyx_t_5pyagg_6_pyagg_GradientSpread)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientSpread(values[2])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 98, __pyx_L3_error)
-    __pyx_v_units = ((enum __pyx_t_5pyagg_6_pyagg_GradientUnits)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientUnits(values[3])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 99, __pyx_L3_error)
+    __pyx_v_cx = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_cx == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 110, __pyx_L3_error)
+    __pyx_v_cy = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_cy == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 110, __pyx_L3_error)
+    __pyx_v_r = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_r == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 110, __pyx_L3_error)
+    __pyx_v_fx = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_fx == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 110, __pyx_L3_error)
+    __pyx_v_fy = __pyx_PyFloat_AsDouble(values[4]); if (unlikely((__pyx_v_fy == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 110, __pyx_L3_error)
+    __pyx_v_stops = values[5];
+    __pyx_v_spread = ((enum __pyx_t_5pyagg_6_pyagg_GradientSpread)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientSpread(values[6])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 111, __pyx_L3_error)
+    __pyx_v_units = ((enum __pyx_t_5pyagg_6_pyagg_GradientUnits)__Pyx_PyInt_As_enum____pyx_t_5pyagg_6_pyagg_GradientUnits(values[7])); if (unlikely(PyErr_Occurred())) __PYX_ERR(4, 111, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 4, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 98, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 8, 8, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 110, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.RadialGradientPaint.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return -1;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_19RadialGradientPaint___cinit__(((struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *)__pyx_v_self), __pyx_v_points, __pyx_v_stops, __pyx_v_spread, __pyx_v_units);
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_19RadialGradientPaint___cinit__(((struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *)__pyx_v_self), __pyx_v_cx, __pyx_v_cy, __pyx_v_r, __pyx_v_fx, __pyx_v_fy, __pyx_v_stops, __pyx_v_spread, __pyx_v_units);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static int __pyx_pf_5pyagg_6_pyagg_19RadialGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *__pyx_v_self, PyObject *__pyx_v_points, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units) {
+static int __pyx_pf_5pyagg_6_pyagg_19RadialGradientPaint___cinit__(struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *__pyx_v_self, double __pyx_v_cx, double __pyx_v_cy, double __pyx_v_r, double __pyx_v_fx, double __pyx_v_fy, PyObject *__pyx_v_stops, enum __pyx_t_5pyagg_6_pyagg_GradientSpread __pyx_v_spread, enum __pyx_t_5pyagg_6_pyagg_GradientUnits __pyx_v_units) {
   __Pyx_memviewslice __pyx_v_points_npy = { 0, 0, { 0 }, { 0 }, { 0 } };
   __Pyx_memviewslice __pyx_v_stops_npy = { 0, 0, { 0 }, { 0 }, { 0 } };
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  PyObject *__pyx_t_2 = NULL;
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
   PyObject *__pyx_t_3 = NULL;
   PyObject *__pyx_t_4 = NULL;
-  PyObject *(*__pyx_t_5)(PyObject *);
-  __Pyx_memviewslice __pyx_t_6 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  __Pyx_memviewslice __pyx_t_7 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  PyObject *__pyx_t_5 = NULL;
+  PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
   __Pyx_memviewslice __pyx_t_8 = { 0, 0, { 0 }, { 0 }, { 0 } };
   Py_ssize_t __pyx_t_9;
   int __pyx_t_10;
-  __Pyx_memviewslice __pyx_t_11 = { 0, 0, { 0 }, { 0 }, { 0 } };
-  Py_ssize_t __pyx_t_12;
+  Py_ssize_t __pyx_t_11;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/paint.pxi":102
- *         cdef double[:,::1] points_npy
- *         cdef double[:,::1] stops_npy
- *         points_npy, stops_npy = _get_gradient_args(points, stops)             # <<<<<<<<<<<<<<
+  /* "pyagg/paint.pxi":113
+ *                   stops, GradientSpread spread, GradientUnits units):
+ *         cdef double[::1] points_npy
+ *         cdef double[:,::1] stops_npy = _get_gradient_stops(stops)             # <<<<<<<<<<<<<<
+ *         points_npy = _get_gradient_points([cx, cy, r, fx, fy], 5)
+ *         self._this = new _paint.Paint(
+ */
+  __pyx_t_1 = __pyx_f_5pyagg_6_pyagg__get_gradient_stops(__pyx_v_stops); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 113, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_1);
+  if (unlikely(!__pyx_t_2.memview)) __PYX_ERR(4, 113, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_v_stops_npy = __pyx_t_2;
+  __pyx_t_2.memview = NULL;
+  __pyx_t_2.data = NULL;
+
+  /* "pyagg/paint.pxi":114
+ *         cdef double[::1] points_npy
+ *         cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
+ *         points_npy = _get_gradient_points([cx, cy, r, fx, fy], 5)             # <<<<<<<<<<<<<<
  *         self._this = new _paint.Paint(
  *             _enums.k_PaintTypeRadialGradient,
  */
-  __pyx_t_1 = __pyx_f_5pyagg_6_pyagg__get_gradient_args(__pyx_v_points, __pyx_v_stops); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 102, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_cx); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 114, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if ((likely(PyTuple_CheckExact(__pyx_t_1))) || (PyList_CheckExact(__pyx_t_1))) {
-    PyObject* sequence = __pyx_t_1;
-    #if CYTHON_COMPILING_IN_CPYTHON
-    Py_ssize_t size = Py_SIZE(sequence);
-    #else
-    Py_ssize_t size = PySequence_Size(sequence);
-    #endif
-    if (unlikely(size != 2)) {
-      if (size > 2) __Pyx_RaiseTooManyValuesError(2);
-      else if (size >= 0) __Pyx_RaiseNeedMoreValuesError(size);
-      __PYX_ERR(4, 102, __pyx_L1_error)
-    }
-    #if CYTHON_COMPILING_IN_CPYTHON
-    if (likely(PyTuple_CheckExact(sequence))) {
-      __pyx_t_2 = PyTuple_GET_ITEM(sequence, 0); 
-      __pyx_t_3 = PyTuple_GET_ITEM(sequence, 1); 
-    } else {
-      __pyx_t_2 = PyList_GET_ITEM(sequence, 0); 
-      __pyx_t_3 = PyList_GET_ITEM(sequence, 1); 
-    }
-    __Pyx_INCREF(__pyx_t_2);
-    __Pyx_INCREF(__pyx_t_3);
-    #else
-    __pyx_t_2 = PySequence_ITEM(sequence, 0); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 102, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = PySequence_ITEM(sequence, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 102, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_3);
-    #endif
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  } else {
-    Py_ssize_t index = -1;
-    __pyx_t_4 = PyObject_GetIter(__pyx_t_1); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 102, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_5 = Py_TYPE(__pyx_t_4)->tp_iternext;
-    index = 0; __pyx_t_2 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_2)) goto __pyx_L3_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_2);
-    index = 1; __pyx_t_3 = __pyx_t_5(__pyx_t_4); if (unlikely(!__pyx_t_3)) goto __pyx_L3_unpacking_failed;
-    __Pyx_GOTREF(__pyx_t_3);
-    if (__Pyx_IternextUnpackEndCheck(__pyx_t_5(__pyx_t_4), 2) < 0) __PYX_ERR(4, 102, __pyx_L1_error)
-    __pyx_t_5 = NULL;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    goto __pyx_L4_unpacking_done;
-    __pyx_L3_unpacking_failed:;
-    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_5 = NULL;
-    if (__Pyx_IterFinish() == 0) __Pyx_RaiseNeedMoreValuesError(index);
-    __PYX_ERR(4, 102, __pyx_L1_error)
-    __pyx_L4_unpacking_done:;
-  }
-  __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_2);
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(4, 102, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_7 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_3);
-  if (unlikely(!__pyx_t_7.memview)) __PYX_ERR(4, 102, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  __pyx_v_points_npy = __pyx_t_6;
-  __pyx_t_6.memview = NULL;
-  __pyx_t_6.data = NULL;
-  __pyx_v_stops_npy = __pyx_t_7;
-  __pyx_t_7.memview = NULL;
-  __pyx_t_7.data = NULL;
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_cy); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_3);
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_r); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_fx); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_fy); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __pyx_t_7 = PyList_New(5); if (unlikely(!__pyx_t_7)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_7);
+  __Pyx_GIVEREF(__pyx_t_1);
+  PyList_SET_ITEM(__pyx_t_7, 0, __pyx_t_1);
+  __Pyx_GIVEREF(__pyx_t_3);
+  PyList_SET_ITEM(__pyx_t_7, 1, __pyx_t_3);
+  __Pyx_GIVEREF(__pyx_t_4);
+  PyList_SET_ITEM(__pyx_t_7, 2, __pyx_t_4);
+  __Pyx_GIVEREF(__pyx_t_5);
+  PyList_SET_ITEM(__pyx_t_7, 3, __pyx_t_5);
+  __Pyx_GIVEREF(__pyx_t_6);
+  PyList_SET_ITEM(__pyx_t_7, 4, __pyx_t_6);
+  __pyx_t_1 = 0;
+  __pyx_t_3 = 0;
+  __pyx_t_4 = 0;
+  __pyx_t_5 = 0;
+  __pyx_t_6 = 0;
+  __pyx_t_6 = __pyx_f_5pyagg_6_pyagg__get_gradient_points(__pyx_t_7, __pyx_int_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
+  __pyx_t_8 = __Pyx_PyObject_to_MemoryviewSlice_dc_double(__pyx_t_6);
+  if (unlikely(!__pyx_t_8.memview)) __PYX_ERR(4, 114, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_v_points_npy = __pyx_t_8;
+  __pyx_t_8.memview = NULL;
+  __pyx_t_8.data = NULL;
 
-  /* "pyagg/paint.pxi":105
+  /* "pyagg/paint.pxi":117
  *         self._this = new _paint.Paint(
  *             _enums.k_PaintTypeRadialGradient,
- *             &points_npy[0][0], points_npy.shape[0],             # <<<<<<<<<<<<<<
+ *             &points_npy[0], points_npy.shape[0],             # <<<<<<<<<<<<<<
  *             &stops_npy[0][0], stops_npy.shape[0], spread, units
  *         )
  */
-  __pyx_t_8.data = __pyx_v_points_npy.data;
-  __pyx_t_8.memview = __pyx_v_points_npy.memview;
-  __PYX_INC_MEMVIEW(&__pyx_t_8, 0);
-  {
-    Py_ssize_t __pyx_tmp_idx = 0;
-    Py_ssize_t __pyx_tmp_shape = __pyx_v_points_npy.shape[0];
-    Py_ssize_t __pyx_tmp_stride = __pyx_v_points_npy.strides[0];
-    if (1 && (__pyx_tmp_idx < 0))
-        __pyx_tmp_idx += __pyx_tmp_shape;
-    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
-        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(4, 105, __pyx_L1_error)
-    }
-        __pyx_t_8.data += __pyx_tmp_idx * __pyx_tmp_stride;
-}
-
-__pyx_t_8.shape[0] = __pyx_v_points_npy.shape[1];
-__pyx_t_8.strides[0] = __pyx_v_points_npy.strides[1];
-    __pyx_t_8.suboffsets[0] = -1;
-
-__pyx_t_9 = 0;
+  __pyx_t_9 = 0;
   __pyx_t_10 = -1;
   if (__pyx_t_9 < 0) {
-    __pyx_t_9 += __pyx_t_8.shape[0];
+    __pyx_t_9 += __pyx_v_points_npy.shape[0];
     if (unlikely(__pyx_t_9 < 0)) __pyx_t_10 = 0;
-  } else if (unlikely(__pyx_t_9 >= __pyx_t_8.shape[0])) __pyx_t_10 = 0;
+  } else if (unlikely(__pyx_t_9 >= __pyx_v_points_npy.shape[0])) __pyx_t_10 = 0;
   if (unlikely(__pyx_t_10 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(4, 105, __pyx_L1_error)
+    __PYX_ERR(4, 117, __pyx_L1_error)
   }
 
-  /* "pyagg/paint.pxi":106
+  /* "pyagg/paint.pxi":118
  *             _enums.k_PaintTypeRadialGradient,
- *             &points_npy[0][0], points_npy.shape[0],
+ *             &points_npy[0], points_npy.shape[0],
  *             &stops_npy[0][0], stops_npy.shape[0], spread, units             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_11.data = __pyx_v_stops_npy.data;
-  __pyx_t_11.memview = __pyx_v_stops_npy.memview;
-  __PYX_INC_MEMVIEW(&__pyx_t_11, 0);
+  __pyx_t_8.data = __pyx_v_stops_npy.data;
+  __pyx_t_8.memview = __pyx_v_stops_npy.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_8, 0);
   {
     Py_ssize_t __pyx_tmp_idx = 0;
     Py_ssize_t __pyx_tmp_shape = __pyx_v_stops_npy.shape[0];
@@ -10447,67 +10540,72 @@ __pyx_t_9 = 0;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(4, 106, __pyx_L1_error)
+        __PYX_ERR(4, 118, __pyx_L1_error)
     }
-        __pyx_t_11.data += __pyx_tmp_idx * __pyx_tmp_stride;
+        __pyx_t_8.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
 
-__pyx_t_11.shape[0] = __pyx_v_stops_npy.shape[1];
-__pyx_t_11.strides[0] = __pyx_v_stops_npy.strides[1];
-    __pyx_t_11.suboffsets[0] = -1;
+__pyx_t_8.shape[0] = __pyx_v_stops_npy.shape[1];
+__pyx_t_8.strides[0] = __pyx_v_stops_npy.strides[1];
+    __pyx_t_8.suboffsets[0] = -1;
 
-__pyx_t_12 = 0;
+__pyx_t_11 = 0;
   __pyx_t_10 = -1;
-  if (__pyx_t_12 < 0) {
-    __pyx_t_12 += __pyx_t_11.shape[0];
-    if (unlikely(__pyx_t_12 < 0)) __pyx_t_10 = 0;
-  } else if (unlikely(__pyx_t_12 >= __pyx_t_11.shape[0])) __pyx_t_10 = 0;
+  if (__pyx_t_11 < 0) {
+    __pyx_t_11 += __pyx_t_8.shape[0];
+    if (unlikely(__pyx_t_11 < 0)) __pyx_t_10 = 0;
+  } else if (unlikely(__pyx_t_11 >= __pyx_t_8.shape[0])) __pyx_t_10 = 0;
   if (unlikely(__pyx_t_10 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(4, 106, __pyx_L1_error)
+    __PYX_ERR(4, 118, __pyx_L1_error)
   }
 
-  /* "pyagg/paint.pxi":103
- *         cdef double[:,::1] stops_npy
- *         points_npy, stops_npy = _get_gradient_args(points, stops)
+  /* "pyagg/paint.pxi":115
+ *         cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
+ *         points_npy = _get_gradient_points([cx, cy, r, fx, fy], 5)
  *         self._this = new _paint.Paint(             # <<<<<<<<<<<<<<
  *             _enums.k_PaintTypeRadialGradient,
- *             &points_npy[0][0], points_npy.shape[0],
+ *             &points_npy[0], points_npy.shape[0],
  */
-  __pyx_v_self->__pyx_base._this = new Paint(Paint::k_PaintTypeRadialGradient, (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_8.data) + __pyx_t_9)) )))), (__pyx_v_points_npy.shape[0]), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_11.data) + __pyx_t_12)) )))), (__pyx_v_stops_npy.shape[0]), ((enum Paint::GradientSpread const )__pyx_v_spread), ((enum Paint::GradientUnits const )__pyx_v_units));
+  __pyx_v_self->__pyx_base._this = new Paint(Paint::k_PaintTypeRadialGradient, (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_v_points_npy.data) + __pyx_t_9)) )))), (__pyx_v_points_npy.shape[0]), (&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_8.data) + __pyx_t_11)) )))), (__pyx_v_stops_npy.shape[0]), ((enum Paint::GradientSpread const )__pyx_v_spread), ((enum Paint::GradientUnits const )__pyx_v_units));
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
 
-  /* "pyagg/paint.pxi":110
+  /* "pyagg/paint.pxi":122
  * 
  *         # Hold on to the allocated arrays for safety
  *         self._points = points_npy             # <<<<<<<<<<<<<<
  *         self._stops = stops_npy
  * 
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_points_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 110, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_points_2, __pyx_t_1) < 0) __PYX_ERR(4, 110, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_points_npy, 1, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 122, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
+  __Pyx_GOTREF(__pyx_v_self->_points);
+  __Pyx_DECREF(__pyx_v_self->_points);
+  __pyx_v_self->_points = __pyx_t_6;
+  __pyx_t_6 = 0;
 
-  /* "pyagg/paint.pxi":111
+  /* "pyagg/paint.pxi":123
  *         # Hold on to the allocated arrays for safety
  *         self._points = points_npy
  *         self._stops = stops_npy             # <<<<<<<<<<<<<<
  * 
  * 
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_stops_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 111, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  if (__Pyx_PyObject_SetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_stops_2, __pyx_t_1) < 0) __PYX_ERR(4, 111, __pyx_L1_error)
-  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_t_6 = __pyx_memoryview_fromslice(__pyx_v_stops_npy, 2, (PyObject *(*)(char *)) __pyx_memview_get_double, (int (*)(char *, PyObject *)) __pyx_memview_set_double, 0);; if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 123, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_GIVEREF(__pyx_t_6);
+  __Pyx_GOTREF(__pyx_v_self->_stops);
+  __Pyx_DECREF(__pyx_v_self->_stops);
+  __pyx_v_self->_stops = __pyx_t_6;
+  __pyx_t_6 = 0;
 
-  /* "pyagg/paint.pxi":98
- *           units: The GradientUnits type for this gradient
- *     """
- *     def __cinit__(self, points, stops, GradientSpread spread,             # <<<<<<<<<<<<<<
- *                   GradientUnits units):
- *         cdef double[:,::1] points_npy
+  /* "pyagg/paint.pxi":110
+ *     cdef object _stops
+ * 
+ *     def __cinit__(self, double cx, double cy, double r, double fx, double fy,             # <<<<<<<<<<<<<<
+ *                   stops, GradientSpread spread, GradientUnits units):
+ *         cdef double[::1] points_npy
  */
 
   /* function exit code */
@@ -10515,13 +10613,13 @@ __pyx_t_12 = 0;
   goto __pyx_L0;
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_XDECREF(__pyx_t_2);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_6, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_7, 1);
+  __Pyx_XDECREF(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6);
+  __Pyx_XDECREF(__pyx_t_7);
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
-  __PYX_XDEC_MEMVIEW(&__pyx_t_11, 1);
   __Pyx_AddTraceback("pyagg._pyagg.RadialGradientPaint.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = -1;
   __pyx_L0:;
@@ -10531,7 +10629,7 @@ __pyx_t_12 = 0;
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":117
+/* "pyagg/paint.pxi":129
  *     """ SolidPaint(r, g, b, a)
  *     """
  *     def __cinit__(self, double r, double g, double b, double a=1.0):             # <<<<<<<<<<<<<<
@@ -10571,12 +10669,12 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1__cinit__(PyObject *__pyx_v_sel
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_g)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 1); __PYX_ERR(4, 117, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 1); __PYX_ERR(4, 129, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_b)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 2); __PYX_ERR(4, 117, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, 2); __PYX_ERR(4, 129, __pyx_L3_error)
         }
         case  3:
         if (kw_args > 0) {
@@ -10585,7 +10683,7 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1__cinit__(PyObject *__pyx_v_sel
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(4, 117, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(4, 129, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -10597,18 +10695,18 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1__cinit__(PyObject *__pyx_v_sel
         default: goto __pyx_L5_argtuple_error;
       }
     }
-    __pyx_v_r = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_r == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 117, __pyx_L3_error)
-    __pyx_v_g = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_g == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 117, __pyx_L3_error)
-    __pyx_v_b = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 117, __pyx_L3_error)
+    __pyx_v_r = __pyx_PyFloat_AsDouble(values[0]); if (unlikely((__pyx_v_r == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 129, __pyx_L3_error)
+    __pyx_v_g = __pyx_PyFloat_AsDouble(values[1]); if (unlikely((__pyx_v_g == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 129, __pyx_L3_error)
+    __pyx_v_b = __pyx_PyFloat_AsDouble(values[2]); if (unlikely((__pyx_v_b == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 129, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_a = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 117, __pyx_L3_error)
+      __pyx_v_a = __pyx_PyFloat_AsDouble(values[3]); if (unlikely((__pyx_v_a == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 129, __pyx_L3_error)
     } else {
       __pyx_v_a = ((double)1.0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 117, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 0, 3, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(4, 129, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.SolidPaint.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -10626,7 +10724,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint___cinit__(struct __pyx_obj_5pyag
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/paint.pxi":118
+  /* "pyagg/paint.pxi":130
  *     """
  *     def __cinit__(self, double r, double g, double b, double a=1.0):
  *         self._this = new _paint.Paint(r, g, b, a)             # <<<<<<<<<<<<<<
@@ -10635,7 +10733,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint___cinit__(struct __pyx_obj_5pyag
  */
   __pyx_v_self->__pyx_base._this = new Paint(__pyx_v_r, __pyx_v_g, __pyx_v_b, __pyx_v_a);
 
-  /* "pyagg/paint.pxi":117
+  /* "pyagg/paint.pxi":129
  *     """ SolidPaint(r, g, b, a)
  *     """
  *     def __cinit__(self, double r, double g, double b, double a=1.0):             # <<<<<<<<<<<<<<
@@ -10649,7 +10747,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint___cinit__(struct __pyx_obj_5pyag
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":120
+/* "pyagg/paint.pxi":132
  *         self._this = new _paint.Paint(r, g, b, a)
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -10685,19 +10783,19 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj
   PyObject *__pyx_t_9 = NULL;
   __Pyx_RefNannySetupContext("__repr__", 0);
 
-  /* "pyagg/paint.pxi":121
+  /* "pyagg/paint.pxi":133
  * 
  *     def __repr__(self):
  *         name = type(self).__name__             # <<<<<<<<<<<<<<
  *         return "{}({}, {}, {}, {})".format(
  *             name, self._this.r(), self._this.g(), self._this.b(),
  */
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))), __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 121, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(((PyObject *)Py_TYPE(((PyObject *)__pyx_v_self))), __pyx_n_s_name); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 133, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_name = __pyx_t_1;
   __pyx_t_1 = 0;
 
-  /* "pyagg/paint.pxi":122
+  /* "pyagg/paint.pxi":134
  *     def __repr__(self):
  *         name = type(self).__name__
  *         return "{}({}, {}, {}, {})".format(             # <<<<<<<<<<<<<<
@@ -10705,31 +10803,31 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj
  *             self._this.a()
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 122, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_, __pyx_n_s_format); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
 
-  /* "pyagg/paint.pxi":123
+  /* "pyagg/paint.pxi":135
  *         name = type(self).__name__
  *         return "{}({}, {}, {}, {})".format(
  *             name, self._this.r(), self._this.g(), self._this.b(),             # <<<<<<<<<<<<<<
  *             self._this.a()
  *         )
  */
-  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->r()); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 123, __pyx_L1_error)
+  __pyx_t_3 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->r()); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->g()); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 123, __pyx_L1_error)
+  __pyx_t_4 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->g()); if (unlikely(!__pyx_t_4)) __PYX_ERR(4, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->b()); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 123, __pyx_L1_error)
+  __pyx_t_5 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->b()); if (unlikely(!__pyx_t_5)) __PYX_ERR(4, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
 
-  /* "pyagg/paint.pxi":124
+  /* "pyagg/paint.pxi":136
  *         return "{}({}, {}, {}, {})".format(
  *             name, self._this.r(), self._this.g(), self._this.b(),
  *             self._this.a()             # <<<<<<<<<<<<<<
  *         )
  * 
  */
-  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->a()); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 124, __pyx_L1_error)
+  __pyx_t_6 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->a()); if (unlikely(!__pyx_t_6)) __PYX_ERR(4, 136, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __pyx_t_7 = NULL;
   __pyx_t_8 = 0;
@@ -10743,7 +10841,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj
       __pyx_t_8 = 1;
     }
   }
-  __pyx_t_9 = PyTuple_New(5+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(4, 122, __pyx_L1_error)
+  __pyx_t_9 = PyTuple_New(5+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(4, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   if (__pyx_t_7) {
     __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -10763,7 +10861,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj
   __pyx_t_4 = 0;
   __pyx_t_5 = 0;
   __pyx_t_6 = 0;
-  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 122, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 134, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
@@ -10771,7 +10869,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/paint.pxi":120
+  /* "pyagg/paint.pxi":132
  *         self._this = new _paint.Paint(r, g, b, a)
  * 
  *     def __repr__(self):             # <<<<<<<<<<<<<<
@@ -10798,7 +10896,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_2__repr__(struct __pyx_obj
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":127
+/* "pyagg/paint.pxi":139
  *         )
  * 
  *     def __richcmp__(SolidPaint self, SolidPaint other, int op):             # <<<<<<<<<<<<<<
@@ -10812,8 +10910,8 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10SolidPaint_5__richcmp__(PyObject *__p
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__richcmp__ (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_self), __pyx_ptype_5pyagg_6_pyagg_SolidPaint, 1, "self", 0))) __PYX_ERR(4, 127, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_other), __pyx_ptype_5pyagg_6_pyagg_SolidPaint, 1, "other", 0))) __PYX_ERR(4, 127, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_self), __pyx_ptype_5pyagg_6_pyagg_SolidPaint, 1, "self", 0))) __PYX_ERR(4, 139, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_other), __pyx_ptype_5pyagg_6_pyagg_SolidPaint, 1, "other", 0))) __PYX_ERR(4, 139, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(((struct __pyx_obj_5pyagg_6_pyagg_SolidPaint *)__pyx_v_self), ((struct __pyx_obj_5pyagg_6_pyagg_SolidPaint *)__pyx_v_other), ((int)__pyx_v_op));
 
   /* function exit code */
@@ -10834,7 +10932,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
   PyObject *__pyx_t_3 = NULL;
   __Pyx_RefNannySetupContext("__richcmp__", 0);
 
-  /* "pyagg/paint.pxi":128
+  /* "pyagg/paint.pxi":140
  * 
  *     def __richcmp__(SolidPaint self, SolidPaint other, int op):
  *         if op == 2:  # ==             # <<<<<<<<<<<<<<
@@ -10844,7 +10942,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
   __pyx_t_1 = ((__pyx_v_op == 2) != 0);
   if (__pyx_t_1) {
 
-    /* "pyagg/paint.pxi":129
+    /* "pyagg/paint.pxi":141
  *     def __richcmp__(SolidPaint self, SolidPaint other, int op):
  *         if op == 2:  # ==
  *             return (self._this.a() == other._this.a() and             # <<<<<<<<<<<<<<
@@ -10855,14 +10953,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
     __pyx_t_1 = (__pyx_v_self->__pyx_base._this->a() == __pyx_v_other->__pyx_base._this->a());
     if (__pyx_t_1) {
     } else {
-      __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 129, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 141, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_2 = __pyx_t_3;
       __pyx_t_3 = 0;
       goto __pyx_L4_bool_binop_done;
     }
 
-    /* "pyagg/paint.pxi":130
+    /* "pyagg/paint.pxi":142
  *         if op == 2:  # ==
  *             return (self._this.a() == other._this.a() and
  *                     self._this.r() == other._this.r() and             # <<<<<<<<<<<<<<
@@ -10872,14 +10970,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
     __pyx_t_1 = (__pyx_v_self->__pyx_base._this->r() == __pyx_v_other->__pyx_base._this->r());
     if (__pyx_t_1) {
     } else {
-      __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 130, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 142, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_2 = __pyx_t_3;
       __pyx_t_3 = 0;
       goto __pyx_L4_bool_binop_done;
     }
 
-    /* "pyagg/paint.pxi":131
+    /* "pyagg/paint.pxi":143
  *             return (self._this.a() == other._this.a() and
  *                     self._this.r() == other._this.r() and
  *                     self._this.g() == other._this.g() and             # <<<<<<<<<<<<<<
@@ -10889,14 +10987,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
     __pyx_t_1 = (__pyx_v_self->__pyx_base._this->g() == __pyx_v_other->__pyx_base._this->g());
     if (__pyx_t_1) {
     } else {
-      __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 131, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 143, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_2 = __pyx_t_3;
       __pyx_t_3 = 0;
       goto __pyx_L4_bool_binop_done;
     }
 
-    /* "pyagg/paint.pxi":132
+    /* "pyagg/paint.pxi":144
  *                     self._this.r() == other._this.r() and
  *                     self._this.g() == other._this.g() and
  *                     self._this.b() == other._this.b())             # <<<<<<<<<<<<<<
@@ -10904,7 +11002,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
  *             msg = "That type of comparison is not implemented for SolidPaint"
  */
     __pyx_t_1 = (__pyx_v_self->__pyx_base._this->b() == __pyx_v_other->__pyx_base._this->b());
-    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 132, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyBool_FromLong(__pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 144, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __pyx_t_2 = __pyx_t_3;
     __pyx_t_3 = 0;
@@ -10913,7 +11011,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
     __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "pyagg/paint.pxi":128
+    /* "pyagg/paint.pxi":140
  * 
  *     def __richcmp__(SolidPaint self, SolidPaint other, int op):
  *         if op == 2:  # ==             # <<<<<<<<<<<<<<
@@ -10922,7 +11020,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
  */
   }
 
-  /* "pyagg/paint.pxi":134
+  /* "pyagg/paint.pxi":146
  *                     self._this.b() == other._this.b())
  *         else:
  *             msg = "That type of comparison is not implemented for SolidPaint"             # <<<<<<<<<<<<<<
@@ -10933,27 +11031,27 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
     __Pyx_INCREF(__pyx_kp_s_That_type_of_comparison_is_not_i_2);
     __pyx_v_msg = __pyx_kp_s_That_type_of_comparison_is_not_i_2;
 
-    /* "pyagg/paint.pxi":135
+    /* "pyagg/paint.pxi":147
  *         else:
  *             msg = "That type of comparison is not implemented for SolidPaint"
  *             raise NotImplementedError(msg)             # <<<<<<<<<<<<<<
  * 
  *     property a:
  */
-    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 135, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(4, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_INCREF(__pyx_v_msg);
     __Pyx_GIVEREF(__pyx_v_msg);
     PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_v_msg);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 135, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_NotImplementedError, __pyx_t_2, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(4, 147, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(4, 135, __pyx_L1_error)
+    __PYX_ERR(4, 147, __pyx_L1_error)
   }
 
-  /* "pyagg/paint.pxi":127
+  /* "pyagg/paint.pxi":139
  *         )
  * 
  *     def __richcmp__(SolidPaint self, SolidPaint other, int op):             # <<<<<<<<<<<<<<
@@ -10974,7 +11072,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_4__richcmp__(struct __pyx_
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":138
+/* "pyagg/paint.pxi":150
  * 
  *     property a:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11001,7 +11099,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1a___get__(struct __pyx_ob
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/paint.pxi":139
+  /* "pyagg/paint.pxi":151
  *     property a:
  *         def __get__(self):
  *             return self._this.a()             # <<<<<<<<<<<<<<
@@ -11009,13 +11107,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1a___get__(struct __pyx_ob
  *             self._this.a(value)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->a()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 139, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->a()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 151, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/paint.pxi":138
+  /* "pyagg/paint.pxi":150
  * 
  *     property a:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11034,7 +11132,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1a___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":140
+/* "pyagg/paint.pxi":152
  *         def __get__(self):
  *             return self._this.a()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11050,7 +11148,7 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1a_3__set__(PyObject *__pyx_v_se
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_value); {
-    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 140, __pyx_L3_error)
+    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 152, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -11070,7 +11168,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1a_2__set__(struct __pyx_obj_5py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/paint.pxi":141
+  /* "pyagg/paint.pxi":153
  *             return self._this.a()
  *         def __set__(self, double value):
  *             self._this.a(value)             # <<<<<<<<<<<<<<
@@ -11079,7 +11177,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1a_2__set__(struct __pyx_obj_5py
  */
   __pyx_v_self->__pyx_base._this->a(__pyx_v_value);
 
-  /* "pyagg/paint.pxi":140
+  /* "pyagg/paint.pxi":152
  *         def __get__(self):
  *             return self._this.a()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11093,7 +11191,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1a_2__set__(struct __pyx_obj_5py
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":144
+/* "pyagg/paint.pxi":156
  * 
  *     property r:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11120,7 +11218,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1r___get__(struct __pyx_ob
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/paint.pxi":145
+  /* "pyagg/paint.pxi":157
  *     property r:
  *         def __get__(self):
  *             return self._this.r()             # <<<<<<<<<<<<<<
@@ -11128,13 +11226,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1r___get__(struct __pyx_ob
  *             self._this.r(value)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->r()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 145, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->r()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 157, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/paint.pxi":144
+  /* "pyagg/paint.pxi":156
  * 
  *     property r:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11153,7 +11251,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1r___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":146
+/* "pyagg/paint.pxi":158
  *         def __get__(self):
  *             return self._this.r()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11169,7 +11267,7 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1r_3__set__(PyObject *__pyx_v_se
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_value); {
-    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 146, __pyx_L3_error)
+    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 158, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -11189,7 +11287,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1r_2__set__(struct __pyx_obj_5py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/paint.pxi":147
+  /* "pyagg/paint.pxi":159
  *             return self._this.r()
  *         def __set__(self, double value):
  *             self._this.r(value)             # <<<<<<<<<<<<<<
@@ -11198,7 +11296,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1r_2__set__(struct __pyx_obj_5py
  */
   __pyx_v_self->__pyx_base._this->r(__pyx_v_value);
 
-  /* "pyagg/paint.pxi":146
+  /* "pyagg/paint.pxi":158
  *         def __get__(self):
  *             return self._this.r()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11212,7 +11310,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1r_2__set__(struct __pyx_obj_5py
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":150
+/* "pyagg/paint.pxi":162
  * 
  *     property g:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11239,7 +11337,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1g___get__(struct __pyx_ob
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/paint.pxi":151
+  /* "pyagg/paint.pxi":163
  *     property g:
  *         def __get__(self):
  *             return self._this.g()             # <<<<<<<<<<<<<<
@@ -11247,13 +11345,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1g___get__(struct __pyx_ob
  *             self._this.g(value)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->g()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 151, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->g()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 163, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/paint.pxi":150
+  /* "pyagg/paint.pxi":162
  * 
  *     property g:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11272,7 +11370,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1g___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":152
+/* "pyagg/paint.pxi":164
  *         def __get__(self):
  *             return self._this.g()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11288,7 +11386,7 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1g_3__set__(PyObject *__pyx_v_se
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_value); {
-    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 152, __pyx_L3_error)
+    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 164, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -11308,7 +11406,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1g_2__set__(struct __pyx_obj_5py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/paint.pxi":153
+  /* "pyagg/paint.pxi":165
  *             return self._this.g()
  *         def __set__(self, double value):
  *             self._this.g(value)             # <<<<<<<<<<<<<<
@@ -11317,7 +11415,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1g_2__set__(struct __pyx_obj_5py
  */
   __pyx_v_self->__pyx_base._this->g(__pyx_v_value);
 
-  /* "pyagg/paint.pxi":152
+  /* "pyagg/paint.pxi":164
  *         def __get__(self):
  *             return self._this.g()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11331,7 +11429,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1g_2__set__(struct __pyx_obj_5py
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":156
+/* "pyagg/paint.pxi":168
  * 
  *     property b:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11358,7 +11456,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1b___get__(struct __pyx_ob
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/paint.pxi":157
+  /* "pyagg/paint.pxi":169
  *     property b:
  *         def __get__(self):
  *             return self._this.b()             # <<<<<<<<<<<<<<
@@ -11366,13 +11464,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1b___get__(struct __pyx_ob
  *             self._this.b(value)
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->b()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 157, __pyx_L1_error)
+  __pyx_t_1 = PyFloat_FromDouble(__pyx_v_self->__pyx_base._this->b()); if (unlikely(!__pyx_t_1)) __PYX_ERR(4, 169, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/paint.pxi":156
+  /* "pyagg/paint.pxi":168
  * 
  *     property b:
  *         def __get__(self):             # <<<<<<<<<<<<<<
@@ -11391,7 +11489,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10SolidPaint_1b___get__(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pyagg/paint.pxi":158
+/* "pyagg/paint.pxi":170
  *         def __get__(self):
  *             return self._this.b()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -11406,7 +11504,7 @@ static int __pyx_pw_5pyagg_6_pyagg_10SolidPaint_1b_3__set__(PyObject *__pyx_v_se
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__ (wrapper)", 0);
   assert(__pyx_arg_value); {
-    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 158, __pyx_L3_error)
+    __pyx_v_value = __pyx_PyFloat_AsDouble(__pyx_arg_value); if (unlikely((__pyx_v_value == (double)-1) && PyErr_Occurred())) __PYX_ERR(4, 170, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L3_error:;
@@ -11426,14 +11524,14 @@ static int __pyx_pf_5pyagg_6_pyagg_10SolidPaint_1b_2__set__(struct __pyx_obj_5py
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__set__", 0);
 
-  /* "pyagg/paint.pxi":159
+  /* "pyagg/paint.pxi":171
  *             return self._this.b()
  *         def __set__(self, double value):
  *             self._this.b(value)             # <<<<<<<<<<<<<<
  */
   __pyx_v_self->__pyx_base._this->b(__pyx_v_value);
 
-  /* "pyagg/paint.pxi":158
+  /* "pyagg/paint.pxi":170
  *         def __get__(self):
  *             return self._this.b()
  *         def __set__(self, double value):             # <<<<<<<<<<<<<<
@@ -31413,12 +31511,59 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_Paint = {
 };
 
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_LinearGradientPaint(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *p;
   PyObject *o = __pyx_tp_new_5pyagg_6_pyagg_Paint(t, a, k);
   if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *)o);
+  p->_points = Py_None; Py_INCREF(Py_None);
+  p->_stops = Py_None; Py_INCREF(Py_None);
   if (unlikely(__pyx_pw_5pyagg_6_pyagg_19LinearGradientPaint_1__cinit__(o, a, k) < 0)) {
     Py_DECREF(o); o = 0;
   }
   return o;
+}
+
+static void __pyx_tp_dealloc_5pyagg_6_pyagg_LinearGradientPaint(PyObject *o) {
+  struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *p = (struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *)o;
+  #if PY_VERSION_HEX >= 0x030400a1
+  if (unlikely(Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->_points);
+  Py_CLEAR(p->_stops);
+  #if CYTHON_COMPILING_IN_CPYTHON
+  if (PyType_IS_GC(Py_TYPE(o)->tp_base))
+  #endif
+  PyObject_GC_Track(o);
+  __pyx_tp_dealloc_5pyagg_6_pyagg_Paint(o);
+}
+
+static int __pyx_tp_traverse_5pyagg_6_pyagg_LinearGradientPaint(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *p = (struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *)o;
+  e = ((likely(__pyx_ptype_5pyagg_6_pyagg_Paint)) ? ((__pyx_ptype_5pyagg_6_pyagg_Paint->tp_traverse) ? __pyx_ptype_5pyagg_6_pyagg_Paint->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_5pyagg_6_pyagg_LinearGradientPaint)); if (e) return e;
+  if (p->_points) {
+    e = (*v)(p->_points, a); if (e) return e;
+  }
+  if (p->_stops) {
+    e = (*v)(p->_stops, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_5pyagg_6_pyagg_LinearGradientPaint(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *p = (struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint *)o;
+  if (likely(__pyx_ptype_5pyagg_6_pyagg_Paint)) { if (__pyx_ptype_5pyagg_6_pyagg_Paint->tp_clear) __pyx_ptype_5pyagg_6_pyagg_Paint->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_5pyagg_6_pyagg_LinearGradientPaint);
+  tmp = ((PyObject*)p->_points);
+  p->_points = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->_stops);
+  p->_stops = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
 }
 
 static PyMethodDef __pyx_methods_5pyagg_6_pyagg_LinearGradientPaint[] = {
@@ -31430,7 +31575,7 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_LinearGradientPaint = {
   "pyagg._pyagg.LinearGradientPaint", /*tp_name*/
   sizeof(struct __pyx_obj_5pyagg_6_pyagg_LinearGradientPaint), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_5pyagg_6_pyagg_Paint, /*tp_dealloc*/
+  __pyx_tp_dealloc_5pyagg_6_pyagg_LinearGradientPaint, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -31450,10 +31595,10 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_LinearGradientPaint = {
   0, /*tp_getattro*/
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  " LinearGradientPaint(points, stops, spread, units)\n          points: An iterable of (x, y) points\n          stops: An iterable of gradient stops (offset, r, g, b, a)\n          spread: The GradientSpread type for this gradient\n          units: The GradientUnits type for this gradient\n    ", /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
+  " LinearGradientPaint(points, stops, spread, units)\n          x1, y1: Gradient start point (x, y)\n          x2, y2: Gradient end point (x, y)\n          stops: An iterable of gradient stops (offset, r, g, b, a)\n          spread: The GradientSpread type for this gradient\n          units: The GradientUnits type for this gradient\n    ", /*tp_doc*/
+  __pyx_tp_traverse_5pyagg_6_pyagg_LinearGradientPaint, /*tp_traverse*/
+  __pyx_tp_clear_5pyagg_6_pyagg_LinearGradientPaint, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
@@ -31484,12 +31629,59 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_LinearGradientPaint = {
 };
 
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_RadialGradientPaint(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *p;
   PyObject *o = __pyx_tp_new_5pyagg_6_pyagg_Paint(t, a, k);
   if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *)o);
+  p->_points = Py_None; Py_INCREF(Py_None);
+  p->_stops = Py_None; Py_INCREF(Py_None);
   if (unlikely(__pyx_pw_5pyagg_6_pyagg_19RadialGradientPaint_1__cinit__(o, a, k) < 0)) {
     Py_DECREF(o); o = 0;
   }
   return o;
+}
+
+static void __pyx_tp_dealloc_5pyagg_6_pyagg_RadialGradientPaint(PyObject *o) {
+  struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *p = (struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *)o;
+  #if PY_VERSION_HEX >= 0x030400a1
+  if (unlikely(Py_TYPE(o)->tp_finalize) && !_PyGC_FINALIZED(o)) {
+    if (PyObject_CallFinalizerFromDealloc(o)) return;
+  }
+  #endif
+  PyObject_GC_UnTrack(o);
+  Py_CLEAR(p->_points);
+  Py_CLEAR(p->_stops);
+  #if CYTHON_COMPILING_IN_CPYTHON
+  if (PyType_IS_GC(Py_TYPE(o)->tp_base))
+  #endif
+  PyObject_GC_Track(o);
+  __pyx_tp_dealloc_5pyagg_6_pyagg_Paint(o);
+}
+
+static int __pyx_tp_traverse_5pyagg_6_pyagg_RadialGradientPaint(PyObject *o, visitproc v, void *a) {
+  int e;
+  struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *p = (struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *)o;
+  e = ((likely(__pyx_ptype_5pyagg_6_pyagg_Paint)) ? ((__pyx_ptype_5pyagg_6_pyagg_Paint->tp_traverse) ? __pyx_ptype_5pyagg_6_pyagg_Paint->tp_traverse(o, v, a) : 0) : __Pyx_call_next_tp_traverse(o, v, a, __pyx_tp_traverse_5pyagg_6_pyagg_RadialGradientPaint)); if (e) return e;
+  if (p->_points) {
+    e = (*v)(p->_points, a); if (e) return e;
+  }
+  if (p->_stops) {
+    e = (*v)(p->_stops, a); if (e) return e;
+  }
+  return 0;
+}
+
+static int __pyx_tp_clear_5pyagg_6_pyagg_RadialGradientPaint(PyObject *o) {
+  PyObject* tmp;
+  struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *p = (struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint *)o;
+  if (likely(__pyx_ptype_5pyagg_6_pyagg_Paint)) { if (__pyx_ptype_5pyagg_6_pyagg_Paint->tp_clear) __pyx_ptype_5pyagg_6_pyagg_Paint->tp_clear(o); } else __Pyx_call_next_tp_clear(o, __pyx_tp_clear_5pyagg_6_pyagg_RadialGradientPaint);
+  tmp = ((PyObject*)p->_points);
+  p->_points = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  tmp = ((PyObject*)p->_stops);
+  p->_stops = Py_None; Py_INCREF(Py_None);
+  Py_XDECREF(tmp);
+  return 0;
 }
 
 static PyMethodDef __pyx_methods_5pyagg_6_pyagg_RadialGradientPaint[] = {
@@ -31501,7 +31693,7 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_RadialGradientPaint = {
   "pyagg._pyagg.RadialGradientPaint", /*tp_name*/
   sizeof(struct __pyx_obj_5pyagg_6_pyagg_RadialGradientPaint), /*tp_basicsize*/
   0, /*tp_itemsize*/
-  __pyx_tp_dealloc_5pyagg_6_pyagg_Paint, /*tp_dealloc*/
+  __pyx_tp_dealloc_5pyagg_6_pyagg_RadialGradientPaint, /*tp_dealloc*/
   0, /*tp_print*/
   0, /*tp_getattr*/
   0, /*tp_setattr*/
@@ -31521,10 +31713,10 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_RadialGradientPaint = {
   0, /*tp_getattro*/
   0, /*tp_setattro*/
   0, /*tp_as_buffer*/
-  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
-  " RadialGradientPaint(points, stops, spread, units)\n          points: An iterable of (x, y) points\n          stops: An iterable of gradient stops (offset, r, g, b, a)\n          spread: The GradientSpread type for this gradient\n          units: The GradientUnits type for this gradient\n    ", /*tp_doc*/
-  0, /*tp_traverse*/
-  0, /*tp_clear*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
+  " RadialGradientPaint(points, stops, spread, units)\n          cx, cy: Gradient center point (x, y)\n          r: Gradient radius\n          fx, fy: Gradient focus point (x, y)\n          stops: An iterable of gradient stops (offset, r, g, b, a)\n          spread: The GradientSpread type for this gradient\n          units: The GradientUnits type for this gradient\n    ", /*tp_doc*/
+  __pyx_tp_traverse_5pyagg_6_pyagg_RadialGradientPaint, /*tp_traverse*/
+  __pyx_tp_clear_5pyagg_6_pyagg_RadialGradientPaint, /*tp_clear*/
   0, /*tp_richcompare*/
   0, /*tp_weaklistoffset*/
   0, /*tp_iter*/
@@ -33076,6 +33268,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_format, __pyx_k_format, sizeof(__pyx_k_format), 0, 0, 1, 1},
   {&__pyx_n_s_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 0, 1, 1},
   {&__pyx_n_u_fortran, __pyx_k_fortran, sizeof(__pyx_k_fortran), 0, 1, 0, 1},
+  {&__pyx_n_s_fx, __pyx_k_fx, sizeof(__pyx_k_fx), 0, 0, 1, 1},
+  {&__pyx_n_s_fy, __pyx_k_fy, sizeof(__pyx_k_fy), 0, 0, 1, 1},
   {&__pyx_n_s_g, __pyx_k_g, sizeof(__pyx_k_g), 0, 0, 1, 1},
   {&__pyx_n_s_get_image, __pyx_k_get_image, sizeof(__pyx_k_get_image), 0, 0, 1, 1},
   {&__pyx_kp_s_got_differing_extents_in_dimensi, __pyx_k_got_differing_extents_in_dimensi, sizeof(__pyx_k_got_differing_extents_in_dimensi), 0, 0, 1, 0},
@@ -33113,7 +33307,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_parents, __pyx_k_parents, sizeof(__pyx_k_parents), 0, 0, 1, 1},
   {&__pyx_n_s_path, __pyx_k_path, sizeof(__pyx_k_path), 0, 0, 1, 1},
   {&__pyx_n_s_points, __pyx_k_points, sizeof(__pyx_k_points), 0, 0, 1, 1},
-  {&__pyx_n_s_points_2, __pyx_k_points_2, sizeof(__pyx_k_points_2), 0, 0, 1, 1},
   {&__pyx_kp_s_points_argument_must_be_an_itera, __pyx_k_points_argument_must_be_an_itera, sizeof(__pyx_k_points_argument_must_be_an_itera), 0, 0, 1, 0},
   {&__pyx_kp_s_points_argument_must_be_an_itera_2, __pyx_k_points_argument_must_be_an_itera_2, sizeof(__pyx_k_points_argument_must_be_an_itera_2), 0, 0, 1, 0},
   {&__pyx_n_s_prepare, __pyx_k_prepare, sizeof(__pyx_k_prepare), 0, 0, 1, 1},
@@ -33143,7 +33336,6 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_step, __pyx_k_step, sizeof(__pyx_k_step), 0, 0, 1, 1},
   {&__pyx_n_s_stop, __pyx_k_stop, sizeof(__pyx_k_stop), 0, 0, 1, 1},
   {&__pyx_n_s_stops, __pyx_k_stops, sizeof(__pyx_k_stops), 0, 0, 1, 1},
-  {&__pyx_n_s_stops_2, __pyx_k_stops_2, sizeof(__pyx_k_stops_2), 0, 0, 1, 1},
   {&__pyx_kp_s_stops_argument_must_be_an_iterab, __pyx_k_stops_argument_must_be_an_iterab, sizeof(__pyx_k_stops_argument_must_be_an_iterab), 0, 0, 1, 0},
   {&__pyx_n_s_str, __pyx_k_str, sizeof(__pyx_k_str), 0, 0, 1, 1},
   {&__pyx_kp_s_strided_and_direct, __pyx_k_strided_and_direct, sizeof(__pyx_k_strided_and_direct), 0, 0, 1, 0},
@@ -33610,6 +33802,8 @@ static int __Pyx_InitGlobals(void) {
   __pyx_int_0 = PyInt_FromLong(0); if (unlikely(!__pyx_int_0)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_1 = PyInt_FromLong(1); if (unlikely(!__pyx_int_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_2 = PyInt_FromLong(2); if (unlikely(!__pyx_int_2)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_4 = PyInt_FromLong(4); if (unlikely(!__pyx_int_4)) __PYX_ERR(0, 1, __pyx_L1_error)
+  __pyx_int_5 = PyInt_FromLong(5); if (unlikely(!__pyx_int_5)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_255 = PyInt_FromLong(255); if (unlikely(!__pyx_int_255)) __PYX_ERR(0, 1, __pyx_L1_error)
   __pyx_int_neg_1 = PyInt_FromLong(-1); if (unlikely(!__pyx_int_neg_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   return 0;
@@ -33804,23 +33998,23 @@ PyMODINIT_FUNC PyInit__pyagg(void)
   if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasG8.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 266, __pyx_L1_error)
   if (PyObject_SetAttrString(__pyx_m, "CanvasG8", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 266, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_CanvasG8 = &__pyx_type_5pyagg_6_pyagg_CanvasG8;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_Paint) < 0) __PYX_ERR(4, 61, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_Paint) < 0) __PYX_ERR(4, 64, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_Paint.tp_print = 0;
   __pyx_ptype_5pyagg_6_pyagg_Paint = &__pyx_type_5pyagg_6_pyagg_Paint;
   __pyx_type_5pyagg_6_pyagg_LinearGradientPaint.tp_base = __pyx_ptype_5pyagg_6_pyagg_Paint;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_LinearGradientPaint) < 0) __PYX_ERR(4, 68, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_LinearGradientPaint) < 0) __PYX_ERR(4, 71, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_LinearGradientPaint.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "LinearGradientPaint", (PyObject *)&__pyx_type_5pyagg_6_pyagg_LinearGradientPaint) < 0) __PYX_ERR(4, 68, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "LinearGradientPaint", (PyObject *)&__pyx_type_5pyagg_6_pyagg_LinearGradientPaint) < 0) __PYX_ERR(4, 71, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_LinearGradientPaint = &__pyx_type_5pyagg_6_pyagg_LinearGradientPaint;
   __pyx_type_5pyagg_6_pyagg_RadialGradientPaint.tp_base = __pyx_ptype_5pyagg_6_pyagg_Paint;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_RadialGradientPaint) < 0) __PYX_ERR(4, 91, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_RadialGradientPaint) < 0) __PYX_ERR(4, 98, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_RadialGradientPaint.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "RadialGradientPaint", (PyObject *)&__pyx_type_5pyagg_6_pyagg_RadialGradientPaint) < 0) __PYX_ERR(4, 91, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "RadialGradientPaint", (PyObject *)&__pyx_type_5pyagg_6_pyagg_RadialGradientPaint) < 0) __PYX_ERR(4, 98, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_RadialGradientPaint = &__pyx_type_5pyagg_6_pyagg_RadialGradientPaint;
   __pyx_type_5pyagg_6_pyagg_SolidPaint.tp_base = __pyx_ptype_5pyagg_6_pyagg_Paint;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_SolidPaint) < 0) __PYX_ERR(4, 114, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_SolidPaint) < 0) __PYX_ERR(4, 126, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_SolidPaint.tp_print = 0;
-  if (PyObject_SetAttrString(__pyx_m, "SolidPaint", (PyObject *)&__pyx_type_5pyagg_6_pyagg_SolidPaint) < 0) __PYX_ERR(4, 114, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "SolidPaint", (PyObject *)&__pyx_type_5pyagg_6_pyagg_SolidPaint) < 0) __PYX_ERR(4, 126, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_SolidPaint = &__pyx_type_5pyagg_6_pyagg_SolidPaint;
   if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_Path) < 0) __PYX_ERR(3, 26, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_Path.tp_print = 0;
@@ -41190,6 +41384,29 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
 #endif
 }
 
+/* CallNextTpTraverse */
+            static int __Pyx_call_next_tp_traverse(PyObject* obj, visitproc v, void *a, traverseproc current_tp_traverse) {
+    PyTypeObject* type = Py_TYPE(obj);
+    while (type && type->tp_traverse != current_tp_traverse)
+        type = type->tp_base;
+    while (type && type->tp_traverse == current_tp_traverse)
+        type = type->tp_base;
+    if (type && type->tp_traverse)
+        return type->tp_traverse(obj, v, a);
+    return 0;
+}
+
+/* CallNextTpClear */
+            static void __Pyx_call_next_tp_clear(PyObject* obj, inquiry current_tp_clear) {
+    PyTypeObject* type = Py_TYPE(obj);
+    while (type && type->tp_clear != current_tp_clear)
+        type = type->tp_base;
+    while (type && type->tp_clear == current_tp_clear)
+        type = type->tp_base;
+    if (type && type->tp_clear)
+        type->tp_clear(obj);
+}
+
 /* SetVTable */
             static int __Pyx_SetVtable(PyObject *dict, void *vtable) {
 #if PY_VERSION_HEX >= 0x02070000
@@ -45652,6 +45869,29 @@ __pyx_fail:
     }
     retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
                                                  (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 2,
+                                                 &__Pyx_TypeInfo_double, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
+                static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_dc_double(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 1,
                                                  &__Pyx_TypeInfo_double, stack,
                                                  &result, obj);
     if (unlikely(retcode == -1))

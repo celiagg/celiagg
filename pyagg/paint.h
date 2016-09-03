@@ -78,6 +78,25 @@ public:
         k_GradientUnitsObjectBoundingBox
     };
 
+    enum LinearPoints
+    {
+        k_LinearX1 = 0,
+        k_LinearY1,
+        k_LinearX2,
+        k_LinearY2,
+        k_LinearPointsSize
+    };
+
+    enum RadialPoints
+    {
+        k_RadialCX = 0,
+        k_RadialCY,
+        k_RadialR,
+        k_RadialFX,
+        k_RadialFY,
+        k_RadialPointsSize
+    };
+
 public:
 
     Paint(const double r, const double g, const double b, const double a);
@@ -115,11 +134,11 @@ private:
     template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
     void _render_radial_grad(rasterizer_t& ras, renderer_t& renderer);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t>
-    void _render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func);
+    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
+    void _render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t>
-    void _render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func);
+    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
+    void _render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
 
 private:
     typedef agg::pod_array_adaptor<double> PointArray;

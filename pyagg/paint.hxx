@@ -22,6 +22,14 @@
 //
 // Authors: John Wiggins
 
+template <typename rasterizer_t>
+void rasterizer_path_bbox(rasterizer_t& ras, double& x, double& y, double& w, double& h)
+{
+    x = ras.min_x();
+    y = ras.min_y();
+    w = ras.max_x() - w;
+    h = ras.max_y() - y;
+}
 
 template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
 void Paint::render(rasterizer_t& ras, renderer_t& renderer)
@@ -83,36 +91,75 @@ void Paint::_render_solid(rasterizer_t& ras, renderer_t& renderer)
 template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
 void Paint::_render_linear_grad(rasterizer_t& ras, renderer_t& renderer)
 {
-    if (m_points[0] == m_points[2])
+    typedef agg::pod_auto_vector<double, k_LinearPointsSize> vector_t;
+
+    // Copy the points
+    vector_t points;
+    for (int i=0; i < k_LinearPointsSize; ++i)
+        points.add(m_points[i]);
+
+    if (m_units == Paint::k_GradientUnitsObjectBoundingBox)
+    {
+        double x, y, w, h;
+        rasterizer_path_bbox(ras, x, y, w, h);
+        points[k_LinearX1] = x + points[k_LinearX1] * w;
+        points[k_LinearX2] = x + points[k_LinearX2] * w;
+        points[k_LinearY1] = y + points[k_LinearY1] * h;
+        points[k_LinearY2] = y + points[k_LinearY2] * h;
+    }
+
+    if (points[0] == points[2])
     {
         typedef agg::gradient_y function_t; 
         function_t func;
-        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t>(ras, renderer, func);
+        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
     }
-    else if (m_points[1] == m_points[3])
+    else if (points[1] == points[3])
     {
         typedef agg::gradient_x function_t;
         function_t func;
-        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t>(ras, renderer, func);
+        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
     }
     else
     {
         typedef agg::gradient_x function_t;
         function_t func;
-        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t>(ras, renderer, func);
+        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
     }
 }
 
 template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
 void Paint::_render_radial_grad(rasterizer_t& ras, renderer_t& renderer)
 {
+    // m_points: cx, cy, r, fx, fy
+    // function args: radius, focus dx, focus dy
     typedef agg::gradient_radial_focus function_t;
-    function_t func(m_points[2], m_points[4] - m_points[0], m_points[5] - m_points[1]);
-    _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t>(ras, renderer, func);
+    typedef agg::pod_auto_vector<double, k_RadialPointsSize> vector_t;
+
+    // Copy the points
+    vector_t points;
+    for (int i=0; i < k_RadialPointsSize; ++i)
+        points.add(m_points[i]);
+
+    if (m_units == Paint::k_GradientUnitsObjectBoundingBox)
+    {
+        double x, y, w, h;
+        rasterizer_path_bbox(ras, x, y, w, h);
+        points[k_RadialR] = points[k_RadialR] * w;
+        points[k_RadialCX] = x + points[k_RadialCX] * w;
+        points[k_RadialFX] = x + points[k_RadialFX] * w;
+        points[k_RadialCY] = y + points[k_RadialCY] * h;
+        points[k_RadialFY] = y + points[k_RadialFY] * h;
+    }
+
+    function_t func(points[k_RadialR],
+                    points[k_RadialFX] - points[k_RadialCX],
+                    points[k_RadialFY] - points[k_RadialCY]);
+    _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t>
-void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func)
+template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
+void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points)
 {
     // apply the proper fill adapter based on the spread method
     switch (m_spread)
@@ -121,58 +168,58 @@ void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_fu
         {
             typedef agg::gradient_reflect_adaptor<grad_func_t> adaptor_t; 
             adaptor_t adaptor(func);
-            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, adaptor_t>(ras, renderer, adaptor);
+            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, adaptor_t, vector_t>(ras, renderer, adaptor, points);
             break;
         }
         case Paint::k_GradientSpreadRepeat:
         {
             typedef agg::gradient_repeat_adaptor<grad_func_t> adaptor_t;
             adaptor_t adaptor(func);
-            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, adaptor_t>(ras, renderer, adaptor);
+            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, adaptor_t, vector_t>(ras, renderer, adaptor, points);
             break;
         }
         default:
         {
-            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, grad_func_t>(ras, renderer, func);
+            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, grad_func_t, vector_t>(ras, renderer, func, points);
             break;
         }
     }
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t>
-void Paint::_render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func)
+template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
+void Paint::_render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points)
 {
-    typedef agg::span_interpolator_linear<> interpolator_t;
+    typedef agg::span_interpolator_linear<> span_interpolator_t;
     typedef agg::pod_auto_array<typename pixfmt_t::color_type, 256> color_array_t;
-    typedef agg::span_gradient<typename pixfmt_t::color_type, interpolator_t, grad_func_t, color_array_t> span_gradient_t;
+    typedef agg::span_gradient<typename pixfmt_t::color_type, span_interpolator_t, grad_func_t, color_array_t> span_gradient_t;
     typedef agg::span_allocator<typename pixfmt_t::color_type> span_allocator_t;
     typedef agg::renderer_scanline_aa<renderer_t, span_allocator_t, span_gradient_t> gradient_renderer_t;
 
     agg::trans_affine gradient_mtx;
-    interpolator_t span_interpolator(gradient_mtx);
+    span_interpolator_t span_interpolator(gradient_mtx);
     span_allocator_t span_allocator;
     color_array_t color_array;
     agg::scanline_u8 scanline;
-
     double d1 = 0, d2 = 0;
-    if (m_type == Paint::k_PaintTypeRadialGradient && m_points.size() > 4)
+
+    if (m_type == Paint::k_PaintTypeRadialGradient)
     {
         // length is the radius
-        d2 = m_points[2];
+        d2 = points[k_RadialR];
     }
     else if (m_type == Paint::k_PaintTypeLinearGradient)
     {
         // length is the distance between the two points
-        const double dx = m_points[2] - m_points[0];
-        const double dy = m_points[3] - m_points[1];
+        const double dx = points[k_LinearX2] - points[k_LinearX1];
+        const double dy = points[k_LinearY2] - points[k_LinearY1];
         d2 = sqrt(dx * dx + dy * dy);
         
-        if (m_points[0] == m_points[2])
+        if (dx == 0.0)
         {
             // gradient_y. handle flips
             gradient_mtx *= agg::trans_affine_rotation(atan2(0.0, dy));
         }
-        else if (m_points[1] == m_points[3])
+        else if (dy == 0.0)
         {
             // gradient_x. handle flips
             gradient_mtx *= agg::trans_affine_rotation(atan2(0.0, dx));
@@ -184,7 +231,7 @@ void Paint::_render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_fun
         }
     }
 
-    gradient_mtx *= agg::trans_affine_translation(m_points[0], m_points[1]);
+    gradient_mtx *= agg::trans_affine_translation(points[0], points[1]);
     if (m_units == Paint::k_GradientUnitsUserSpace)
     {
         gradient_mtx *= m_transform;
