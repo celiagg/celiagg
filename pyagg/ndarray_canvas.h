@@ -54,10 +54,10 @@
 #include "paint.h"
 #include "text.h"
 
-// Interface to ndarray_canvas that is generic for all pixfmts sharing the same value_type, for the convenience of being 
-// able to implement functionality common to cython wrappers of ndarray_canvas template instances representing pixfmts 
-// with shared value_types in a cython base class. 
-template<typename value_type_t>
+// Interface to ndarray_canvas that is generic for all pixfmts, for the
+// convenience of being able to implement functionality common to cython
+// wrappers of ndarray_canvas template instances representing pixfmts
+// in a cython base class.
 class ndarray_canvas_base
 {
 public:
@@ -84,12 +84,13 @@ public:
                            const GraphicsState& gs) = 0;
 };
 
-template<typename pixfmt_t, typename value_type_t = typename pixfmt_t::value_type>
-class ndarray_canvas
-  : public ndarray_canvas_base<value_type_t>
+template<typename pixfmt_t>
+class ndarray_canvas : public ndarray_canvas_base
 {
+    typedef typename pixfmt_t::value_type value_t;
+
 public:
-    ndarray_canvas(value_type_t* buf,
+    ndarray_canvas(value_t* buf,
                    const unsigned& width, const unsigned& height, const int& stride,
                    const size_t& channel_count);
     virtual ~ndarray_canvas(){}
@@ -114,11 +115,12 @@ public:
                    Paint& linePaint, Paint& fillPaint,
                    const GraphicsState& gs);
 protected:
+
     typedef agg::renderer_base<pixfmt_t> renderer_t;
     typedef agg::rasterizer_scanline_aa<> rasterizer_t;
 
     size_t m_channel_count;
-    agg::row_accessor<value_type_t> m_renbuf;
+    agg::row_accessor<value_t> m_renbuf;
     pixfmt_t m_pixfmt;
     renderer_t m_renderer;
     rasterizer_t m_rasterizer;

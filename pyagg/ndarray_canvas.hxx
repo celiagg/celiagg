@@ -23,14 +23,14 @@
 // Authors: Erik Hvatum <ice.rikh@gmail.com>
  
 
-template<typename pixfmt_t, typename value_type_t>
-ndarray_canvas<pixfmt_t, value_type_t>::ndarray_canvas(value_type_t* buf,
+template<typename pixfmt_t>
+ndarray_canvas<pixfmt_t>::ndarray_canvas(typename pixfmt_t::value_type* buf,
                                          const unsigned& width, const unsigned& height, const int& stride,
                                          const size_t& channel_count)
-  : m_channel_count(channel_count),
-    m_renbuf(buf, width, height, stride),
-    m_pixfmt(m_renbuf),
-    m_renderer(m_pixfmt)
+ : m_channel_count(channel_count),
+   m_renbuf(buf, width, height, stride),
+   m_pixfmt(m_renbuf),
+   m_renderer(m_pixfmt)
 {
     // Clipping at the rasterizer level (vectorial) is far faster than clipping at the renderer level (pixel-wise) when 
     // significant clipping is required.  Clipping in the renderer is done by throwing away pixel data falling outside 
@@ -38,8 +38,8 @@ ndarray_canvas<pixfmt_t, value_type_t>::ndarray_canvas(value_type_t* buf,
     m_rasterizer.clip_box(0, 0, width, height);
 }
 
-template<typename pixfmt_t, typename value_type_t>
-const size_t& ndarray_canvas<pixfmt_t, value_type_t>::channel_count() const
+template<typename pixfmt_t>
+const size_t& ndarray_canvas<pixfmt_t>::channel_count() const
 {
 //  typedef typename pixfmt_t::order_type T;
 //  return T::N;
@@ -48,20 +48,20 @@ const size_t& ndarray_canvas<pixfmt_t, value_type_t>::channel_count() const
     return m_channel_count;
 }
 
-template<typename pixfmt_t, typename value_type_t>
-unsigned ndarray_canvas<pixfmt_t, value_type_t>::width() const
+template<typename pixfmt_t>
+unsigned ndarray_canvas<pixfmt_t>::width() const
 {
     return m_renbuf.width();
 }
 
-template<typename pixfmt_t, typename value_type_t>
-unsigned ndarray_canvas<pixfmt_t, value_type_t>::height() const
+template<typename pixfmt_t>
+unsigned ndarray_canvas<pixfmt_t>::height() const
 {
     return m_renbuf.height();
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::draw_path(const agg::path_storage& path,
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_path(const agg::path_storage& path,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
     typedef agg::conv_transform<agg::path_storage> conv_trans_t;
@@ -90,7 +90,7 @@ void ndarray_canvas<pixfmt_t, value_type_t>::draw_path(const agg::path_storage& 
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer);
+            fillPaint.render(m_rasterizer, m_renderer);
         }
 
         if (line)
@@ -100,13 +100,13 @@ void ndarray_canvas<pixfmt_t, value_type_t>::draw_path(const agg::path_storage& 
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer);
+            linePaint.render(m_rasterizer, m_renderer);
         }
     }
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::draw_bspline(const double* points,
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_bspline(const double* points,
     const size_t& point_count, const agg::trans_affine& transform,
     Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
@@ -137,7 +137,7 @@ void ndarray_canvas<pixfmt_t, value_type_t>::draw_bspline(const double* points,
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer);
+            fillPaint.render(m_rasterizer, m_renderer);
         }
 
         if (line)
@@ -147,13 +147,13 @@ void ndarray_canvas<pixfmt_t, value_type_t>::draw_bspline(const double* points,
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer);
+            linePaint.render(m_rasterizer, m_renderer);
         }
     }
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::draw_image(Image& img,
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
     typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
@@ -183,8 +183,8 @@ void ndarray_canvas<pixfmt_t, value_type_t>::draw_image(Image& img,
     agg::render_scanlines(m_rasterizer, m_scanline, renderer);
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::draw_text(const char* text,
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform,
     Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
@@ -214,8 +214,8 @@ void ndarray_canvas<pixfmt_t, value_type_t>::draw_text(const char* text,
 
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::_draw_text_raster(GlyphIterator& iterator,
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     Font& font, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
     const bool eof = (gs.drawingMode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
@@ -226,18 +226,14 @@ void ndarray_canvas<pixfmt_t, value_type_t>::_draw_text_raster(GlyphIterator& it
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            typedef Font::FontEngine::gray8_adaptor_type font_rasterizer_t;
-            linePaint.render<pixfmt_t, font_rasterizer_t, renderer_t>(font.cache().gray8_adaptor(), m_renderer);
-            // agg::render_scanlines(font.cache().gray8_adaptor(),
-            //                         font.cache().gray8_scanline(),
-            //                         m_renderer);
+            linePaint.render(font.cache().gray8_adaptor(), m_renderer);
         }
         action = iterator.step();
     }
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::_draw_text_vector(GlyphIterator& iterator,
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
     Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
     typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
@@ -257,8 +253,8 @@ void ndarray_canvas<pixfmt_t, value_type_t>::_draw_text_vector(GlyphIterator& it
     }
 }
 
-template<typename pixfmt_t, typename value_type_t>
-void ndarray_canvas<pixfmt_t, value_type_t>::set_aa(const bool& aa)
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::set_aa(const bool& aa)
 {
     if(aa)
     {

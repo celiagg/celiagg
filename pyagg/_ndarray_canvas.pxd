@@ -51,12 +51,12 @@ cdef extern from "ndarray_canvas.h" namespace "agg":
 
 cdef extern from "image.h":
     cdef cppclass Image:
-        Image(unsigned char* buf, unsigned width, unsigned height, int stride)
+        Image(uint8_t* buf, unsigned width, unsigned height, int stride)
         int width()
         int height()
 
 cdef extern from "ndarray_canvas.h":
-    cdef cppclass ndarray_canvas_base[value_type_T]:
+    cdef cppclass ndarray_canvas_base:
         const size_t& channel_count() const
         unsigned width() const
         unsigned height() const
@@ -75,8 +75,8 @@ cdef extern from "ndarray_canvas.h":
                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
                        const _graphics_state.GraphicsState& gs)
 
-    cdef cppclass ndarray_canvas[pixfmt_T, value_type_T]:
-        ndarray_canvas(value_type_T* buf,
+    cdef cppclass ndarray_canvas[pixfmt_T]:
+        ndarray_canvas(uint8_t* buf,
                        const unsigned& width,
                        const unsigned& height,
                        const int& stride,
