@@ -28,7 +28,7 @@ from __future__ import absolute_import
 from ._pyagg import (
     BlendMode, DrawingMode, Font, FontCacheType, GradientSpread, GradientUnits,
     GraphicsState, LinearGradientPaint, LineCap, LineJoin, RadialGradientPaint,
-    Path, Rect, SolidPaint, Transform
+    Path, PatternPaint, PatternStyle, Rect, SolidPaint, Transform
 )
 from ._pyagg import CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32
 from .agg2d import (hist_min_max_float32, hist_min_max_uint12,

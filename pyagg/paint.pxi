@@ -22,19 +22,18 @@
 #
 # Authors: John Wiggins
 
-cpdef enum PaintType:
-    Solid = _enums.k_PaintTypeSolid
-    Linear = _enums.k_PaintTypeLinearGradient
-    Radial = _enums.k_PaintTypeRadialGradient
-
 cpdef enum GradientSpread:
-    Pad = _enums.k_GradientSpreadPad
-    Reflect = _enums.k_GradientSpreadReflect
-    Repeat = _enums.k_GradientSpreadRepeat
+    SpreadPad = _enums.k_GradientSpreadPad
+    SpreadReflect = _enums.k_GradientSpreadReflect
+    SpreadRepeat = _enums.k_GradientSpreadRepeat
 
 cpdef enum GradientUnits:
     UserSpace = _enums.k_GradientUnitsUserSpace
     ObjectBoundingBox = _enums.k_GradientUnitsObjectBoundingBox
+
+cpdef enum PatternStyle:
+    StyleRepeat = _enums.k_PatternStyleRepeat
+    StyleReflect = _enums.k_PatternStyleReflect
 
 
 cdef _get_gradient_points(points, length):
@@ -121,6 +120,22 @@ cdef class RadialGradientPaint(Paint):
         # Hold on to the allocated arrays for safety
         self._points = points_npy
         self._stops = stops_npy
+
+
+cdef class PatternPaint(Paint):
+    """ PatternPaint(style, image)
+          style: A PatternStyle
+          image: A numpy array containing the pattern image
+    """
+    cdef object img_array
+
+    def __cinit__(self, PatternStyle style, uint8_t[:,:,::1] image):
+        self._this = new _paint.Paint(style, &image[0][0][0],
+                                      image.shape[1], image.shape[0],
+                                      image.strides[0])
+
+        # Hold a reference to the pattern image array
+        self.img_array = image
 
 
 cdef class SolidPaint(Paint):

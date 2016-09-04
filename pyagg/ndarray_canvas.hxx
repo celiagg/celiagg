@@ -156,8 +156,8 @@ template<typename pixfmt_t, typename value_type_t>
 void ndarray_canvas<pixfmt_t, value_type_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    typedef typename image_filters<pixfmt_t>::nearest_type span_gen_t;
-    typedef typename image_filters<pixfmt_t>::source_type source_t;
+    typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
+    typedef typename image_filters<pixfmt_t>::source_t source_t;
     typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
     typedef agg::renderer_scanline_aa<renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
     typedef agg::conv_transform<agg::path_storage> trans_curve_t;

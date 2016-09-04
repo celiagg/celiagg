@@ -36,6 +36,7 @@
 #include <agg_span_interpolator_linear.h>
 #include <agg_trans_affine.h>
 
+#include "image.h"
 
 struct GradientStop
 {
@@ -60,7 +61,8 @@ public:
     {
         k_PaintTypeSolid = 0,
         k_PaintTypeLinearGradient,
-        k_PaintTypeRadialGradient
+        k_PaintTypeRadialGradient,
+        k_PaintTypePattern
     };
 
     enum GradientSpread
@@ -78,6 +80,14 @@ public:
         k_GradientUnitsObjectBoundingBox
     };
 
+    enum PatternStyle
+    {
+        k_PatternStyleInvalid = -1,
+        k_PatternStyleRepeat = 0,
+        k_PatternStyleReflect
+    };
+
+private:
     enum LinearPoints
     {
         k_LinearX1 = 0,
@@ -104,6 +114,8 @@ public:
           double* stops, const unsigned n_stops,
           const GradientSpread spread = k_GradientSpreadPad,
           const GradientUnits units = k_GradientUnitsUserSpace);
+    Paint(const PatternStyle style,
+          unsigned char* buf, unsigned width, unsigned height, int stride);
 
     double  a() const;
     void  a(const double);
@@ -122,12 +134,6 @@ public:
 
 private:
 
-    template <typename pixfmt_t, typename array_t>
-    void _generate_colors(array_t& array);
-
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void _render_solid(rasterizer_t& ras, renderer_t& renderer);
-
     template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
     void _render_linear_grad(rasterizer_t& ras, renderer_t& renderer);
 
@@ -138,7 +144,16 @@ private:
     void _render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
 
     template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
-    void _render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
+    void _render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
+
+    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
+    void _render_pattern(rasterizer_t& ras, renderer_t& renderer);
+
+    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename source_t, typename span_gen_t>
+    void _render_pattern_final(rasterizer_t& ras, renderer_t& renderer);
+
+    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
+    void _render_solid(rasterizer_t& ras, renderer_t& renderer);
 
 private:
     typedef agg::pod_array_adaptor<double> PointArray;
@@ -150,10 +165,12 @@ private:
 
     agg::rgba           m_color;
 
-    PaintType           m_type;
+    Image               m_image;
 
+    PaintType           m_type;
     GradientSpread      m_spread;
     GradientUnits       m_units;
+    PatternStyle        m_pattern_style;
 };
 
 #include "paint.hxx"

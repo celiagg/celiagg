@@ -28,21 +28,39 @@ Paint::Paint(const double r, const double g, const double b, const double a)
 : m_points(NULL, 0)
 , m_stops(NULL, 0)
 , m_color(r, g, b, a)
-, m_type(Paint::k_PaintTypeSolid)
-, m_spread(Paint::k_GradientSpreadInvalid)
-, m_units(Paint::k_GradientUnitsInvalid)
+, m_image(NULL, 0, 0, 0)
+, m_type(k_PaintTypeSolid)
+, m_spread(k_GradientSpreadInvalid)
+, m_units(k_GradientUnitsInvalid)
+, m_pattern_style(k_PatternStyleInvalid)
 {
 }
 
-Paint::Paint(const Paint::PaintType type,
-             double* points, const unsigned n_points, double* stops, const unsigned n_stops,
-             const Paint::GradientSpread spread, const Paint::GradientUnits units)
+Paint::Paint(const PaintType type,
+             double* points, const unsigned n_points,
+             double* stops, const unsigned n_stops,
+             const GradientSpread spread, const GradientUnits units)
 : m_points(points, n_points)
 , m_stops(reinterpret_cast<GradientStop*>(stops), n_stops)
 , m_color(0.0, 0.0, 0.0, 0.0)
+, m_image(NULL, 0, 0, 0)
 , m_type(type)
 , m_spread(spread)
 , m_units(units)
+, m_pattern_style(k_PatternStyleInvalid)
+{
+}
+
+Paint::Paint(const PatternStyle style,
+             unsigned char* buf, unsigned width, unsigned height, int stride)
+: m_points(NULL, 0)
+, m_stops(NULL, 0)
+, m_color(0.0, 0.0, 0.0, 0.0)
+, m_image(buf, width, height, stride)
+, m_type(k_PaintTypePattern)
+, m_spread(k_GradientSpreadInvalid)
+, m_units(k_GradientUnitsInvalid)
+, m_pattern_style(style)
 {
 }
 

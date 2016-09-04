@@ -73,6 +73,7 @@ cdef extern from "paint.h" namespace "Paint":
         k_PaintTypeSolid
         k_PaintTypeLinearGradient
         k_PaintTypeRadialGradient
+        k_PaintTypePattern
 
     cdef enum GradientSpread:
         k_GradientSpreadInvalid
@@ -84,6 +85,10 @@ cdef extern from "paint.h" namespace "Paint":
         k_GradientUnitsInvalid
         k_GradientUnitsUserSpace
         k_GradientUnitsObjectBoundingBox
+
+    cdef enum PatternStyle:
+        k_PatternStyleRepeat
+        k_PatternStyleReflect
 
 
 cdef extern from "text.h" namespace "Font":

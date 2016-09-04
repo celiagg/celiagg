@@ -22,8 +22,33 @@
 //
 // Authors: John Wiggins
 
+template <typename pixfmt_t, typename array_t>
+void _generate_colors(const agg::pod_array_adaptor<GradientStop>& stops, array_t& array)
+{
+    double offset = 0.0;
+    unsigned arr_index = 0;
+    const unsigned int array_size = array.size();
+
+    for (unsigned stop_idx = 0; stop_idx < stops.size()-1; ++stop_idx)
+    {
+        const GradientStop& curr_stop = stops[stop_idx];
+        const GradientStop& next_stop = stops[stop_idx+1];
+        const agg::rgba curr_rgba(curr_stop.r, curr_stop.g, curr_stop.b, curr_stop.a);
+        const agg::rgba next_rgba(next_stop.r, next_stop.g, next_stop.b, next_stop.a);
+        const typename pixfmt_t::color_type curr_color(curr_rgba);
+        const typename pixfmt_t::color_type next_color(next_rgba);
+        const double offset_range = next_stop.off - curr_stop.off;
+
+        while (offset <= next_stop.off && arr_index < array_size)
+        {
+            array[arr_index++] = curr_color.gradient(next_color, (offset - curr_stop.off) / offset_range);
+            offset = arr_index / double(array_size - 1);
+        }
+    }
+}
+
 template <typename rasterizer_t>
-void rasterizer_path_bbox(rasterizer_t& ras, double& x, double& y, double& w, double& h)
+void _rasterizer_path_bbox(rasterizer_t& ras, double& x, double& y, double& w, double& h)
 {
     x = ras.min_x();
     y = ras.min_y();
@@ -45,48 +70,14 @@ void Paint::render(rasterizer_t& ras, renderer_t& renderer)
     case Paint::k_PaintTypeRadialGradient:
         _render_radial_grad<pixfmt_t, rasterizer_t, renderer_t>(ras, renderer);
         break;
+    case Paint::k_PaintTypePattern:
+        _render_pattern<pixfmt_t, rasterizer_t, renderer_t>(ras, renderer);
+        break;
     default:
         break;
     }
 }
 
-template <typename pixfmt_t, typename array_t>
-void Paint::_generate_colors(array_t& array)
-{
-    double offset = 0.0;
-    unsigned arr_index = 0;
-    const unsigned int array_size = array.size();
-
-    for (unsigned stop_idx = 0; stop_idx < m_stops.size()-1; ++stop_idx)
-    {
-        const GradientStop& curr_stop = m_stops[stop_idx];
-        const GradientStop& next_stop = m_stops[stop_idx+1];
-        const agg::rgba curr_rgba(curr_stop.r, curr_stop.g, curr_stop.b, curr_stop.a);
-        const agg::rgba next_rgba(next_stop.r, next_stop.g, next_stop.b, next_stop.a);
-        const typename pixfmt_t::color_type curr_color = typename pixfmt_t::color_type(curr_rgba);
-        const typename pixfmt_t::color_type next_color = typename pixfmt_t::color_type(next_rgba);
-        const double offset_range = next_stop.off - curr_stop.off;
-
-        while (offset <= next_stop.off && arr_index < array_size)
-        {
-            array[arr_index++] = curr_color.gradient(next_color, (offset - curr_stop.off) / offset_range);
-            offset = arr_index / double(array_size - 1);
-        }
-    }
-}
-
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::_render_solid(rasterizer_t& ras, renderer_t& renderer)
-{
-    typedef agg::renderer_scanline_aa_solid<renderer_t> solid_renderer_t;
-
-    solid_renderer_t solid_renderer(renderer);
-    agg::scanline_u8 scanline;
-    typename pixfmt_t::color_type color(m_color);
-
-    solid_renderer.color(color);
-    agg::render_scanlines(ras, scanline, solid_renderer);
-}
 
 template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
 void Paint::_render_linear_grad(rasterizer_t& ras, renderer_t& renderer)
@@ -101,7 +92,7 @@ void Paint::_render_linear_grad(rasterizer_t& ras, renderer_t& renderer)
     if (m_units == Paint::k_GradientUnitsObjectBoundingBox)
     {
         double x, y, w, h;
-        rasterizer_path_bbox(ras, x, y, w, h);
+        _rasterizer_path_bbox(ras, x, y, w, h);
         points[k_LinearX1] = x + points[k_LinearX1] * w;
         points[k_LinearX2] = x + points[k_LinearX2] * w;
         points[k_LinearY1] = y + points[k_LinearY1] * h;
@@ -144,7 +135,7 @@ void Paint::_render_radial_grad(rasterizer_t& ras, renderer_t& renderer)
     if (m_units == Paint::k_GradientUnitsObjectBoundingBox)
     {
         double x, y, w, h;
-        rasterizer_path_bbox(ras, x, y, w, h);
+        _rasterizer_path_bbox(ras, x, y, w, h);
         points[k_RadialR] = points[k_RadialR] * w;
         points[k_RadialCX] = x + points[k_RadialCX] * w;
         points[k_RadialFX] = x + points[k_RadialFX] * w;
@@ -168,26 +159,26 @@ void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_fu
         {
             typedef agg::gradient_reflect_adaptor<grad_func_t> adaptor_t; 
             adaptor_t adaptor(func);
-            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, adaptor_t, vector_t>(ras, renderer, adaptor, points);
+            _render_gradient_final<pixfmt_t, rasterizer_t, renderer_t, adaptor_t, vector_t>(ras, renderer, adaptor, points);
             break;
         }
         case Paint::k_GradientSpreadRepeat:
         {
             typedef agg::gradient_repeat_adaptor<grad_func_t> adaptor_t;
             adaptor_t adaptor(func);
-            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, adaptor_t, vector_t>(ras, renderer, adaptor, points);
+            _render_gradient_final<pixfmt_t, rasterizer_t, renderer_t, adaptor_t, vector_t>(ras, renderer, adaptor, points);
             break;
         }
         default:
         {
-            _render_final_grad<pixfmt_t, rasterizer_t, renderer_t, grad_func_t, vector_t>(ras, renderer, func, points);
+            _render_gradient_final<pixfmt_t, rasterizer_t, renderer_t, grad_func_t, vector_t>(ras, renderer, func, points);
             break;
         }
     }
 }
 
 template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
-void Paint::_render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points)
+void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points)
 {
     typedef agg::span_interpolator_linear<> span_interpolator_t;
     typedef agg::pod_auto_array<typename pixfmt_t::color_type, 256> color_array_t;
@@ -238,9 +229,67 @@ void Paint::_render_final_grad(rasterizer_t& ras, renderer_t& renderer, grad_fun
     }
     gradient_mtx.invert();
 
-    _generate_colors<pixfmt_t, color_array_t>(color_array);
+    _generate_colors<pixfmt_t, color_array_t>(m_stops, color_array);
 
     span_gradient_t span_gradient(span_interpolator, func, color_array, d1, d2);
     gradient_renderer_t grad_renderer(renderer, span_allocator, span_gradient);
     agg::render_scanlines(ras, scanline, grad_renderer);
+}
+
+template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
+void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
+{
+    switch (m_pattern_style)
+    {
+    case k_PatternStyleReflect:
+        {
+            typedef typename image_filters<pixfmt_t>::pattern_source_reflect_t source_t;
+            typedef typename image_filters<pixfmt_t>::pattern_reflect_span_gen_t span_gen_t;
+
+            _render_pattern_final<pixfmt_t, rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
+        }
+        break;
+    case k_PatternStyleRepeat:
+        {
+            typedef typename image_filters<pixfmt_t>::pattern_source_repeat_t source_t;
+            typedef typename image_filters<pixfmt_t>::pattern_repeat_span_gen_t span_gen_t;
+
+            _render_pattern_final<pixfmt_t, rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
+        }
+        break;
+    default:
+        break;
+    }
+}
+
+template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename source_t, typename span_gen_t>
+void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
+{
+    typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
+    typedef agg::renderer_scanline_aa<renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
+
+    unsigned offset_x = 0;
+    unsigned offset_y = 0;
+    agg::scanline_u8 scanline;
+    span_alloc_t span_allocator;
+    agg::rendering_buffer* src_buf = m_image.rendering_buffer_ptr();
+    pixfmt_t src_pix(*src_buf);
+    source_t source(src_pix);
+    span_gen_t span_generator(source, offset_x, offset_y);
+    img_renderer_t pattern_renderer(renderer, span_allocator, span_generator);
+
+    agg::render_scanlines(ras, scanline, pattern_renderer);
+}
+
+template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
+void Paint::_render_solid(rasterizer_t& ras, renderer_t& renderer)
+{
+    typedef agg::renderer_scanline_aa_solid<renderer_t> solid_renderer_t;
+
+    solid_renderer_t solid_renderer(renderer);
+    agg::scanline_u8 scanline;
+    typename pixfmt_t::color_type color(m_color);
+
+    solid_renderer.color(color);
+    agg::render_scanlines(ras, scanline, solid_renderer);
 }

@@ -44,6 +44,8 @@ cdef extern from "paint.h":
               double* stops, const unsigned n_stops,
               const _enums.GradientSpread spread,
               const _enums.GradientUnits units)
+        Paint(const _enums.PatternStyle style,
+              unsigned char* buf, unsigned width, unsigned height, int stride)
 
         double  a()
         double  r()
