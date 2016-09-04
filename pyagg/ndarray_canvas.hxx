@@ -24,9 +24,9 @@
  
 
 template<typename pixfmt_t>
-ndarray_canvas<pixfmt_t>::ndarray_canvas(typename pixfmt_t::value_type* buf,
-                                         const unsigned& width, const unsigned& height, const int& stride,
-                                         const size_t& channel_count)
+ndarray_canvas<pixfmt_t>::ndarray_canvas(uint8_t* buf,
+                                         const unsigned width, const unsigned height, const int stride,
+                                         const size_t channel_count)
  : m_channel_count(channel_count),
    m_renbuf(buf, width, height, stride),
    m_pixfmt(m_renbuf),
@@ -39,7 +39,7 @@ ndarray_canvas<pixfmt_t>::ndarray_canvas(typename pixfmt_t::value_type* buf,
 }
 
 template<typename pixfmt_t>
-const size_t& ndarray_canvas<pixfmt_t>::channel_count() const
+const size_t ndarray_canvas<pixfmt_t>::channel_count() const
 {
 //  typedef typename pixfmt_t::order_type T;
 //  return T::N;
@@ -163,7 +163,7 @@ void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     typedef agg::conv_transform<agg::path_storage> trans_curve_t;
 
     agg::path_storage img_outline = img.image_outline();
-    agg::rendering_buffer* src_buf = img.rendering_buffer_ptr();
+    agg::rendering_buffer* src_buf = img.get_buffer_ptr();
     pixfmt_t src_pix(*src_buf);
 
     agg::trans_affine src_mtx = transform;

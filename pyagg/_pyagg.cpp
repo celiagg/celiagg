@@ -869,11 +869,13 @@ typedef npy_longdouble __pyx_t_5numpy_longdouble_t;
 struct __pyx_obj_5pyagg_6_pyagg_Rect;
 struct __pyx_obj_5pyagg_6_pyagg_GraphicsState;
 struct __pyx_obj_5pyagg_6_pyagg_ImageBase;
+struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA128;
 struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA32;
 struct __pyx_obj_5pyagg_6_pyagg_ImageRGB24;
 struct __pyx_obj_5pyagg_6_pyagg_ImageGA16;
 struct __pyx_obj_5pyagg_6_pyagg_ImageG8;
 struct __pyx_obj_5pyagg_6_pyagg_CanvasBase;
+struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128;
 struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA32;
 struct __pyx_obj_5pyagg_6_pyagg_CanvasRGB24;
 struct __pyx_obj_5pyagg_6_pyagg_CanvasGA16;
@@ -1120,22 +1122,31 @@ enum __pyx_t_5pyagg_6_pyagg_FontCacheType {
  * # Authors: Erik Hvatum <ice.rikh@gmail.com>
  * 
  * ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t             # <<<<<<<<<<<<<<
+ * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
- * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
  */
 typedef ndarray_canvas_base __pyx_t_5pyagg_6_pyagg_canvas_base_t;
 
 /* "pyagg/ndarray_canvas.pxi":26
  * 
  * ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
+ * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t             # <<<<<<<<<<<<<<
+ * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
+ * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
+ */
+typedef ndarray_canvas<agg::pixfmt_rgba128>  __pyx_t_5pyagg_6_pyagg_canvas_rgba128_t;
+
+/* "pyagg/ndarray_canvas.pxi":27
+ * ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
+ * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t             # <<<<<<<<<<<<<<
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t
  */
 typedef ndarray_canvas<agg::pixfmt_rgba32>  __pyx_t_5pyagg_6_pyagg_canvas_rgba32_t;
 
-/* "pyagg/ndarray_canvas.pxi":27
- * ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
+/* "pyagg/ndarray_canvas.pxi":28
+ * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t             # <<<<<<<<<<<<<<
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t
@@ -1143,7 +1154,7 @@ typedef ndarray_canvas<agg::pixfmt_rgba32>  __pyx_t_5pyagg_6_pyagg_canvas_rgba32
  */
 typedef ndarray_canvas<agg::pixfmt_rgb24>  __pyx_t_5pyagg_6_pyagg_canvas_rgb24_t;
 
-/* "pyagg/ndarray_canvas.pxi":28
+/* "pyagg/ndarray_canvas.pxi":29
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
  * ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t             # <<<<<<<<<<<<<<
@@ -1178,7 +1189,7 @@ struct __pyx_obj_5pyagg_6_pyagg_GraphicsState {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":31
+/* "pyagg/ndarray_canvas.pxi":32
  * 
  * @cython.internal
  * cdef class ImageBase:             # <<<<<<<<<<<<<<
@@ -1191,7 +1202,19 @@ struct __pyx_obj_5pyagg_6_pyagg_ImageBase {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":47
+/* "pyagg/ndarray_canvas.pxi":40
+ * 
+ * @cython.internal
+ * cdef class ImageRGBA128(ImageBase):             # <<<<<<<<<<<<<<
+ *     def __cinit__(self, float[:,:,::1] arr):
+ *         self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],
+ */
+struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA128 {
+  struct __pyx_obj_5pyagg_6_pyagg_ImageBase __pyx_base;
+};
+
+
+/* "pyagg/ndarray_canvas.pxi":48
  * 
  * @cython.internal
  * cdef class ImageRGBA32(ImageBase):             # <<<<<<<<<<<<<<
@@ -1203,7 +1226,7 @@ struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA32 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":55
+/* "pyagg/ndarray_canvas.pxi":56
  * 
  * @cython.internal
  * cdef class ImageRGB24(ImageBase):             # <<<<<<<<<<<<<<
@@ -1215,7 +1238,7 @@ struct __pyx_obj_5pyagg_6_pyagg_ImageRGB24 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":63
+/* "pyagg/ndarray_canvas.pxi":64
  * 
  * @cython.internal
  * cdef class ImageGA16(ImageBase):             # <<<<<<<<<<<<<<
@@ -1227,7 +1250,7 @@ struct __pyx_obj_5pyagg_6_pyagg_ImageGA16 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":71
+/* "pyagg/ndarray_canvas.pxi":72
  * 
  * @cython.internal
  * cdef class ImageG8(ImageBase):             # <<<<<<<<<<<<<<
@@ -1239,7 +1262,7 @@ struct __pyx_obj_5pyagg_6_pyagg_ImageG8 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":79
+/* "pyagg/ndarray_canvas.pxi":80
  * 
  * @cython.internal
  * cdef class CanvasBase:             # <<<<<<<<<<<<<<
@@ -1255,7 +1278,19 @@ struct __pyx_obj_5pyagg_6_pyagg_CanvasBase {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":209
+/* "pyagg/ndarray_canvas.pxi":210
+ * 
+ * 
+ * cdef class CanvasRGBA128(CanvasBase):             # <<<<<<<<<<<<<<
+ *     """CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that
+ *     render to the numpy array passed as CanvasRGBA128's constructor argument.
+ */
+struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 {
+  struct __pyx_obj_5pyagg_6_pyagg_CanvasBase __pyx_base;
+};
+
+
+/* "pyagg/ndarray_canvas.pxi":228
  * 
  * 
  * cdef class CanvasRGBA32(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1267,7 +1302,7 @@ struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA32 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":227
+/* "pyagg/ndarray_canvas.pxi":246
  * 
  * 
  * cdef class CanvasRGB24(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1279,7 +1314,7 @@ struct __pyx_obj_5pyagg_6_pyagg_CanvasRGB24 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":244
+/* "pyagg/ndarray_canvas.pxi":263
  * 
  * 
  * cdef class CanvasGA16(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1291,7 +1326,7 @@ struct __pyx_obj_5pyagg_6_pyagg_CanvasGA16 {
 };
 
 
-/* "pyagg/ndarray_canvas.pxi":261
+/* "pyagg/ndarray_canvas.pxi":280
  * 
  * 
  * cdef class CanvasG8(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1515,7 +1550,7 @@ struct __pyx_memoryviewslice_obj {
 
 
 
-/* "pyagg/ndarray_canvas.pxi":79
+/* "pyagg/ndarray_canvas.pxi":80
  * 
  * @cython.internal
  * cdef class CanvasBase:             # <<<<<<<<<<<<<<
@@ -1529,7 +1564,21 @@ struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasBase {
 static struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasBase *__pyx_vtabptr_5pyagg_6_pyagg_CanvasBase;
 
 
-/* "pyagg/ndarray_canvas.pxi":209
+/* "pyagg/ndarray_canvas.pxi":210
+ * 
+ * 
+ * cdef class CanvasRGBA128(CanvasBase):             # <<<<<<<<<<<<<<
+ *     """CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that
+ *     render to the numpy array passed as CanvasRGBA128's constructor argument.
+ */
+
+struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA128 {
+  struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasBase __pyx_base;
+};
+static struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA128 *__pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA128;
+
+
+/* "pyagg/ndarray_canvas.pxi":228
  * 
  * 
  * cdef class CanvasRGBA32(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1543,7 +1592,7 @@ struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA32 {
 static struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA32 *__pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA32;
 
 
-/* "pyagg/ndarray_canvas.pxi":227
+/* "pyagg/ndarray_canvas.pxi":246
  * 
  * 
  * cdef class CanvasRGB24(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1557,7 +1606,7 @@ struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGB24 {
 static struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGB24 *__pyx_vtabptr_5pyagg_6_pyagg_CanvasRGB24;
 
 
-/* "pyagg/ndarray_canvas.pxi":244
+/* "pyagg/ndarray_canvas.pxi":263
  * 
  * 
  * cdef class CanvasGA16(CanvasBase):             # <<<<<<<<<<<<<<
@@ -1571,7 +1620,7 @@ struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasGA16 {
 static struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasGA16 *__pyx_vtabptr_5pyagg_6_pyagg_CanvasGA16;
 
 
-/* "pyagg/ndarray_canvas.pxi":261
+/* "pyagg/ndarray_canvas.pxi":280
  * 
  * 
  * cdef class CanvasG8(CanvasBase):             # <<<<<<<<<<<<<<
@@ -2232,6 +2281,9 @@ static int __Pyx_ValidateAndInit_memviewslice(
                 PyObject *original_obj);
 
 /* ObjectToMemviewSlice.proto */
+static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_float(PyObject *);
+
+/* ObjectToMemviewSlice.proto */
 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(PyObject *);
 
 /* ObjectToMemviewSlice.proto */
@@ -2254,6 +2306,10 @@ static CYTHON_INLINE PyObject* __Pyx_PyInt_From_int(int value);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_unsigned_int(unsigned int value);
+
+/* MemviewDtypeToObject.proto */
+static CYTHON_INLINE PyObject *__pyx_memview_get_float(const char *itemp);
+static CYTHON_INLINE int __pyx_memview_set_float(const char *itemp, PyObject *obj);
 
 /* CIntToPy.proto */
 static CYTHON_INLINE PyObject* __Pyx_PyInt_From_uint8_t(uint8_t value);
@@ -2591,11 +2647,13 @@ static CYTHON_INLINE char *__pyx_f_5numpy__util_dtypestring(PyArray_Descr *, cha
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_Rect = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_GraphicsState = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_ImageBase = 0;
+static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_ImageRGBA128 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_ImageRGBA32 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_ImageRGB24 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_ImageGA16 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_ImageG8 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_CanvasBase = 0;
+static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_CanvasRGBA128 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_CanvasRGBA32 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_CanvasRGB24 = 0;
 static PyTypeObject *__pyx_ptype_5pyagg_6_pyagg_CanvasGA16 = 0;
@@ -2659,6 +2717,7 @@ static void __pyx_memoryview_refcount_objects_in_slice_with_gil(char *, Py_ssize
 static void __pyx_memoryview_refcount_objects_in_slice(char *, Py_ssize_t *, Py_ssize_t *, int, int); /*proto*/
 static void __pyx_memoryview_slice_assign_scalar(__Pyx_memviewslice *, int, size_t, void *, int); /*proto*/
 static void __pyx_memoryview__slice_assign_scalar(char *, Py_ssize_t *, Py_ssize_t *, int, size_t, void *); /*proto*/
+static __Pyx_TypeInfo __Pyx_TypeInfo_float = { "float", NULL, sizeof(float), { 0 }, 0, 'R', 0, 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_uint8_t = { "uint8_t", NULL, sizeof(uint8_t), { 0 }, 0, IS_UNSIGNED(uint8_t) ? 'U' : 'I', IS_UNSIGNED(uint8_t), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn_uint64_t = { "uint64_t", NULL, sizeof(uint64_t), { 0 }, 0, IS_UNSIGNED(uint64_t) ? 'U' : 'I', IS_UNSIGNED(uint64_t), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_double = { "double", NULL, sizeof(double), { 0 }, 0, 'R', 0, 0 };
@@ -3207,8 +3266,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_8line_cap_2__set__(struct __p
 static PyObject *__pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join___get__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join_2__set__(struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_self, enum __pyx_t_5pyagg_6_pyagg_LineJoin __pyx_v_join); /* proto */
 static void __pyx_pf_5pyagg_6_pyagg_9ImageBase___dealloc__(struct __pyx_obj_5pyagg_6_pyagg_ImageBase *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5pyagg_6_pyagg_9ImageBase_5width___get__(struct __pyx_obj_5pyagg_6_pyagg_ImageBase *__pyx_v_self); /* proto */
-static PyObject *__pyx_pf_5pyagg_6_pyagg_9ImageBase_6height___get__(struct __pyx_obj_5pyagg_6_pyagg_ImageBase *__pyx_v_self); /* proto */
+static int __pyx_pf_5pyagg_6_pyagg_12ImageRGBA128___cinit__(struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA128 *__pyx_v_self, __Pyx_memviewslice __pyx_v_arr); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_11ImageRGBA32___cinit__(struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA32 *__pyx_v_self, __Pyx_memviewslice __pyx_v_arr); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_10ImageRGB24___cinit__(struct __pyx_obj_5pyagg_6_pyagg_ImageRGB24 *__pyx_v_self, __Pyx_memviewslice __pyx_v_arr); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_9ImageGA16___cinit__(struct __pyx_obj_5pyagg_6_pyagg_ImageGA16 *__pyx_v_self, __Pyx_memviewslice __pyx_v_arr); /* proto */
@@ -3222,6 +3280,8 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_2draw_path(struct __pyx_ob
 static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *__pyx_v_self, PyObject *__pyx_v_points, struct __pyx_obj_5pyagg_6_pyagg_Transform *__pyx_v_transform, struct __pyx_obj_5pyagg_6_pyagg_Paint *__pyx_v_line_paint, struct __pyx_obj_5pyagg_6_pyagg_Paint *__pyx_v_fill_paint, struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_state); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6draw_image(struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *__pyx_v_self, PyObject *__pyx_v_image, struct __pyx_obj_5pyagg_6_pyagg_Transform *__pyx_v_transform, struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_state); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_8draw_text(struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *__pyx_v_self, PyObject *__pyx_v_text, struct __pyx_obj_5pyagg_6_pyagg_Font *__pyx_v_font, struct __pyx_obj_5pyagg_6_pyagg_Transform *__pyx_v_transform, struct __pyx_obj_5pyagg_6_pyagg_Paint *__pyx_v_line_paint, struct __pyx_obj_5pyagg_6_pyagg_Paint *__pyx_v_fill_paint, struct __pyx_obj_5pyagg_6_pyagg_GraphicsState *__pyx_v_state); /* proto */
+static int __pyx_pf_5pyagg_6_pyagg_13CanvasRGBA128___cinit__(struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *__pyx_v_self, __Pyx_memviewslice __pyx_v_image); /* proto */
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13CanvasRGBA128_2_get_image(CYTHON_UNUSED struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *__pyx_v_self, PyObject *__pyx_v_image); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32___cinit__(struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA32 *__pyx_v_self, __Pyx_memviewslice __pyx_v_image); /* proto */
 static PyObject *__pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32_2_get_image(CYTHON_UNUSED struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA32 *__pyx_v_self, PyObject *__pyx_v_image); /* proto */
 static int __pyx_pf_5pyagg_6_pyagg_11CanvasRGB24___cinit__(struct __pyx_obj_5pyagg_6_pyagg_CanvasRGB24 *__pyx_v_self, __Pyx_memviewslice __pyx_v_image); /* proto */
@@ -3323,11 +3383,13 @@ static PyObject *__pyx_pf_15View_dot_MemoryView_16_memoryviewslice_4base___get__
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_Rect(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_GraphicsState(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageBase(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageRGBA128(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageRGBA32(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageRGB24(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageGA16(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageG8(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_CanvasBase(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
+static PyObject *__pyx_tp_new_5pyagg_6_pyagg_CanvasRGBA128(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_CanvasRGBA32(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_CanvasRGB24(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
 static PyObject *__pyx_tp_new_5pyagg_6_pyagg_CanvasGA16(PyTypeObject *t, PyObject *a, PyObject *k); /*proto*/
@@ -6342,7 +6404,7 @@ static int __pyx_pf_5pyagg_6_pyagg_13GraphicsState_9line_join_2__set__(struct __
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":34
+/* "pyagg/ndarray_canvas.pxi":35
  *     cdef _ndarray_canvas.Image* _this
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -6365,16 +6427,16 @@ static void __pyx_pf_5pyagg_6_pyagg_9ImageBase___dealloc__(struct __pyx_obj_5pya
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":35
+  /* "pyagg/ndarray_canvas.pxi":36
  * 
  *     def __dealloc__(self):
  *             del self._this             # <<<<<<<<<<<<<<
  * 
- *     @property
+ * 
  */
   delete __pyx_v_self->_this;
 
-  /* "pyagg/ndarray_canvas.pxi":34
+  /* "pyagg/ndarray_canvas.pxi":35
  *     cdef _ndarray_canvas.Image* _this
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -6386,127 +6448,168 @@ static void __pyx_pf_5pyagg_6_pyagg_9ImageBase___dealloc__(struct __pyx_obj_5pya
   __Pyx_RefNannyFinishContext();
 }
 
-/* "pyagg/ndarray_canvas.pxi":38
- * 
- *     @property
- *     def width(self):             # <<<<<<<<<<<<<<
- *         return self._this.width()
- * 
+/* "pyagg/ndarray_canvas.pxi":41
+ * @cython.internal
+ * cdef class ImageRGBA128(ImageBase):
+ *     def __cinit__(self, float[:,:,::1] arr):             # <<<<<<<<<<<<<<
+ *         self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],
+ *                                                arr.shape[1], arr.shape[0],
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_5pyagg_6_pyagg_9ImageBase_5width_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_5pyagg_6_pyagg_9ImageBase_5width_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
+static int __pyx_pw_5pyagg_6_pyagg_12ImageRGBA128_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_5pyagg_6_pyagg_12ImageRGBA128_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  __Pyx_memviewslice __pyx_v_arr = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_9ImageBase_5width___get__(((struct __pyx_obj_5pyagg_6_pyagg_ImageBase *)__pyx_v_self));
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_arr,0};
+    PyObject* values[1] = {0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_arr)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 41, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+    }
+    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_float(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 41, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 41, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pyagg._pyagg.ImageRGBA128.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_12ImageRGBA128___cinit__(((struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA128 *)__pyx_v_self), __pyx_v_arr);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_5pyagg_6_pyagg_9ImageBase_5width___get__(struct __pyx_obj_5pyagg_6_pyagg_ImageBase *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
+static int __pyx_pf_5pyagg_6_pyagg_12ImageRGBA128___cinit__(struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA128 *__pyx_v_self, __Pyx_memviewslice __pyx_v_arr) {
+  int __pyx_r;
   __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "pyagg/ndarray_canvas.pxi":39
- *     @property
- *     def width(self):
- *         return self._this.width()             # <<<<<<<<<<<<<<
- * 
- *     @property
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_this->width()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 39, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
-
-  /* "pyagg/ndarray_canvas.pxi":38
- * 
- *     @property
- *     def width(self):             # <<<<<<<<<<<<<<
- *         return self._this.width()
- * 
- */
-
-  /* function exit code */
-  __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pyagg._pyagg.ImageBase.width.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
-  __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-/* "pyagg/ndarray_canvas.pxi":42
- * 
- *     @property
- *     def height(self):             # <<<<<<<<<<<<<<
- *         return self._this.height()
- * 
- */
-
-/* Python wrapper */
-static PyObject *__pyx_pw_5pyagg_6_pyagg_9ImageBase_6height_1__get__(PyObject *__pyx_v_self); /*proto*/
-static PyObject *__pyx_pw_5pyagg_6_pyagg_9ImageBase_6height_1__get__(PyObject *__pyx_v_self) {
-  PyObject *__pyx_r = 0;
-  __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("__get__ (wrapper)", 0);
-  __pyx_r = __pyx_pf_5pyagg_6_pyagg_9ImageBase_6height___get__(((struct __pyx_obj_5pyagg_6_pyagg_ImageBase *)__pyx_v_self));
-
-  /* function exit code */
-  __Pyx_RefNannyFinishContext();
-  return __pyx_r;
-}
-
-static PyObject *__pyx_pf_5pyagg_6_pyagg_9ImageBase_6height___get__(struct __pyx_obj_5pyagg_6_pyagg_ImageBase *__pyx_v_self) {
-  PyObject *__pyx_r = NULL;
-  __Pyx_RefNannyDeclarations
-  PyObject *__pyx_t_1 = NULL;
-  __Pyx_RefNannySetupContext("__get__", 0);
-
-  /* "pyagg/ndarray_canvas.pxi":43
- *     @property
- *     def height(self):
- *         return self._this.height()             # <<<<<<<<<<<<<<
- * 
- * 
- */
-  __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_v_self->_this->height()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 43, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_1);
-  __pyx_r = __pyx_t_1;
-  __pyx_t_1 = 0;
-  goto __pyx_L0;
+  __Pyx_memviewslice __pyx_t_1 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_2 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_3;
+  int __pyx_t_4;
+  __Pyx_RefNannySetupContext("__cinit__", 0);
 
   /* "pyagg/ndarray_canvas.pxi":42
+ * cdef class ImageRGBA128(ImageBase):
+ *     def __cinit__(self, float[:,:,::1] arr):
+ *         self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],             # <<<<<<<<<<<<<<
+ *                                                arr.shape[1], arr.shape[0],
+ *                                                arr.strides[0])
+ */
+  __pyx_t_1.data = __pyx_v_arr.data;
+  __pyx_t_1.memview = __pyx_v_arr.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_1, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_arr.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_arr.strides[0];
+    if (1 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+        __PYX_ERR(2, 42, __pyx_L1_error)
+    }
+        __pyx_t_1.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+__pyx_t_1.shape[0] = __pyx_v_arr.shape[1];
+__pyx_t_1.strides[0] = __pyx_v_arr.strides[1];
+    __pyx_t_1.suboffsets[0] = -1;
+
+__pyx_t_1.shape[1] = __pyx_v_arr.shape[2];
+__pyx_t_1.strides[1] = __pyx_v_arr.strides[2];
+    __pyx_t_1.suboffsets[1] = -1;
+
+__pyx_t_2.data = __pyx_t_1.data;
+  __pyx_t_2.memview = __pyx_t_1.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_2, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_t_1.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_t_1.strides[0];
+    if (1 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+        __PYX_ERR(2, 42, __pyx_L1_error)
+    }
+        __pyx_t_2.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+__pyx_t_2.shape[0] = __pyx_t_1.shape[1];
+__pyx_t_2.strides[0] = __pyx_t_1.strides[1];
+    __pyx_t_2.suboffsets[0] = -1;
+
+__PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __pyx_t_3 = 0;
+  __pyx_t_4 = -1;
+  if (__pyx_t_3 < 0) {
+    __pyx_t_3 += __pyx_t_2.shape[0];
+    if (unlikely(__pyx_t_3 < 0)) __pyx_t_4 = 0;
+  } else if (unlikely(__pyx_t_3 >= __pyx_t_2.shape[0])) __pyx_t_4 = 0;
+  if (unlikely(__pyx_t_4 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_4);
+    __PYX_ERR(2, 42, __pyx_L1_error)
+  }
+
+  /* "pyagg/ndarray_canvas.pxi":44
+ *         self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],
+ *                                                arr.shape[1], arr.shape[0],
+ *                                                arr.strides[0])             # <<<<<<<<<<<<<<
  * 
- *     @property
- *     def height(self):             # <<<<<<<<<<<<<<
- *         return self._this.height()
  * 
+ */
+  __pyx_v_self->__pyx_base._this = new Image(((uint8_t *)(&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_t_2.data) + __pyx_t_3)) ))))), (__pyx_v_arr.shape[1]), (__pyx_v_arr.shape[0]), (__pyx_v_arr.strides[0]));
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+
+  /* "pyagg/ndarray_canvas.pxi":41
+ * @cython.internal
+ * cdef class ImageRGBA128(ImageBase):
+ *     def __cinit__(self, float[:,:,::1] arr):             # <<<<<<<<<<<<<<
+ *         self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],
+ *                                                arr.shape[1], arr.shape[0],
  */
 
   /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
   __pyx_L1_error:;
-  __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("pyagg._pyagg.ImageBase.height.__get__", __pyx_clineno, __pyx_lineno, __pyx_filename);
-  __pyx_r = NULL;
+  __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
+  __Pyx_AddTraceback("pyagg._pyagg.ImageRGBA128.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
   __pyx_L0:;
-  __Pyx_XGIVEREF(__pyx_r);
+  __PYX_XDEC_MEMVIEW(&__pyx_v_arr, 1);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":48
+/* "pyagg/ndarray_canvas.pxi":49
  * @cython.internal
  * cdef class ImageRGBA32(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):             # <<<<<<<<<<<<<<
@@ -6539,18 +6642,18 @@ static int __pyx_pw_5pyagg_6_pyagg_11ImageRGBA32_1__cinit__(PyObject *__pyx_v_se
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 48, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 49, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 48, __pyx_L3_error)
+    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 49, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 48, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 49, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.ImageRGBA32.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6572,7 +6675,7 @@ static int __pyx_pf_5pyagg_6_pyagg_11ImageRGBA32___cinit__(struct __pyx_obj_5pya
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":49
+  /* "pyagg/ndarray_canvas.pxi":50
  * cdef class ImageRGBA32(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):
  *         self._this = new _ndarray_canvas.Image(&arr[0][0][0],             # <<<<<<<<<<<<<<
@@ -6590,7 +6693,7 @@ static int __pyx_pf_5pyagg_6_pyagg_11ImageRGBA32___cinit__(struct __pyx_obj_5pya
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 49, __pyx_L1_error)
+        __PYX_ERR(2, 50, __pyx_L1_error)
     }
         __pyx_t_1.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -6614,7 +6717,7 @@ __pyx_t_2.data = __pyx_t_1.data;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 49, __pyx_L1_error)
+        __PYX_ERR(2, 50, __pyx_L1_error)
     }
         __pyx_t_2.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -6632,10 +6735,10 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   } else if (unlikely(__pyx_t_3 >= __pyx_t_2.shape[0])) __pyx_t_4 = 0;
   if (unlikely(__pyx_t_4 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_4);
-    __PYX_ERR(2, 49, __pyx_L1_error)
+    __PYX_ERR(2, 50, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":51
+  /* "pyagg/ndarray_canvas.pxi":52
  *         self._this = new _ndarray_canvas.Image(&arr[0][0][0],
  *                                                arr.shape[1], arr.shape[0],
  *                                                arr.strides[0])             # <<<<<<<<<<<<<<
@@ -6645,7 +6748,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_v_self->__pyx_base._this = new Image((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_2.data) + __pyx_t_3)) )))), (__pyx_v_arr.shape[1]), (__pyx_v_arr.shape[0]), (__pyx_v_arr.strides[0]));
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":48
+  /* "pyagg/ndarray_canvas.pxi":49
  * @cython.internal
  * cdef class ImageRGBA32(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):             # <<<<<<<<<<<<<<
@@ -6667,7 +6770,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":56
+/* "pyagg/ndarray_canvas.pxi":57
  * @cython.internal
  * cdef class ImageRGB24(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):             # <<<<<<<<<<<<<<
@@ -6700,18 +6803,18 @@ static int __pyx_pw_5pyagg_6_pyagg_10ImageRGB24_1__cinit__(PyObject *__pyx_v_sel
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 56, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 57, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 56, __pyx_L3_error)
+    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 57, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 56, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 57, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.ImageRGB24.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6733,7 +6836,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10ImageRGB24___cinit__(struct __pyx_obj_5pyag
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":57
+  /* "pyagg/ndarray_canvas.pxi":58
  * cdef class ImageRGB24(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):
  *         self._this = new _ndarray_canvas.Image(&arr[0][0][0],             # <<<<<<<<<<<<<<
@@ -6751,7 +6854,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10ImageRGB24___cinit__(struct __pyx_obj_5pyag
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 57, __pyx_L1_error)
+        __PYX_ERR(2, 58, __pyx_L1_error)
     }
         __pyx_t_1.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -6775,7 +6878,7 @@ __pyx_t_2.data = __pyx_t_1.data;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 57, __pyx_L1_error)
+        __PYX_ERR(2, 58, __pyx_L1_error)
     }
         __pyx_t_2.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -6793,10 +6896,10 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   } else if (unlikely(__pyx_t_3 >= __pyx_t_2.shape[0])) __pyx_t_4 = 0;
   if (unlikely(__pyx_t_4 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_4);
-    __PYX_ERR(2, 57, __pyx_L1_error)
+    __PYX_ERR(2, 58, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":59
+  /* "pyagg/ndarray_canvas.pxi":60
  *         self._this = new _ndarray_canvas.Image(&arr[0][0][0],
  *                                                arr.shape[1], arr.shape[0],
  *                                                arr.strides[0])             # <<<<<<<<<<<<<<
@@ -6806,7 +6909,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_v_self->__pyx_base._this = new Image((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_2.data) + __pyx_t_3)) )))), (__pyx_v_arr.shape[1]), (__pyx_v_arr.shape[0]), (__pyx_v_arr.strides[0]));
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":56
+  /* "pyagg/ndarray_canvas.pxi":57
  * @cython.internal
  * cdef class ImageRGB24(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):             # <<<<<<<<<<<<<<
@@ -6828,7 +6931,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":64
+/* "pyagg/ndarray_canvas.pxi":65
  * @cython.internal
  * cdef class ImageGA16(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):             # <<<<<<<<<<<<<<
@@ -6861,18 +6964,18 @@ static int __pyx_pw_5pyagg_6_pyagg_9ImageGA16_1__cinit__(PyObject *__pyx_v_self,
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 64, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 65, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 64, __pyx_L3_error)
+    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 65, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 64, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 65, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.ImageGA16.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -6894,7 +6997,7 @@ static int __pyx_pf_5pyagg_6_pyagg_9ImageGA16___cinit__(struct __pyx_obj_5pyagg_
   int __pyx_t_4;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":65
+  /* "pyagg/ndarray_canvas.pxi":66
  * cdef class ImageGA16(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):
  *         self._this = new _ndarray_canvas.Image(&arr[0][0][0],             # <<<<<<<<<<<<<<
@@ -6912,7 +7015,7 @@ static int __pyx_pf_5pyagg_6_pyagg_9ImageGA16___cinit__(struct __pyx_obj_5pyagg_
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 65, __pyx_L1_error)
+        __PYX_ERR(2, 66, __pyx_L1_error)
     }
         __pyx_t_1.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -6936,7 +7039,7 @@ __pyx_t_2.data = __pyx_t_1.data;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 65, __pyx_L1_error)
+        __PYX_ERR(2, 66, __pyx_L1_error)
     }
         __pyx_t_2.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -6954,10 +7057,10 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   } else if (unlikely(__pyx_t_3 >= __pyx_t_2.shape[0])) __pyx_t_4 = 0;
   if (unlikely(__pyx_t_4 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_4);
-    __PYX_ERR(2, 65, __pyx_L1_error)
+    __PYX_ERR(2, 66, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":67
+  /* "pyagg/ndarray_canvas.pxi":68
  *         self._this = new _ndarray_canvas.Image(&arr[0][0][0],
  *                                                arr.shape[1], arr.shape[0],
  *                                                arr.strides[0])             # <<<<<<<<<<<<<<
@@ -6967,7 +7070,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   __pyx_v_self->__pyx_base._this = new Image((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_2.data) + __pyx_t_3)) )))), (__pyx_v_arr.shape[1]), (__pyx_v_arr.shape[0]), (__pyx_v_arr.strides[0]));
   __PYX_XDEC_MEMVIEW(&__pyx_t_2, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":64
+  /* "pyagg/ndarray_canvas.pxi":65
  * @cython.internal
  * cdef class ImageGA16(ImageBase):
  *     def __cinit__(self, uint8_t[:,:,::1] arr):             # <<<<<<<<<<<<<<
@@ -6989,7 +7092,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":72
+/* "pyagg/ndarray_canvas.pxi":73
  * @cython.internal
  * cdef class ImageG8(ImageBase):
  *     def __cinit__(self, uint8_t[:,::1] arr):             # <<<<<<<<<<<<<<
@@ -7022,18 +7125,18 @@ static int __pyx_pw_5pyagg_6_pyagg_7ImageG8_1__cinit__(PyObject *__pyx_v_self, P
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 72, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 73, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 72, __pyx_L3_error)
+    __pyx_v_arr = __Pyx_PyObject_to_MemoryviewSlice_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_arr.memview)) __PYX_ERR(2, 73, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 72, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 73, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.ImageG8.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -7054,7 +7157,7 @@ static int __pyx_pf_5pyagg_6_pyagg_7ImageG8___cinit__(struct __pyx_obj_5pyagg_6_
   int __pyx_t_3;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":73
+  /* "pyagg/ndarray_canvas.pxi":74
  * cdef class ImageG8(ImageBase):
  *     def __cinit__(self, uint8_t[:,::1] arr):
  *         self._this = new _ndarray_canvas.Image(&arr[0][0],             # <<<<<<<<<<<<<<
@@ -7072,7 +7175,7 @@ static int __pyx_pf_5pyagg_6_pyagg_7ImageG8___cinit__(struct __pyx_obj_5pyagg_6_
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 73, __pyx_L1_error)
+        __PYX_ERR(2, 74, __pyx_L1_error)
     }
         __pyx_t_1.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -7089,10 +7192,10 @@ __pyx_t_2 = 0;
   } else if (unlikely(__pyx_t_2 >= __pyx_t_1.shape[0])) __pyx_t_3 = 0;
   if (unlikely(__pyx_t_3 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_3);
-    __PYX_ERR(2, 73, __pyx_L1_error)
+    __PYX_ERR(2, 74, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":75
+  /* "pyagg/ndarray_canvas.pxi":76
  *         self._this = new _ndarray_canvas.Image(&arr[0][0],
  *                                                arr.shape[1], arr.shape[0],
  *                                                arr.strides[0])             # <<<<<<<<<<<<<<
@@ -7102,7 +7205,7 @@ __pyx_t_2 = 0;
   __pyx_v_self->__pyx_base._this = new Image((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_1.data) + __pyx_t_2)) )))), (__pyx_v_arr.shape[1]), (__pyx_v_arr.shape[0]), (__pyx_v_arr.strides[0]));
   __PYX_XDEC_MEMVIEW(&__pyx_t_1, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":72
+  /* "pyagg/ndarray_canvas.pxi":73
  * @cython.internal
  * cdef class ImageG8(ImageBase):
  *     def __cinit__(self, uint8_t[:,::1] arr):             # <<<<<<<<<<<<<<
@@ -7123,7 +7226,7 @@ __pyx_t_2 = 0;
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":84
+/* "pyagg/ndarray_canvas.pxi":85
  *     cdef object py_image
  * 
  *     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:             # <<<<<<<<<<<<<<
@@ -7152,77 +7255,77 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   Py_ssize_t __pyx_t_12;
   __Pyx_RefNannySetupContext("base_init", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":85
+  /* "pyagg/ndarray_canvas.pxi":86
  * 
  *     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
  *         cdef uint64_t[:] image_shape = numpy.asarray(image.shape,             # <<<<<<<<<<<<<<
  *                                                      dtype=numpy.uint64,
  *                                                      order='c')
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 85, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 85, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_image, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 85, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_image, __pyx_n_s_shape); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 85, __pyx_L1_error)
+  __pyx_t_3 = PyTuple_New(1); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_3, 0, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":86
+  /* "pyagg/ndarray_canvas.pxi":87
  *     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
  *         cdef uint64_t[:] image_shape = numpy.asarray(image.shape,
  *                                                      dtype=numpy.uint64,             # <<<<<<<<<<<<<<
  *                                                      order='c')
  *         cdef uint64_t image_ndim = <uint64_t> image.ndim
  */
-  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 86, __pyx_L1_error)
+  __pyx_t_1 = PyDict_New(); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 86, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_uint64); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 86, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_uint64); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 87, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(2, 86, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(2, 87, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(2, 86, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(2, 87, __pyx_L1_error)
 
-  /* "pyagg/ndarray_canvas.pxi":85
+  /* "pyagg/ndarray_canvas.pxi":86
  * 
  *     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
  *         cdef uint64_t[:] image_shape = numpy.asarray(image.shape,             # <<<<<<<<<<<<<<
  *                                                      dtype=numpy.uint64,
  *                                                      order='c')
  */
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 85, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_3, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 86, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_ds_nn_uint64_t(__pyx_t_5);
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 85, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 86, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_image_shape = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "pyagg/ndarray_canvas.pxi":88
+  /* "pyagg/ndarray_canvas.pxi":89
  *                                                      dtype=numpy.uint64,
  *                                                      order='c')
  *         cdef uint64_t image_ndim = <uint64_t> image.ndim             # <<<<<<<<<<<<<<
  *         self.blend_channel_count = channel_count
  *         if not has_alpha:
  */
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_image, __pyx_n_s_ndim); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 88, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_v_image, __pyx_n_s_ndim); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 89, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_7 = __Pyx_PyInt_As_uint64_t(__pyx_t_5); if (unlikely((__pyx_t_7 == (uint64_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 88, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_uint64_t(__pyx_t_5); if (unlikely((__pyx_t_7 == (uint64_t)-1) && PyErr_Occurred())) __PYX_ERR(2, 89, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_image_ndim = ((uint64_t)__pyx_t_7);
 
-  /* "pyagg/ndarray_canvas.pxi":89
+  /* "pyagg/ndarray_canvas.pxi":90
  *                                                      order='c')
  *         cdef uint64_t image_ndim = <uint64_t> image.ndim
  *         self.blend_channel_count = channel_count             # <<<<<<<<<<<<<<
@@ -7231,7 +7334,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
  */
   __pyx_v_self->blend_channel_count = __pyx_v_channel_count;
 
-  /* "pyagg/ndarray_canvas.pxi":90
+  /* "pyagg/ndarray_canvas.pxi":91
  *         cdef uint64_t image_ndim = <uint64_t> image.ndim
  *         self.blend_channel_count = channel_count
  *         if not has_alpha:             # <<<<<<<<<<<<<<
@@ -7241,7 +7344,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   __pyx_t_8 = ((!(__pyx_v_has_alpha != 0)) != 0);
   if (__pyx_t_8) {
 
-    /* "pyagg/ndarray_canvas.pxi":96
+    /* "pyagg/ndarray_canvas.pxi":97
  *             # channel count is one less than default color channel count if
  *             # image does not have an alpha channel.
  *             channel_count -= 1             # <<<<<<<<<<<<<<
@@ -7250,7 +7353,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
  */
     __pyx_v_channel_count = (__pyx_v_channel_count - 1);
 
-    /* "pyagg/ndarray_canvas.pxi":90
+    /* "pyagg/ndarray_canvas.pxi":91
  *         cdef uint64_t image_ndim = <uint64_t> image.ndim
  *         self.blend_channel_count = channel_count
  *         if not has_alpha:             # <<<<<<<<<<<<<<
@@ -7259,7 +7362,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
  */
   }
 
-  /* "pyagg/ndarray_canvas.pxi":97
+  /* "pyagg/ndarray_canvas.pxi":98
  *             # image does not have an alpha channel.
  *             channel_count -= 1
  *         if image is None:             # <<<<<<<<<<<<<<
@@ -7270,20 +7373,20 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   __pyx_t_9 = (__pyx_t_8 != 0);
   if (__pyx_t_9) {
 
-    /* "pyagg/ndarray_canvas.pxi":98
+    /* "pyagg/ndarray_canvas.pxi":99
  *             channel_count -= 1
  *         if image is None:
  *             raise ValueError('image argument must not be None.')             # <<<<<<<<<<<<<<
  *         if (channel_count > 1 and (image_ndim != 3
  *                 or image_shape[2] != channel_count) or
  */
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 98, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_tuple__2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 99, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __PYX_ERR(2, 98, __pyx_L1_error)
+    __PYX_ERR(2, 99, __pyx_L1_error)
 
-    /* "pyagg/ndarray_canvas.pxi":97
+    /* "pyagg/ndarray_canvas.pxi":98
  *             # image does not have an alpha channel.
  *             channel_count -= 1
  *         if image is None:             # <<<<<<<<<<<<<<
@@ -7292,7 +7395,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
  */
   }
 
-  /* "pyagg/ndarray_canvas.pxi":99
+  /* "pyagg/ndarray_canvas.pxi":100
  *         if image is None:
  *             raise ValueError('image argument must not be None.')
  *         if (channel_count > 1 and (image_ndim != 3             # <<<<<<<<<<<<<<
@@ -7305,7 +7408,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   } else {
   }
 
-  /* "pyagg/ndarray_canvas.pxi":100
+  /* "pyagg/ndarray_canvas.pxi":101
  *             raise ValueError('image argument must not be None.')
  *         if (channel_count > 1 and (image_ndim != 3
  *                 or image_shape[2] != channel_count) or             # <<<<<<<<<<<<<<
@@ -7326,7 +7429,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   } else if (unlikely(__pyx_t_10 >= __pyx_v_image_shape.shape[0])) __pyx_t_11 = 0;
   if (unlikely(__pyx_t_11 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_11);
-    __PYX_ERR(2, 100, __pyx_L1_error)
+    __PYX_ERR(2, 101, __pyx_L1_error)
   }
   __pyx_t_8 = (((*((uint64_t *) ( /* dim=0 */ (__pyx_v_image_shape.data + __pyx_t_10 * __pyx_v_image_shape.strides[0]) ))) != __pyx_v_channel_count) != 0);
   if (!__pyx_t_8) {
@@ -7336,7 +7439,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   }
   __pyx_L7_next_or:;
 
-  /* "pyagg/ndarray_canvas.pxi":101
+  /* "pyagg/ndarray_canvas.pxi":102
  *         if (channel_count > 1 and (image_ndim != 3
  *                 or image_shape[2] != channel_count) or
  *                 channel_count == 1 and image_ndim != 2):             # <<<<<<<<<<<<<<
@@ -7353,7 +7456,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   __pyx_t_9 = __pyx_t_8;
   __pyx_L6_bool_binop_done:;
 
-  /* "pyagg/ndarray_canvas.pxi":99
+  /* "pyagg/ndarray_canvas.pxi":100
  *         if image is None:
  *             raise ValueError('image argument must not be None.')
  *         if (channel_count > 1 and (image_ndim != 3             # <<<<<<<<<<<<<<
@@ -7362,7 +7465,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
  */
   if (__pyx_t_9) {
 
-    /* "pyagg/ndarray_canvas.pxi":102
+    /* "pyagg/ndarray_canvas.pxi":103
  *                 or image_shape[2] != channel_count) or
  *                 channel_count == 1 and image_ndim != 2):
  *             if channel_count > 1:             # <<<<<<<<<<<<<<
@@ -7372,16 +7475,16 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
     __pyx_t_9 = ((__pyx_v_channel_count > 1) != 0);
     if (__pyx_t_9) {
 
-      /* "pyagg/ndarray_canvas.pxi":103
+      /* "pyagg/ndarray_canvas.pxi":104
  *                 channel_count == 1 and image_ndim != 2):
  *             if channel_count > 1:
  *                 e = 'MxNx{}'.format(channel_count)             # <<<<<<<<<<<<<<
  *             else:
  *                 e = 'MxN'
  */
-      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_MxNx, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 103, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_kp_s_MxNx, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 104, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
-      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_channel_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 103, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyInt_From_int(__pyx_v_channel_count); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 104, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_2 = NULL;
       if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_1))) {
@@ -7394,17 +7497,17 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
         }
       }
       if (!__pyx_t_2) {
-        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 103, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 104, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
         __Pyx_GOTREF(__pyx_t_5);
       } else {
-        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 103, __pyx_L1_error)
+        __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 104, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_GIVEREF(__pyx_t_2); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_2); __pyx_t_2 = NULL;
         __Pyx_GIVEREF(__pyx_t_3);
         PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_t_3);
         __pyx_t_3 = 0;
-        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 103, __pyx_L1_error)
+        __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_4, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 104, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
       }
@@ -7412,7 +7515,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
       __pyx_v_e = __pyx_t_5;
       __pyx_t_5 = 0;
 
-      /* "pyagg/ndarray_canvas.pxi":102
+      /* "pyagg/ndarray_canvas.pxi":103
  *                 or image_shape[2] != channel_count) or
  *                 channel_count == 1 and image_ndim != 2):
  *             if channel_count > 1:             # <<<<<<<<<<<<<<
@@ -7422,7 +7525,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
       goto __pyx_L11;
     }
 
-    /* "pyagg/ndarray_canvas.pxi":105
+    /* "pyagg/ndarray_canvas.pxi":106
  *                 e = 'MxNx{}'.format(channel_count)
  *             else:
  *                 e = 'MxN'             # <<<<<<<<<<<<<<
@@ -7435,7 +7538,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
     }
     __pyx_L11:;
 
-    /* "pyagg/ndarray_canvas.pxi":106
+    /* "pyagg/ndarray_canvas.pxi":107
  *             else:
  *                 e = 'MxN'
  *             msg_tmp = 'image argument must be {} channel (ie, must be {}).'             # <<<<<<<<<<<<<<
@@ -7445,16 +7548,16 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
     __Pyx_INCREF(__pyx_kp_s_image_argument_must_be_channel_i);
     __pyx_v_msg_tmp = __pyx_kp_s_image_argument_must_be_channel_i;
 
-    /* "pyagg/ndarray_canvas.pxi":107
+    /* "pyagg/ndarray_canvas.pxi":108
  *                 e = 'MxN'
  *             msg_tmp = 'image argument must be {} channel (ie, must be {}).'
  *             raise ValueError(msg_tmp.format(channel_count, e))             # <<<<<<<<<<<<<<
  *         # In order to ensure that our backing memory is not deallocated from
  *         # underneath us, we retain a reference to the memory view supplied to
  */
-    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_msg_tmp, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 107, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_msg_tmp, __pyx_n_s_format); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_channel_count); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 107, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_channel_count); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_3 = NULL;
     __pyx_t_12 = 0;
@@ -7468,7 +7571,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
         __pyx_t_12 = 1;
       }
     }
-    __pyx_t_2 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 107, __pyx_L1_error)
+    __pyx_t_2 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     if (__pyx_t_3) {
       __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_3); __pyx_t_3 = NULL;
@@ -7479,23 +7582,23 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
     __Pyx_GIVEREF(__pyx_v_e);
     PyTuple_SET_ITEM(__pyx_t_2, 1+__pyx_t_12, __pyx_v_e);
     __pyx_t_4 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 107, __pyx_L1_error)
+    __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_GIVEREF(__pyx_t_5);
     PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_t_5);
     __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 107, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_1, NULL); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 108, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __Pyx_Raise(__pyx_t_5, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __PYX_ERR(2, 107, __pyx_L1_error)
+    __PYX_ERR(2, 108, __pyx_L1_error)
 
-    /* "pyagg/ndarray_canvas.pxi":99
+    /* "pyagg/ndarray_canvas.pxi":100
  *         if image is None:
  *             raise ValueError('image argument must not be None.')
  *         if (channel_count > 1 and (image_ndim != 3             # <<<<<<<<<<<<<<
@@ -7504,7 +7607,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
  */
   }
 
-  /* "pyagg/ndarray_canvas.pxi":113
+  /* "pyagg/ndarray_canvas.pxi":114
  *         # with ndarray_canvas<>'s reference to that memory and destroyed when
  *         # that reference is lost.
  *         self.py_image = image             # <<<<<<<<<<<<<<
@@ -7517,7 +7620,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   __Pyx_DECREF(__pyx_v_self->py_image);
   __pyx_v_self->py_image = __pyx_v_image;
 
-  /* "pyagg/ndarray_canvas.pxi":114
+  /* "pyagg/ndarray_canvas.pxi":115
  *         # that reference is lost.
  *         self.py_image = image
  *         return 0             # <<<<<<<<<<<<<<
@@ -7527,7 +7630,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   __pyx_r = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":84
+  /* "pyagg/ndarray_canvas.pxi":85
  *     cdef object py_image
  * 
  *     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:             # <<<<<<<<<<<<<<
@@ -7553,7 +7656,7 @@ static int __pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init(struct __pyx_obj_5pyagg
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":116
+/* "pyagg/ndarray_canvas.pxi":117
  *         return 0
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -7576,7 +7679,7 @@ static void __pyx_pf_5pyagg_6_pyagg_10CanvasBase___dealloc__(struct __pyx_obj_5p
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__dealloc__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":117
+  /* "pyagg/ndarray_canvas.pxi":118
  * 
  *     def __dealloc__(self):
  *         del self._this             # <<<<<<<<<<<<<<
@@ -7585,7 +7688,7 @@ static void __pyx_pf_5pyagg_6_pyagg_10CanvasBase___dealloc__(struct __pyx_obj_5p
  */
   delete __pyx_v_self->_this;
 
-  /* "pyagg/ndarray_canvas.pxi":116
+  /* "pyagg/ndarray_canvas.pxi":117
  *         return 0
  * 
  *     def __dealloc__(self):             # <<<<<<<<<<<<<<
@@ -7597,7 +7700,7 @@ static void __pyx_pf_5pyagg_6_pyagg_10CanvasBase___dealloc__(struct __pyx_obj_5p
   __Pyx_RefNannyFinishContext();
 }
 
-/* "pyagg/ndarray_canvas.pxi":120
+/* "pyagg/ndarray_canvas.pxi":121
  * 
  *     @property
  *     def channel_count(self):             # <<<<<<<<<<<<<<
@@ -7624,7 +7727,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_13channel_count___get__(st
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":121
+  /* "pyagg/ndarray_canvas.pxi":122
  *     @property
  *     def channel_count(self):
  *         return self._this.channel_count()             # <<<<<<<<<<<<<<
@@ -7632,13 +7735,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_13channel_count___get__(st
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_this->channel_count()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 121, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_FromSize_t(__pyx_v_self->_this->channel_count()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 122, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":120
+  /* "pyagg/ndarray_canvas.pxi":121
  * 
  *     @property
  *     def channel_count(self):             # <<<<<<<<<<<<<<
@@ -7657,7 +7760,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_13channel_count___get__(st
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":124
+/* "pyagg/ndarray_canvas.pxi":125
  * 
  *     @property
  *     def width(self):             # <<<<<<<<<<<<<<
@@ -7684,7 +7787,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_5width___get__(struct __py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":125
+  /* "pyagg/ndarray_canvas.pxi":126
  *     @property
  *     def width(self):
  *         return self._this.width()             # <<<<<<<<<<<<<<
@@ -7692,13 +7795,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_5width___get__(struct __py
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->_this->width()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 125, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->_this->width()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":124
+  /* "pyagg/ndarray_canvas.pxi":125
  * 
  *     @property
  *     def width(self):             # <<<<<<<<<<<<<<
@@ -7717,7 +7820,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_5width___get__(struct __py
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":128
+/* "pyagg/ndarray_canvas.pxi":129
  * 
  *     @property
  *     def height(self):             # <<<<<<<<<<<<<<
@@ -7744,7 +7847,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6height___get__(struct __p
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":129
+  /* "pyagg/ndarray_canvas.pxi":130
  *     @property
  *     def height(self):
  *         return self._this.height()             # <<<<<<<<<<<<<<
@@ -7752,13 +7855,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6height___get__(struct __p
  *     @property
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->_this->height()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 129, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_unsigned_int(__pyx_v_self->_this->height()); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 130, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":128
+  /* "pyagg/ndarray_canvas.pxi":129
  * 
  *     @property
  *     def height(self):             # <<<<<<<<<<<<<<
@@ -7777,7 +7880,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6height___get__(struct __p
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":132
+/* "pyagg/ndarray_canvas.pxi":133
  * 
  *     @property
  *     def image(self):             # <<<<<<<<<<<<<<
@@ -7804,7 +7907,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_5image___get__(struct __py
   PyObject *__pyx_t_1 = NULL;
   __Pyx_RefNannySetupContext("__get__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":137
+  /* "pyagg/ndarray_canvas.pxi":138
  *         # attach, but instead expects the original array or buffer (which is
  *         # why self.py_image.base is returned rather than self.py_image).
  *         return self.py_image.base             # <<<<<<<<<<<<<<
@@ -7812,13 +7915,13 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_5image___get__(struct __py
  *     def draw_path(self, Path path, Transform transform, Paint line_paint,
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->py_image, __pyx_n_s_base); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 137, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_self->py_image, __pyx_n_s_base); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 138, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":132
+  /* "pyagg/ndarray_canvas.pxi":133
  * 
  *     @property
  *     def image(self):             # <<<<<<<<<<<<<<
@@ -7837,7 +7940,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_5image___get__(struct __py
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":139
+/* "pyagg/ndarray_canvas.pxi":140
  *         return self.py_image.base
  * 
  *     def draw_path(self, Path path, Transform transform, Paint line_paint,             # <<<<<<<<<<<<<<
@@ -7880,26 +7983,26 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_3draw_path(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_transform)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 1); __PYX_ERR(2, 139, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 1); __PYX_ERR(2, 140, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_line_paint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 2); __PYX_ERR(2, 139, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 2); __PYX_ERR(2, 140, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fill_paint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 3); __PYX_ERR(2, 139, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 3); __PYX_ERR(2, 140, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 4); __PYX_ERR(2, 139, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, 4); __PYX_ERR(2, 140, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_path") < 0)) __PYX_ERR(2, 139, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_path") < 0)) __PYX_ERR(2, 140, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -7918,17 +8021,17 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_3draw_path(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 139, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("draw_path", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 140, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasBase.draw_path", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), __pyx_ptype_5pyagg_6_pyagg_Path, 1, "path", 0))) __PYX_ERR(2, 139, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 139, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_line_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "line_paint", 0))) __PYX_ERR(2, 139, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fill_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "fill_paint", 0))) __PYX_ERR(2, 140, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 140, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_path), __pyx_ptype_5pyagg_6_pyagg_Path, 1, "path", 0))) __PYX_ERR(2, 140, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 140, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_line_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "line_paint", 0))) __PYX_ERR(2, 140, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fill_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "fill_paint", 0))) __PYX_ERR(2, 141, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 141, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_10CanvasBase_2draw_path(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_v_path, __pyx_v_transform, __pyx_v_line_paint, __pyx_v_fill_paint, __pyx_v_state);
 
   /* function exit code */
@@ -7945,7 +8048,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_2draw_path(struct __pyx_ob
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("draw_path", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":149
+  /* "pyagg/ndarray_canvas.pxi":150
  *                  line width, line color, fill color, anti-aliased
  *         """
  *         self._this.draw_path(dereference(path._this),             # <<<<<<<<<<<<<<
@@ -7954,7 +8057,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_2draw_path(struct __pyx_ob
  */
   __pyx_v_self->_this->draw_path((*__pyx_v_path->_this), (*__pyx_v_transform->_this), (*__pyx_v_line_paint->_this), (*__pyx_v_fill_paint->_this), (*__pyx_v_state->_this));
 
-  /* "pyagg/ndarray_canvas.pxi":139
+  /* "pyagg/ndarray_canvas.pxi":140
  *         return self.py_image.base
  * 
  *     def draw_path(self, Path path, Transform transform, Paint line_paint,             # <<<<<<<<<<<<<<
@@ -7969,7 +8072,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_2draw_path(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":155
+/* "pyagg/ndarray_canvas.pxi":156
  *                              dereference(state._this))
  * 
  *     def draw_bspline(self, points, Transform transform, Paint line_paint,             # <<<<<<<<<<<<<<
@@ -8012,26 +8115,26 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_5draw_bspline(PyObject *__
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_transform)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 1); __PYX_ERR(2, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 1); __PYX_ERR(2, 156, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_line_paint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 2); __PYX_ERR(2, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 2); __PYX_ERR(2, 156, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fill_paint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 3); __PYX_ERR(2, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 3); __PYX_ERR(2, 156, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 4); __PYX_ERR(2, 155, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, 4); __PYX_ERR(2, 156, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_bspline") < 0)) __PYX_ERR(2, 155, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_bspline") < 0)) __PYX_ERR(2, 156, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 5) {
       goto __pyx_L5_argtuple_error;
@@ -8050,16 +8153,16 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_5draw_bspline(PyObject *__
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 155, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("draw_bspline", 1, 5, 5, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 156, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasBase.draw_bspline", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 155, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_line_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "line_paint", 0))) __PYX_ERR(2, 155, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fill_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "fill_paint", 0))) __PYX_ERR(2, 156, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 156, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 156, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_line_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "line_paint", 0))) __PYX_ERR(2, 156, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fill_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "fill_paint", 0))) __PYX_ERR(2, 157, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 157, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_v_points, __pyx_v_transform, __pyx_v_line_paint, __pyx_v_fill_paint, __pyx_v_state);
 
   /* function exit code */
@@ -8088,62 +8191,62 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(struct __pyx
   int __pyx_t_10;
   __Pyx_RefNannySetupContext("draw_bspline", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":165
+  /* "pyagg/ndarray_canvas.pxi":166
  *                  line color, line width, fill color, anti-aliased
  *         """
  *         cdef double[:,::1] points_npy = numpy.asarray(points,             # <<<<<<<<<<<<<<
  *                                                       dtype=numpy.float64,
  *                                                       order='c')
  */
-  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 165, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 165, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_asarray); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 165, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_points);
   __Pyx_GIVEREF(__pyx_v_points);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_points);
 
-  /* "pyagg/ndarray_canvas.pxi":166
+  /* "pyagg/ndarray_canvas.pxi":167
  *         """
  *         cdef double[:,::1] points_npy = numpy.asarray(points,
  *                                                       dtype=numpy.float64,             # <<<<<<<<<<<<<<
  *                                                       order='c')
  * 
  */
-  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 166, __pyx_L1_error)
+  __pyx_t_3 = PyDict_New(); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
-  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 166, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_GetModuleGlobalName(__pyx_n_s_numpy); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 166, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_float64); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 167, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(2, 166, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_dtype, __pyx_t_5) < 0) __PYX_ERR(2, 167, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(2, 166, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_3, __pyx_n_s_order, __pyx_n_s_c) < 0) __PYX_ERR(2, 167, __pyx_L1_error)
 
-  /* "pyagg/ndarray_canvas.pxi":165
+  /* "pyagg/ndarray_canvas.pxi":166
  *                  line color, line width, fill color, anti-aliased
  *         """
  *         cdef double[:,::1] points_npy = numpy.asarray(points,             # <<<<<<<<<<<<<<
  *                                                       dtype=numpy.float64,
  *                                                       order='c')
  */
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 165, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_1, __pyx_t_3); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 166, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   __pyx_t_6 = __Pyx_PyObject_to_MemoryviewSlice_d_dc_double(__pyx_t_5);
-  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 165, __pyx_L1_error)
+  if (unlikely(!__pyx_t_6.memview)) __PYX_ERR(2, 166, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __pyx_v_points_npy = __pyx_t_6;
   __pyx_t_6.memview = NULL;
   __pyx_t_6.data = NULL;
 
-  /* "pyagg/ndarray_canvas.pxi":169
+  /* "pyagg/ndarray_canvas.pxi":170
  *                                                       order='c')
  * 
  *         if points_npy.shape[1] != 2:             # <<<<<<<<<<<<<<
@@ -8153,7 +8256,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(struct __pyx
   __pyx_t_7 = (((__pyx_v_points_npy.shape[1]) != 2) != 0);
   if (__pyx_t_7) {
 
-    /* "pyagg/ndarray_canvas.pxi":170
+    /* "pyagg/ndarray_canvas.pxi":171
  * 
  *         if points_npy.shape[1] != 2:
  *             msg = 'Points argument must be an iterable of (x, y) pairs.'             # <<<<<<<<<<<<<<
@@ -8163,26 +8266,26 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(struct __pyx
     __Pyx_INCREF(__pyx_kp_s_Points_argument_must_be_an_itera);
     __pyx_v_msg = __pyx_kp_s_Points_argument_must_be_an_itera;
 
-    /* "pyagg/ndarray_canvas.pxi":171
+    /* "pyagg/ndarray_canvas.pxi":172
  *         if points_npy.shape[1] != 2:
  *             msg = 'Points argument must be an iterable of (x, y) pairs.'
  *             raise ValueError(msg)             # <<<<<<<<<<<<<<
  * 
  *         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
  */
-    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 171, __pyx_L1_error)
+    __pyx_t_5 = PyTuple_New(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(2, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_INCREF(__pyx_v_msg);
     __Pyx_GIVEREF(__pyx_v_msg);
     PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_v_msg);
-    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 171, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyObject_Call(__pyx_builtin_ValueError, __pyx_t_5, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(2, 172, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_Raise(__pyx_t_3, 0, 0, 0);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __PYX_ERR(2, 171, __pyx_L1_error)
+    __PYX_ERR(2, 172, __pyx_L1_error)
 
-    /* "pyagg/ndarray_canvas.pxi":169
+    /* "pyagg/ndarray_canvas.pxi":170
  *                                                       order='c')
  * 
  *         if points_npy.shape[1] != 2:             # <<<<<<<<<<<<<<
@@ -8191,7 +8294,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(struct __pyx
  */
   }
 
-  /* "pyagg/ndarray_canvas.pxi":173
+  /* "pyagg/ndarray_canvas.pxi":174
  *             raise ValueError(msg)
  * 
  *         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],             # <<<<<<<<<<<<<<
@@ -8209,7 +8312,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_4draw_bspline(struct __pyx
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 173, __pyx_L1_error)
+        __PYX_ERR(2, 174, __pyx_L1_error)
     }
         __pyx_t_8.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -8226,10 +8329,10 @@ __pyx_t_9 = 0;
   } else if (unlikely(__pyx_t_9 >= __pyx_t_8.shape[0])) __pyx_t_10 = 0;
   if (unlikely(__pyx_t_10 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_10);
-    __PYX_ERR(2, 173, __pyx_L1_error)
+    __PYX_ERR(2, 174, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":177
+  /* "pyagg/ndarray_canvas.pxi":178
  *                                 dereference(line_paint._this),
  *                                 dereference(fill_paint._this),
  *                                 dereference(state._this))             # <<<<<<<<<<<<<<
@@ -8239,7 +8342,7 @@ __pyx_t_9 = 0;
   __pyx_v_self->_this->draw_bspline((&(*((double *) ( /* dim=0 */ ((char *) (((double *) __pyx_t_8.data) + __pyx_t_9)) )))), (__pyx_v_points_npy.shape[0]), (*__pyx_v_transform->_this), (*__pyx_v_line_paint->_this), (*__pyx_v_fill_paint->_this), (*__pyx_v_state->_this));
   __PYX_XDEC_MEMVIEW(&__pyx_t_8, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":155
+  /* "pyagg/ndarray_canvas.pxi":156
  *                              dereference(state._this))
  * 
  *     def draw_bspline(self, points, Transform transform, Paint line_paint,             # <<<<<<<<<<<<<<
@@ -8268,7 +8371,7 @@ __pyx_t_9 = 0;
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":179
+/* "pyagg/ndarray_canvas.pxi":180
  *                                 dereference(state._this))
  * 
  *     def draw_image(self, image, Transform transform, GraphicsState state):             # <<<<<<<<<<<<<<
@@ -8307,16 +8410,16 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_7draw_image(PyObject *__py
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_transform)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_image", 1, 3, 3, 1); __PYX_ERR(2, 179, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_image", 1, 3, 3, 1); __PYX_ERR(2, 180, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_image", 1, 3, 3, 2); __PYX_ERR(2, 179, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_image", 1, 3, 3, 2); __PYX_ERR(2, 180, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_image") < 0)) __PYX_ERR(2, 179, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_image") < 0)) __PYX_ERR(2, 180, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -8331,14 +8434,14 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_7draw_image(PyObject *__py
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("draw_image", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 179, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("draw_image", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 180, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasBase.draw_image", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 179, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 179, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 180, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 180, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_10CanvasBase_6draw_image(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_v_image, __pyx_v_transform, __pyx_v_state);
 
   /* function exit code */
@@ -8360,14 +8463,14 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6draw_image(struct __pyx_o
   PyObject *__pyx_t_4 = NULL;
   __Pyx_RefNannySetupContext("draw_image", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":185
+  /* "pyagg/ndarray_canvas.pxi":186
  *           state: A GraphicsState object
  *         """
  *         cdef ImageBase img = self._get_image(image)             # <<<<<<<<<<<<<<
  *         self._this.draw_image(dereference(img._this),
  *                               dereference(transform._this),
  */
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_image); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 185, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(((PyObject *)__pyx_v_self), __pyx_n_s_get_image); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __pyx_t_3 = NULL;
   if (CYTHON_COMPILING_IN_CPYTHON && likely(PyMethod_Check(__pyx_t_2))) {
@@ -8380,25 +8483,25 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6draw_image(struct __pyx_o
     }
   }
   if (!__pyx_t_3) {
-    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_image); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 185, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_t_2, __pyx_v_image); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
   } else {
-    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 185, __pyx_L1_error)
+    __pyx_t_4 = PyTuple_New(1+1); if (unlikely(!__pyx_t_4)) __PYX_ERR(2, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_GIVEREF(__pyx_t_3); PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_3); __pyx_t_3 = NULL;
     __Pyx_INCREF(__pyx_v_image);
     __Pyx_GIVEREF(__pyx_v_image);
     PyTuple_SET_ITEM(__pyx_t_4, 0+1, __pyx_v_image);
-    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 185, __pyx_L1_error)
+    __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5pyagg_6_pyagg_ImageBase))))) __PYX_ERR(2, 185, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5pyagg_6_pyagg_ImageBase))))) __PYX_ERR(2, 186, __pyx_L1_error)
   __pyx_v_img = ((struct __pyx_obj_5pyagg_6_pyagg_ImageBase *)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":186
+  /* "pyagg/ndarray_canvas.pxi":187
  *         """
  *         cdef ImageBase img = self._get_image(image)
  *         self._this.draw_image(dereference(img._this),             # <<<<<<<<<<<<<<
@@ -8407,7 +8510,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6draw_image(struct __pyx_o
  */
   __pyx_v_self->_this->draw_image((*__pyx_v_img->_this), (*__pyx_v_transform->_this), (*__pyx_v_state->_this));
 
-  /* "pyagg/ndarray_canvas.pxi":179
+  /* "pyagg/ndarray_canvas.pxi":180
  *                                 dereference(state._this))
  * 
  *     def draw_image(self, image, Transform transform, GraphicsState state):             # <<<<<<<<<<<<<<
@@ -8432,7 +8535,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_6draw_image(struct __pyx_o
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":190
+/* "pyagg/ndarray_canvas.pxi":191
  *                               dereference(state._this))
  * 
  *     def draw_text(self, text, Font font, Transform transform, Paint line_paint,             # <<<<<<<<<<<<<<
@@ -8477,31 +8580,31 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_9draw_text(PyObject *__pyx
         case  1:
         if (likely((values[1] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_font)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 1); __PYX_ERR(2, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 1); __PYX_ERR(2, 191, __pyx_L3_error)
         }
         case  2:
         if (likely((values[2] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_transform)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 2); __PYX_ERR(2, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 2); __PYX_ERR(2, 191, __pyx_L3_error)
         }
         case  3:
         if (likely((values[3] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_line_paint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 3); __PYX_ERR(2, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 3); __PYX_ERR(2, 191, __pyx_L3_error)
         }
         case  4:
         if (likely((values[4] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_fill_paint)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 4); __PYX_ERR(2, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 4); __PYX_ERR(2, 191, __pyx_L3_error)
         }
         case  5:
         if (likely((values[5] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_state)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 5); __PYX_ERR(2, 190, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, 5); __PYX_ERR(2, 191, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_text") < 0)) __PYX_ERR(2, 190, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "draw_text") < 0)) __PYX_ERR(2, 191, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 6) {
       goto __pyx_L5_argtuple_error;
@@ -8522,17 +8625,17 @@ static PyObject *__pyx_pw_5pyagg_6_pyagg_10CanvasBase_9draw_text(PyObject *__pyx
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 190, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("draw_text", 1, 6, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 191, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasBase.draw_text", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_font), __pyx_ptype_5pyagg_6_pyagg_Font, 1, "font", 0))) __PYX_ERR(2, 190, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 190, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_line_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "line_paint", 0))) __PYX_ERR(2, 190, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fill_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "fill_paint", 0))) __PYX_ERR(2, 191, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 191, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_font), __pyx_ptype_5pyagg_6_pyagg_Font, 1, "font", 0))) __PYX_ERR(2, 191, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_transform), __pyx_ptype_5pyagg_6_pyagg_Transform, 1, "transform", 0))) __PYX_ERR(2, 191, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_line_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "line_paint", 0))) __PYX_ERR(2, 191, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_fill_paint), __pyx_ptype_5pyagg_6_pyagg_Paint, 1, "fill_paint", 0))) __PYX_ERR(2, 192, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_state), __pyx_ptype_5pyagg_6_pyagg_GraphicsState, 1, "state", 0))) __PYX_ERR(2, 192, __pyx_L1_error)
   __pyx_r = __pyx_pf_5pyagg_6_pyagg_10CanvasBase_8draw_text(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_v_text, __pyx_v_font, __pyx_v_transform, __pyx_v_line_paint, __pyx_v_fill_paint, __pyx_v_state);
 
   /* function exit code */
@@ -8552,28 +8655,28 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_8draw_text(struct __pyx_ob
   __Pyx_RefNannySetupContext("draw_text", 0);
   __Pyx_INCREF(__pyx_v_text);
 
-  /* "pyagg/ndarray_canvas.pxi":201
+  /* "pyagg/ndarray_canvas.pxi":202
  *                 line color, line width, fill color, drawing mode, anti-aliased
  *         """
  *         text = _get_utf8_text(text, "The text argument must be unicode.")             # <<<<<<<<<<<<<<
  *         self._this.draw_text(text, dereference(font._this),
  *                              dereference(transform._this),
  */
-  __pyx_t_1 = __pyx_f_5pyagg_6_pyagg__get_utf8_text(__pyx_v_text, __pyx_kp_s_The_text_argument_must_be_unicod); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 201, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_5pyagg_6_pyagg__get_utf8_text(__pyx_v_text, __pyx_kp_s_The_text_argument_must_be_unicod); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 202, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF_SET(__pyx_v_text, __pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":202
+  /* "pyagg/ndarray_canvas.pxi":203
  *         """
  *         text = _get_utf8_text(text, "The text argument must be unicode.")
  *         self._this.draw_text(text, dereference(font._this),             # <<<<<<<<<<<<<<
  *                              dereference(transform._this),
  *                              dereference(line_paint._this),
  */
-  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_text); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(2, 202, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_AsString(__pyx_v_text); if (unlikely((!__pyx_t_2) && PyErr_Occurred())) __PYX_ERR(2, 203, __pyx_L1_error)
 
-  /* "pyagg/ndarray_canvas.pxi":206
+  /* "pyagg/ndarray_canvas.pxi":207
  *                              dereference(line_paint._this),
  *                              dereference(fill_paint._this),
  *                              dereference(state._this))             # <<<<<<<<<<<<<<
@@ -8582,7 +8685,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_8draw_text(struct __pyx_ob
  */
   __pyx_v_self->_this->draw_text(__pyx_t_2, (*__pyx_v_font->_this), (*__pyx_v_transform->_this), (*__pyx_v_line_paint->_this), (*__pyx_v_fill_paint->_this), (*__pyx_v_state->_this));
 
-  /* "pyagg/ndarray_canvas.pxi":190
+  /* "pyagg/ndarray_canvas.pxi":191
  *                               dereference(state._this))
  * 
  *     def draw_text(self, text, Font font, Transform transform, Paint line_paint,             # <<<<<<<<<<<<<<
@@ -8604,7 +8707,250 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasBase_8draw_text(struct __pyx_ob
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":216
+/* "pyagg/ndarray_canvas.pxi":217
+ *     MxNx4 (4 channels: red, green, blue, and alpha).
+ *     """
+ *     def __cinit__(self, float[:,:,::1] image):             # <<<<<<<<<<<<<<
+ *         self.base_init(image, 4, True)
+ *         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
+ */
+
+/* Python wrapper */
+static int __pyx_pw_5pyagg_6_pyagg_13CanvasRGBA128_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_pw_5pyagg_6_pyagg_13CanvasRGBA128_1__cinit__(PyObject *__pyx_v_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+  __Pyx_memviewslice __pyx_v_image = { 0, 0, { 0 }, { 0 }, { 0 } };
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("__cinit__ (wrapper)", 0);
+  {
+    static PyObject **__pyx_pyargnames[] = {&__pyx_n_s_image,0};
+    PyObject* values[1] = {0};
+    if (unlikely(__pyx_kwds)) {
+      Py_ssize_t kw_args;
+      const Py_ssize_t pos_args = PyTuple_GET_SIZE(__pyx_args);
+      switch (pos_args) {
+        case  1: values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+        case  0: break;
+        default: goto __pyx_L5_argtuple_error;
+      }
+      kw_args = PyDict_Size(__pyx_kwds);
+      switch (pos_args) {
+        case  0:
+        if (likely((values[0] = PyDict_GetItem(__pyx_kwds, __pyx_n_s_image)) != 0)) kw_args--;
+        else goto __pyx_L5_argtuple_error;
+      }
+      if (unlikely(kw_args > 0)) {
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 217, __pyx_L3_error)
+      }
+    } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
+      goto __pyx_L5_argtuple_error;
+    } else {
+      values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
+    }
+    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_float(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 217, __pyx_L3_error)
+  }
+  goto __pyx_L4_argument_unpacking_done;
+  __pyx_L5_argtuple_error:;
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 217, __pyx_L3_error)
+  __pyx_L3_error:;
+  __Pyx_AddTraceback("pyagg._pyagg.CanvasRGBA128.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_RefNannyFinishContext();
+  return -1;
+  __pyx_L4_argument_unpacking_done:;
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13CanvasRGBA128___cinit__(((struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *)__pyx_v_self), __pyx_v_image);
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static int __pyx_pf_5pyagg_6_pyagg_13CanvasRGBA128___cinit__(struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *__pyx_v_self, __Pyx_memviewslice __pyx_v_image) {
+  int __pyx_r;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  int __pyx_t_2;
+  __Pyx_memviewslice __pyx_t_3 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  __Pyx_memviewslice __pyx_t_4 = { 0, 0, { 0 }, { 0 }, { 0 } };
+  Py_ssize_t __pyx_t_5;
+  __Pyx_RefNannySetupContext("__cinit__", 0);
+
+  /* "pyagg/ndarray_canvas.pxi":218
+ *     """
+ *     def __cinit__(self, float[:,:,::1] image):
+ *         self.base_init(image, 4, True)             # <<<<<<<<<<<<<<
+ *         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
+ *                                                         image.shape[1],
+ */
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_float, (int (*)(char *, PyObject *)) __pyx_memview_set_float, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 218, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA128 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 4, 1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 218, __pyx_L1_error)
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+
+  /* "pyagg/ndarray_canvas.pxi":219
+ *     def __cinit__(self, float[:,:,::1] image):
+ *         self.base_init(image, 4, True)
+ *         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],             # <<<<<<<<<<<<<<
+ *                                                         image.shape[1],
+ *                                                         image.shape[0],
+ */
+  __pyx_t_3.data = __pyx_v_image.data;
+  __pyx_t_3.memview = __pyx_v_image.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_3, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_v_image.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_v_image.strides[0];
+    if (1 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+        __PYX_ERR(2, 219, __pyx_L1_error)
+    }
+        __pyx_t_3.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+__pyx_t_3.shape[0] = __pyx_v_image.shape[1];
+__pyx_t_3.strides[0] = __pyx_v_image.strides[1];
+    __pyx_t_3.suboffsets[0] = -1;
+
+__pyx_t_3.shape[1] = __pyx_v_image.shape[2];
+__pyx_t_3.strides[1] = __pyx_v_image.strides[2];
+    __pyx_t_3.suboffsets[1] = -1;
+
+__pyx_t_4.data = __pyx_t_3.data;
+  __pyx_t_4.memview = __pyx_t_3.memview;
+  __PYX_INC_MEMVIEW(&__pyx_t_4, 0);
+  {
+    Py_ssize_t __pyx_tmp_idx = 0;
+    Py_ssize_t __pyx_tmp_shape = __pyx_t_3.shape[0];
+    Py_ssize_t __pyx_tmp_stride = __pyx_t_3.strides[0];
+    if (1 && (__pyx_tmp_idx < 0))
+        __pyx_tmp_idx += __pyx_tmp_shape;
+    if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
+        PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
+        __PYX_ERR(2, 219, __pyx_L1_error)
+    }
+        __pyx_t_4.data += __pyx_tmp_idx * __pyx_tmp_stride;
+}
+
+__pyx_t_4.shape[0] = __pyx_t_3.shape[1];
+__pyx_t_4.strides[0] = __pyx_t_3.strides[1];
+    __pyx_t_4.suboffsets[0] = -1;
+
+__PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
+  __pyx_t_5 = 0;
+  __pyx_t_2 = -1;
+  if (__pyx_t_5 < 0) {
+    __pyx_t_5 += __pyx_t_4.shape[0];
+    if (unlikely(__pyx_t_5 < 0)) __pyx_t_2 = 0;
+  } else if (unlikely(__pyx_t_5 >= __pyx_t_4.shape[0])) __pyx_t_2 = 0;
+  if (unlikely(__pyx_t_2 != -1)) {
+    __Pyx_RaiseBufferIndexError(__pyx_t_2);
+    __PYX_ERR(2, 219, __pyx_L1_error)
+  }
+
+  /* "pyagg/ndarray_canvas.pxi":222
+ *                                                         image.shape[1],
+ *                                                         image.shape[0],
+ *                                                         image.strides[0], 4)             # <<<<<<<<<<<<<<
+ * 
+ *     def _get_image(self, image):
+ */
+  __pyx_v_self->__pyx_base._this = ((__pyx_t_5pyagg_6_pyagg_canvas_base_t *)new __pyx_t_5pyagg_6_pyagg_canvas_rgba128_t(((uint8_t *)(&(*((float *) ( /* dim=0 */ ((char *) (((float *) __pyx_t_4.data) + __pyx_t_5)) ))))), (__pyx_v_image.shape[1]), (__pyx_v_image.shape[0]), (__pyx_v_image.strides[0]), 4));
+  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
+
+  /* "pyagg/ndarray_canvas.pxi":217
+ *     MxNx4 (4 channels: red, green, blue, and alpha).
+ *     """
+ *     def __cinit__(self, float[:,:,::1] image):             # <<<<<<<<<<<<<<
+ *         self.base_init(image, 4, True)
+ *         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
+ */
+
+  /* function exit code */
+  __pyx_r = 0;
+  goto __pyx_L0;
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
+  __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
+  __Pyx_AddTraceback("pyagg._pyagg.CanvasRGBA128.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = -1;
+  __pyx_L0:;
+  __PYX_XDEC_MEMVIEW(&__pyx_v_image, 1);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/ndarray_canvas.pxi":224
+ *                                                         image.strides[0], 4)
+ * 
+ *     def _get_image(self, image):             # <<<<<<<<<<<<<<
+ *         return ImageRGBA128(image)
+ * 
+ */
+
+/* Python wrapper */
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13CanvasRGBA128_3_get_image(PyObject *__pyx_v_self, PyObject *__pyx_v_image); /*proto*/
+static PyObject *__pyx_pw_5pyagg_6_pyagg_13CanvasRGBA128_3_get_image(PyObject *__pyx_v_self, PyObject *__pyx_v_image) {
+  PyObject *__pyx_r = 0;
+  __Pyx_RefNannyDeclarations
+  __Pyx_RefNannySetupContext("_get_image (wrapper)", 0);
+  __pyx_r = __pyx_pf_5pyagg_6_pyagg_13CanvasRGBA128_2_get_image(((struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *)__pyx_v_self), ((PyObject *)__pyx_v_image));
+
+  /* function exit code */
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+static PyObject *__pyx_pf_5pyagg_6_pyagg_13CanvasRGBA128_2_get_image(CYTHON_UNUSED struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *__pyx_v_self, PyObject *__pyx_v_image) {
+  PyObject *__pyx_r = NULL;
+  __Pyx_RefNannyDeclarations
+  PyObject *__pyx_t_1 = NULL;
+  PyObject *__pyx_t_2 = NULL;
+  __Pyx_RefNannySetupContext("_get_image", 0);
+
+  /* "pyagg/ndarray_canvas.pxi":225
+ * 
+ *     def _get_image(self, image):
+ *         return ImageRGBA128(image)             # <<<<<<<<<<<<<<
+ * 
+ * 
+ */
+  __Pyx_XDECREF(__pyx_r);
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 225, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_1);
+  __Pyx_INCREF(__pyx_v_image);
+  __Pyx_GIVEREF(__pyx_v_image);
+  PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_image);
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageRGBA128), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 225, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_2);
+  __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+  __pyx_r = __pyx_t_2;
+  __pyx_t_2 = 0;
+  goto __pyx_L0;
+
+  /* "pyagg/ndarray_canvas.pxi":224
+ *                                                         image.strides[0], 4)
+ * 
+ *     def _get_image(self, image):             # <<<<<<<<<<<<<<
+ *         return ImageRGBA128(image)
+ * 
+ */
+
+  /* function exit code */
+  __pyx_L1_error:;
+  __Pyx_XDECREF(__pyx_t_1);
+  __Pyx_XDECREF(__pyx_t_2);
+  __Pyx_AddTraceback("pyagg._pyagg.CanvasRGBA128._get_image", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __pyx_r = NULL;
+  __pyx_L0:;
+  __Pyx_XGIVEREF(__pyx_r);
+  __Pyx_RefNannyFinishContext();
+  return __pyx_r;
+}
+
+/* "pyagg/ndarray_canvas.pxi":235
  *     MxNx4 (4 channels: red, green, blue, and alpha).
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):             # <<<<<<<<<<<<<<
@@ -8637,18 +8983,18 @@ static int __pyx_pw_5pyagg_6_pyagg_12CanvasRGBA32_1__cinit__(PyObject *__pyx_v_s
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 216, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 235, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 216, __pyx_L3_error)
+    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 235, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 216, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 235, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasRGBA32.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8671,19 +9017,19 @@ static int __pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32___cinit__(struct __pyx_obj_5py
   Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":217
+  /* "pyagg/ndarray_canvas.pxi":236
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):
  *         self.base_init(image, 4, True)             # <<<<<<<<<<<<<<
  *         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
  *                                                           image.shape[1],
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 217, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 236, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA32 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 4, 1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 217, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA32 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 4, 1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 236, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":218
+  /* "pyagg/ndarray_canvas.pxi":237
  *     def __cinit__(self, uint8_t[:,:,::1] image):
  *         self.base_init(image, 4, True)
  *         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],             # <<<<<<<<<<<<<<
@@ -8701,7 +9047,7 @@ static int __pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32___cinit__(struct __pyx_obj_5py
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 218, __pyx_L1_error)
+        __PYX_ERR(2, 237, __pyx_L1_error)
     }
         __pyx_t_3.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -8725,7 +9071,7 @@ __pyx_t_4.data = __pyx_t_3.data;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 218, __pyx_L1_error)
+        __PYX_ERR(2, 237, __pyx_L1_error)
     }
         __pyx_t_4.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -8743,10 +9089,10 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   } else if (unlikely(__pyx_t_5 >= __pyx_t_4.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(2, 218, __pyx_L1_error)
+    __PYX_ERR(2, 237, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":221
+  /* "pyagg/ndarray_canvas.pxi":240
  *                                                           image.shape[1],
  *                                                           image.shape[0],
  *                                                           image.strides[0], 4)             # <<<<<<<<<<<<<<
@@ -8756,7 +9102,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_self->__pyx_base._this = ((__pyx_t_5pyagg_6_pyagg_canvas_base_t *)new __pyx_t_5pyagg_6_pyagg_canvas_rgba32_t((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_4.data) + __pyx_t_5)) )))), (__pyx_v_image.shape[1]), (__pyx_v_image.shape[0]), (__pyx_v_image.strides[0]), 4));
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":216
+  /* "pyagg/ndarray_canvas.pxi":235
  *     MxNx4 (4 channels: red, green, blue, and alpha).
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):             # <<<<<<<<<<<<<<
@@ -8779,7 +9125,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":223
+/* "pyagg/ndarray_canvas.pxi":242
  *                                                           image.strides[0], 4)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -8807,7 +9153,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32_2_get_image(CYTHON_UNUSE
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("_get_image", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":224
+  /* "pyagg/ndarray_canvas.pxi":243
  * 
  *     def _get_image(self, image):
  *         return ImageRGBA32(image)             # <<<<<<<<<<<<<<
@@ -8815,19 +9161,19 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32_2_get_image(CYTHON_UNUSE
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 224, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_image);
   __Pyx_GIVEREF(__pyx_v_image);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_image);
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageRGBA32), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 224, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageRGBA32), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 243, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":223
+  /* "pyagg/ndarray_canvas.pxi":242
  *                                                           image.strides[0], 4)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -8847,7 +9193,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_12CanvasRGBA32_2_get_image(CYTHON_UNUSE
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":233
+/* "pyagg/ndarray_canvas.pxi":252
  *     must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):             # <<<<<<<<<<<<<<
@@ -8880,18 +9226,18 @@ static int __pyx_pw_5pyagg_6_pyagg_11CanvasRGB24_1__cinit__(PyObject *__pyx_v_se
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 233, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 252, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 233, __pyx_L3_error)
+    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 252, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 233, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 252, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasRGB24.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -8914,19 +9260,19 @@ static int __pyx_pf_5pyagg_6_pyagg_11CanvasRGB24___cinit__(struct __pyx_obj_5pya
   Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":234
+  /* "pyagg/ndarray_canvas.pxi":253
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):
  *         self.base_init(image, 4, False)             # <<<<<<<<<<<<<<
  *         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
  *                                                          image.shape[1],
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 234, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 253, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGB24 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 4, 0); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 234, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGB24 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 4, 0); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 253, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":235
+  /* "pyagg/ndarray_canvas.pxi":254
  *     def __cinit__(self, uint8_t[:,:,::1] image):
  *         self.base_init(image, 4, False)
  *         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],             # <<<<<<<<<<<<<<
@@ -8944,7 +9290,7 @@ static int __pyx_pf_5pyagg_6_pyagg_11CanvasRGB24___cinit__(struct __pyx_obj_5pya
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 235, __pyx_L1_error)
+        __PYX_ERR(2, 254, __pyx_L1_error)
     }
         __pyx_t_3.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -8968,7 +9314,7 @@ __pyx_t_4.data = __pyx_t_3.data;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 235, __pyx_L1_error)
+        __PYX_ERR(2, 254, __pyx_L1_error)
     }
         __pyx_t_4.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -8986,10 +9332,10 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   } else if (unlikely(__pyx_t_5 >= __pyx_t_4.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(2, 235, __pyx_L1_error)
+    __PYX_ERR(2, 254, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":238
+  /* "pyagg/ndarray_canvas.pxi":257
  *                                                          image.shape[1],
  *                                                          image.shape[0],
  *                                                          image.strides[0], 3)             # <<<<<<<<<<<<<<
@@ -8999,7 +9345,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_self->__pyx_base._this = ((__pyx_t_5pyagg_6_pyagg_canvas_base_t *)new __pyx_t_5pyagg_6_pyagg_canvas_rgb24_t((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_4.data) + __pyx_t_5)) )))), (__pyx_v_image.shape[1]), (__pyx_v_image.shape[0]), (__pyx_v_image.strides[0]), 3));
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":233
+  /* "pyagg/ndarray_canvas.pxi":252
  *     must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):             # <<<<<<<<<<<<<<
@@ -9022,7 +9368,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":240
+/* "pyagg/ndarray_canvas.pxi":259
  *                                                          image.strides[0], 3)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -9050,7 +9396,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_11CanvasRGB24_2_get_image(CYTHON_UNUSED
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("_get_image", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":241
+  /* "pyagg/ndarray_canvas.pxi":260
  * 
  *     def _get_image(self, image):
  *         return ImageRGB24(image)             # <<<<<<<<<<<<<<
@@ -9058,19 +9404,19 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_11CanvasRGB24_2_get_image(CYTHON_UNUSED
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 241, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_image);
   __Pyx_GIVEREF(__pyx_v_image);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_image);
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageRGB24), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 241, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageRGB24), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 260, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":240
+  /* "pyagg/ndarray_canvas.pxi":259
  *                                                          image.strides[0], 3)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -9090,7 +9436,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_11CanvasRGB24_2_get_image(CYTHON_UNUSED
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":250
+/* "pyagg/ndarray_canvas.pxi":269
  *     must be C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):             # <<<<<<<<<<<<<<
@@ -9123,18 +9469,18 @@ static int __pyx_pw_5pyagg_6_pyagg_10CanvasGA16_1__cinit__(PyObject *__pyx_v_sel
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 250, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 269, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 250, __pyx_L3_error)
+    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 269, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 250, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 269, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasGA16.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9157,19 +9503,19 @@ static int __pyx_pf_5pyagg_6_pyagg_10CanvasGA16___cinit__(struct __pyx_obj_5pyag
   Py_ssize_t __pyx_t_5;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":251
+  /* "pyagg/ndarray_canvas.pxi":270
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):
  *         self.base_init(image, 2, True)             # <<<<<<<<<<<<<<
  *         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
  *                                                         image.shape[1],
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 251, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 3, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 270, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasGA16 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 2, 1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 251, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasGA16 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 2, 1); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 270, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":252
+  /* "pyagg/ndarray_canvas.pxi":271
  *     def __cinit__(self, uint8_t[:,:,::1] image):
  *         self.base_init(image, 2, True)
  *         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],             # <<<<<<<<<<<<<<
@@ -9187,7 +9533,7 @@ static int __pyx_pf_5pyagg_6_pyagg_10CanvasGA16___cinit__(struct __pyx_obj_5pyag
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 252, __pyx_L1_error)
+        __PYX_ERR(2, 271, __pyx_L1_error)
     }
         __pyx_t_3.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -9211,7 +9557,7 @@ __pyx_t_4.data = __pyx_t_3.data;
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 252, __pyx_L1_error)
+        __PYX_ERR(2, 271, __pyx_L1_error)
     }
         __pyx_t_4.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -9229,10 +9575,10 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   } else if (unlikely(__pyx_t_5 >= __pyx_t_4.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(2, 252, __pyx_L1_error)
+    __PYX_ERR(2, 271, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":255
+  /* "pyagg/ndarray_canvas.pxi":274
  *                                                         image.shape[1],
  *                                                         image.shape[0],
  *                                                         image.strides[0], 2)             # <<<<<<<<<<<<<<
@@ -9242,7 +9588,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   __pyx_v_self->__pyx_base._this = ((__pyx_t_5pyagg_6_pyagg_canvas_base_t *)new __pyx_t_5pyagg_6_pyagg_canvas_ga16_t((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_4.data) + __pyx_t_5)) )))), (__pyx_v_image.shape[1]), (__pyx_v_image.shape[0]), (__pyx_v_image.strides[0]), 2));
   __PYX_XDEC_MEMVIEW(&__pyx_t_4, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":250
+  /* "pyagg/ndarray_canvas.pxi":269
  *     must be C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
  *     """
  *     def __cinit__(self, uint8_t[:,:,::1] image):             # <<<<<<<<<<<<<<
@@ -9265,7 +9611,7 @@ __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":257
+/* "pyagg/ndarray_canvas.pxi":276
  *                                                         image.strides[0], 2)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -9293,7 +9639,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasGA16_2_get_image(CYTHON_UNUSED 
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("_get_image", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":258
+  /* "pyagg/ndarray_canvas.pxi":277
  * 
  *     def _get_image(self, image):
  *         return ImageGA16(image)             # <<<<<<<<<<<<<<
@@ -9301,19 +9647,19 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasGA16_2_get_image(CYTHON_UNUSED 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 258, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_image);
   __Pyx_GIVEREF(__pyx_v_image);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_image);
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageGA16), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 258, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageGA16), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 277, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":257
+  /* "pyagg/ndarray_canvas.pxi":276
  *                                                         image.strides[0], 2)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -9333,7 +9679,7 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_10CanvasGA16_2_get_image(CYTHON_UNUSED 
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":267
+/* "pyagg/ndarray_canvas.pxi":286
  *     C-contiguous, and must be MxN (1 channel: intensity).
  *     """
  *     def __cinit__(self, uint8_t[:,::1] image):             # <<<<<<<<<<<<<<
@@ -9366,18 +9712,18 @@ static int __pyx_pw_5pyagg_6_pyagg_8CanvasG8_1__cinit__(PyObject *__pyx_v_self, 
         else goto __pyx_L5_argtuple_error;
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 267, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "__cinit__") < 0)) __PYX_ERR(2, 286, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 1) {
       goto __pyx_L5_argtuple_error;
     } else {
       values[0] = PyTuple_GET_ITEM(__pyx_args, 0);
     }
-    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 267, __pyx_L3_error)
+    __pyx_v_image = __Pyx_PyObject_to_MemoryviewSlice_d_dc_nn_uint8_t(values[0]); if (unlikely(!__pyx_v_image.memview)) __PYX_ERR(2, 286, __pyx_L3_error)
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 267, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("__cinit__", 1, 1, 1, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(2, 286, __pyx_L3_error)
   __pyx_L3_error:;
   __Pyx_AddTraceback("pyagg._pyagg.CanvasG8.__cinit__", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
@@ -9399,19 +9745,19 @@ static int __pyx_pf_5pyagg_6_pyagg_8CanvasG8___cinit__(struct __pyx_obj_5pyagg_6
   Py_ssize_t __pyx_t_4;
   __Pyx_RefNannySetupContext("__cinit__", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":268
+  /* "pyagg/ndarray_canvas.pxi":287
  *     """
  *     def __cinit__(self, uint8_t[:,::1] image):
  *         self.base_init(image, 2, False)             # <<<<<<<<<<<<<<
  *         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
  *                                                         image.shape[1],
  */
-  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 2, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 268, __pyx_L1_error)
+  __pyx_t_1 = __pyx_memoryview_fromslice(__pyx_v_image, 2, (PyObject *(*)(char *)) __pyx_memview_get_nn_uint8_t, (int (*)(char *, PyObject *)) __pyx_memview_set_nn_uint8_t, 0);; if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 287, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasG8 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 2, 0); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 268, __pyx_L1_error)
+  __pyx_t_2 = ((struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasG8 *)__pyx_v_self->__pyx_base.__pyx_vtab)->__pyx_base.base_init(((struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *)__pyx_v_self), __pyx_t_1, 2, 0); if (unlikely(__pyx_t_2 == -1)) __PYX_ERR(2, 287, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "pyagg/ndarray_canvas.pxi":269
+  /* "pyagg/ndarray_canvas.pxi":288
  *     def __cinit__(self, uint8_t[:,::1] image):
  *         self.base_init(image, 2, False)
  *         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],             # <<<<<<<<<<<<<<
@@ -9429,7 +9775,7 @@ static int __pyx_pf_5pyagg_6_pyagg_8CanvasG8___cinit__(struct __pyx_obj_5pyagg_6
         __pyx_tmp_idx += __pyx_tmp_shape;
     if (1 && (__pyx_tmp_idx < 0 || __pyx_tmp_idx >= __pyx_tmp_shape)) {
         PyErr_SetString(PyExc_IndexError, "Index out of bounds (axis 0)");
-        __PYX_ERR(2, 269, __pyx_L1_error)
+        __PYX_ERR(2, 288, __pyx_L1_error)
     }
         __pyx_t_3.data += __pyx_tmp_idx * __pyx_tmp_stride;
 }
@@ -9446,10 +9792,10 @@ __pyx_t_4 = 0;
   } else if (unlikely(__pyx_t_4 >= __pyx_t_3.shape[0])) __pyx_t_2 = 0;
   if (unlikely(__pyx_t_2 != -1)) {
     __Pyx_RaiseBufferIndexError(__pyx_t_2);
-    __PYX_ERR(2, 269, __pyx_L1_error)
+    __PYX_ERR(2, 288, __pyx_L1_error)
   }
 
-  /* "pyagg/ndarray_canvas.pxi":272
+  /* "pyagg/ndarray_canvas.pxi":291
  *                                                         image.shape[1],
  *                                                         image.shape[0],
  *                                                         image.strides[0], 1)             # <<<<<<<<<<<<<<
@@ -9459,7 +9805,7 @@ __pyx_t_4 = 0;
   __pyx_v_self->__pyx_base._this = ((__pyx_t_5pyagg_6_pyagg_canvas_base_t *)new __pyx_t_5pyagg_6_pyagg_canvas_ga16_t((&(*((uint8_t *) ( /* dim=0 */ ((char *) (((uint8_t *) __pyx_t_3.data) + __pyx_t_4)) )))), (__pyx_v_image.shape[1]), (__pyx_v_image.shape[0]), (__pyx_v_image.strides[0]), 1));
   __PYX_XDEC_MEMVIEW(&__pyx_t_3, 1);
 
-  /* "pyagg/ndarray_canvas.pxi":267
+  /* "pyagg/ndarray_canvas.pxi":286
  *     C-contiguous, and must be MxN (1 channel: intensity).
  *     """
  *     def __cinit__(self, uint8_t[:,::1] image):             # <<<<<<<<<<<<<<
@@ -9481,7 +9827,7 @@ __pyx_t_4 = 0;
   return __pyx_r;
 }
 
-/* "pyagg/ndarray_canvas.pxi":274
+/* "pyagg/ndarray_canvas.pxi":293
  *                                                         image.strides[0], 1)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -9508,25 +9854,25 @@ static PyObject *__pyx_pf_5pyagg_6_pyagg_8CanvasG8_2_get_image(CYTHON_UNUSED str
   PyObject *__pyx_t_2 = NULL;
   __Pyx_RefNannySetupContext("_get_image", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":275
+  /* "pyagg/ndarray_canvas.pxi":294
  * 
  *     def _get_image(self, image):
  *         return ImageG8(image)             # <<<<<<<<<<<<<<
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 275, __pyx_L1_error)
+  __pyx_t_1 = PyTuple_New(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(2, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_INCREF(__pyx_v_image);
   __Pyx_GIVEREF(__pyx_v_image);
   PyTuple_SET_ITEM(__pyx_t_1, 0, __pyx_v_image);
-  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageG8), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 275, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_Call(((PyObject *)__pyx_ptype_5pyagg_6_pyagg_ImageG8), __pyx_t_1, NULL); if (unlikely(!__pyx_t_2)) __PYX_ERR(2, 294, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_r = __pyx_t_2;
   __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "pyagg/ndarray_canvas.pxi":274
+  /* "pyagg/ndarray_canvas.pxi":293
  *                                                         image.strides[0], 1)
  * 
  *     def _get_image(self, image):             # <<<<<<<<<<<<<<
@@ -30748,22 +31094,8 @@ static void __pyx_tp_dealloc_5pyagg_6_pyagg_ImageBase(PyObject *o) {
   (*Py_TYPE(o)->tp_free)(o);
 }
 
-static PyObject *__pyx_getprop_5pyagg_6_pyagg_9ImageBase_width(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_5pyagg_6_pyagg_9ImageBase_5width_1__get__(o);
-}
-
-static PyObject *__pyx_getprop_5pyagg_6_pyagg_9ImageBase_height(PyObject *o, CYTHON_UNUSED void *x) {
-  return __pyx_pw_5pyagg_6_pyagg_9ImageBase_6height_1__get__(o);
-}
-
 static PyMethodDef __pyx_methods_5pyagg_6_pyagg_ImageBase[] = {
   {0, 0, 0, 0}
-};
-
-static struct PyGetSetDef __pyx_getsets_5pyagg_6_pyagg_ImageBase[] = {
-  {(char *)"width", __pyx_getprop_5pyagg_6_pyagg_9ImageBase_width, 0, (char *)0, 0},
-  {(char *)"height", __pyx_getprop_5pyagg_6_pyagg_9ImageBase_height, 0, (char *)0, 0},
-  {0, 0, 0, 0, 0}
 };
 
 static PyTypeObject __pyx_type_5pyagg_6_pyagg_ImageBase = {
@@ -30801,7 +31133,7 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_ImageBase = {
   0, /*tp_iternext*/
   __pyx_methods_5pyagg_6_pyagg_ImageBase, /*tp_methods*/
   0, /*tp_members*/
-  __pyx_getsets_5pyagg_6_pyagg_ImageBase, /*tp_getset*/
+  0, /*tp_getset*/
   0, /*tp_base*/
   0, /*tp_dict*/
   0, /*tp_descr_get*/
@@ -30810,6 +31142,77 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_ImageBase = {
   0, /*tp_init*/
   0, /*tp_alloc*/
   __pyx_tp_new_5pyagg_6_pyagg_ImageBase, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+
+static PyObject *__pyx_tp_new_5pyagg_6_pyagg_ImageRGBA128(PyTypeObject *t, PyObject *a, PyObject *k) {
+  PyObject *o = __pyx_tp_new_5pyagg_6_pyagg_ImageBase(t, a, k);
+  if (unlikely(!o)) return 0;
+  if (unlikely(__pyx_pw_5pyagg_6_pyagg_12ImageRGBA128_1__cinit__(o, a, k) < 0)) {
+    Py_DECREF(o); o = 0;
+  }
+  return o;
+}
+
+static PyMethodDef __pyx_methods_5pyagg_6_pyagg_ImageRGBA128[] = {
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_5pyagg_6_pyagg_ImageRGBA128 = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "pyagg._pyagg.ImageRGBA128", /*tp_name*/
+  sizeof(struct __pyx_obj_5pyagg_6_pyagg_ImageRGBA128), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_5pyagg_6_pyagg_ImageBase, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE, /*tp_flags*/
+  0, /*tp_doc*/
+  0, /*tp_traverse*/
+  0, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_5pyagg_6_pyagg_ImageRGBA128, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_5pyagg_6_pyagg_ImageRGBA128, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -31238,6 +31641,82 @@ static PyTypeObject __pyx_type_5pyagg_6_pyagg_CanvasBase = {
   0, /*tp_init*/
   0, /*tp_alloc*/
   __pyx_tp_new_5pyagg_6_pyagg_CanvasBase, /*tp_new*/
+  0, /*tp_free*/
+  0, /*tp_is_gc*/
+  0, /*tp_bases*/
+  0, /*tp_mro*/
+  0, /*tp_cache*/
+  0, /*tp_subclasses*/
+  0, /*tp_weaklist*/
+  0, /*tp_del*/
+  0, /*tp_version_tag*/
+  #if PY_VERSION_HEX >= 0x030400a1
+  0, /*tp_finalize*/
+  #endif
+};
+static struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasRGBA128 __pyx_vtable_5pyagg_6_pyagg_CanvasRGBA128;
+
+static PyObject *__pyx_tp_new_5pyagg_6_pyagg_CanvasRGBA128(PyTypeObject *t, PyObject *a, PyObject *k) {
+  struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *p;
+  PyObject *o = __pyx_tp_new_5pyagg_6_pyagg_CanvasBase(t, a, k);
+  if (unlikely(!o)) return 0;
+  p = ((struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128 *)o);
+  p->__pyx_base.__pyx_vtab = (struct __pyx_vtabstruct_5pyagg_6_pyagg_CanvasBase*)__pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA128;
+  if (unlikely(__pyx_pw_5pyagg_6_pyagg_13CanvasRGBA128_1__cinit__(o, a, k) < 0)) {
+    Py_DECREF(o); o = 0;
+  }
+  return o;
+}
+
+static PyMethodDef __pyx_methods_5pyagg_6_pyagg_CanvasRGBA128[] = {
+  {"_get_image", (PyCFunction)__pyx_pw_5pyagg_6_pyagg_13CanvasRGBA128_3_get_image, METH_O, 0},
+  {0, 0, 0, 0}
+};
+
+static PyTypeObject __pyx_type_5pyagg_6_pyagg_CanvasRGBA128 = {
+  PyVarObject_HEAD_INIT(0, 0)
+  "pyagg._pyagg.CanvasRGBA128", /*tp_name*/
+  sizeof(struct __pyx_obj_5pyagg_6_pyagg_CanvasRGBA128), /*tp_basicsize*/
+  0, /*tp_itemsize*/
+  __pyx_tp_dealloc_5pyagg_6_pyagg_CanvasBase, /*tp_dealloc*/
+  0, /*tp_print*/
+  0, /*tp_getattr*/
+  0, /*tp_setattr*/
+  #if PY_MAJOR_VERSION < 3
+  0, /*tp_compare*/
+  #endif
+  #if PY_MAJOR_VERSION >= 3
+  0, /*tp_as_async*/
+  #endif
+  0, /*tp_repr*/
+  0, /*tp_as_number*/
+  0, /*tp_as_sequence*/
+  0, /*tp_as_mapping*/
+  0, /*tp_hash*/
+  0, /*tp_call*/
+  0, /*tp_str*/
+  0, /*tp_getattro*/
+  0, /*tp_setattro*/
+  0, /*tp_as_buffer*/
+  Py_TPFLAGS_DEFAULT|Py_TPFLAGS_HAVE_VERSION_TAG|Py_TPFLAGS_CHECKTYPES|Py_TPFLAGS_HAVE_NEWBUFFER|Py_TPFLAGS_BASETYPE|Py_TPFLAGS_HAVE_GC, /*tp_flags*/
+  "CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that\n    render to the numpy array passed as CanvasRGBA128's constructor argument.\n    Because this array is modified in place, it must be of type numpy.float32,\n    must be C-contiguous, and must be\n    MxNx4 (4 channels: red, green, blue, and alpha).\n    ", /*tp_doc*/
+  __pyx_tp_traverse_5pyagg_6_pyagg_CanvasBase, /*tp_traverse*/
+  __pyx_tp_clear_5pyagg_6_pyagg_CanvasBase, /*tp_clear*/
+  0, /*tp_richcompare*/
+  0, /*tp_weaklistoffset*/
+  0, /*tp_iter*/
+  0, /*tp_iternext*/
+  __pyx_methods_5pyagg_6_pyagg_CanvasRGBA128, /*tp_methods*/
+  0, /*tp_members*/
+  0, /*tp_getset*/
+  0, /*tp_base*/
+  0, /*tp_dict*/
+  0, /*tp_descr_get*/
+  0, /*tp_descr_set*/
+  0, /*tp_dictoffset*/
+  0, /*tp_init*/
+  0, /*tp_alloc*/
+  __pyx_tp_new_5pyagg_6_pyagg_CanvasRGBA128, /*tp_new*/
   0, /*tp_free*/
   0, /*tp_is_gc*/
   0, /*tp_bases*/
@@ -33629,7 +34108,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_TypeError = __Pyx_GetBuiltinName(__pyx_n_s_TypeError); if (!__pyx_builtin_TypeError) __PYX_ERR(0, 46, __pyx_L1_error)
   __pyx_builtin_NotImplementedError = __Pyx_GetBuiltinName(__pyx_n_s_NotImplementedError); if (!__pyx_builtin_NotImplementedError) __PYX_ERR(1, 50, __pyx_L1_error)
-  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 98, __pyx_L1_error)
+  __pyx_builtin_ValueError = __Pyx_GetBuiltinName(__pyx_n_s_ValueError); if (!__pyx_builtin_ValueError) __PYX_ERR(2, 99, __pyx_L1_error)
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(3, 57, __pyx_L1_error)
   __pyx_builtin_RuntimeError = __Pyx_GetBuiltinName(__pyx_n_s_RuntimeError); if (!__pyx_builtin_RuntimeError) __PYX_ERR(7, 799, __pyx_L1_error)
   __pyx_builtin_MemoryError = __Pyx_GetBuiltinName(__pyx_n_s_MemoryError); if (!__pyx_builtin_MemoryError) __PYX_ERR(8, 146, __pyx_L1_error)
@@ -33646,14 +34125,14 @@ static int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "pyagg/ndarray_canvas.pxi":98
+  /* "pyagg/ndarray_canvas.pxi":99
  *             channel_count -= 1
  *         if image is None:
  *             raise ValueError('image argument must not be None.')             # <<<<<<<<<<<<<<
  *         if (channel_count > 1 and (image_ndim != 3
  *                 or image_shape[2] != channel_count) or
  */
-  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_image_argument_must_not_be_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(2, 98, __pyx_L1_error)
+  __pyx_tuple__2 = PyTuple_Pack(1, __pyx_kp_s_image_argument_must_not_be_None); if (unlikely(!__pyx_tuple__2)) __PYX_ERR(2, 99, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__2);
   __Pyx_GIVEREF(__pyx_tuple__2);
 
@@ -34113,62 +34592,74 @@ PyMODINIT_FUNC PyInit__pyagg(void)
   __pyx_type_5pyagg_6_pyagg_GraphicsState.tp_print = 0;
   if (PyObject_SetAttrString(__pyx_m, "GraphicsState", (PyObject *)&__pyx_type_5pyagg_6_pyagg_GraphicsState) < 0) __PYX_ERR(1, 81, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_GraphicsState = &__pyx_type_5pyagg_6_pyagg_GraphicsState;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageBase) < 0) __PYX_ERR(2, 31, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageBase) < 0) __PYX_ERR(2, 32, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_ImageBase.tp_print = 0;
   __pyx_ptype_5pyagg_6_pyagg_ImageBase = &__pyx_type_5pyagg_6_pyagg_ImageBase;
+  __pyx_type_5pyagg_6_pyagg_ImageRGBA128.tp_base = __pyx_ptype_5pyagg_6_pyagg_ImageBase;
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageRGBA128) < 0) __PYX_ERR(2, 40, __pyx_L1_error)
+  __pyx_type_5pyagg_6_pyagg_ImageRGBA128.tp_print = 0;
+  __pyx_ptype_5pyagg_6_pyagg_ImageRGBA128 = &__pyx_type_5pyagg_6_pyagg_ImageRGBA128;
   __pyx_type_5pyagg_6_pyagg_ImageRGBA32.tp_base = __pyx_ptype_5pyagg_6_pyagg_ImageBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageRGBA32) < 0) __PYX_ERR(2, 47, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageRGBA32) < 0) __PYX_ERR(2, 48, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_ImageRGBA32.tp_print = 0;
   __pyx_ptype_5pyagg_6_pyagg_ImageRGBA32 = &__pyx_type_5pyagg_6_pyagg_ImageRGBA32;
   __pyx_type_5pyagg_6_pyagg_ImageRGB24.tp_base = __pyx_ptype_5pyagg_6_pyagg_ImageBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageRGB24) < 0) __PYX_ERR(2, 55, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageRGB24) < 0) __PYX_ERR(2, 56, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_ImageRGB24.tp_print = 0;
   __pyx_ptype_5pyagg_6_pyagg_ImageRGB24 = &__pyx_type_5pyagg_6_pyagg_ImageRGB24;
   __pyx_type_5pyagg_6_pyagg_ImageGA16.tp_base = __pyx_ptype_5pyagg_6_pyagg_ImageBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageGA16) < 0) __PYX_ERR(2, 63, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageGA16) < 0) __PYX_ERR(2, 64, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_ImageGA16.tp_print = 0;
   __pyx_ptype_5pyagg_6_pyagg_ImageGA16 = &__pyx_type_5pyagg_6_pyagg_ImageGA16;
   __pyx_type_5pyagg_6_pyagg_ImageG8.tp_base = __pyx_ptype_5pyagg_6_pyagg_ImageBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageG8) < 0) __PYX_ERR(2, 71, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_ImageG8) < 0) __PYX_ERR(2, 72, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_ImageG8.tp_print = 0;
   __pyx_ptype_5pyagg_6_pyagg_ImageG8 = &__pyx_type_5pyagg_6_pyagg_ImageG8;
   __pyx_vtabptr_5pyagg_6_pyagg_CanvasBase = &__pyx_vtable_5pyagg_6_pyagg_CanvasBase;
   __pyx_vtable_5pyagg_6_pyagg_CanvasBase.base_init = (int (*)(struct __pyx_obj_5pyagg_6_pyagg_CanvasBase *, PyObject *, int, bool))__pyx_f_5pyagg_6_pyagg_10CanvasBase_base_init;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasBase) < 0) __PYX_ERR(2, 79, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasBase) < 0) __PYX_ERR(2, 80, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_CanvasBase.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasBase.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasBase) < 0) __PYX_ERR(2, 79, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasBase.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasBase) < 0) __PYX_ERR(2, 80, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_CanvasBase = &__pyx_type_5pyagg_6_pyagg_CanvasBase;
+  __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA128 = &__pyx_vtable_5pyagg_6_pyagg_CanvasRGBA128;
+  __pyx_vtable_5pyagg_6_pyagg_CanvasRGBA128.__pyx_base = *__pyx_vtabptr_5pyagg_6_pyagg_CanvasBase;
+  __pyx_type_5pyagg_6_pyagg_CanvasRGBA128.tp_base = __pyx_ptype_5pyagg_6_pyagg_CanvasBase;
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasRGBA128) < 0) __PYX_ERR(2, 210, __pyx_L1_error)
+  __pyx_type_5pyagg_6_pyagg_CanvasRGBA128.tp_print = 0;
+  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasRGBA128.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA128) < 0) __PYX_ERR(2, 210, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CanvasRGBA128", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasRGBA128) < 0) __PYX_ERR(2, 210, __pyx_L1_error)
+  __pyx_ptype_5pyagg_6_pyagg_CanvasRGBA128 = &__pyx_type_5pyagg_6_pyagg_CanvasRGBA128;
   __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA32 = &__pyx_vtable_5pyagg_6_pyagg_CanvasRGBA32;
   __pyx_vtable_5pyagg_6_pyagg_CanvasRGBA32.__pyx_base = *__pyx_vtabptr_5pyagg_6_pyagg_CanvasBase;
   __pyx_type_5pyagg_6_pyagg_CanvasRGBA32.tp_base = __pyx_ptype_5pyagg_6_pyagg_CanvasBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasRGBA32) < 0) __PYX_ERR(2, 209, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasRGBA32) < 0) __PYX_ERR(2, 228, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_CanvasRGBA32.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasRGBA32.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA32) < 0) __PYX_ERR(2, 209, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "CanvasRGBA32", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasRGBA32) < 0) __PYX_ERR(2, 209, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasRGBA32.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGBA32) < 0) __PYX_ERR(2, 228, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CanvasRGBA32", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasRGBA32) < 0) __PYX_ERR(2, 228, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_CanvasRGBA32 = &__pyx_type_5pyagg_6_pyagg_CanvasRGBA32;
   __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGB24 = &__pyx_vtable_5pyagg_6_pyagg_CanvasRGB24;
   __pyx_vtable_5pyagg_6_pyagg_CanvasRGB24.__pyx_base = *__pyx_vtabptr_5pyagg_6_pyagg_CanvasBase;
   __pyx_type_5pyagg_6_pyagg_CanvasRGB24.tp_base = __pyx_ptype_5pyagg_6_pyagg_CanvasBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasRGB24) < 0) __PYX_ERR(2, 227, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasRGB24) < 0) __PYX_ERR(2, 246, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_CanvasRGB24.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasRGB24.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGB24) < 0) __PYX_ERR(2, 227, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "CanvasRGB24", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasRGB24) < 0) __PYX_ERR(2, 227, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasRGB24.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasRGB24) < 0) __PYX_ERR(2, 246, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CanvasRGB24", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasRGB24) < 0) __PYX_ERR(2, 246, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_CanvasRGB24 = &__pyx_type_5pyagg_6_pyagg_CanvasRGB24;
   __pyx_vtabptr_5pyagg_6_pyagg_CanvasGA16 = &__pyx_vtable_5pyagg_6_pyagg_CanvasGA16;
   __pyx_vtable_5pyagg_6_pyagg_CanvasGA16.__pyx_base = *__pyx_vtabptr_5pyagg_6_pyagg_CanvasBase;
   __pyx_type_5pyagg_6_pyagg_CanvasGA16.tp_base = __pyx_ptype_5pyagg_6_pyagg_CanvasBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasGA16) < 0) __PYX_ERR(2, 244, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasGA16) < 0) __PYX_ERR(2, 263, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_CanvasGA16.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasGA16.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasGA16) < 0) __PYX_ERR(2, 244, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "CanvasGA16", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasGA16) < 0) __PYX_ERR(2, 244, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasGA16.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasGA16) < 0) __PYX_ERR(2, 263, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CanvasGA16", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasGA16) < 0) __PYX_ERR(2, 263, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_CanvasGA16 = &__pyx_type_5pyagg_6_pyagg_CanvasGA16;
   __pyx_vtabptr_5pyagg_6_pyagg_CanvasG8 = &__pyx_vtable_5pyagg_6_pyagg_CanvasG8;
   __pyx_vtable_5pyagg_6_pyagg_CanvasG8.__pyx_base = *__pyx_vtabptr_5pyagg_6_pyagg_CanvasBase;
   __pyx_type_5pyagg_6_pyagg_CanvasG8.tp_base = __pyx_ptype_5pyagg_6_pyagg_CanvasBase;
-  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 261, __pyx_L1_error)
+  if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 280, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_CanvasG8.tp_print = 0;
-  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasG8.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 261, __pyx_L1_error)
-  if (PyObject_SetAttrString(__pyx_m, "CanvasG8", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 261, __pyx_L1_error)
+  if (__Pyx_SetVtable(__pyx_type_5pyagg_6_pyagg_CanvasG8.tp_dict, __pyx_vtabptr_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 280, __pyx_L1_error)
+  if (PyObject_SetAttrString(__pyx_m, "CanvasG8", (PyObject *)&__pyx_type_5pyagg_6_pyagg_CanvasG8) < 0) __PYX_ERR(2, 280, __pyx_L1_error)
   __pyx_ptype_5pyagg_6_pyagg_CanvasG8 = &__pyx_type_5pyagg_6_pyagg_CanvasG8;
   if (PyType_Ready(&__pyx_type_5pyagg_6_pyagg_Paint) < 0) __PYX_ERR(4, 63, __pyx_L1_error)
   __pyx_type_5pyagg_6_pyagg_Paint.tp_print = 0;
@@ -42790,6 +43281,29 @@ no_fail:
 }
 
 /* ObjectToMemviewSlice */
+                static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_float(PyObject *obj) {
+    __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
+    __Pyx_BufFmt_StackElem stack[1];
+    int axes_specs[] = { (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_FOLLOW), (__Pyx_MEMVIEW_DIRECT | __Pyx_MEMVIEW_CONTIG) };
+    int retcode;
+    if (obj == Py_None) {
+        result.memview = (struct __pyx_memoryview_obj *) Py_None;
+        return result;
+    }
+    retcode = __Pyx_ValidateAndInit_memviewslice(axes_specs, __Pyx_IS_C_CONTIG,
+                                                 (PyBUF_C_CONTIGUOUS | PyBUF_FORMAT | PyBUF_WRITABLE), 3,
+                                                 &__Pyx_TypeInfo_float, stack,
+                                                 &result, obj);
+    if (unlikely(retcode == -1))
+        goto __pyx_fail;
+    return result;
+__pyx_fail:
+    result.memview = NULL;
+    result.data = NULL;
+    return result;
+}
+
+/* ObjectToMemviewSlice */
                 static CYTHON_INLINE __Pyx_memviewslice __Pyx_PyObject_to_MemoryviewSlice_d_d_dc_nn_uint8_t(PyObject *obj) {
     __Pyx_memviewslice result = { 0, 0, { 0 }, { 0 }, { 0 } };
     __Pyx_BufFmt_StackElem stack[1];
@@ -42995,6 +43509,18 @@ __pyx_fail:
         return _PyLong_FromByteArray(bytes, sizeof(unsigned int),
                                      little, !is_unsigned);
     }
+}
+
+/* MemviewDtypeToObject */
+                static CYTHON_INLINE PyObject *__pyx_memview_get_float(const char *itemp) {
+    return (PyObject *) PyFloat_FromDouble(*(float *) itemp);
+}
+static CYTHON_INLINE int __pyx_memview_set_float(const char *itemp, PyObject *obj) {
+    float value = __pyx_PyFloat_AsFloat(obj);
+    if ((value == (float)-1) && PyErr_Occurred())
+        return 0;
+    *(float *) itemp = value;
+    return 1;
 }
 
 /* CIntToPy */

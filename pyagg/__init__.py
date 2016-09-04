@@ -30,6 +30,7 @@ from ._pyagg import (
     GraphicsState, LinearGradientPaint, LineCap, LineJoin, RadialGradientPaint,
     Path, PatternPaint, PatternStyle, Rect, SolidPaint, Transform
 )
-from ._pyagg import CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32
+from ._pyagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,
+                     CanvasRGBA128)
 from .agg2d import (hist_min_max_float32, hist_min_max_uint12,
                     hist_min_max_uint16, hist_min_max_uint8)

@@ -63,7 +63,7 @@ class ndarray_canvas_base
 public:
     virtual ~ndarray_canvas_base(){}
 
-    virtual const size_t& channel_count() const = 0;
+    virtual const size_t channel_count() const = 0;
     virtual unsigned width() const = 0;
     virtual unsigned height() const = 0;
 
@@ -87,15 +87,13 @@ public:
 template<typename pixfmt_t>
 class ndarray_canvas : public ndarray_canvas_base
 {
-    typedef typename pixfmt_t::value_type value_t;
-
 public:
-    ndarray_canvas(value_t* buf,
-                   const unsigned& width, const unsigned& height, const int& stride,
-                   const size_t& channel_count);
+    ndarray_canvas(uint8_t* buf,
+                   const unsigned width, const unsigned height, const int stride,
+                   const size_t channel_count);
     virtual ~ndarray_canvas(){}
 
-    const size_t& channel_count() const;
+    const size_t channel_count() const;
     unsigned width() const;
     unsigned height() const;
 
@@ -120,7 +118,7 @@ protected:
     typedef agg::rasterizer_scanline_aa<> rasterizer_t;
 
     size_t m_channel_count;
-    agg::row_accessor<value_t> m_renbuf;
+    agg::rendering_buffer m_renbuf;
     pixfmt_t m_pixfmt;
     renderer_t m_renderer;
     rasterizer_t m_rasterizer;
@@ -141,8 +139,7 @@ private:
     // original's buffer/numpy array or receives its own copy.  The compiler does autogenerate assignment and copy 
     // constructors if these are not defined; so, we define them such that they are not user-accessible. 
     ndarray_canvas(const ndarray_canvas&){}
-    ndarray_canvas& operator = (const ndarray_canvas&){return *this;}
+    ndarray_canvas& operator = (const ndarray_canvas&){ return *this; }
 };
 
 #include "ndarray_canvas.hxx"
-

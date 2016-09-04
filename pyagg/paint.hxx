@@ -241,14 +241,12 @@ void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad
 template <typename rasterizer_t, typename renderer_t>
 void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
 {
-    typedef typename renderer_t::pixfmt_type pixfmt_t;
-
     switch (m_pattern_style)
     {
     case k_PatternStyleReflect:
         {
-            typedef typename image_filters<pixfmt_t>::pattern_source_reflect_t source_t;
-            typedef typename image_filters<pixfmt_t>::pattern_reflect_span_gen_t span_gen_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_source_reflect_t source_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_reflect_span_gen_t span_gen_t;
 
             _render_pattern_final<rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
         }
@@ -256,8 +254,8 @@ void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
 
     case k_PatternStyleRepeat:
         {
-            typedef typename image_filters<pixfmt_t>::pattern_source_repeat_t source_t;
-            typedef typename image_filters<pixfmt_t>::pattern_repeat_span_gen_t span_gen_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_source_repeat_t source_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_repeat_span_gen_t span_gen_t;
 
             _render_pattern_final<rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
         }
@@ -278,7 +276,7 @@ void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
     unsigned offset_y = 0;
     agg::scanline_u8 scanline;
     span_alloc_t span_allocator;
-    agg::rendering_buffer* src_buf = m_image.rendering_buffer_ptr();
+    agg::rendering_buffer* src_buf = m_image.get_buffer_ptr();
     typename renderer_t::pixfmt_type src_pix(*src_buf);
     source_t source(src_pix);
     span_gen_t span_generator(source, offset_x, offset_y);

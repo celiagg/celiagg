@@ -36,6 +36,8 @@ cimport _transform
 
 
 cdef extern from "ndarray_canvas.h" namespace "agg":
+    cdef cppclass pixfmt_rgba128:
+        pass
     cdef cppclass pixfmt_rgba32:
         pass
     cdef cppclass pixfmt_rgb24:
@@ -49,15 +51,17 @@ cdef extern from "ndarray_canvas.h" namespace "agg":
     cdef cppclass pixfmt_rgba64:
         pass
 
+
 cdef extern from "image.h":
     cdef cppclass Image:
         Image(uint8_t* buf, unsigned width, unsigned height, int stride)
-        int width()
-        int height()
+        unsigned width()
+        unsigned height()
+
 
 cdef extern from "ndarray_canvas.h":
     cdef cppclass ndarray_canvas_base:
-        const size_t& channel_count() const
+        const size_t channel_count() const
         unsigned width() const
         unsigned height() const
         void draw_path(const _path.path_storage& path,
@@ -77,24 +81,7 @@ cdef extern from "ndarray_canvas.h":
 
     cdef cppclass ndarray_canvas[pixfmt_T]:
         ndarray_canvas(uint8_t* buf,
-                       const unsigned& width,
-                       const unsigned& height,
-                       const int& stride,
-                       const size_t& channel_count)
-        const size_t& channel_count() const
-        unsigned width() const
-        unsigned height() const
-        void draw_path(const _path.path_storage& path,
-                       const _transform.trans_affine& transform,
-                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                       const _graphics_state.GraphicsState& gs)
-        void draw_bspline(const double* points, const size_t& point_count,
-                          const _transform.trans_affine& transform,
-                          _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                          const _graphics_state.GraphicsState& gs)
-        void draw_image(Image& img, const _transform.trans_affine& transform,
-                        const _graphics_state.GraphicsState& gs)
-        void draw_text(const char* text, _text.Font& font,
-                       const _transform.trans_affine& transform,
-                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                       const _graphics_state.GraphicsState& gs)
+                       const unsigned width,
+                       const unsigned height,
+                       const int stride,
+                       const size_t channel_count)

@@ -23,6 +23,7 @@
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
 ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
+ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t
@@ -34,13 +35,13 @@ cdef class ImageBase:
     def __dealloc__(self):
             del self._this
 
-    @property
-    def width(self):
-        return self._this.width()
 
-    @property
-    def height(self):
-        return self._this.height()
+@cython.internal
+cdef class ImageRGBA128(ImageBase):
+    def __cinit__(self, float[:,:,::1] arr):
+        self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],
+                                               arr.shape[1], arr.shape[0],
+                                               arr.strides[0])
 
 
 @cython.internal
@@ -204,6 +205,24 @@ cdef class CanvasBase:
                              dereference(line_paint._this),
                              dereference(fill_paint._this),
                              dereference(state._this))
+
+
+cdef class CanvasRGBA128(CanvasBase):
+    """CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that
+    render to the numpy array passed as CanvasRGBA128's constructor argument.
+    Because this array is modified in place, it must be of type numpy.float32,
+    must be C-contiguous, and must be
+    MxNx4 (4 channels: red, green, blue, and alpha).
+    """
+    def __cinit__(self, float[:,:,::1] image):
+        self.base_init(image, 4, True)
+        self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
+                                                        image.shape[1],
+                                                        image.shape[0],
+                                                        image.strides[0], 4)
+
+    def _get_image(self, image):
+        return ImageRGBA128(image)
 
 
 cdef class CanvasRGBA32(CanvasBase):

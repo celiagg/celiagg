@@ -25,6 +25,8 @@
 #ifndef PYAGG_IMAGE_H 
 #define PYAGG_IMAGE_H 
 
+#include <stdint.h>
+
 #include <agg_image_accessors.h>
 #include <agg_path_storage.h>
 #include <agg_pixfmt_gray.h>
@@ -48,6 +50,19 @@ typedef agg::wrap_mode_repeat wrap_repeat_t;
 
 template<typename pixfmt_t>
 struct image_filters {};
+
+template<>
+struct image_filters<agg::pixfmt_rgba128>
+{
+    typedef agg::image_accessor_wrap<agg::pixfmt_rgba128, wrap_reflect_t, wrap_reflect_t> pattern_source_reflect_t;
+    typedef agg::image_accessor_wrap<agg::pixfmt_rgba128, wrap_repeat_t, wrap_repeat_t> pattern_source_repeat_t;
+    typedef agg::image_accessor_clip<agg::pixfmt_rgba128> source_t;
+    typedef agg::span_image_filter_rgba_nn<source_t,  interpolator_t> nearest_t;
+    typedef agg::span_image_filter_rgba_bilinear<source_t, interpolator_t> bilinear_t;
+    typedef agg::span_image_filter_rgba<source_t, interpolator_t> general_t;
+    typedef agg::span_pattern_rgba<pattern_source_reflect_t> pattern_reflect_span_gen_t;
+    typedef agg::span_pattern_rgba<pattern_source_repeat_t> pattern_repeat_span_gen_t;
+};
 
 template<>
 struct image_filters<agg::pixfmt_rgba32>
@@ -156,25 +171,27 @@ struct image_filters<agg::pixfmt_gray8>
 
 class Image
 {
-    agg::rendering_buffer renBuf;
+    agg::rendering_buffer m_buf;
 
 public:
-    Image(unsigned char* buf, unsigned width, unsigned height, int stride) :
-        renBuf(buf, width, height, stride) {}
-    agg::rendering_buffer* rendering_buffer_ptr() { return &renBuf; }
-    int width()  const { return renBuf.width(); }
-    int height() const { return renBuf.height(); }
+    Image(uint8_t* buf, unsigned width, unsigned height, int stride) :
+        m_buf(buf, width, height, stride) {}
+
+    agg::rendering_buffer* get_buffer_ptr() { return &m_buf; }
+    unsigned height() const { return m_buf.height(); }
+    unsigned width() const { return m_buf.width(); }
+    int stride() const { return m_buf.stride(); }
+
     agg::path_storage image_outline() const
     {
         agg::path_storage path;
         path.move_to(0, 0);
-        path.line_to(width(), 0);
-        path.line_to(width(), height());
-        path.line_to(0, height());
+        path.line_to(m_buf.width(), 0);
+        path.line_to(m_buf.width(), m_buf.height());
+        path.line_to(0, m_buf.height());
         path.close_polygon();
         return path;
     }
 };
-
 
 #endif // PYAGG_IMAGE_H 

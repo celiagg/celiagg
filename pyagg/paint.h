@@ -25,6 +25,8 @@
 #ifndef PYAGG_PAINT_H
 #define PYAGG_PAINT_H
 
+#include <stdint.h>
+
 #include <agg_array.h>
 #include <agg_basics.h>
 #include <agg_color_rgba.h>
@@ -115,7 +117,7 @@ public:
           const GradientSpread spread = k_GradientSpreadPad,
           const GradientUnits units = k_GradientUnitsUserSpace);
     Paint(const PatternStyle style,
-          unsigned char* buf, unsigned width, unsigned height, int stride);
+          uint8_t* buf, unsigned width, unsigned height, int stride);
 
     double  a() const;
     void  a(const double);
