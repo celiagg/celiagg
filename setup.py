@@ -1,8 +1,6 @@
-#!/usr/bin/env python3
-
 # The MIT License (MIT)
 #
-# Copyright (c) 2014-2015 WUSTL ZPLAB
+# Copyright (c) 2014-2016 WUSTL ZPLAB
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +21,7 @@
 # SOFTWARE.
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
+#          John Wiggins <john.wiggins@xfel.eu>
 
 from numpy.distutils.core import setup
 from numpy.distutils.misc_util import Configuration

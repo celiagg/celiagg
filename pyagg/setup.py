@@ -21,6 +21,7 @@
 # SOFTWARE.
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
+#          John Wiggins <john.wiggins@xfel.eu>
 
 from __future__ import print_function
 import os
@@ -112,9 +113,7 @@ def configuration(parent_package='', top_path=None):
         'agg-svn/agg-2.4/src/agg_vpgen_segmentator.cpp',
     ]
     base_path = op.abspath(op.dirname(__file__))
-    agg2d_cython_source = op.join(base_path, 'agg2d.pyx')
     pyagg_cython_source = op.join(base_path, '_pyagg.pyx')
-    agg2d_sources = ['agg-svn/agg-2.4/agg2d/agg2d.cpp', 'agg2d.cpp']
     pyagg_sources = ['glyph_iter.cpp', 'paint.cpp', 'text.cpp', '_pyagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
@@ -144,7 +143,7 @@ def configuration(parent_package='', top_path=None):
             extra_link_args.extend(ldflags)
         include_dirs.append('agg-svn/agg-2.4/font_freetype')
         sources.append('agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp')
-        define_macros.extend([('AGG2D_USE_FREETYPE', 1), ('_USE_FREETYPE', 1)])
+        define_macros.extend([('_USE_FREETYPE', 1)])
     else:
         include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
         sources.append('agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp')
@@ -160,12 +159,9 @@ def configuration(parent_package='', top_path=None):
     if cythonize is not None:
         # Run Cython first
         cythonize(pyagg_cython_source, language='c++')
-        cythonize(agg2d_cython_source, language='c++')
 
     config = Configuration('pyagg', parent_package, top_path)
     config.add_extension('_pyagg', sources=pyagg_sources + sources,
-                         **ext_kwargs)
-    config.add_extension('agg2d', sources=agg2d_sources + sources,
                          **ext_kwargs)
     config.add_subpackage('tests')
     return config

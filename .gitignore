@@ -23,3 +23,6 @@
 *.egg-info
 build
 dist
+
+# pyagg specific
+pyagg/_pyagg.cpp
