@@ -23,6 +23,7 @@
 # Authors: John Wiggins
 
 cimport _enums
+cimport _transform
 
 
 cdef extern from "paint.h":
@@ -47,6 +48,8 @@ cdef extern from "paint.h":
         Paint(const _enums.PatternStyle style,
               unsigned char* buf, unsigned width, unsigned height, int stride)
 
+        void transform(const _transform.trans_affine& mat)
+        const _transform.trans_affine& transform() const
         double  a()
         double  r()
         double  g()

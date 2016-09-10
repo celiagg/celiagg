@@ -131,6 +131,9 @@ public:
     double  b() const;
     void  b(const double);
 
+    void transform(const agg::trans_affine& mat);
+    const agg::trans_affine& transform() const;
+
     template <typename rasterizer_t, typename renderer_t>
     void render(rasterizer_t& ras, renderer_t& renderer);
 

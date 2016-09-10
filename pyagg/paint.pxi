@@ -66,6 +66,14 @@ cdef class Paint:
     def __dealloc__(self):
         del self._this
 
+    property transform:
+        def __get__(self):
+            cdef Transform trans = Transform()
+            trans._assign_obj(self._this.transform())
+            return trans
+        def __set__(self, Transform trans):
+            self._this.transform(dereference(trans._this))
+
 
 cdef class LinearGradientPaint(Paint):
     """ LinearGradientPaint(points, stops, spread, units)

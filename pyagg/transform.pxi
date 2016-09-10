@@ -39,6 +39,10 @@ cdef class Transform:
             self._this.tx, self._this.ty
         )
 
+    cdef _assign_obj(self, _transform.trans_affine trans):
+        self._this.reset()
+        self._this.multiply(trans)
+
     def reset(self):
         self._this.reset()
 

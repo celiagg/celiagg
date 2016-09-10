@@ -245,8 +245,8 @@ void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
     {
     case k_PatternStyleReflect:
         {
-            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_source_reflect_t source_t;
-            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_reflect_span_gen_t span_gen_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::source_reflect_t source_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::nearest_reflect_t span_gen_t;
 
             _render_pattern_final<rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
         }
@@ -254,8 +254,8 @@ void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
 
     case k_PatternStyleRepeat:
         {
-            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_source_repeat_t source_t;
-            typedef typename image_filters<typename renderer_t::pixfmt_type>::pattern_repeat_span_gen_t span_gen_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::source_repeat_t source_t;
+            typedef typename image_filters<typename renderer_t::pixfmt_type>::nearest_repeat_t span_gen_t;
 
             _render_pattern_final<rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
         }
@@ -272,14 +272,16 @@ void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
     typedef typename agg::span_allocator<typename renderer_t::color_type> span_alloc_t;
     typedef agg::renderer_scanline_aa<renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
 
-    unsigned offset_x = 0;
-    unsigned offset_y = 0;
+    agg::trans_affine inv_img_mtx = m_transform;
+    inv_img_mtx.invert();
+    interpolator_t interpolator(inv_img_mtx);
+
     agg::scanline_u8 scanline;
     span_alloc_t span_allocator;
     agg::rendering_buffer* src_buf = m_image.get_buffer_ptr();
     typename renderer_t::pixfmt_type src_pix(*src_buf);
     source_t source(src_pix);
-    span_gen_t span_generator(source, offset_x, offset_y);
+    span_gen_t span_generator(source, interpolator);
     img_renderer_t pattern_renderer(renderer, span_allocator, span_generator);
 
     agg::render_scanlines(ras, scanline, pattern_renderer);

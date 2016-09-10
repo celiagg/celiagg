@@ -64,6 +64,16 @@ Paint::Paint(const PatternStyle style,
 {
 }
 
+void Paint::transform(const agg::trans_affine& mat)
+{
+    m_transform = mat;
+}
+
+const agg::trans_affine& Paint::transform() const
+{
+    return m_transform;
+}
+
 double  Paint::a() const
 {
     return m_color.a;
