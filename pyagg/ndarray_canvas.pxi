@@ -28,57 +28,11 @@ ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rg
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t
 
-@cython.internal
-cdef class ImageBase:
-    cdef _ndarray_canvas.Image* _this
-
-    def __dealloc__(self):
-            del self._this
-
-
-@cython.internal
-cdef class ImageRGBA128(ImageBase):
-    def __cinit__(self, float[:,:,::1] arr):
-        self._this = new _ndarray_canvas.Image(<uint8_t*>&arr[0][0][0],
-                                               arr.shape[1], arr.shape[0],
-                                               arr.strides[0])
-
-
-@cython.internal
-cdef class ImageRGBA32(ImageBase):
-    def __cinit__(self, uint8_t[:,:,::1] arr):
-        self._this = new _ndarray_canvas.Image(&arr[0][0][0],
-                                               arr.shape[1], arr.shape[0],
-                                               arr.strides[0])
-
-
-@cython.internal
-cdef class ImageRGB24(ImageBase):
-    def __cinit__(self, uint8_t[:,:,::1] arr):
-        self._this = new _ndarray_canvas.Image(&arr[0][0][0],
-                                               arr.shape[1], arr.shape[0],
-                                               arr.strides[0])
-
-
-@cython.internal
-cdef class ImageGA16(ImageBase):
-    def __cinit__(self, uint8_t[:,:,::1] arr):
-        self._this = new _ndarray_canvas.Image(&arr[0][0][0],
-                                               arr.shape[1], arr.shape[0],
-                                               arr.strides[0])
-
-
-@cython.internal
-cdef class ImageG8(ImageBase):
-    def __cinit__(self, uint8_t[:,::1] arr):
-        self._this = new _ndarray_canvas.Image(&arr[0][0],
-                                               arr.shape[1], arr.shape[0],
-                                               arr.strides[0])
-
 
 @cython.internal
 cdef class CanvasBase:
     cdef canvas_base_t* _this
+    cdef PixelFormat pixel_format
     cdef uint64_t blend_channel_count
     cdef object py_image
 
@@ -177,13 +131,17 @@ cdef class CanvasBase:
                                 dereference(fill_paint._this),
                                 dereference(state._this))
 
-    def draw_image(self, image, Transform transform, GraphicsState state):
-        """draw_image(self, image, transform, state):
-          image: A 2D or 3D numpy array containing image data
-          transform: A Transform object
-          state: A GraphicsState object
+    def draw_image(self, image, PixelFormat format, Transform transform,
+                   GraphicsState state):
+        """draw_image(self, image, format, transform, state):
+            image: A 2D or 3D numpy array containing image data
+            format: A PixelFormat describing the array's data
+            transform: A Transform object
+            state: A GraphicsState object
         """
-        cdef ImageBase img = self._get_image(image)
+        cdef Image input_img = Image(image, format)
+        cdef Image img = self._get_native_image(input_img)
+
         self._this.draw_image(dereference(img._this),
                               dereference(transform._this),
                               dereference(state._this))
@@ -206,6 +164,20 @@ cdef class CanvasBase:
                              dereference(fill_paint._this),
                              dereference(state._this))
 
+    def _get_native_image(self, Image image):
+        """_get_native_image(self, Image image)
+          image: An Image object which is needed in the canvas' format.
+
+        NOTE: This method is an internal implementation detail. Be careful.
+        """
+        if image.pixel_format == self.pixel_format:
+            return image
+
+        height, width = image.pixel_array.shape[:2]
+        nat_image = empty_image_with_format(self.pixel_format, width, height)
+        self._copy_image(nat_image, image)
+        return nat_image
+
 
 cdef class CanvasRGBA128(CanvasBase):
     """CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that
@@ -216,13 +188,16 @@ cdef class CanvasRGBA128(CanvasBase):
     """
     def __cinit__(self, float[:,:,::1] image):
         self.base_init(image, 4, True)
+        self.pixel_format = PixelFormat.RGBA128
         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 4)
 
-    def _get_image(self, image):
-        return ImageRGBA128(image)
+    def _copy_image(self, Image dst_image, Image src_image):
+        cdef _image.Image* dst = dst_image._this
+        cdef _image.Image* src = src_image._this
+        src.copy_pixels[_ndarray_canvas.pixfmt_rgba128](dereference(dst))
 
 
 cdef class CanvasRGBA32(CanvasBase):
@@ -234,13 +209,16 @@ cdef class CanvasRGBA32(CanvasBase):
     """
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 4, True)
+        self.pixel_format = PixelFormat.RGBA32
         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
                                                           image.shape[1],
                                                           image.shape[0],
                                                           image.strides[0], 4)
 
-    def _get_image(self, image):
-        return ImageRGBA32(image)
+    def _copy_image(self, Image dst_image, Image src_image):
+        cdef _image.Image* dst = dst_image._this
+        cdef _image.Image* src = src_image._this
+        src.copy_pixels[_ndarray_canvas.pixfmt_rgba32](dereference(dst))
 
 
 cdef class CanvasRGB24(CanvasBase):
@@ -251,13 +229,16 @@ cdef class CanvasRGB24(CanvasBase):
     """
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 4, False)
+        self.pixel_format = PixelFormat.RGB24
         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
                                                          image.shape[1],
                                                          image.shape[0],
                                                          image.strides[0], 3)
 
-    def _get_image(self, image):
-        return ImageRGB24(image)
+    def _copy_image(self, Image dst_image, Image src_image):
+        cdef _image.Image* dst = dst_image._this
+        cdef _image.Image* src = src_image._this
+        src.copy_pixels[_ndarray_canvas.pixfmt_rgb24](dereference(dst))
 
 
 cdef class CanvasGA16(CanvasBase):
@@ -268,13 +249,16 @@ cdef class CanvasGA16(CanvasBase):
     """
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 2, True)
+        self.pixel_format = PixelFormat.Gray8
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 2)
 
-    def _get_image(self, image):
-        return ImageGA16(image)
+    def _copy_image(self, Image dst_image, Image src_image):
+        cdef _image.Image* dst = dst_image._this
+        cdef _image.Image* src = src_image._this
+        src.copy_pixels[_ndarray_canvas.pixfmt_gray8](dereference(dst))
 
 
 cdef class CanvasG8(CanvasBase):
@@ -285,10 +269,13 @@ cdef class CanvasG8(CanvasBase):
     """
     def __cinit__(self, uint8_t[:,::1] image):
         self.base_init(image, 2, False)
+        self.pixel_format = PixelFormat.Gray8
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 1)
 
-    def _get_image(self, image):
-        return ImageG8(image)
+    def _copy_image(self, Image dst_image, Image src_image):
+        cdef _image.Image* dst = dst_image._this
+        cdef _image.Image* src = src_image._this
+        src.copy_pixels[_ndarray_canvas.pixfmt_gray8](dereference(dst))

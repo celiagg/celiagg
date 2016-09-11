@@ -116,8 +116,7 @@ public:
           double* stops, const unsigned n_stops,
           const GradientSpread spread = k_GradientSpreadPad,
           const GradientUnits units = k_GradientUnitsUserSpace);
-    Paint(const PatternStyle style,
-          uint8_t* buf, unsigned width, unsigned height, int stride);
+    Paint(const PatternStyle style, Image* img);
 
     double  a() const;
     void  a(const double);
@@ -170,7 +169,7 @@ private:
 
     agg::rgba           m_color;
 
-    Image               m_image;
+    Image*              m_image;
 
     PaintType           m_type;
     GradientSpread      m_spread;

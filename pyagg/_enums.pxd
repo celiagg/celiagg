@@ -22,6 +22,38 @@
 #
 # Authors: John Wiggins
 
+cdef extern from "image.h":
+    cdef enum PixelFormat:
+        k_PixelFormatGray8
+        k_PixelFormatSGray8
+        k_PixelFormatGray16
+        k_PixelFormatGray32
+        k_PixelFormatBGR24
+        k_PixelFormatRGB24
+        k_PixelFormatSBGR24
+        k_PixelFormatSRGB24
+        k_PixelFormatBGR48
+        k_PixelFormatRGB48
+        k_PixelFormatBGR96
+        k_PixelFormatRGB96
+        k_PixelFormatBGRA32
+        k_PixelFormatRGBA32
+        k_PixelFormatARGB32
+        k_PixelFormatABGR32
+        k_PixelFormatSBGRA32
+        k_PixelFormatSRGBA32
+        k_PixelFormatSARGB32
+        k_PixelFormatSABGR32
+        k_PixelFormatBGRA64
+        k_PixelFormatRGBA64
+        k_PixelFormatARGB64
+        k_PixelFormatABGR64
+        k_PixelFormatBGRA128
+        k_PixelFormatRGBA128
+        k_PixelFormatARGB128
+        k_PixelFormatABGR128
+
+
 cdef extern from "graphics_state.h" namespace "GraphicsState":
     cdef enum LineJoin:
         JoinMiter

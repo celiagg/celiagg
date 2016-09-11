@@ -22,39 +22,18 @@
 #
 # Authors: John Wiggins
 
+import cython
+cimport numpy
+import numpy
+from libc.stdint cimport uint8_t, uint16_t
 cimport _enums
-cimport _image
-cimport _transform
 
 
-cdef extern from "paint.h":
-    cdef cppclass GradientStop:
-        double off
-        double r
-        double g
-        double b
-        double a
+cdef extern from "image.h":
+    cdef cppclass Image:
+        Image(uint8_t* buf, unsigned width, unsigned height, int stride,
+              const _enums.PixelFormat format)
 
-        GradientStop(const double o, const double r, const double g,
-                     const double b, const double a)
-
-    cdef cppclass Paint:
-        Paint(const double r, const double g, const double b,
-              const double a)
-        Paint(const _enums.PaintType type,
-              double* points, const unsigned n_points,
-              double* stops, const unsigned n_stops,
-              const _enums.GradientSpread spread,
-              const _enums.GradientUnits units)
-        Paint(const _enums.PatternStyle style, _image.Image* img)
-
-        void transform(const _transform.trans_affine& mat)
-        const _transform.trans_affine& transform() const
-        double  a()
-        double  r()
-        double  g()
-        double  b()
-        void  a(const double _a)
-        void  r(const double _r)
-        void  g(const double _g)
-        void  b(const double _b)
+        void copy_pixels[dst_pixfmt_t](Image& dst_image)
+        unsigned height()
+        unsigned width()

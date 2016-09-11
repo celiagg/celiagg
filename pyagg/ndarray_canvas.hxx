@@ -163,8 +163,7 @@ void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     typedef agg::conv_transform<agg::path_storage> trans_curve_t;
 
     agg::path_storage img_outline = img.image_outline();
-    agg::rendering_buffer* src_buf = img.get_buffer_ptr();
-    pixfmt_t src_pix(*src_buf);
+    pixfmt_t src_pix(img.get_buffer());
 
     agg::trans_affine src_mtx = transform;
     agg::trans_affine inv_img_mtx = transform;

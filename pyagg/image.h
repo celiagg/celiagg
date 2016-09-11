@@ -22,8 +22,8 @@
 // 
 // Authors: John Wiggins
 
-#ifndef PYAGG_IMAGE_H 
-#define PYAGG_IMAGE_H 
+#ifndef PYAGG_IMAGE_H
+#define PYAGG_IMAGE_H
 
 #include <stdint.h>
 
@@ -42,7 +42,8 @@
 #include <agg_span_pattern_gray.h>
 #include <agg_span_pattern_rgb.h>
 #include <agg_span_pattern_rgba.h>
-
+#include <platform/agg_platform_support.h>
+#include <util/agg_color_conv.h>
 
 typedef agg::span_interpolator_linear<> interpolator_t;
 typedef agg::wrap_mode_reflect wrap_reflect_t;
@@ -54,9 +55,10 @@ struct image_filters {};
 template<>
 struct image_filters<agg::pixfmt_rgba128>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_rgba128> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_rgba128, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_rgba128, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_rgba128 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgba_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_t, interpolator_t> bilinear_t;
@@ -71,9 +73,10 @@ struct image_filters<agg::pixfmt_rgba128>
 template<>
 struct image_filters<agg::pixfmt_rgba32>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_rgba32> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_rgba32, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_rgba32, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_rgba32 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgba_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_t, interpolator_t> bilinear_t;
@@ -88,9 +91,10 @@ struct image_filters<agg::pixfmt_rgba32>
 template<>
 struct image_filters<agg::pixfmt_bgra32>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_bgra32> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_bgra32, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_bgra32, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_bgra32 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgba_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_t, interpolator_t> bilinear_t;
@@ -105,9 +109,10 @@ struct image_filters<agg::pixfmt_bgra32>
 template<>
 struct image_filters<agg::pixfmt_argb32>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_argb32> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_argb32, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_argb32, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_argb32 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgba_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_t, interpolator_t> bilinear_t;
@@ -122,9 +127,10 @@ struct image_filters<agg::pixfmt_argb32>
 template<>
 struct image_filters<agg::pixfmt_abgr32>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_abgr32> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_abgr32, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_abgr32, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_abgr32 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgba_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgba_bilinear<source_t, interpolator_t> bilinear_t;
@@ -139,9 +145,10 @@ struct image_filters<agg::pixfmt_abgr32>
 template<>
 struct image_filters<agg::pixfmt_rgb24>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_rgb24> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_rgb24, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_rgb24, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_rgb24 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgb_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgb_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgb_bilinear<source_t, interpolator_t> bilinear_t;
@@ -156,9 +163,10 @@ struct image_filters<agg::pixfmt_rgb24>
 template<>
 struct image_filters<agg::pixfmt_bgr24>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_bgr24> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_bgr24, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_bgr24, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_bgr24 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_rgb_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_rgb_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_rgb_bilinear<source_t, interpolator_t> bilinear_t;
@@ -173,9 +181,10 @@ struct image_filters<agg::pixfmt_bgr24>
 template<>
 struct image_filters<agg::pixfmt_gray16>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_gray16> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_gray16, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_gray16, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_gray16 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_gray_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_gray_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_gray_bilinear<source_t, interpolator_t> bilinear_t;
@@ -190,9 +199,10 @@ struct image_filters<agg::pixfmt_gray16>
 template<>
 struct image_filters<agg::pixfmt_gray8>
 {
-    typedef agg::image_accessor_clip<agg::pixfmt_gray8> source_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_gray8, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
-    typedef agg::image_accessor_wrap<agg::pixfmt_gray8, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
+    typedef agg::pixfmt_gray8 pixfmt_t;
+    typedef agg::image_accessor_clip<pixfmt_t> source_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_reflect_t, wrap_reflect_t> source_reflect_t;
+    typedef agg::image_accessor_wrap<pixfmt_t, wrap_repeat_t, wrap_repeat_t> source_repeat_t;
     typedef agg::span_image_filter_gray_bilinear<source_reflect_t, interpolator_t> bilinear_reflect_t;
     typedef agg::span_image_filter_gray_bilinear<source_repeat_t, interpolator_t> bilinear_repeat_t;
     typedef agg::span_image_filter_gray_bilinear<source_t, interpolator_t> bilinear_t;
@@ -205,29 +215,58 @@ struct image_filters<agg::pixfmt_gray8>
 };
 
 
+enum PixelFormat {
+    k_PixelFormatGray8 = agg::pix_format_gray8,
+    k_PixelFormatSGray8 = agg::pix_format_sgray8,
+    k_PixelFormatGray16 = agg::pix_format_gray16,
+    k_PixelFormatGray32 = agg::pix_format_gray32,
+    k_PixelFormatBGR24 = agg::pix_format_bgr24,
+    k_PixelFormatRGB24 = agg::pix_format_rgb24,
+    k_PixelFormatSBGR24 = agg::pix_format_sbgr24,
+    k_PixelFormatSRGB24 = agg::pix_format_srgb24,
+    k_PixelFormatBGR48 = agg::pix_format_bgr48,
+    k_PixelFormatRGB48 = agg::pix_format_rgb48,
+    k_PixelFormatBGR96 = agg::pix_format_bgr96,
+    k_PixelFormatRGB96 = agg::pix_format_rgb96,
+    k_PixelFormatBGRA32 = agg::pix_format_bgra32,
+    k_PixelFormatRGBA32 = agg::pix_format_rgba32,
+    k_PixelFormatARGB32 = agg::pix_format_argb32,
+    k_PixelFormatABGR32 = agg::pix_format_abgr32,
+    k_PixelFormatSBGRA32 = agg::pix_format_sbgra32,
+    k_PixelFormatSRGBA32 = agg::pix_format_srgba32,
+    k_PixelFormatSARGB32 = agg::pix_format_sargb32,
+    k_PixelFormatSABGR32 = agg::pix_format_sabgr32,
+    k_PixelFormatBGRA64 = agg::pix_format_bgra64,
+    k_PixelFormatRGBA64 = agg::pix_format_rgba64,
+    k_PixelFormatARGB64 = agg::pix_format_argb64,
+    k_PixelFormatABGR64 = agg::pix_format_abgr64,
+    k_PixelFormatBGRA128 = agg::pix_format_bgra128,
+    k_PixelFormatRGBA128 = agg::pix_format_rgba128,
+    k_PixelFormatARGB128 = agg::pix_format_argb128,
+    k_PixelFormatABGR128 = agg::pix_format_abgr128,
+};
+
+template<typename pixfmt_t>
+PixelFormat get_pixel_format();
+
 class Image
 {
     agg::rendering_buffer m_buf;
+    PixelFormat m_format;
 
 public:
-    Image(uint8_t* buf, unsigned width, unsigned height, int stride) :
-        m_buf(buf, width, height, stride) {}
+    Image(uint8_t* buf, unsigned width, unsigned height, int stride,
+          const PixelFormat format);
 
-    agg::rendering_buffer* get_buffer_ptr() { return &m_buf; }
-    unsigned height() const { return m_buf.height(); }
-    unsigned width() const { return m_buf.width(); }
-    int stride() const { return m_buf.stride(); }
+    template<typename dst_pixfmt_t>
+    void copy_pixels(Image& dst_image) const;
 
-    agg::path_storage image_outline() const
-    {
-        agg::path_storage path;
-        path.move_to(0, 0);
-        path.line_to(m_buf.width(), 0);
-        path.line_to(m_buf.width(), m_buf.height());
-        path.line_to(0, m_buf.height());
-        path.close_polygon();
-        return path;
-    }
+    agg::rendering_buffer& get_buffer();
+    agg::path_storage image_outline() const;
+    unsigned height() const;
+    unsigned width() const;
 };
+
+#include "image.hxx"
 
 #endif // PYAGG_IMAGE_H

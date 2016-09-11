@@ -31,6 +31,7 @@ from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
 
 cimport _enums
 cimport _graphics_state
+cimport _image
 cimport _ndarray_canvas
 cimport _paint
 cimport _path
@@ -47,6 +48,7 @@ cdef _get_utf8_text(text, exp_msg):
 
 include "enums.pxi"
 include "graphics_state.pxi"
+include "image.pxi"
 include "ndarray_canvas.pxi"
 include "paint.pxi"
 include "path.pxi"

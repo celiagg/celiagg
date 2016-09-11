@@ -28,7 +28,7 @@ Paint::Paint(const double r, const double g, const double b, const double a)
 : m_points(NULL, 0)
 , m_stops(NULL, 0)
 , m_color(r, g, b, a)
-, m_image(NULL, 0, 0, 0)
+, m_image(NULL)
 , m_type(k_PaintTypeSolid)
 , m_spread(k_GradientSpreadInvalid)
 , m_units(k_GradientUnitsInvalid)
@@ -43,7 +43,7 @@ Paint::Paint(const PaintType type,
 : m_points(points, n_points)
 , m_stops(reinterpret_cast<GradientStop*>(stops), n_stops)
 , m_color(0.0, 0.0, 0.0, 0.0)
-, m_image(NULL, 0, 0, 0)
+, m_image(NULL)
 , m_type(type)
 , m_spread(spread)
 , m_units(units)
@@ -51,12 +51,11 @@ Paint::Paint(const PaintType type,
 {
 }
 
-Paint::Paint(const PatternStyle style,
-             unsigned char* buf, unsigned width, unsigned height, int stride)
+Paint::Paint(const PatternStyle style, Image* img)
 : m_points(NULL, 0)
 , m_stops(NULL, 0)
 , m_color(0.0, 0.0, 0.0, 0.0)
-, m_image(buf, width, height, stride)
+, m_image(img)
 , m_type(k_PaintTypePattern)
 , m_spread(k_GradientSpreadInvalid)
 , m_units(k_GradientUnitsInvalid)

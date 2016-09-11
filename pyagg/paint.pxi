@@ -133,17 +133,15 @@ cdef class RadialGradientPaint(Paint):
 cdef class PatternPaint(Paint):
     """ PatternPaint(style, image)
           style: A PatternStyle
-          image: A numpy array containing the pattern image
+          image: An Image object
     """
-    cdef object img_array
+    cdef object img_obj
 
-    def __cinit__(self, PatternStyle style, uint8_t[:,:,::1] image):
-        self._this = new _paint.Paint(style, &image[0][0][0],
-                                      image.shape[1], image.shape[0],
-                                      image.strides[0])
+    def __cinit__(self, PatternStyle style, Image image):
+        self._this = new _paint.Paint(style, image._this)
 
-        # Hold a reference to the pattern image array
-        self.img_array = image
+        # Hold a reference to the pattern image
+        self.img_obj = image
 
 
 cdef class SolidPaint(Paint):

@@ -278,8 +278,7 @@ void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
 
     agg::scanline_u8 scanline;
     span_alloc_t span_allocator;
-    agg::rendering_buffer* src_buf = m_image.get_buffer_ptr();
-    typename renderer_t::pixfmt_type src_pix(*src_buf);
+    typename renderer_t::pixfmt_type src_pix(m_image->get_buffer());
     source_t source(src_pix);
     span_gen_t span_generator(source, interpolator);
     img_renderer_t pattern_renderer(renderer, span_allocator, span_generator);
