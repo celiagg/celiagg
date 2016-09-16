@@ -25,13 +25,10 @@
 cdef extern from "image.h":
     cdef enum PixelFormat:
         k_PixelFormatGray8
-        k_PixelFormatSGray8
         k_PixelFormatGray16
         k_PixelFormatGray32
         k_PixelFormatBGR24
         k_PixelFormatRGB24
-        k_PixelFormatSBGR24
-        k_PixelFormatSRGB24
         k_PixelFormatBGR48
         k_PixelFormatRGB48
         k_PixelFormatBGR96
@@ -40,10 +37,6 @@ cdef extern from "image.h":
         k_PixelFormatRGBA32
         k_PixelFormatARGB32
         k_PixelFormatABGR32
-        k_PixelFormatSBGRA32
-        k_PixelFormatSRGBA32
-        k_PixelFormatSARGB32
-        k_PixelFormatSABGR32
         k_PixelFormatBGRA64
         k_PixelFormatRGBA64
         k_PixelFormatARGB64

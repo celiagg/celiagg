@@ -24,36 +24,6 @@
 
 #include "image.h"
 
-// Specializations!
-template<> PixelFormat get_pixel_format<agg::pixfmt_gray8>() { return k_PixelFormatGray8; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_sgray8>() { return k_PixelFormatSGray8; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_gray16>() { return k_PixelFormatGray16; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_gray32>() { return k_PixelFormatGray32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_bgr24>() { return k_PixelFormatBGR24; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_rgb24>() { return k_PixelFormatRGB24; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_sbgr24>() { return k_PixelFormatSBGR24; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_srgb24>() { return k_PixelFormatSRGB24; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_bgr48>() { return k_PixelFormatBGR48; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_rgb48>() { return k_PixelFormatRGB48; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_bgr96>() { return k_PixelFormatBGR96; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_rgb96>() { return k_PixelFormatRGB96; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_bgra32>() { return k_PixelFormatBGRA32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_rgba32>() { return k_PixelFormatRGBA32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_argb32>() { return k_PixelFormatARGB32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_abgr32>() { return k_PixelFormatABGR32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_sbgra32>() { return k_PixelFormatSBGRA32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_srgba32>() { return k_PixelFormatSRGBA32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_sargb32>() { return k_PixelFormatSARGB32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_sabgr32>() { return k_PixelFormatSABGR32; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_bgra64>() { return k_PixelFormatBGRA64; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_rgba64>() { return k_PixelFormatRGBA64; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_argb64>() { return k_PixelFormatARGB64; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_abgr64>() { return k_PixelFormatABGR64; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_bgra128>() { return k_PixelFormatBGRA128; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_rgba128>() { return k_PixelFormatRGBA128; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_argb128>() { return k_PixelFormatARGB128; }
-template<> PixelFormat get_pixel_format<agg::pixfmt_abgr128>() { return k_PixelFormatABGR128; }
-
 Image::Image(uint8_t* buf, unsigned width, unsigned height, int stride,
              const PixelFormat format)
 : m_buf(buf, width, height, stride)

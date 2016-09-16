@@ -135,6 +135,7 @@ cdef class PatternPaint(Paint):
           style: A PatternStyle
           image: An Image object
     """
+    cdef PatternStyle style
     cdef object img_obj
 
     def __cinit__(self, PatternStyle style, Image image):
@@ -142,6 +143,16 @@ cdef class PatternPaint(Paint):
 
         # Hold a reference to the pattern image
         self.img_obj = image
+        self.style = style
+
+    def _with_format(self, PixelFormat fmt):
+        if self.img_obj.format == fmt:
+            return self
+
+        fmt_image = convert_image(self.img_obj, fmt)
+        fmt_pattern = PatternPaint(self.style, fmt_image)
+        fmt_pattern.transform = self.transform
+        return fmt_pattern
 
 
 cdef class SolidPaint(Paint):

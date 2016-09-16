@@ -217,13 +217,10 @@ struct image_filters<agg::pixfmt_gray8>
 
 enum PixelFormat {
     k_PixelFormatGray8 = agg::pix_format_gray8,
-    k_PixelFormatSGray8 = agg::pix_format_sgray8,
     k_PixelFormatGray16 = agg::pix_format_gray16,
     k_PixelFormatGray32 = agg::pix_format_gray32,
     k_PixelFormatBGR24 = agg::pix_format_bgr24,
     k_PixelFormatRGB24 = agg::pix_format_rgb24,
-    k_PixelFormatSBGR24 = agg::pix_format_sbgr24,
-    k_PixelFormatSRGB24 = agg::pix_format_srgb24,
     k_PixelFormatBGR48 = agg::pix_format_bgr48,
     k_PixelFormatRGB48 = agg::pix_format_rgb48,
     k_PixelFormatBGR96 = agg::pix_format_bgr96,
@@ -232,10 +229,6 @@ enum PixelFormat {
     k_PixelFormatRGBA32 = agg::pix_format_rgba32,
     k_PixelFormatARGB32 = agg::pix_format_argb32,
     k_PixelFormatABGR32 = agg::pix_format_abgr32,
-    k_PixelFormatSBGRA32 = agg::pix_format_sbgra32,
-    k_PixelFormatSRGBA32 = agg::pix_format_srgba32,
-    k_PixelFormatSARGB32 = agg::pix_format_sargb32,
-    k_PixelFormatSABGR32 = agg::pix_format_sabgr32,
     k_PixelFormatBGRA64 = agg::pix_format_bgra64,
     k_PixelFormatRGBA64 = agg::pix_format_rgba64,
     k_PixelFormatARGB64 = agg::pix_format_argb64,
@@ -246,9 +239,6 @@ enum PixelFormat {
     k_PixelFormatABGR128 = agg::pix_format_abgr128,
 };
 
-template<typename pixfmt_t>
-PixelFormat get_pixel_format();
-
 class Image
 {
     agg::rendering_buffer m_buf;
@@ -258,15 +248,10 @@ public:
     Image(uint8_t* buf, unsigned width, unsigned height, int stride,
           const PixelFormat format);
 
-    template<typename dst_pixfmt_t>
-    void copy_pixels(Image& dst_image) const;
-
     agg::rendering_buffer& get_buffer();
     agg::path_storage image_outline() const;
     unsigned height() const;
     unsigned width() const;
 };
-
-#include "image.hxx"
 
 #endif // PYAGG_IMAGE_H

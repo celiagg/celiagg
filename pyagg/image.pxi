@@ -26,13 +26,10 @@ ctypedef _image.Image* img_ptr_t
 
 cdef _get_format_dtype(PixelFormat pixel_format):
     dtypes = {
-        numpy.uint8: (PixelFormat.Gray8, PixelFormat.SGray8,
-                      PixelFormat.BGR24, PixelFormat.RGB24,
-                      PixelFormat.SBGR24, PixelFormat.SRGB24,
-                      PixelFormat.BGRA32, PixelFormat.RGBA32,
-                      PixelFormat.ARGB32, PixelFormat.ABGR32,
-                      PixelFormat.SBGRA32, PixelFormat.SRGBA32,
-                      PixelFormat.SARGB32, PixelFormat.SABGR32),
+        numpy.uint8: (PixelFormat.Gray8, PixelFormat.BGR24,
+                      PixelFormat.RGB24, PixelFormat.BGRA32,
+                      PixelFormat.RGBA32, PixelFormat.ARGB32,
+                      PixelFormat.ABGR32),
         numpy.uint16: (PixelFormat.Gray16, PixelFormat.BGR48,
                        PixelFormat.RGB48, PixelFormat.BGRA64,
                        PixelFormat.RGBA64, PixelFormat.ARGB64,
@@ -48,17 +45,13 @@ cdef _get_format_dtype(PixelFormat pixel_format):
 
 cdef _get_format_last_dim(PixelFormat pixel_format):
     dims = {
-        1: (PixelFormat.Gray8, PixelFormat.SGray8, PixelFormat.Gray16,
-            PixelFormat.Gray32),
-        3: (PixelFormat.BGR24, PixelFormat.RGB24, PixelFormat.SBGR24,
-            PixelFormat.SRGB24, PixelFormat.BGR48, PixelFormat.RGB48,
-            PixelFormat.BGR96, PixelFormat.RGB96),
+        1: (PixelFormat.Gray8, PixelFormat.Gray16, PixelFormat.Gray32),
+        3: (PixelFormat.BGR24, PixelFormat.RGB24, PixelFormat.BGR48,
+            PixelFormat.RGB48, PixelFormat.BGR96, PixelFormat.RGB96),
         4: (PixelFormat.BGRA32, PixelFormat.RGBA32, PixelFormat.ARGB32,
-            PixelFormat.ABGR32, PixelFormat.SBGRA32, PixelFormat.SRGBA32,
-            PixelFormat.SARGB32, PixelFormat.SABGR32, PixelFormat.BGRA64,
-            PixelFormat.RGBA64, PixelFormat.ARGB64, PixelFormat.ABGR64,
-            PixelFormat.BGRA128, PixelFormat.RGBA128, PixelFormat.ARGB128,
-            PixelFormat.ABGR128)
+            PixelFormat.ABGR32, PixelFormat.BGRA64, PixelFormat.RGBA64,
+            PixelFormat.ARGB64, PixelFormat.ABGR64, PixelFormat.BGRA128,
+            PixelFormat.RGBA128, PixelFormat.ARGB128, PixelFormat.ABGR128)
     }
     format_dims = {fmt: dim for dim, fmts in dims.items() for fmt in fmts}
     return format_dims[pixel_format]
@@ -114,17 +107,6 @@ cdef img_ptr_t _get_image(array, pixel_format):
             return _get_3d_f32_img(array, pixel_format)
 
 
-def empty_image_with_format(PixelFormat pixel_format, int width, int height):
-    """Create an empty image which can contain the specified format
-    """
-    dtype = _get_format_dtype(pixel_format)
-    last_dim = _get_format_last_dim(pixel_format)
-    shape = (height, width) if last_dim == 1 else (height, width, last_dim)
-    array = numpy.empty(shape, dtype=dtype)
-
-    return Image(array, pixel_format)
-
-
 cdef class Image:
     """Image(array, pixel_format)
         image: A 2D or 3D numpy array containing image data
@@ -164,3 +146,13 @@ cdef class Image:
 
     def __dealloc__(self):
         del self._this
+
+    property format:
+        def __get__(self):
+            return self.pixel_format
+
+    property pixels:
+        def __get__(self):
+            if self.pixel_array.base is not None:
+                self.pixel_array.base
+            return self.pixel_array

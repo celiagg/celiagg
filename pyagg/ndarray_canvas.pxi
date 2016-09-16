@@ -101,10 +101,12 @@ cdef class CanvasBase:
           state: A GraphicsState object
                  line width, line color, fill color, anti-aliased
         """
+        cdef Paint tmp_line_paint = self._get_native_paint(line_paint)
+        cdef Paint tmp_fill_paint = self._get_native_paint(fill_paint)
         self._this.draw_path(dereference(path._this),
                              dereference(transform._this),
-                             dereference(line_paint._this),
-                             dereference(fill_paint._this),
+                             dereference(tmp_line_paint._this),
+                             dereference(tmp_fill_paint._this),
                              dereference(state._this))
 
     def draw_bspline(self, points, Transform transform, Paint line_paint,
@@ -125,10 +127,12 @@ cdef class CanvasBase:
             msg = 'Points argument must be an iterable of (x, y) pairs.'
             raise ValueError(msg)
 
+        cdef Paint tmp_line_paint = self._get_native_paint(line_paint)
+        cdef Paint tmp_fill_paint = self._get_native_paint(fill_paint)
         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
                                 dereference(transform._this),
-                                dereference(line_paint._this),
-                                dereference(fill_paint._this),
+                                dereference(tmp_line_paint._this),
+                                dereference(tmp_fill_paint._this),
                                 dereference(state._this))
 
     def draw_image(self, image, PixelFormat format, Transform transform,
@@ -158,25 +162,31 @@ cdef class CanvasBase:
                 line color, line width, fill color, drawing mode, anti-aliased
         """
         text = _get_utf8_text(text, "The text argument must be unicode.")
+        cdef Paint tmp_line_paint = self._get_native_paint(line_paint)
+        cdef Paint tmp_fill_paint = self._get_native_paint(fill_paint)
         self._this.draw_text(text, dereference(font._this),
                              dereference(transform._this),
-                             dereference(line_paint._this),
-                             dereference(fill_paint._this),
+                             dereference(tmp_line_paint._this),
+                             dereference(tmp_fill_paint._this),
                              dereference(state._this))
 
-    def _get_native_image(self, Image image):
+    cdef Image _get_native_image(self, Image image):
         """_get_native_image(self, Image image)
           image: An Image object which is needed in the canvas' format.
-
-        NOTE: This method is an internal implementation detail. Be careful.
         """
         if image.pixel_format == self.pixel_format:
             return image
 
-        height, width = image.pixel_array.shape[:2]
-        nat_image = empty_image_with_format(self.pixel_format, width, height)
-        self._copy_image(nat_image, image)
-        return nat_image
+        return convert_image(image, self.pixel_format)
+
+    cdef Paint _get_native_paint(self, Paint paint):
+        """_get_native_paint(self, Paint paint)
+          paint: A Paint object which is needed in the canvas' format.
+        """
+        if not hasattr(paint, '_with_format'):
+            return paint
+
+        return paint._with_format(self.pixel_format)
 
 
 cdef class CanvasRGBA128(CanvasBase):
@@ -194,11 +204,6 @@ cdef class CanvasRGBA128(CanvasBase):
                                                         image.shape[0],
                                                         image.strides[0], 4)
 
-    def _copy_image(self, Image dst_image, Image src_image):
-        cdef _image.Image* dst = dst_image._this
-        cdef _image.Image* src = src_image._this
-        src.copy_pixels[_ndarray_canvas.pixfmt_rgba128](dereference(dst))
-
 
 cdef class CanvasRGBA32(CanvasBase):
     """CanvasRGBA32 provides AGG (Anti-Grain Geometry) drawing routines that
@@ -215,11 +220,6 @@ cdef class CanvasRGBA32(CanvasBase):
                                                           image.shape[0],
                                                           image.strides[0], 4)
 
-    def _copy_image(self, Image dst_image, Image src_image):
-        cdef _image.Image* dst = dst_image._this
-        cdef _image.Image* src = src_image._this
-        src.copy_pixels[_ndarray_canvas.pixfmt_rgba32](dereference(dst))
-
 
 cdef class CanvasRGB24(CanvasBase):
     """CanvasRGB24 provides AGG (Anti-Grain Geometry) drawing routines that
@@ -234,11 +234,6 @@ cdef class CanvasRGB24(CanvasBase):
                                                          image.shape[1],
                                                          image.shape[0],
                                                          image.strides[0], 3)
-
-    def _copy_image(self, Image dst_image, Image src_image):
-        cdef _image.Image* dst = dst_image._this
-        cdef _image.Image* src = src_image._this
-        src.copy_pixels[_ndarray_canvas.pixfmt_rgb24](dereference(dst))
 
 
 cdef class CanvasGA16(CanvasBase):
@@ -255,11 +250,6 @@ cdef class CanvasGA16(CanvasBase):
                                                         image.shape[0],
                                                         image.strides[0], 2)
 
-    def _copy_image(self, Image dst_image, Image src_image):
-        cdef _image.Image* dst = dst_image._this
-        cdef _image.Image* src = src_image._this
-        src.copy_pixels[_ndarray_canvas.pixfmt_gray8](dereference(dst))
-
 
 cdef class CanvasG8(CanvasBase):
     """CanvasG8 provides AGG (Anti-Grain Geometry) drawing routines that render
@@ -274,8 +264,3 @@ cdef class CanvasG8(CanvasBase):
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 1)
-
-    def _copy_image(self, Image dst_image, Image src_image):
-        cdef _image.Image* dst = dst_image._this
-        cdef _image.Image* src = src_image._this
-        src.copy_pixels[_ndarray_canvas.pixfmt_gray8](dereference(dst))

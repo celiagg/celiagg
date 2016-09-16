@@ -24,13 +24,10 @@
 
 cpdef enum PixelFormat:
     Gray8 = _enums.k_PixelFormatGray8
-    SGray8 = _enums.k_PixelFormatSGray8
     Gray16 = _enums.k_PixelFormatGray16
     Gray32 = _enums.k_PixelFormatGray32
     BGR24 = _enums.k_PixelFormatBGR24
     RGB24 = _enums.k_PixelFormatRGB24
-    SBGR24 = _enums.k_PixelFormatSBGR24
-    SRGB24 = _enums.k_PixelFormatSRGB24
     BGR48 = _enums.k_PixelFormatBGR48
     RGB48 = _enums.k_PixelFormatRGB48
     BGR96 = _enums.k_PixelFormatBGR96
@@ -39,10 +36,6 @@ cpdef enum PixelFormat:
     RGBA32 = _enums.k_PixelFormatRGBA32
     ARGB32 = _enums.k_PixelFormatARGB32
     ABGR32 = _enums.k_PixelFormatABGR32
-    SBGRA32 = _enums.k_PixelFormatSBGRA32
-    SRGBA32 = _enums.k_PixelFormatSRGBA32
-    SARGB32 = _enums.k_PixelFormatSARGB32
-    SABGR32 = _enums.k_PixelFormatSABGR32
     BGRA64 = _enums.k_PixelFormatBGRA64
     RGBA64 = _enums.k_PixelFormatRGBA64
     ARGB64 = _enums.k_PixelFormatARGB64
