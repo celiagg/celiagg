@@ -34,6 +34,7 @@ cdef class CanvasBase:
     cdef canvas_base_t* _this
     cdef PixelFormat pixel_format
     cdef uint64_t blend_channel_count
+    cdef uint8_t[:,::1] stencil_buffer
     cdef object py_image
 
     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
@@ -66,7 +67,7 @@ cdef class CanvasBase:
         # with ndarray_canvas<>'s reference to that memory and destroyed when
         # that reference is lost.
         self.py_image = image
-        return 0
+        self.stencil_buffer = numpy.ones(image.shape[:2], dtype=numpy.uint8) * 255
 
     def __dealloc__(self):
         del self._this
@@ -91,23 +92,17 @@ cdef class CanvasBase:
         # why self.py_image.base is returned rather than self.py_image).
         return self.py_image.base
 
-    def draw_path(self, Path path, Transform transform, Paint line_paint,
-                  Paint fill_paint, GraphicsState state):
-        """draw_path(self, path, state)
-          path: A Path object
-          transform: A Transform object
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
-          state: A GraphicsState object
-                 line width, line color, fill color, anti-aliased
+    def clear(self, double r, double g, double b, double a=1.0):
+        """clear(self, r, g, b, a)
+          r, g, b, a: The RGBA color to clear the buffer with
         """
-        cdef Paint tmp_line_paint = self._get_native_paint(line_paint)
-        cdef Paint tmp_fill_paint = self._get_native_paint(fill_paint)
-        self._this.draw_path(dereference(path._this),
-                             dereference(transform._this),
-                             dereference(tmp_line_paint._this),
-                             dereference(tmp_fill_paint._this),
-                             dereference(state._this))
+        self._this.clear(r, g, b, a)
+
+    def stencil_clear(self, uint8_t v):
+        """stencil_clear(self, v)
+          v: The (8-bit) value to clear the stencil buffer with
+        """
+        self._this.stencil_clear(v)
 
     def draw_bspline(self, points, Transform transform, Paint line_paint,
                   Paint fill_paint, GraphicsState state):
@@ -127,8 +122,11 @@ cdef class CanvasBase:
             msg = 'Points argument must be an iterable of (x, y) pairs.'
             raise ValueError(msg)
 
-        cdef Paint tmp_line_paint = self._get_native_paint(line_paint)
-        cdef Paint tmp_fill_paint = self._get_native_paint(fill_paint)
+        cdef:
+            PixelFormat format = self.pixel_format
+            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+
         self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
                                 dereference(transform._this),
                                 dereference(tmp_line_paint._this),
@@ -144,11 +142,32 @@ cdef class CanvasBase:
             state: A GraphicsState object
         """
         cdef Image input_img = Image(image, format)
-        cdef Image img = self._get_native_image(input_img)
+        cdef Image img = self._get_native_image(input_img, self.pixel_format)
 
         self._this.draw_image(dereference(img._this),
                               dereference(transform._this),
                               dereference(state._this))
+
+    def draw_path(self, Path path, Transform transform, Paint line_paint,
+                  Paint fill_paint, GraphicsState state):
+        """draw_path(self, path, state)
+          path: A Path object
+          transform: A Transform object
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
+          state: A GraphicsState object
+                 line width, line color, fill color, anti-aliased
+        """
+        cdef:
+            PixelFormat format = self.pixel_format
+            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+
+        self._this.draw_path(dereference(path._this),
+                             dereference(transform._this),
+                             dereference(tmp_line_paint._this),
+                             dereference(tmp_fill_paint._this),
+                             dereference(state._this))
 
     def draw_text(self, text, Font font, Transform transform, Paint line_paint,
                   Paint fill_paint, GraphicsState state):
@@ -161,32 +180,83 @@ cdef class CanvasBase:
           state: A GraphicsState object
                 line color, line width, fill color, drawing mode, anti-aliased
         """
+        cdef:
+            PixelFormat format = self.pixel_format
+            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+
         text = _get_utf8_text(text, "The text argument must be unicode.")
-        cdef Paint tmp_line_paint = self._get_native_paint(line_paint)
-        cdef Paint tmp_fill_paint = self._get_native_paint(fill_paint)
         self._this.draw_text(text, dereference(font._this),
                              dereference(transform._this),
                              dereference(tmp_line_paint._this),
                              dereference(tmp_fill_paint._this),
                              dereference(state._this))
 
-    cdef Image _get_native_image(self, Image image):
-        """_get_native_image(self, Image image)
-          image: An Image object which is needed in the canvas' format.
+    def stencil_draw_path(self, Path path, Transform transform,
+                          Paint line_paint, Paint fill_paint,
+                          GraphicsState state):
+        """stencil_draw_path(self, path, state)
+          path: A Path object
+          transform: A Transform object
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
+          state: A GraphicsState object
+                 line width, line color, fill color, anti-aliased
         """
-        if image.pixel_format == self.pixel_format:
+        cdef:
+            PixelFormat format = PixelFormat.Gray8
+            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+
+        self._this.stencil_draw_path(dereference(path._this),
+                                     dereference(transform._this),
+                                     dereference(tmp_line_paint._this),
+                                     dereference(tmp_fill_paint._this),
+                                     dereference(state._this))
+
+    def stencil_draw_text(self, text, Font font, Transform transform,
+                          Paint line_paint, Paint fill_paint,
+                          GraphicsState state):
+        """stencil_draw_text(self, text, font, transform, state):
+          text: A Unicode string of text to be renderered.
+          font: A Font object
+          transform: A Transform object
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
+          state: A GraphicsState object
+                line color, line width, fill color, drawing mode, anti-aliased
+        """
+        cdef:
+            PixelFormat format = PixelFormat.Gray8
+            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+
+        text = _get_utf8_text(text, "The text argument must be unicode.")
+        self._this.stencil_draw_text(text, dereference(font._this),
+                                     dereference(transform._this),
+                                     dereference(tmp_line_paint._this),
+                                     dereference(tmp_fill_paint._this),
+                                     dereference(state._this))
+
+    cdef Image _get_native_image(self, Image image, PixelFormat format):
+        """_get_native_image(self, Image image)
+          image: An Image object which is needed in a different pixel format.
+          format: The desired output pixel format
+        """
+        if image.pixel_format == format:
             return image
 
-        return convert_image(image, self.pixel_format)
+        return convert_image(image, format)
 
-    cdef Paint _get_native_paint(self, Paint paint):
+    cdef Paint _get_native_paint(self, Paint paint, PixelFormat format):
         """_get_native_paint(self, Paint paint)
-          paint: A Paint object which is needed in the canvas' format.
+          paint: A Paint object which is needed in a different pixel format.
+          format: The desired output pixel format
         """
         if not hasattr(paint, '_with_format'):
             return paint
 
-        return paint._with_format(self.pixel_format)
+        return paint._with_format(format)
 
 
 cdef class CanvasRGBA128(CanvasBase):
@@ -199,10 +269,12 @@ cdef class CanvasRGBA128(CanvasBase):
     def __cinit__(self, float[:,:,::1] image):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA128
+        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
-                                                        image.shape[1],
-                                                        image.shape[0],
-                                                        image.strides[0], 4)
+                                                           &stencil[0][0],
+                                                           image.shape[1],
+                                                           image.shape[0],
+                                                           image.strides[0], 4)
 
 
 cdef class CanvasRGBA32(CanvasBase):
@@ -215,7 +287,9 @@ cdef class CanvasRGBA32(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA32
+        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
+                                                          &stencil[0][0],
                                                           image.shape[1],
                                                           image.shape[0],
                                                           image.strides[0], 4)
@@ -230,7 +304,9 @@ cdef class CanvasRGB24(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 4, False)
         self.pixel_format = PixelFormat.RGB24
+        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
+                                                         &stencil[0][0],
                                                          image.shape[1],
                                                          image.shape[0],
                                                          image.strides[0], 3)
@@ -245,7 +321,9 @@ cdef class CanvasGA16(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 2, True)
         self.pixel_format = PixelFormat.Gray8
+        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
+                                                        &stencil[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 2)
@@ -260,7 +338,9 @@ cdef class CanvasG8(CanvasBase):
     def __cinit__(self, uint8_t[:,::1] image):
         self.base_init(image, 2, False)
         self.pixel_format = PixelFormat.Gray8
+        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
+                                                        &stencil[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 1)

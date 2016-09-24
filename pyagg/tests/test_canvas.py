@@ -23,6 +23,24 @@ def test_cleanup():
     assert weak_buf() is None
 
 
+def test_clear():
+    expected = np.zeros((4, 4, 3), dtype=np.uint8)
+    buffer = np.zeros((4, 4, 3), dtype=np.uint8)
+    canvas = CanvasRGB24(buffer)
+
+    expected[:] = 0
+    canvas.clear(0, 0, 0)
+    assert_equal(expected, canvas.image)
+
+    expected[:] = 128
+    canvas.clear(.5, .5, .5)
+    assert_equal(expected, canvas.image)
+
+    expected[:] = 255
+    canvas.clear(1, 1, 1)
+    assert_equal(expected, canvas.image)
+
+
 def test_line():
     expected = np.zeros((100, 100, 3), dtype=np.uint8)
     buffer = np.zeros((100, 100, 3), dtype=np.uint8)
