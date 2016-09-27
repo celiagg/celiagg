@@ -76,25 +76,23 @@ cdef class Path:
                bool sweep_flag, double x, double y):
         self._this.arc_to(rx, ry, angle, large_arc_flag, sweep_flag, x, y)
 
-    def quadric_to(self, double x0, double y0, double x_ctrl, double y_ctrl,
+    def quadric_to(self, double x_ctrl, double y_ctrl,
                    double x_to, double y_to):
-        """ Adds a quadratic Bezier curve to the path.
-          x0, y0: Start point
+        """ Adds a quadratic Bezier curve to the path, starting from the
+        current position.
           x_ctrl, y_ctrl: Control point
           x_to, y_to: End point
         """
-        self._this.move_to(x0, y0)
         self._this.curve3(x_ctrl, y_ctrl, x_to, y_to)
 
-    def cubic_to(self, double x0, double y0, double x_ctrl1, double y_ctrl1,
+    def cubic_to(self, double x_ctrl1, double y_ctrl1,
                  double x_ctrl2, double y_ctrl2, double x_to, double y_to):
-        """ Adds a cubic Bezier curve to the path.
-          x0, y0: Start point
+        """ Adds a cubic Bezier curve to the path, starting from the current
+        pen position.
           x_ctrl1, y_ctrl1: First control point
           x_ctrl2, y_ctrl2: Second control point
           x_to, y_to: End point
         """
-        self._this.move_to(x0, y0)
         self._this.curve4(x_ctrl1, y_ctrl1, x_ctrl2, y_ctrl2, x_to, y_to)
 
     def ellipse(self, double cx, double cy, double rx, double ry):

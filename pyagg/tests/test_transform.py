@@ -4,6 +4,11 @@ from numpy.testing import assert_allclose
 from pyagg import Transform
 
 
+def test_construction():
+    t = Transform(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+    assert repr(t) == "Transform(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)"
+
+
 def test_scale():
     t = Transform()
 

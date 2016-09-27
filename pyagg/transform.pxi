@@ -26,6 +26,15 @@
 cdef class Transform:
     cdef _transform.trans_affine* _this
 
+    def __init__(self, double sx=1.0, double shy=0.0, double shx=0.0,
+                 double sy=1.0, double tx=0.0, double ty=0.0):
+        self._this.sx = sx
+        self._this.sy = sy
+        self._this.shx = shx
+        self._this.shy = shy
+        self._this.tx = tx
+        self._this.ty = ty
+
     def __cinit__(self):
         self._this = new _transform.trans_affine()
 
