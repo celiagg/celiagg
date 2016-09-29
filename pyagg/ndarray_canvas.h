@@ -181,6 +181,7 @@ private:
     template<typename alt_pixfmt_t, typename base_renderer_t>
     void _draw_text_raster(GlyphIterator& iterator,
                            Font& font,
+                           agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);

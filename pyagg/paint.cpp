@@ -58,7 +58,7 @@ Paint::Paint(const PatternStyle style, Image* img)
 , m_image(img)
 , m_type(k_PaintTypePattern)
 , m_spread(k_GradientSpreadInvalid)
-, m_units(k_GradientUnitsInvalid)
+, m_units(k_GradientUnitsUserSpace)
 , m_pattern_style(style)
 {
 }

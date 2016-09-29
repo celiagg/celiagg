@@ -86,11 +86,15 @@ bottom_gradient = agg.LinearGradientPaint(
 bottom_gradient.transform = agg.Transform(0.562541, 0, 0,
                                           0.567972, -9.399749, -5.305317)
 
-canvas = agg.CanvasRGB24(np.zeros((125, 125, 3), dtype=np.uint8))
+canvas = agg.CanvasRGB24(np.zeros((600, 600, 3), dtype=np.uint8))
 gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
 line_paint = agg.SolidPaint(0.0, 0.0, 0.0)
-transform = agg.Transform()
 canvas.clear(1, 1, 1)
+transform = agg.Transform()
+transform.translate(-60, -60)
+transform.rotate(np.pi/4)
+transform.scale(5, 5)
+transform.translate(300, 300)
 canvas.draw_path(top, transform, line_paint, top_gradient, gs)
 canvas.draw_path(bottom, transform, line_paint, bottom_gradient, gs)
 imsave("python.png", canvas.image)

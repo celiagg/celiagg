@@ -111,7 +111,7 @@ void ndarray_canvas<pixfmt_t>::draw_bspline(const double* points,
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer);
+            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, transform);
         }
 
         if (line)
@@ -121,7 +121,7 @@ void ndarray_canvas<pixfmt_t>::draw_bspline(const double* points,
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer);
+            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, transform);
         }
     }
 }
@@ -221,7 +221,7 @@ void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer);
+            fillPaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, transform);
         }
 
         if (line)
@@ -231,7 +231,7 @@ void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer);
+            linePaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, transform);
         }
     }
 }
@@ -259,7 +259,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     if (font.cacheType() == Font::RasterFontCache)
     {
         font.transform(mtx);
-        _draw_text_raster<alt_pixfmt_t, base_renderer_t>(iterator, font, linePaint, fillPaint, gs, renderer);
+        _draw_text_raster<alt_pixfmt_t, base_renderer_t>(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
     }
     else
     {
@@ -270,8 +270,8 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
 template<typename pixfmt_t>
 template<typename alt_pixfmt_t, typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
-    Font& font, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs,
-    base_renderer_t& renderer)
+    Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    const GraphicsState& gs, base_renderer_t& renderer)
 {
     typedef Font::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
     const bool eof = (gs.drawingMode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
@@ -282,7 +282,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            linePaint.render<alt_pixfmt_t, font_rasterizer_t, base_renderer_t>(font.cache().gray8_adaptor(), renderer);
+            linePaint.render<alt_pixfmt_t, font_rasterizer_t, base_renderer_t>(font.cache().gray8_adaptor(), renderer, transform);
         }
         action = iterator.step();
     }

@@ -90,10 +90,16 @@ public:
     };
 
 private:
+    enum SharedPoints
+    {
+        k_GradX = 0,
+        k_GradY,
+    };
+
     enum LinearPoints
     {
-        k_LinearX1 = 0,
-        k_LinearY1,
+        k_LinearX1 = k_GradX,
+        k_LinearY1 = k_GradY,
         k_LinearX2,
         k_LinearY2,
         k_LinearPointsSize
@@ -101,8 +107,8 @@ private:
 
     enum RadialPoints
     {
-        k_RadialCX = 0,
-        k_RadialCY,
+        k_RadialCX = k_GradX,
+        k_RadialCY = k_GradY,
         k_RadialR,
         k_RadialFX,
         k_RadialFY,
@@ -134,7 +140,7 @@ public:
     const agg::trans_affine& transform() const;
 
     template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void render(rasterizer_t& ras, renderer_t& renderer);
+    void render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_affine& transform);
 
 private:
 

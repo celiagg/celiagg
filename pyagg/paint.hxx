@@ -52,13 +52,20 @@ void _rasterizer_path_bbox(rasterizer_t& ras, double& x, double& y, double& w, d
 {
     x = ras.min_x();
     y = ras.min_y();
-    w = ras.max_x() - w;
+    w = ras.max_x() - x;
     h = ras.max_y() - y;
 }
 
 template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::render(rasterizer_t& ras, renderer_t& renderer)
+void Paint::render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_affine& transform)
 {
+    const agg::trans_affine saved_transform(m_transform);
+
+    if (m_units == Paint::k_GradientUnitsUserSpace)
+    {
+        m_transform *= transform;
+    }
+
     switch (m_type)
     {
     case Paint::k_PaintTypeSolid:
@@ -80,6 +87,8 @@ void Paint::render(rasterizer_t& ras, renderer_t& renderer)
     default:
         break;
     }
+
+    m_transform = saved_transform;
 }
 
 
@@ -227,7 +236,7 @@ void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad
         }
     }
 
-    gradient_mtx *= agg::trans_affine_translation(points[0], points[1]);
+    gradient_mtx *= agg::trans_affine_translation(points[k_GradX], points[k_GradY]);
     if (m_units == Paint::k_GradientUnitsUserSpace)
     {
         gradient_mtx *= m_transform;
