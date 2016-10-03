@@ -150,7 +150,7 @@ cdef class CanvasBase:
 
     def draw_path(self, Path path, Transform transform, Paint line_paint,
                   Paint fill_paint, GraphicsState state):
-        """draw_path(self, path, state)
+        """draw_path(self, path, transform, line_paint, fill_paint, state)
           path: A Path object
           transform: A Transform object
           line_paint: The Paint to use for outlines
@@ -168,6 +168,38 @@ cdef class CanvasBase:
                              dereference(tmp_line_paint._this),
                              dereference(tmp_fill_paint._this),
                              dereference(state._this))
+
+    def draw_path_at_points(self, Path path, Transform transform, points,
+                            Paint line_paint, Paint fill_paint,
+                            GraphicsState state):
+        """draw_path_at_points(self, path, transform, points line_paint, fill_paint, state)
+          path: A Path object
+          transform: A Transform object
+          points: Iterable of (x, y) positions where the path will be drawn
+          line_paint: The Paint to use for outlines
+          fill_paint: The Paint to use for fills
+          state: A GraphicsState object
+                 line width, line color, fill color, anti-aliased
+        """
+        cdef double[:,::1] points_npy = numpy.asarray(points,
+                                                      dtype=numpy.float64,
+                                                      order='c')
+
+        if points_npy.shape[1] != 2:
+            msg = 'Points argument must be an iterable of (x, y) pairs.'
+            raise ValueError(msg)
+
+        cdef:
+            PixelFormat format = self.pixel_format
+            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+
+        self._this.draw_path_at_points(dereference(path._this),
+                                       dereference(transform._this),
+                                       &points_npy[0][0], points_npy.shape[0],
+                                       dereference(tmp_line_paint._this),
+                                       dereference(tmp_fill_paint._this),
+                                       dereference(state._this))
 
     def draw_text(self, text, Font font, Transform transform, Paint line_paint,
                   Paint fill_paint, GraphicsState state):

@@ -85,6 +85,12 @@ public:
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs) = 0;
+    virtual void draw_path_at_points(const agg::path_storage& path,
+                                     const agg::trans_affine& transform,
+                                     const double* points,
+                                     const size_t& point_count,
+                                     Paint& linePaint, Paint& fillPaint,
+                                     const GraphicsState& gs) = 0;
     virtual void draw_text(const char* text, Font& font,
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
@@ -128,6 +134,12 @@ public:
                    const agg::trans_affine& transform,
                    Paint& linePaint, Paint& fillPaint,
                    const GraphicsState& gs);
+    void draw_path_at_points(const agg::path_storage& path,
+                             const agg::trans_affine& transform,
+                             const double* points,
+                             const size_t& point_count,
+                             Paint& linePaint, Paint& fillPaint,
+                             const GraphicsState& gs);
     void draw_text(const char* text, Font& font,
                    const agg::trans_affine& transform,
                    Paint& linePaint, Paint& fillPaint,

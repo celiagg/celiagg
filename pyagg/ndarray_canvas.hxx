@@ -111,7 +111,7 @@ void ndarray_canvas<pixfmt_t>::draw_bspline(const double* points,
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, transform);
+            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
         }
 
         if (line)
@@ -121,7 +121,7 @@ void ndarray_canvas<pixfmt_t>::draw_bspline(const double* points,
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, transform);
+            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
         }
     }
 }
@@ -161,6 +161,62 @@ void ndarray_canvas<pixfmt_t>::draw_path(const agg::path_storage& path,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
     _draw_path_internal<pixfmt_t, renderer_t>(path, transform, linePaint, fillPaint, gs, m_renderer);
+}
+
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_path_at_points(const agg::path_storage& path,
+    const agg::trans_affine& transform, const double* points, const size_t& point_count,
+    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
+{
+    typedef agg::conv_transform<agg::path_storage> conv_trans_t;
+    typedef agg::conv_curve<conv_trans_t> conv_curve_t;
+    typedef agg::conv_contour<conv_curve_t> contour_curve_t;
+    typedef agg::conv_stroke<conv_curve_t> stroke_curve_t;
+
+    const GraphicsState::DrawingMode mode = gs.drawingMode();
+    const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
+    const bool fill = (mode & GraphicsState::DrawFill) == GraphicsState::DrawFill;
+    const bool eof = (mode & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
+
+    if (line || fill)
+    {
+        _set_aa(gs.antiAliased());
+        agg::path_storage path_copy(path);
+        agg::trans_affine mtx = transform;
+        conv_trans_t trans_path(path_copy, mtx);
+        conv_curve_t curve(trans_path);
+
+        if (fill)
+        {
+            contour_curve_t contour(curve);
+            contour.auto_detect_orientation(true);
+            m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
+
+            for (size_t i=0; i < point_count; ++i)
+            {
+                mtx.tx = points[i*2];
+                mtx.ty = points[i*2 + 1];
+                m_rasterizer.reset();
+                m_rasterizer.add_path(contour);
+                fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
+            }
+        }
+
+        if (line)
+        {
+            stroke_curve_t stroke(curve);
+            stroke.width(gs.lineWidth());
+
+            for (size_t i=0; i < point_count; ++i)
+            {
+                mtx.tx = points[i*2];
+                mtx.ty = points[i*2 + 1];
+                m_rasterizer.reset();
+                m_rasterizer.add_path(stroke);
+                linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
+            }
+        }
+    }
 }
 
 template<typename pixfmt_t>
@@ -221,7 +277,7 @@ void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, transform);
+            fillPaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
         }
 
         if (line)
@@ -231,7 +287,7 @@ void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, transform);
+            linePaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
         }
     }
 }
