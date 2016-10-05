@@ -31,8 +31,8 @@ from libcpp cimport bool
 cimport _graphics_state
 cimport _image
 cimport _paint
-cimport _path
 cimport _text
+cimport _vertex_source
 cimport _transform
 
 
@@ -60,29 +60,20 @@ cdef extern from "ndarray_canvas.h":
         unsigned height() const
         void clear(const double r, const double g, const double b, const double a)
         void stencil_clear(const uint8_t v)
-        void draw_bspline(const double* points, const size_t& point_count,
-                          const _transform.trans_affine& transform,
-                          _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                          const _graphics_state.GraphicsState& gs)
         void draw_image(_image.Image& img, const _transform.trans_affine& transform,
                         const _graphics_state.GraphicsState& gs)
-        void draw_path(const _path.path_storage& path,
-                       const _transform.trans_affine& transform,
-                       _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                       const _graphics_state.GraphicsState& gs)
-        void draw_path_at_points(const _path.path_storage& path,
-                                 const _transform.trans_affine& transform,
-                                 const double* points, const size_t& point_count,
-                                 _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                                 const _graphics_state.GraphicsState& gs)
+        void draw_shape(_vertex_source.VertexSource& shape,
+                        const _transform.trans_affine& transform,
+                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                        const _graphics_state.GraphicsState& gs)
         void draw_text(const char* text, _text.Font& font,
                        const _transform.trans_affine& transform,
                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
                        const _graphics_state.GraphicsState& gs)
-        void stencil_draw_path(const _path.path_storage& path,
-                               const _transform.trans_affine& transform,
-                               _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                               const _graphics_state.GraphicsState& gs)
+        void stencil_draw_shape(_vertex_source.VertexSource& shape,
+                                const _transform.trans_affine& transform,
+                                _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                                const _graphics_state.GraphicsState& gs)
         void stencil_draw_text(const char* text, _text.Font& font,
                                const _transform.trans_affine& transform,
                                _paint.Paint& linePaint, _paint.Paint& fillPaint,

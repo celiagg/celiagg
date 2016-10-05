@@ -80,53 +80,6 @@ void ndarray_canvas<pixfmt_t>::stencil_clear(const uint8_t v)
 }
 
 template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::draw_bspline(const double* points,
-    const size_t& point_count, const agg::trans_affine& transform,
-    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
-{
-    typedef agg::conv_transform<agg::simple_polygon_vertex_source> trans_verts_t;
-    typedef agg::conv_bspline<trans_verts_t> conv_bspline_t;
-    typedef agg::conv_contour<conv_bspline_t> contour_bspline_t;
-    typedef agg::conv_stroke<conv_bspline_t> stroke_bspline_t;
-
-    const GraphicsState::DrawingMode mode = gs.drawingMode();
-    const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
-    const bool fill = (mode & GraphicsState::DrawFill) == GraphicsState::DrawFill;
-    const bool eof = (mode & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
-
-    if (line || fill)
-    {
-        _set_aa(gs.antiAliased());
-        agg::simple_polygon_vertex_source path(points, point_count, false, false);
-        agg::trans_affine mtx = transform;
-        trans_verts_t trans_verts(path, mtx);
-        conv_bspline_t bspline(trans_verts);
-//      bspline.interpolation_step(1.0 / point_count);
-
-        if (fill)
-        {
-            contour_bspline_t contour(bspline);
-            contour.auto_detect_orientation(true);
-
-            m_rasterizer.reset();
-            m_rasterizer.add_path(contour);
-            m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
-        }
-
-        if (line)
-        {
-            stroke_bspline_t stroke(bspline);
-            stroke.width(gs.lineWidth() / 2);
-
-            m_rasterizer.reset();
-            m_rasterizer.add_path(stroke);
-            linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
-        }
-    }
-}
-
-template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
@@ -157,66 +110,10 @@ void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
 }
 
 template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::draw_path(const agg::path_storage& path,
+void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
-    _draw_path_internal<pixfmt_t, renderer_t>(path, transform, linePaint, fillPaint, gs, m_renderer);
-}
-
-template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::draw_path_at_points(const agg::path_storage& path,
-    const agg::trans_affine& transform, const double* points, const size_t& point_count,
-    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
-{
-    typedef agg::conv_transform<agg::path_storage> conv_trans_t;
-    typedef agg::conv_curve<conv_trans_t> conv_curve_t;
-    typedef agg::conv_contour<conv_curve_t> contour_curve_t;
-    typedef agg::conv_stroke<conv_curve_t> stroke_curve_t;
-
-    const GraphicsState::DrawingMode mode = gs.drawingMode();
-    const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
-    const bool fill = (mode & GraphicsState::DrawFill) == GraphicsState::DrawFill;
-    const bool eof = (mode & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
-
-    if (line || fill)
-    {
-        _set_aa(gs.antiAliased());
-        agg::path_storage path_copy(path);
-        agg::trans_affine mtx = transform;
-        conv_trans_t trans_path(path_copy, mtx);
-        conv_curve_t curve(trans_path);
-
-        if (fill)
-        {
-            contour_curve_t contour(curve);
-            contour.auto_detect_orientation(true);
-            m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-
-            for (size_t i=0; i < point_count; ++i)
-            {
-                mtx.tx = points[i*2];
-                mtx.ty = points[i*2 + 1];
-                m_rasterizer.reset();
-                m_rasterizer.add_path(contour);
-                fillPaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
-            }
-        }
-
-        if (line)
-        {
-            stroke_curve_t stroke(curve);
-            stroke.width(gs.lineWidth());
-
-            for (size_t i=0; i < point_count; ++i)
-            {
-                mtx.tx = points[i*2];
-                mtx.ty = points[i*2 + 1];
-                m_rasterizer.reset();
-                m_rasterizer.add_path(stroke);
-                linePaint.render<pixfmt_t, rasterizer_t, renderer_t>(m_rasterizer, m_renderer, mtx);
-            }
-        }
-    }
+    _draw_shape_internal<pixfmt_t, renderer_t>(shape, transform, linePaint, fillPaint, gs, m_renderer);
 }
 
 template<typename pixfmt_t>
@@ -228,12 +125,12 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
 }
 
 template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::stencil_draw_path(const agg::path_storage& path,
+void ndarray_canvas<pixfmt_t>::stencil_draw_shape(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs)
 {
-    _draw_path_internal<stencil_pixfmt_t, stencil_renderer_t>(
-        path, transform, linePaint, fillPaint, gs, m_stencil_renderer);
+    _draw_shape_internal<stencil_pixfmt_t, stencil_renderer_t>(
+        shape, transform, linePaint, fillPaint, gs, m_stencil_renderer);
 }
 
 template<typename pixfmt_t>
@@ -247,14 +144,13 @@ void ndarray_canvas<pixfmt_t>::stencil_draw_text(const char* text, Font& font,
 
 template<typename pixfmt_t>
 template<typename alt_pixfmt_t, typename base_renderer_t>
-void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path,
+void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
-    typedef agg::conv_transform<agg::path_storage> conv_trans_t;
-    typedef agg::conv_curve<conv_trans_t> conv_curve_t;
-    typedef agg::conv_contour<conv_curve_t> contour_curve_t;
-    typedef agg::conv_stroke<conv_curve_t> stroke_curve_t;
+    typedef agg::conv_transform<VertexSource> conv_trans_t;
+    typedef agg::conv_contour<conv_trans_t> contour_shape_t;
+    typedef agg::conv_stroke<conv_trans_t> stroke_shape_t;
 
     const GraphicsState::DrawingMode mode = gs.drawingMode();
     const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
@@ -264,14 +160,12 @@ void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path
     if (line || fill)
     {
         _set_aa(gs.antiAliased());
-        agg::path_storage path_copy(path);
         agg::trans_affine mtx = transform;
-        conv_trans_t trans_path(path_copy, mtx);
-        conv_curve_t curve(trans_path);
+        conv_trans_t trans_shape(shape, mtx);
 
         if (fill)
         {
-            contour_curve_t contour(curve);
+            contour_shape_t contour(trans_shape);
             contour.auto_detect_orientation(true);
 
             m_rasterizer.reset();
@@ -282,7 +176,7 @@ void ndarray_canvas<pixfmt_t>::_draw_path_internal(const agg::path_storage& path
 
         if (line)
         {
-            stroke_curve_t stroke(curve);
+            stroke_shape_t stroke(trans_shape);
             stroke.width(gs.lineWidth());
 
             m_rasterizer.reset();
@@ -358,10 +252,10 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
         if (action == GlyphIterator::k_StepActionDraw)
         {
             trans_font_t tr(font.cache().path_adaptor(), transform);
-            agg::path_storage path;
+            PathSource shape;
+            shape.concat_path(tr, 0);
 
-            path.concat_path(tr, 0);
-            _draw_path_internal<alt_pixfmt_t, base_renderer_t>(path, transform, linePaint, fillPaint, gs, renderer);
+            _draw_shape_internal<alt_pixfmt_t, base_renderer_t>(shape, transform, linePaint, fillPaint, gs, renderer);
         }
         action = iterator.step();
     }

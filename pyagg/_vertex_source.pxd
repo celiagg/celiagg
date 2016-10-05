@@ -25,26 +25,33 @@
 from libcpp cimport bool
 
 
-cdef extern from "agg_path_storage.h" namespace "agg":
-    cdef cppclass path_storage:
-        path_storage()
+cdef extern from "vertex_source.h":
 
-        void remove_all()
-        void free_all()
-        unsigned start_new_path()
-        unsigned total_vertices() const
-        unsigned vertex(unsigned idx, double* x, double* y) const
+    cdef cppclass VertexSource:
+        void rewind(unsigned path_id)
+        unsigned vertex(double* x, double* y)
+        unsigned total_vertices()
+
+    cdef cppclass BsplineSource:
+        BsplineSource(const double* points,
+                      const size_t point_count)
+
+    cdef cppclass PathSource:
+        PathSource()
+
+        void begin()
+        void close()
+        void reset()
         void move_to(double x, double y)
         void line_to(double x, double y)
         void arc_to(double rx, double ry, double angle, bool large_arc_flag,
                     bool sweep_flag, double x, double y)
-        void curve3(double x_ctrl, double y_ctrl, double x_to, double y_to)
-        void curve4(double x_ctrl1, double y_ctrl1, double x_ctrl2,
-                    double y_ctrl2,  double x_to, double y_to)
-        void close_polygon()
+        void quadric_to(double x_ctrl, double y_ctrl, double x_to, double y_to)
+        void cubic_to(double x_ctrl1, double y_ctrl1, double x_ctrl2,
+                      double y_ctrl2,  double x_to, double y_to)
+        void ellipse(double cx, double cy, double rx, double ry)
 
-
-cdef extern from "path.h":
-    cdef void add_ellipse_to_path(path_storage& path,
-                                  const double x, const double y,
-                                  const double rx, const double ry)
+    cdef cppclass RepeatedSource:
+        RepeatedSource(VertexSource& source,
+                       const double* points,
+                       const size_t point_count)

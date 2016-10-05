@@ -115,7 +115,7 @@ def configuration(parent_package='', top_path=None):
     base_path = op.abspath(op.dirname(__file__))
     pyagg_cython_source = op.join(base_path, '_pyagg.pyx')
     pyagg_sources = ['glyph_iter.cpp', 'image.cpp', 'paint.cpp', 'text.cpp',
-                     '_pyagg.cpp']
+                     'vertex_source.cpp', '_pyagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',

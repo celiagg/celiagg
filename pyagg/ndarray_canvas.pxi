@@ -104,35 +104,6 @@ cdef class CanvasBase:
         """
         self._this.stencil_clear(v)
 
-    def draw_bspline(self, points, Transform transform, Paint line_paint,
-                  Paint fill_paint, GraphicsState state):
-        """draw_bspline(self, points, state):
-          points: Iterable of (x, y) pairs representing B-spline control points
-          transform: A Transform object
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
-          state: A GraphicsState object
-                 line color, line width, fill color, anti-aliased
-        """
-        cdef double[:,::1] points_npy = numpy.asarray(points,
-                                                      dtype=numpy.float64,
-                                                      order='c')
-
-        if points_npy.shape[1] != 2:
-            msg = 'Points argument must be an iterable of (x, y) pairs.'
-            raise ValueError(msg)
-
-        cdef:
-            PixelFormat format = self.pixel_format
-            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
-
-        self._this.draw_bspline(&points_npy[0][0], points_npy.shape[0],
-                                dereference(transform._this),
-                                dereference(tmp_line_paint._this),
-                                dereference(tmp_fill_paint._this),
-                                dereference(state._this))
-
     def draw_image(self, image, PixelFormat format, Transform transform,
                    GraphicsState state):
         """draw_image(self, image, format, transform, state):
@@ -148,10 +119,10 @@ cdef class CanvasBase:
                               dereference(transform._this),
                               dereference(state._this))
 
-    def draw_path(self, Path path, Transform transform, Paint line_paint,
-                  Paint fill_paint, GraphicsState state):
-        """draw_path(self, path, transform, line_paint, fill_paint, state)
-          path: A Path object
+    def draw_shape(self, VertexSource shape, Transform transform,
+                   Paint line_paint, Paint fill_paint, GraphicsState state):
+        """draw_shape(self, shape, transform, line_paint, fill_paint, state)
+          shape: A VertexSource object
           transform: A Transform object
           line_paint: The Paint to use for outlines
           fill_paint: The Paint to use for fills
@@ -163,43 +134,11 @@ cdef class CanvasBase:
             Paint tmp_line_paint = self._get_native_paint(line_paint, format)
             Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
 
-        self._this.draw_path(dereference(path._this),
-                             dereference(transform._this),
-                             dereference(tmp_line_paint._this),
-                             dereference(tmp_fill_paint._this),
-                             dereference(state._this))
-
-    def draw_path_at_points(self, Path path, Transform transform, points,
-                            Paint line_paint, Paint fill_paint,
-                            GraphicsState state):
-        """draw_path_at_points(self, path, transform, points line_paint, fill_paint, state)
-          path: A Path object
-          transform: A Transform object
-          points: Iterable of (x, y) positions where the path will be drawn
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
-          state: A GraphicsState object
-                 line width, line color, fill color, anti-aliased
-        """
-        cdef double[:,::1] points_npy = numpy.asarray(points,
-                                                      dtype=numpy.float64,
-                                                      order='c')
-
-        if points_npy.shape[1] != 2:
-            msg = 'Points argument must be an iterable of (x, y) pairs.'
-            raise ValueError(msg)
-
-        cdef:
-            PixelFormat format = self.pixel_format
-            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
-
-        self._this.draw_path_at_points(dereference(path._this),
-                                       dereference(transform._this),
-                                       &points_npy[0][0], points_npy.shape[0],
-                                       dereference(tmp_line_paint._this),
-                                       dereference(tmp_fill_paint._this),
-                                       dereference(state._this))
+        self._this.draw_shape(dereference(shape._this),
+                              dereference(transform._this),
+                              dereference(tmp_line_paint._this),
+                              dereference(tmp_fill_paint._this),
+                              dereference(state._this))
 
     def draw_text(self, text, Font font, Transform transform, Paint line_paint,
                   Paint fill_paint, GraphicsState state):
@@ -224,11 +163,11 @@ cdef class CanvasBase:
                              dereference(tmp_fill_paint._this),
                              dereference(state._this))
 
-    def stencil_draw_path(self, Path path, Transform transform,
-                          Paint line_paint, Paint fill_paint,
-                          GraphicsState state):
-        """stencil_draw_path(self, path, state)
-          path: A Path object
+    def stencil_draw_shape(self, VertexSource shape, Transform transform,
+                           Paint line_paint, Paint fill_paint,
+                           GraphicsState state):
+        """stencil_draw_shape(self, shape, transform, line_paint, fill_paint, state)
+          shape: A VertexSource object
           transform: A Transform object
           line_paint: The Paint to use for outlines
           fill_paint: The Paint to use for fills
@@ -240,16 +179,16 @@ cdef class CanvasBase:
             Paint tmp_line_paint = self._get_native_paint(line_paint, format)
             Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
 
-        self._this.stencil_draw_path(dereference(path._this),
-                                     dereference(transform._this),
-                                     dereference(tmp_line_paint._this),
-                                     dereference(tmp_fill_paint._this),
-                                     dereference(state._this))
+        self._this.stencil_draw_shape(dereference(shape._this),
+                                      dereference(transform._this),
+                                      dereference(tmp_line_paint._this),
+                                      dereference(tmp_fill_paint._this),
+                                      dereference(state._this))
 
     def stencil_draw_text(self, text, Font font, Transform transform,
                           Paint line_paint, Paint fill_paint,
                           GraphicsState state):
-        """stencil_draw_text(self, text, font, transform, state):
+        """stencil_draw_text(self, text, font, transform, line_paint, fill_paint, state):
           text: A Unicode string of text to be renderered.
           font: A Font object
           transform: A Transform object

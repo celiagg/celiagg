@@ -55,6 +55,7 @@
 #include "image.h"
 #include "paint.h"
 #include "text.h"
+#include "vertex_source.h"
 
 // Interface to ndarray_canvas that is generic for all pixfmts, for the
 // convenience of being able to implement functionality common to cython
@@ -73,32 +74,21 @@ public:
                        const double b, const double a) = 0;
     virtual void stencil_clear(const uint8_t v) = 0;
 
-    virtual void draw_bspline(const double* points,
-                              const size_t& point_count,
-                              const agg::trans_affine& transform,
-                              Paint& linePaint, Paint& fillPaint,
-                              const GraphicsState& gs) = 0;
     virtual void draw_image(Image& img,
                             const agg::trans_affine& transform,
                             const GraphicsState& gs) = 0;
-    virtual void draw_path(const agg::path_storage& path,
-                           const agg::trans_affine& transform,
-                           Paint& linePaint, Paint& fillPaint,
-                           const GraphicsState& gs) = 0;
-    virtual void draw_path_at_points(const agg::path_storage& path,
-                                     const agg::trans_affine& transform,
-                                     const double* points,
-                                     const size_t& point_count,
-                                     Paint& linePaint, Paint& fillPaint,
-                                     const GraphicsState& gs) = 0;
+    virtual void draw_shape(VertexSource& shape,
+                            const agg::trans_affine& transform,
+                            Paint& linePaint, Paint& fillPaint,
+                            const GraphicsState& gs) = 0;
     virtual void draw_text(const char* text, Font& font,
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs) = 0;
 
-    virtual void stencil_draw_path(const agg::path_storage& path,
-                                   const agg::trans_affine& transform,
-                                   Paint& linePaint, Paint& fillPaint,
+    virtual void stencil_draw_shape(VertexSource& path,
+                                    const agg::trans_affine& transform,
+                                    Paint& linePaint, Paint& fillPaint,
                                     const GraphicsState& gs) = 0;
     virtual void stencil_draw_text(const char* text, Font& font,
                                    const agg::trans_affine& transform,
@@ -122,32 +112,21 @@ public:
     void clear(const double r, const double g, const double b, const double a = 1.0);
     void stencil_clear(const uint8_t v = 255);
 
-    void draw_bspline(const double* points,
-                      const size_t& point_count,
-                      const agg::trans_affine& transform,
-                      Paint& linePaint, Paint& fillPaint,
-                      const GraphicsState& gs);
     void draw_image(Image& img,
                     const agg::trans_affine& transform,
                     const GraphicsState& gs);
-    void draw_path(const agg::path_storage& path,
-                   const agg::trans_affine& transform,
-                   Paint& linePaint, Paint& fillPaint,
-                   const GraphicsState& gs);
-    void draw_path_at_points(const agg::path_storage& path,
-                             const agg::trans_affine& transform,
-                             const double* points,
-                             const size_t& point_count,
-                             Paint& linePaint, Paint& fillPaint,
-                             const GraphicsState& gs);
+    void draw_shape(VertexSource& shape,
+                    const agg::trans_affine& transform,
+                    Paint& linePaint, Paint& fillPaint,
+                    const GraphicsState& gs);
     void draw_text(const char* text, Font& font,
                    const agg::trans_affine& transform,
                    Paint& linePaint, Paint& fillPaint,
                    const GraphicsState& gs);
-    void stencil_draw_path(const agg::path_storage& path,
-                           const agg::trans_affine& transform,
-                           Paint& linePaint, Paint& fillPaint,
-                           const GraphicsState& gs);
+    void stencil_draw_shape(VertexSource& shape,
+                            const agg::trans_affine& transform,
+                            Paint& linePaint, Paint& fillPaint,
+                            const GraphicsState& gs);
     void stencil_draw_text(const char* text, Font& font,
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
@@ -179,11 +158,11 @@ protected:
 private:
 
     template<typename alt_pixfmt_t, typename base_renderer_t>
-    void _draw_path_internal(const agg::path_storage& path,
-                             const agg::trans_affine& transform,
-                             Paint& linePaint, Paint& fillPaint,
-                             const GraphicsState& gs,
-                             base_renderer_t& renderer);
+    void _draw_shape_internal(VertexSource& path,
+                              const agg::trans_affine& transform,
+                              Paint& linePaint, Paint& fillPaint,
+                              const GraphicsState& gs,
+                              base_renderer_t& renderer);
     template<typename alt_pixfmt_t, typename base_renderer_t>
     void _draw_text_internal(const char* text, Font& font,
                              const agg::trans_affine& transform,

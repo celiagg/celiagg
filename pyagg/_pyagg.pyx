@@ -34,8 +34,8 @@ cimport _graphics_state
 cimport _image
 cimport _ndarray_canvas
 cimport _paint
-cimport _path
 cimport _text
+cimport _vertex_source
 cimport _transform
 
 
@@ -51,7 +51,7 @@ include "graphics_state.pxi"
 include "image.pxi"
 include "ndarray_canvas.pxi"
 include "paint.pxi"
-include "path.pxi"
 include "text.pxi"
 include "transform.pxi"
+include "vertex_source.pxi"
 include "conversion.pxi"
