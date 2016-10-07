@@ -24,10 +24,8 @@
 
 #include "image.h"
 
-Image::Image(uint8_t* buf, unsigned width, unsigned height, int stride,
-             const PixelFormat format)
+Image::Image(uint8_t* buf, unsigned width, unsigned height, int stride)
 : m_buf(buf, width, height, stride)
-, m_format(format)
 {
 }
 

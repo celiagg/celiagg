@@ -24,18 +24,13 @@
  
 
 template<typename pixfmt_t>
-ndarray_canvas<pixfmt_t>::ndarray_canvas(uint8_t* buf, uint8_t* stencil_buf,
-                                         const unsigned width, const unsigned height, const int stride,
-                                         const size_t channel_count)
+ndarray_canvas<pixfmt_t>::ndarray_canvas(uint8_t* buf,
+    const unsigned width, const unsigned height, const int stride,
+    const size_t channel_count)
 : m_channel_count(channel_count)
 , m_renbuf(buf, width, height, stride)
-, m_stencilbuf(stencil_buf, width, height, width)
-, m_stencil_mask(m_stencilbuf)
 , m_pixfmt(m_renbuf)
-, m_stencil_pixfmt(m_stencilbuf)
-, m_masked_pixfmt(m_pixfmt, m_stencil_mask)
-, m_renderer(m_masked_pixfmt)
-, m_stencil_renderer(m_stencil_pixfmt)
+, m_renderer(m_pixfmt)
 {
     // Clipping at the rasterizer level (vectorial) is far faster than clipping at the renderer level (pixel-wise) when 
     // significant clipping is required.  Clipping in the renderer is done by throwing away pixel data falling outside 
@@ -74,19 +69,62 @@ void ndarray_canvas<pixfmt_t>::clear(const double r, const double g,
 }
 
 template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::stencil_clear(const uint8_t v)
+void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
+    const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    m_stencilbuf.clear(v);
+    if (gs.stencil() == NULL)
+    {
+        _draw_image_internal(img, transform, gs, m_renderer);
+    }
+    else
+    {
+        masked_renderer_t renderer = _get_masked_renderer(gs);
+        _draw_image_internal(img, transform, gs, renderer);
+    }
 }
 
 template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
-    const agg::trans_affine& transform, const GraphicsState& gs)
+void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
+    const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    const GraphicsState& gs)
+{
+    if (gs.stencil() == NULL)
+    {
+        _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, m_renderer);
+    }
+    else
+    {
+        masked_renderer_t renderer = _get_masked_renderer(gs);
+        _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
+    }
+}
+
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
+    Font& font, const agg::trans_affine& transform,
+    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
+{
+    if (gs.stencil() == NULL)
+    {
+        _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, m_renderer);
+    }
+    else
+    {
+        masked_renderer_t renderer = _get_masked_renderer(gs);
+        _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, renderer);
+    }
+}
+
+template<typename pixfmt_t>
+template<typename base_renderer_t>
+void ndarray_canvas<pixfmt_t>::_draw_image_internal(Image& img,
+    const agg::trans_affine& transform, const GraphicsState& gs,
+    base_renderer_t& renderer)
 {
     typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
     typedef typename image_filters<pixfmt_t>::source_t source_t;
     typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
-    typedef agg::renderer_scanline_aa<renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
+    typedef agg::renderer_scanline_aa<base_renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
     typedef agg::conv_transform<agg::path_storage> trans_curve_t;
 
     agg::path_storage img_outline = img.image_outline();
@@ -101,49 +139,16 @@ void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     source_t source(src_pix, back_color);
     span_gen_t span_generator(source, interpolator);
     span_alloc_t span_allocator;
-    img_renderer_t renderer(m_renderer, span_allocator, span_generator);
+    img_renderer_t img_renderer(renderer, span_allocator, span_generator);
 
     m_rasterizer.reset();
     trans_curve_t trans_outline(img_outline, src_mtx);
     m_rasterizer.add_path(trans_outline);
-    agg::render_scanlines(m_rasterizer, m_scanline, renderer);
+    agg::render_scanlines(m_rasterizer, m_scanline, img_renderer);
 }
 
 template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
-    const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
-{
-    _draw_shape_internal<pixfmt_t, renderer_t>(shape, transform, linePaint, fillPaint, gs, m_renderer);
-}
-
-template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
-    Font& font, const agg::trans_affine& transform,
-    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
-{
-    _draw_text_internal<pixfmt_t, renderer_t>(text, font, transform, linePaint, fillPaint, gs, m_renderer);
-}
-
-template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::stencil_draw_shape(VertexSource& shape,
-    const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
-    const GraphicsState& gs)
-{
-    _draw_shape_internal<stencil_pixfmt_t, stencil_renderer_t>(
-        shape, transform, linePaint, fillPaint, gs, m_stencil_renderer);
-}
-
-template<typename pixfmt_t>
-void ndarray_canvas<pixfmt_t>::stencil_draw_text(const char* text, Font& font,
-    const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
-    const GraphicsState& gs)
-{
-    _draw_text_internal<stencil_pixfmt_t, stencil_renderer_t>(
-        text, font, transform, linePaint, fillPaint, gs, m_stencil_renderer);
-}
-
-template<typename pixfmt_t>
-template<typename alt_pixfmt_t, typename base_renderer_t>
+template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
@@ -171,7 +176,7 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
+            fillPaint.render<pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
         }
 
         if (line)
@@ -181,13 +186,13 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
 
             m_rasterizer.reset();
             m_rasterizer.add_path(stroke);
-            linePaint.render<alt_pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
+            linePaint.render<pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
         }
     }
 }
 
 template<typename pixfmt_t>
-template<typename alt_pixfmt_t, typename base_renderer_t>
+template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
@@ -209,16 +214,16 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     if (font.cacheType() == Font::RasterFontCache)
     {
         font.transform(mtx);
-        _draw_text_raster<alt_pixfmt_t, base_renderer_t>(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
+        _draw_text_raster(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
     }
     else
     {
-        _draw_text_vector<alt_pixfmt_t, base_renderer_t>(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
+        _draw_text_vector(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
     }
 }
 
 template<typename pixfmt_t>
-template<typename alt_pixfmt_t, typename base_renderer_t>
+template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
@@ -232,14 +237,14 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            linePaint.render<alt_pixfmt_t, font_rasterizer_t, base_renderer_t>(font.cache().gray8_adaptor(), renderer, transform);
+            linePaint.render<pixfmt_t, font_rasterizer_t, base_renderer_t>(font.cache().gray8_adaptor(), renderer, transform);
         }
         action = iterator.step();
     }
 }
 
 template<typename pixfmt_t>
-template<typename alt_pixfmt_t, typename base_renderer_t>
+template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
     Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
@@ -255,10 +260,21 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
             PathSource shape;
             shape.concat_path(tr, 0);
 
-            _draw_shape_internal<alt_pixfmt_t, base_renderer_t>(shape, transform, linePaint, fillPaint, gs, renderer);
+            _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
         }
         action = iterator.step();
     }
+}
+
+template<typename pixfmt_t>
+typename ndarray_canvas<pixfmt_t>::masked_renderer_t
+ndarray_canvas<pixfmt_t>::_get_masked_renderer(const GraphicsState& gs)
+{
+    Image* stencil = const_cast<Image*>(gs.stencil());
+    agg::rendering_buffer& stencilbuf = stencil->get_buffer();
+    alpha_mask_t stencil_mask(stencilbuf);
+    masked_pxfmt_t masked_pixfmt(m_pixfmt, stencil_mask);
+    return masked_renderer_t(masked_pixfmt);
 }
 
 template<typename pixfmt_t>

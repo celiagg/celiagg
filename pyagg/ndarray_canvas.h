@@ -72,7 +72,6 @@ public:
 
     virtual void clear(const double r, const double g,
                        const double b, const double a) = 0;
-    virtual void stencil_clear(const uint8_t v) = 0;
 
     virtual void draw_image(Image& img,
                             const agg::trans_affine& transform,
@@ -85,22 +84,13 @@ public:
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs) = 0;
-
-    virtual void stencil_draw_shape(VertexSource& path,
-                                    const agg::trans_affine& transform,
-                                    Paint& linePaint, Paint& fillPaint,
-                                    const GraphicsState& gs) = 0;
-    virtual void stencil_draw_text(const char* text, Font& font,
-                                   const agg::trans_affine& transform,
-                                   Paint& linePaint, Paint& fillPaint,
-                                   const GraphicsState& gs) = 0;
 };
 
 template<typename pixfmt_t>
 class ndarray_canvas : public ndarray_canvas_base
 {
 public:
-    ndarray_canvas(uint8_t* buf, uint8_t* stencil_buf,
+    ndarray_canvas(uint8_t* buf,
                    const unsigned width, const unsigned height, const int stride,
                    const size_t channel_count);
     virtual ~ndarray_canvas(){}
@@ -110,7 +100,6 @@ public:
     unsigned height() const;
 
     void clear(const double r, const double g, const double b, const double a = 1.0);
-    void stencil_clear(const uint8_t v = 255);
 
     void draw_image(Image& img,
                     const agg::trans_affine& transform,
@@ -123,66 +112,58 @@ public:
                    const agg::trans_affine& transform,
                    Paint& linePaint, Paint& fillPaint,
                    const GraphicsState& gs);
-    void stencil_draw_shape(VertexSource& shape,
-                            const agg::trans_affine& transform,
-                            Paint& linePaint, Paint& fillPaint,
-                            const GraphicsState& gs);
-    void stencil_draw_text(const char* text, Font& font,
-                           const agg::trans_affine& transform,
-                           Paint& linePaint, Paint& fillPaint,
-                           const GraphicsState& gs);
 
 protected:
 
-    typedef agg::pixfmt_gray8 stencil_pixfmt_t;
     typedef agg::amask_no_clip_gray8 alpha_mask_t;
     typedef agg::pixfmt_amask_adaptor<pixfmt_t, alpha_mask_t> masked_pxfmt_t;
+    typedef agg::renderer_base<masked_pxfmt_t> masked_renderer_t;
 
-    //typedef agg::renderer_base<pixfmt_t> renderer_t;
-    typedef agg::renderer_base<stencil_pixfmt_t> stencil_renderer_t;
-    typedef agg::renderer_base<masked_pxfmt_t> renderer_t;
+    typedef agg::renderer_base<pixfmt_t> renderer_t;
     typedef agg::rasterizer_scanline_aa<> rasterizer_t;
 
     size_t m_channel_count;
     agg::rendering_buffer m_renbuf;
-    agg::rendering_buffer m_stencilbuf;
-    alpha_mask_t m_stencil_mask;
     pixfmt_t m_pixfmt;
-    stencil_pixfmt_t m_stencil_pixfmt;
-    masked_pxfmt_t m_masked_pixfmt;
     renderer_t m_renderer;
-    stencil_renderer_t m_stencil_renderer;
     rasterizer_t m_rasterizer;
     agg::scanline_p8 m_scanline;
 
 private:
 
-    template<typename alt_pixfmt_t, typename base_renderer_t>
+    template<typename base_renderer_t>
+    void _draw_image_internal(Image& img,
+                              const agg::trans_affine& transform,
+                              const GraphicsState& gs,
+                              base_renderer_t& renderer);
+    template<typename base_renderer_t>
     void _draw_shape_internal(VertexSource& path,
                               const agg::trans_affine& transform,
                               Paint& linePaint, Paint& fillPaint,
                               const GraphicsState& gs,
                               base_renderer_t& renderer);
-    template<typename alt_pixfmt_t, typename base_renderer_t>
+    template<typename base_renderer_t>
     void _draw_text_internal(const char* text, Font& font,
                              const agg::trans_affine& transform,
                              Paint& linePaint, Paint& fillPaint,
                              const GraphicsState& gs,
                              base_renderer_t& renderer);
-    template<typename alt_pixfmt_t, typename base_renderer_t>
+    template<typename base_renderer_t>
     void _draw_text_raster(GlyphIterator& iterator,
                            Font& font,
                            agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
-    template<typename alt_pixfmt_t, typename base_renderer_t>
+    template<typename base_renderer_t>
     void _draw_text_vector(GlyphIterator& iterator,
                            Font& font,
                            agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
+
+    masked_renderer_t _get_masked_renderer(const GraphicsState& gs);
     inline void _set_aa(const bool& aa);
 
 private:

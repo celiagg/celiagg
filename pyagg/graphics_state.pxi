@@ -80,9 +80,11 @@ cdef class Rect:
 
 cdef class GraphicsState:
     cdef _graphics_state.GraphicsState* _this
+    cdef object _stencil_img
 
     def __cinit__(self):
         self._this = new _graphics_state.GraphicsState()
+        self._stencil_img = None
 
     def __dealloc__(self):
         del self._this
@@ -155,3 +157,15 @@ cdef class GraphicsState:
             return LineJoin(self._this.lineJoin())
         def __set__(self, LineJoin join):
             self._this.lineJoin(join)
+
+    property stencil:
+        def __get__(self):
+            return self._stencil_img
+        def __set__(self, Image img):
+            self._stencil_img = img
+            if self._stencil_img is not None:
+                if img.format != PixelFormat.Gray8:
+                    raise ValueError("Stencil Images must have format Gray8!")
+                self._this.stencil(img._this)
+            else:
+                self._this.stencil(<_image.Image*>0)

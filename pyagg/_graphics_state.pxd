@@ -27,7 +27,9 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
+
 cimport _enums
+cimport _image
 
 
 cdef extern from "graphics_state.h" namespace "GraphicsState":
@@ -75,3 +77,6 @@ cdef extern from "graphics_state.h":
 
         void lineJoin(_enums.LineJoin join)
         _enums.LineJoin lineJoin() const
+
+        void stencil(const _image.Image* image)
+        const _image.Image* stencil() const

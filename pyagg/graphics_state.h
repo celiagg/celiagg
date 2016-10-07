@@ -29,6 +29,8 @@
 #include <agg_math_stroke.h>
 #include <agg_pixfmt_rgba.h>
 
+#include "image.h"
+
 class GraphicsState
 {
 public:
@@ -89,6 +91,7 @@ public:
 
     GraphicsState() :
         m_clipBox(0, 0, 0, 0),
+        m_stencil(NULL),
         m_drawingMode(DrawFillStroke),
         m_blendMode(BlendAlpha),
         m_imageBlendMode(BlendDst),
@@ -131,17 +134,21 @@ public:
     void lineJoin(LineJoin join) { m_lineJoin = join; }
     LineJoin lineJoin() const { return m_lineJoin; }
 
+    void stencil(const Image* image) { m_stencil = image; }
+    const Image* stencil() const { return m_stencil; }
+
 private:
-    Rect        m_clipBox;
-    DrawingMode m_drawingMode;
-    BlendMode   m_blendMode;
-    BlendMode   m_imageBlendMode;
-    double      m_masterAlpha;
-    double      m_antiAliasGamma;
-    LineCap     m_lineCap;
-    LineJoin    m_lineJoin;
-    double      m_lineWidth;
-    bool        m_antiAliased;
+    Rect            m_clipBox;
+    const Image*    m_stencil;
+    DrawingMode     m_drawingMode;
+    BlendMode       m_blendMode;
+    BlendMode       m_imageBlendMode;
+    double          m_masterAlpha;
+    double          m_antiAliasGamma;
+    LineCap         m_lineCap;
+    LineJoin        m_lineJoin;
+    double          m_lineWidth;
+    bool            m_antiAliased;
 };
 
 #endif // PYAGG_GRAPHICS_STATE_H

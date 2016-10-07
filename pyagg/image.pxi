@@ -57,34 +57,34 @@ cdef _get_format_last_dim(PixelFormat pixel_format):
     return format_dims[pixel_format]
 
 
-cdef img_ptr_t _get_2d_u8_img(uint8_t[:, ::1] arr, PixelFormat pixel_format):
+cdef img_ptr_t _get_2d_u8_img(uint8_t[:, ::1] arr):
     return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
-                                     arr.strides[0], pixel_format)
+                            arr.strides[0])
 
 
-cdef img_ptr_t _get_2d_u16_img(uint16_t[:, ::1] arr, PixelFormat pixel_format):
+cdef img_ptr_t _get_2d_u16_img(uint16_t[:, ::1] arr):
     return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
-                                     arr.strides[0], pixel_format)
+                            arr.strides[0])
 
 
-cdef img_ptr_t _get_2d_f32_img(float[:, ::1] arr, PixelFormat pixel_format):
+cdef img_ptr_t _get_2d_f32_img(float[:, ::1] arr):
     return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
-                                     arr.strides[0], pixel_format)
+                            arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_u8_img(uint8_t[:, :, ::1] arr, PixelFormat pixel_format):
+cdef img_ptr_t _get_3d_u8_img(uint8_t[:, :, ::1] arr):
     return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
-                                     arr.strides[0], pixel_format)
+                            arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_u16_img(uint16_t[:, :, ::1] arr, PixelFormat pixel_format):
+cdef img_ptr_t _get_3d_u16_img(uint16_t[:, :, ::1] arr):
     return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
-                                     arr.strides[0], pixel_format)
+                            arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_f32_img(float[:, :, ::1] arr, PixelFormat pixel_format):
+cdef img_ptr_t _get_3d_f32_img(float[:, :, ::1] arr):
     return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
-                                     arr.strides[0], pixel_format)
+                            arr.strides[0])
 
 
 cdef img_ptr_t _get_image(array, pixel_format):
@@ -93,18 +93,18 @@ cdef img_ptr_t _get_image(array, pixel_format):
     # Finally build the image
     if array.ndim == 2:
         if dtype is numpy.uint8:
-            return _get_2d_u8_img(array, pixel_format)
+            return _get_2d_u8_img(array)
         elif dtype is numpy.uint16:
-            return _get_2d_u16_img(array, pixel_format)
+            return _get_2d_u16_img(array)
         elif dtype is numpy.float32:
-            return _get_2d_f32_img(array, pixel_format)
+            return _get_2d_f32_img(array)
     else:
         if dtype is numpy.uint8:
-            return _get_3d_u8_img(array, pixel_format)
+            return _get_3d_u8_img(array)
         elif dtype is numpy.uint16:
-            return _get_3d_u16_img(array, pixel_format)
+            return _get_3d_u16_img(array)
         elif dtype is numpy.float32:
-            return _get_3d_f32_img(array, pixel_format)
+            return _get_3d_f32_img(array)
 
 
 cdef class Image:
@@ -112,7 +112,7 @@ cdef class Image:
         image: A 2D or 3D numpy array containing image data
         pixel_format: A PixelFormat describing the image's pixel format
     """
-    cdef _image.Image* _this
+    cdef img_ptr_t _this
     cdef PixelFormat pixel_format
     cdef object pixel_array
 

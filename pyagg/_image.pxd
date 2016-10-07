@@ -22,17 +22,12 @@
 #
 # Authors: John Wiggins
 
-import cython
-cimport numpy
-import numpy
-from libc.stdint cimport uint8_t, uint16_t
-cimport _enums
+from libc.stdint cimport uint8_t
 
 
 cdef extern from "image.h":
     cdef cppclass Image:
-        Image(uint8_t* buf, unsigned width, unsigned height, int stride,
-              const _enums.PixelFormat format)
+        Image(uint8_t* buf, unsigned width, unsigned height, int stride)
 
         void copy_pixels[dst_pixfmt_t](Image& dst_image)
         unsigned height()

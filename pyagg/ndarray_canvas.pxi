@@ -35,7 +35,7 @@ cdef class CanvasBase:
     cdef PixelFormat pixel_format
     cdef uint64_t blend_channel_count
     cdef uint8_t[:,::1] stencil_buffer
-    cdef object py_image
+    cdef object py_array
 
     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
         cdef uint64_t[:] image_shape = numpy.asarray(image.shape,
@@ -63,46 +63,43 @@ cdef class CanvasBase:
             raise ValueError(msg_tmp.format(channel_count, e))
         # In order to ensure that our backing memory is not deallocated from
         # underneath us, we retain a reference to the memory view supplied to
-        # the constructor (image) as self.py_image, to be kept in lock step
+        # the constructor (image) as self.py_array, to be kept in lock step
         # with ndarray_canvas<>'s reference to that memory and destroyed when
         # that reference is lost.
-        self.py_image = image
-        self.stencil_buffer = numpy.ones(image.shape[:2], dtype=numpy.uint8) * 255
+        self.py_array = image
 
     def __dealloc__(self):
         del self._this
 
-    @property
-    def channel_count(self):
-        return self._this.channel_count()
+    property channel_count:
+        def __get__(self):
+            return self._this.channel_count()
 
-    @property
-    def width(self):
-        return self._this.width()
+    property width:
+        def __get__(self):
+            return self._this.width()
 
-    @property
-    def height(self):
-        return self._this.height()
+    property height:
+        def __get__(self):
+            return self._this.height()
 
-    @property
-    def image(self):
-        # User is not likely to be concerned with the details of the cython
-        # memory view around array or buffer supplied to the constructor or
-        # attach, but instead expects the original array or buffer (which is
-        # why self.py_image.base is returned rather than self.py_image).
-        return self.py_image.base
+    property array:
+        def __get__(self):
+            # User is not likely to be concerned with the details of the cython
+            # memory view around array or buffer supplied to the constructor or
+            # attach, but instead expects the original array or buffer (which
+            # is why self.py_array.base is returned rather than self.py_array).
+            return self.py_array.base
+
+    property image:
+        def __get__(self):
+            return Image(self.py_array.base, self.pixel_format)
 
     def clear(self, double r, double g, double b, double a=1.0):
         """clear(self, r, g, b, a)
           r, g, b, a: The RGBA color to clear the buffer with
         """
         self._this.clear(r, g, b, a)
-
-    def stencil_clear(self, uint8_t v):
-        """stencil_clear(self, v)
-          v: The (8-bit) value to clear the stencil buffer with
-        """
-        self._this.stencil_clear(v)
 
     def draw_image(self, image, PixelFormat format, Transform transform,
                    GraphicsState state):
@@ -163,52 +160,6 @@ cdef class CanvasBase:
                              dereference(tmp_fill_paint._this),
                              dereference(state._this))
 
-    def stencil_draw_shape(self, VertexSource shape, Transform transform,
-                           Paint line_paint, Paint fill_paint,
-                           GraphicsState state):
-        """stencil_draw_shape(self, shape, transform, line_paint, fill_paint, state)
-          shape: A VertexSource object
-          transform: A Transform object
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
-          state: A GraphicsState object
-                 line width, line color, fill color, anti-aliased
-        """
-        cdef:
-            PixelFormat format = PixelFormat.Gray8
-            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
-
-        self._this.stencil_draw_shape(dereference(shape._this),
-                                      dereference(transform._this),
-                                      dereference(tmp_line_paint._this),
-                                      dereference(tmp_fill_paint._this),
-                                      dereference(state._this))
-
-    def stencil_draw_text(self, text, Font font, Transform transform,
-                          Paint line_paint, Paint fill_paint,
-                          GraphicsState state):
-        """stencil_draw_text(self, text, font, transform, line_paint, fill_paint, state):
-          text: A Unicode string of text to be renderered.
-          font: A Font object
-          transform: A Transform object
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
-          state: A GraphicsState object
-                line color, line width, fill color, drawing mode, anti-aliased
-        """
-        cdef:
-            PixelFormat format = PixelFormat.Gray8
-            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
-
-        text = _get_utf8_text(text, "The text argument must be unicode.")
-        self._this.stencil_draw_text(text, dereference(font._this),
-                                     dereference(transform._this),
-                                     dereference(tmp_line_paint._this),
-                                     dereference(tmp_fill_paint._this),
-                                     dereference(state._this))
-
     cdef Image _get_native_image(self, Image image, PixelFormat format):
         """_get_native_image(self, Image image)
           image: An Image object which is needed in a different pixel format.
@@ -240,9 +191,7 @@ cdef class CanvasRGBA128(CanvasBase):
     def __cinit__(self, float[:,:,::1] image):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA128
-        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
-                                                           &stencil[0][0],
                                                            image.shape[1],
                                                            image.shape[0],
                                                            image.strides[0], 4)
@@ -258,9 +207,7 @@ cdef class CanvasRGBA32(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA32
-        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
-                                                          &stencil[0][0],
                                                           image.shape[1],
                                                           image.shape[0],
                                                           image.strides[0], 4)
@@ -275,9 +222,7 @@ cdef class CanvasRGB24(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 4, False)
         self.pixel_format = PixelFormat.RGB24
-        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
-                                                         &stencil[0][0],
                                                          image.shape[1],
                                                          image.shape[0],
                                                          image.strides[0], 3)
@@ -292,9 +237,7 @@ cdef class CanvasGA16(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image):
         self.base_init(image, 2, True)
         self.pixel_format = PixelFormat.Gray8
-        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
-                                                        &stencil[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 2)
@@ -309,9 +252,7 @@ cdef class CanvasG8(CanvasBase):
     def __cinit__(self, uint8_t[:,::1] image):
         self.base_init(image, 2, False)
         self.pixel_format = PixelFormat.Gray8
-        cdef uint8_t[:,::1] stencil = self.stencil_buffer
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
-                                                        &stencil[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 1)

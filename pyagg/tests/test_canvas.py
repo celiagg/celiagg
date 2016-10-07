@@ -12,9 +12,9 @@ def test_cleanup():
     canvas = CanvasRGB24(buffer)
 
     weak_buf = weakref.ref(buffer)
-    weak_img = weakref.ref(canvas.image)
+    weak_arr = weakref.ref(canvas.array)
 
-    assert weak_buf() is weak_img()
+    assert weak_buf() is weak_arr()
 
     del buffer
     assert weak_buf() is not None
@@ -30,15 +30,15 @@ def test_clear():
 
     expected[:] = 0
     canvas.clear(0, 0, 0)
-    assert_equal(expected, canvas.image)
+    assert_equal(expected, canvas.array)
 
     expected[:] = 128
     canvas.clear(.5, .5, .5)
-    assert_equal(expected, canvas.image)
+    assert_equal(expected, canvas.array)
 
     expected[:] = 255
     canvas.clear(1, 1, 1)
-    assert_equal(expected, canvas.image)
+    assert_equal(expected, canvas.array)
 
 
 def test_line():
@@ -54,7 +54,7 @@ def test_line():
     path.move_to(0, 1.5)
     path.line_to(100, 1.5)
     canvas.draw_shape(path, transform, line_paint, line_paint, gs)
-    assert_equal(expected, canvas.image)
+    assert_equal(expected, canvas.array)
 
     buffer[:] = 0
     expected[:] = 0
@@ -64,4 +64,4 @@ def test_line():
     path.move_to(1.5, 0)
     path.line_to(1.5, 100)
     canvas.draw_shape(path, transform, line_paint, line_paint, gs)
-    assert_equal(expected, buffer)
+    assert_equal(expected, canvas.array)

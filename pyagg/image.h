@@ -242,11 +242,9 @@ enum PixelFormat {
 class Image
 {
     agg::rendering_buffer m_buf;
-    PixelFormat m_format;
 
 public:
-    Image(uint8_t* buf, unsigned width, unsigned height, int stride,
-          const PixelFormat format);
+    Image(uint8_t* buf, unsigned width, unsigned height, int stride);
 
     agg::rendering_buffer& get_buffer();
     agg::path_storage image_outline() const;

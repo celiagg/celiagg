@@ -1,5 +1,8 @@
-from pyagg import (GraphicsState, BlendMode, DrawingMode, LineCap, LineJoin,
-                   Rect)
+from nose.tools import assert_raises
+import numpy as np
+
+from pyagg import (GraphicsState, BlendMode, DrawingMode, Image, LineCap,
+                   LineJoin, PixelFormat, Rect)
 
 
 def test_state_properties():
@@ -47,9 +50,21 @@ def test_state_properties():
     assert gs.clip_box == box
     assert not (gs.clip_box is box)
 
+    img = Image(np.zeros((10, 10), dtype=np.uint8), PixelFormat.Gray8)
+    assert gs.stencil is None
+    gs.stencil = img
+    assert gs.stencil is img
+    gs.stencil = None
+    assert gs.stencil is None
+
+    img = Image(np.zeros((10, 10, 3), dtype=np.uint8), PixelFormat.RGB24)
+    with assert_raises(ValueError):
+        gs.stencil = img
+
 
 def test_kwargs_initialization():
     box = Rect(0.0, 0.0, 10.0, 20.0)
+    img = Image(np.zeros((10, 10), dtype=np.uint8), PixelFormat.Gray8)
     gs = GraphicsState(
         anti_aliased=True,
         drawing_mode=DrawingMode.DrawEofFill,
@@ -60,7 +75,8 @@ def test_kwargs_initialization():
         master_alpha=0.42,
         anti_alias_gamma=1.337,
         line_width=10.0,
-        clip_box=box
+        clip_box=box,
+        stencil=img
     )
 
     assert gs.anti_aliased is True
@@ -73,3 +89,4 @@ def test_kwargs_initialization():
     assert gs.anti_alias_gamma == 1.337
     assert gs.line_width == 10.0
     assert gs.clip_box == box
+    assert gs.stencil is img
