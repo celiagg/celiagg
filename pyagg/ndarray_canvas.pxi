@@ -33,8 +33,6 @@ ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga1
 cdef class CanvasBase:
     cdef canvas_base_t* _this
     cdef PixelFormat pixel_format
-    cdef uint64_t blend_channel_count
-    cdef uint8_t[:,::1] stencil_buffer
     cdef object py_array
 
     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
@@ -42,7 +40,6 @@ cdef class CanvasBase:
                                                      dtype=numpy.uint64,
                                                      order='c')
         cdef uint64_t image_ndim = <uint64_t> image.ndim
-        self.blend_channel_count = channel_count
         if not has_alpha:
             # Draw colors for images without alpha channels are specified with
             # alpha channels and the drawing operations are blended as if all
@@ -109,6 +106,8 @@ cdef class CanvasBase:
             transform: A Transform object
             state: A GraphicsState object
         """
+        self._check_stencil(state)
+
         cdef Image input_img = Image(image, format)
         cdef Image img = self._get_native_image(input_img, self.pixel_format)
 
@@ -126,6 +125,8 @@ cdef class CanvasBase:
           state: A GraphicsState object
                  line width, line color, fill color, anti-aliased
         """
+        self._check_stencil(state)
+
         cdef:
             PixelFormat format = self.pixel_format
             Paint tmp_line_paint = self._get_native_paint(line_paint, format)
@@ -148,6 +149,8 @@ cdef class CanvasBase:
           state: A GraphicsState object
                 line color, line width, fill color, drawing mode, anti-aliased
         """
+        self._check_stencil(state)
+
         cdef:
             PixelFormat format = self.pixel_format
             Paint tmp_line_paint = self._get_native_paint(line_paint, format)
@@ -159,6 +162,20 @@ cdef class CanvasBase:
                              dereference(tmp_line_paint._this),
                              dereference(tmp_fill_paint._this),
                              dereference(state._this))
+
+    cdef _check_stencil(self, GraphicsState state):
+        """ Internal. Checks if a stencil's dimensions match those of the
+        canvas.
+        """
+        cdef Image stencil = state.stencil
+        if stencil is not None:
+            w, h = self.width, self.height
+            sw, sh = stencil.width, stencil.height
+            if sw != w or sh != h:
+                msg = ("The stencil set on the GraphicsState object does not "
+                       "have the same dimensions as the target canvas! "
+                       "(({}, {}) vs. ({}, {}))").format(sw, sh, w, h)
+                raise AggError(msg)
 
     cdef Image _get_native_image(self, Image image, PixelFormat format):
         """_get_native_image(self, Image image)

@@ -88,18 +88,16 @@ cdef class LinearGradientPaint(Paint):
 
     def __cinit__(self, double x1, double y1, double x2, double y2,
                   stops, GradientSpread spread, GradientUnits units):
-        cdef double[::1] points_npy
-        cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
-        points_npy = _get_gradient_points((x1, y1, x2, y2), 4)
-        self._this = new _paint.Paint(
-            _enums.k_PaintTypeLinearGradient,
-            &points_npy[0], points_npy.shape[0],
-            &stops_npy[0][0], stops_npy.shape[0], spread, units
-        )
+        cdef double[::1] _points = _get_gradient_points((x1, y1, x2, y2), 4)
+        cdef double[:,::1] _stops = _get_gradient_stops(stops)
+        self._this = new _paint.Paint(_enums.k_PaintTypeLinearGradient,
+                                      &_points[0], _points.shape[0],
+                                      &_stops[0][0], _stops.shape[0],
+                                      spread, units)
 
         # Hold on to the allocated arrays for safety
-        self._points = points_npy
-        self._stops = stops_npy
+        self._points = _points
+        self._stops = _stops
 
 
 cdef class RadialGradientPaint(Paint):
@@ -116,18 +114,16 @@ cdef class RadialGradientPaint(Paint):
 
     def __cinit__(self, double cx, double cy, double r, double fx, double fy,
                   stops, GradientSpread spread, GradientUnits units):
-        cdef double[::1] points_npy
-        cdef double[:,::1] stops_npy = _get_gradient_stops(stops)
-        points_npy = _get_gradient_points([cx, cy, r, fx, fy], 5)
-        self._this = new _paint.Paint(
-            _enums.k_PaintTypeRadialGradient,
-            &points_npy[0], points_npy.shape[0],
-            &stops_npy[0][0], stops_npy.shape[0], spread, units
-        )
+        cdef double[::1] _points = _get_gradient_points([cx, cy, r, fx, fy], 5)
+        cdef double[:,::1] _stops = _get_gradient_stops(stops)
+        self._this = new _paint.Paint(_enums.k_PaintTypeRadialGradient,
+                                      &_points[0], _points.shape[0],
+                                      &_stops[0][0], _stops.shape[0],
+                                      spread, units)
 
         # Hold on to the allocated arrays for safety
-        self._points = points_npy
-        self._stops = stops_npy
+        self._points = _points
+        self._stops = _stops
 
 
 cdef class PatternPaint(Paint):

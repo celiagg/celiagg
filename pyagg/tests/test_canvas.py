@@ -1,9 +1,11 @@
 import weakref
 
+from nose.tools import assert_raises
 import numpy as np
 from numpy.testing import assert_equal
 
-from pyagg import CanvasRGB24, GraphicsState, Path, SolidPaint, Transform
+from pyagg import (AggError, CanvasG8, CanvasRGB24, GraphicsState, Path,
+                   SolidPaint, Transform)
 
 
 def test_cleanup():
@@ -21,6 +23,18 @@ def test_cleanup():
 
     del canvas
     assert weak_buf() is None
+
+
+def test_stencil_size_mismatch():
+    canvas = CanvasRGB24(np.zeros((4, 5, 3), dtype=np.uint8))
+    stencil_canvas = CanvasG8(np.zeros((1, 2), dtype=np.uint8))
+    gs = GraphicsState(stencil=stencil_canvas.image)
+    path = Path()
+    transform = Transform()
+    paint = SolidPaint(1.0, 1.0, 1.0)
+
+    with assert_raises(AggError):
+        canvas.draw_shape(path, transform, paint, paint, gs)
 
 
 def test_clear():

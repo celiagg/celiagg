@@ -39,6 +39,10 @@ cimport _vertex_source
 cimport _transform
 
 
+class AggError(Exception):
+    pass
+
+
 cdef _get_utf8_text(text, exp_msg):
     # Ensure UTF-8 encoded text is passed to C++ code.
     if isinstance(text, unicode):

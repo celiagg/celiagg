@@ -156,3 +156,11 @@ cdef class Image:
             if self.pixel_array.base is not None:
                 self.pixel_array.base
             return self.pixel_array
+
+    property height:
+        def __get__(self):
+            return self._this.height()
+
+    property width:
+        def __get__(self):
+            return self._this.width()

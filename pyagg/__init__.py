@@ -23,12 +23,13 @@
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins <john.wiggins@xfel.eu>
 
+# flake8: noqa
 from __future__ import absolute_import
 
 from ._pyagg import (
-    BlendMode, BSpline, DrawingMode, Font, FontCacheType, GradientSpread,
-    GradientUnits, GraphicsState, Image, LinearGradientPaint, LineCap,
-    LineJoin, RadialGradientPaint, Path, PatternPaint, PatternStyle,
+    AggError, BlendMode, BSpline, DrawingMode, Font, FontCacheType,
+    GradientSpread, GradientUnits, GraphicsState, Image, LinearGradientPaint,
+    LineCap, LineJoin, RadialGradientPaint, Path, PatternPaint, PatternStyle,
     PixelFormat, Rect, ShapeAtPoints, SolidPaint, Transform
 )
 from ._pyagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,

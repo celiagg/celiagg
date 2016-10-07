@@ -23,6 +23,11 @@
 # Authors: John Wiggins
 
 cdef class VertexSource:
+    """ An object which supplies vertex pairs and other information to
+    low-level drawing routines.
+
+    NOTE: This class should not be explicitly instantiated.
+    """
     cdef _vertex_source.VertexSource* _this
 
     def __dealloc__(self):
@@ -36,8 +41,7 @@ cdef class VertexSource:
         """ Returns all the vertices in the source as a numpy array.
         """
         cdef unsigned count = self._this.total_vertices()
-        cdef double[:,::1] points = numpy.empty((count, 2),
-                                                dtype=numpy.float64,
+        cdef double[:,::1] points = numpy.empty((count, 2), dtype=numpy.float64,
                                                 order='c')
 
         self._this.rewind(0)
@@ -48,31 +52,42 @@ cdef class VertexSource:
 
 
 cdef class BSpline(VertexSource):
+    """BSpline(points)
+      points: 2D array of (x, y) tuples
+    """
+    cdef object _points
 
     def __cinit__(self, points):
-        cdef double[:,::1] points_npy = numpy.asarray(points,
-                                                      dtype=numpy.float64,
-                                                      order='c')
+        cdef double[:,::1] _points = numpy.asarray(points, dtype=numpy.float64,
+                                                   order='c')
 
-        if points_npy.shape[1] != 2:
+        if _points.shape[1] != 2:
             msg = 'Points argument must be an iterable of (x, y) pairs.'
             raise ValueError(msg)
 
         self._this = <_vertex_source.VertexSource*> new _vertex_source.BsplineSource(
-            &points_npy[0][0], points_npy.shape[0]
+            &_points[0][0], _points.shape[0]
         )
+        # hold a reference to the backing ndarray
+        self._points = _points
 
 
 cdef class Path(VertexSource):
+    """A path object.
+    """
 
     def __cinit__(self):
         self._this = <_vertex_source.VertexSource*> new _vertex_source.PathSource()
 
     def begin(self):
+        """Begins a new subpath.
+        """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
         pth.begin()
 
     def close(self):
+        """Closes the current subpath.
+        """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
         pth.close()
 
@@ -102,8 +117,7 @@ cdef class Path(VertexSource):
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
         pth.arc_to(rx, ry, angle, large_arc_flag, sweep_flag, x, y)
 
-    def quadric_to(self, double x_ctrl, double y_ctrl,
-                   double x_to, double y_to):
+    def quadric_to(self, double x_ctrl, double y_ctrl, double x_to, double y_to):
         """ Adds a quadratic Bezier curve to the path, starting from the
         current position.
           x_ctrl, y_ctrl: Control point
@@ -151,21 +165,20 @@ cdef class Path(VertexSource):
             rects: 2D array of (x, y, w, h) sequences
         """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
-        cdef double[:,::1] rects_npy = numpy.asarray(rects,
-                                                     dtype=numpy.float64,
-                                                     order='c')
-        cdef int count = rects_npy.shape[0]
+        cdef double[:,::1] _rects = numpy.asarray(rects, dtype=numpy.float64,
+                                                  order='c')
+        cdef int count = _rects.shape[0]
         cdef double x, y, w, h
 
-        if rects_npy.shape[1] != 4:
+        if _rects.shape[1] != 4:
             msg = "rects argument must be an iterable of (x, y, w, h) tuples."
             raise ValueError(msg)
 
         for i in range(0, count):
-            x = rects_npy[i, 0]
-            y = rects_npy[i, 1]
-            w = rects_npy[i, 2]
-            h = rects_npy[i, 3]
+            x = _rects[i, 0]
+            y = _rects[i, 1]
+            w = _rects[i, 2]
+            h = _rects[i, 3]
 
             pth.move_to(x, y)
             pth.line_to(x + w, y)
@@ -180,18 +193,18 @@ cdef class Path(VertexSource):
             points: 2D array of (x, y) pairs
         """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
-        cdef double[:,::1] points_npy = numpy.asarray(points,
+        cdef double[:,::1] _points = numpy.asarray(points,
                                                       dtype=numpy.float64,
                                                       order='c')
-        cdef int count = points_npy.shape[0]
+        cdef int count = _points.shape[0]
 
-        if points_npy.shape[1] != 2:
+        if _points.shape[1] != 2:
             msg = "points argument must be an iterable of (x, y) tuples."
             raise ValueError(msg)
 
-        pth.move_to(points_npy[0, 0], points_npy[0, 1])
+        pth.move_to(_points[0, 0], _points[0, 1])
         for i in range(1, count):
-            pth.line_to(points_npy[i, 0], points_npy[i, 1])
+            pth.line_to(_points[i, 0], _points[i, 1])
         pth.close()
 
     @cython.boundscheck(False)
@@ -201,18 +214,17 @@ cdef class Path(VertexSource):
             points: 2D array of (x, y) pairs
         """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
-        cdef double[:,::1] starts_npy = numpy.asarray(starts,
-                                                      dtype=numpy.float64,
-                                                      order='c')
-        cdef double[:,::1] ends_npy = numpy.asarray(ends, dtype=numpy.float64,
-                                                    order='c')
-        cdef int starts_count = starts_npy.shape[0]
-        cdef int ends_count = ends_npy.shape[0]
+        cdef double[:,::1] _starts = numpy.asarray(starts, dtype=numpy.float64,
+                                                   order='c')
+        cdef double[:,::1] _ends = numpy.asarray(ends, dtype=numpy.float64,
+                                                 order='c')
+        cdef int starts_count = _starts.shape[0]
+        cdef int ends_count = _ends.shape[0]
 
-        if starts_npy.shape[1] != 2:
+        if _starts.shape[1] != 2:
             msg = "starts argument must be an iterable of (x, y) tuples."
             raise ValueError(msg)
-        if ends_npy.shape[1] != 2:
+        if _ends.shape[1] != 2:
             msg = "ends argument must be an iterable of (x, y) tuples."
             raise ValueError(msg)
         if starts_count != ends_count:
@@ -220,25 +232,32 @@ cdef class Path(VertexSource):
             raise ValueError(msg)
 
         for i in range(0, starts_count):
-            pth.move_to(starts_npy[i, 0], starts_npy[i, 1])
-            pth.line_to(ends_npy[i, 0], ends_npy[i, 1])
+            pth.move_to(_starts[i, 0], _starts[i, 1])
+            pth.line_to(_ends[i, 0], _ends[i, 1])
             pth.close()
 
 
 cdef class ShapeAtPoints(VertexSource):
+    """ShapeAtPoints(source, points)
+      source : A VertexSource object (BSpline, Path, etc.)
+      points : A sequence of (x, y) pairs where the shape defined by ``source``
+               should be drawn.
+    """
     cdef object _sub_source
+    cdef object _points
 
     def __cinit__(self, VertexSource source, points):
-        cdef double[:,::1] points_npy = numpy.asarray(points,
+        cdef double[:,::1] _points = numpy.asarray(points,
                                                       dtype=numpy.float64,
                                                       order='c')
 
-        if points_npy.shape[1] != 2:
+        if _points.shape[1] != 2:
             msg = 'Points argument must be an iterable of (x, y) pairs.'
             raise ValueError(msg)
 
         self._this = <_vertex_source.VertexSource*> new _vertex_source.RepeatedSource(
-            dereference(source._this), &points_npy[0][0], points_npy.shape[0]
+            dereference(source._this), &_points[0][0], _points.shape[0]
         )
-        # Keep a reference for safety
+        # Keep references for safety
         self._sub_source = source
+        self._points = _points
