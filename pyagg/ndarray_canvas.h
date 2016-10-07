@@ -37,6 +37,7 @@
 #include <agg_conv_bspline.h>
 #include <agg_conv_contour.h>
 #include <agg_conv_curve.h>
+#include <agg_conv_dash.h>
 #include <agg_conv_stroke.h>
 #include <agg_path_storage.h>
 #include <agg_pixfmt_amask_adaptor.h>
@@ -137,11 +138,23 @@ private:
                               const GraphicsState& gs,
                               base_renderer_t& renderer);
     template<typename base_renderer_t>
-    void _draw_shape_internal(VertexSource& path,
+    void _draw_shape_internal(VertexSource& shape,
                               const agg::trans_affine& transform,
                               Paint& linePaint, Paint& fillPaint,
                               const GraphicsState& gs,
                               base_renderer_t& renderer);
+    template<typename shape_t, typename base_renderer_t>
+    void _draw_shape_stroke_setup(shape_t& shape,
+                                  agg::trans_affine& mtx,
+                                  Paint& paint,
+                                  const GraphicsState& gs,
+                                  base_renderer_t& renderer);
+    template<typename stroke_t, typename base_renderer_t>
+    void _draw_shape_stroke_final(stroke_t& stroke,
+                                  agg::trans_affine& mtx,
+                                  Paint& paint,
+                                  const GraphicsState& gs,
+                                  base_renderer_t& renderer);
     template<typename base_renderer_t>
     void _draw_text_internal(const char* text, Font& font,
                              const agg::trans_affine& transform,

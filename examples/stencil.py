@@ -48,6 +48,7 @@ gs.stencil = stencil_canvas.image
 canvas.draw_shape(star_shape, star_transform, blue_paint, lin_grad, gs)
 
 gs.drawing_mode = agg.DrawingMode.DrawStroke
+gs.line_dash_pattern = ((5.0, 10.0), (10.0, 20.0))
 transform.translate(-SIZE/4, -SIZE/4)
 transform.rotate(np.pi / 4)
 transform.scale(1.1, 1.1)

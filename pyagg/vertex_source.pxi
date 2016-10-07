@@ -247,9 +247,8 @@ cdef class ShapeAtPoints(VertexSource):
     cdef object _points
 
     def __cinit__(self, VertexSource source, points):
-        cdef double[:,::1] _points = numpy.asarray(points,
-                                                      dtype=numpy.float64,
-                                                      order='c')
+        cdef double[:,::1] _points = numpy.asarray(points, dtype=numpy.float64,
+                                                   order='c')
 
         if _points.shape[1] != 2:
             msg = 'Points argument must be an iterable of (x, y) pairs.'

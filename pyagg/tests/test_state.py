@@ -50,6 +50,12 @@ def test_state_properties():
     assert gs.clip_box == box
     assert not (gs.clip_box is box)
 
+    dashes = [(1.0, 2.0), (3.0, 4.0)]
+    gs.line_dash_pattern = dashes
+    assert gs.line_dash_pattern == dashes
+    gs.line_dash_pattern = []
+    assert len(gs.line_dash_pattern) == 0
+
     img = Image(np.zeros((10, 10), dtype=np.uint8), PixelFormat.Gray8)
     assert gs.stencil is None
     gs.stencil = img
@@ -64,6 +70,7 @@ def test_state_properties():
 
 def test_kwargs_initialization():
     box = Rect(0.0, 0.0, 10.0, 20.0)
+    dashes = [(1.0, 2.0), (3.0, 4.0)]
     img = Image(np.zeros((10, 10), dtype=np.uint8), PixelFormat.Gray8)
     gs = GraphicsState(
         anti_aliased=True,
@@ -76,6 +83,7 @@ def test_kwargs_initialization():
         anti_alias_gamma=1.337,
         line_width=10.0,
         clip_box=box,
+        line_dash_pattern=dashes,
         stencil=img
     )
 
@@ -89,4 +97,5 @@ def test_kwargs_initialization():
     assert gs.anti_alias_gamma == 1.337
     assert gs.line_width == 10.0
     assert gs.clip_box == box
+    assert gs.line_dash_pattern == dashes
     assert gs.stencil is img

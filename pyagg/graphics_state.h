@@ -25,6 +25,7 @@
 #ifndef PYAGG_GRAPHICS_STATE_H
 #define PYAGG_GRAPHICS_STATE_H
 
+#include <vector>
 #include <agg_basics.h>
 #include <agg_math_stroke.h>
 #include <agg_pixfmt_rgba.h>
@@ -35,6 +36,7 @@ class GraphicsState
 {
 public:
     typedef agg::rect_d Rect;
+    typedef std::vector<double> DashPattern;
 
     enum LineJoin
     {
@@ -97,8 +99,8 @@ public:
         m_imageBlendMode(BlendDst),
         m_masterAlpha(1.0),
         m_antiAliasGamma(1.0),
-        m_lineCap(CapRound),
-        m_lineJoin(JoinRound),
+        m_lineCap(CapSquare),
+        m_lineJoin(JoinMiter),
         m_lineWidth(1),
         m_antiAliased(true)
         {}
@@ -134,11 +136,24 @@ public:
     void lineJoin(LineJoin join) { m_lineJoin = join; }
     LineJoin lineJoin() const { return m_lineJoin; }
 
+    void lineDashPattern(const double *dashes, size_t count)
+    {
+        m_dashes.clear();
+        m_dashes.reserve(count * 2);
+        for (size_t i=0; i < count; ++i)
+        {
+            m_dashes.push_back(dashes[i*2]);
+            m_dashes.push_back(dashes[i*2 + 1]);
+        }
+    }
+    const DashPattern& lineDashPattern() const { return m_dashes; }
+
     void stencil(const Image* image) { m_stencil = image; }
     const Image* stencil() const { return m_stencil; }
 
 private:
     Rect            m_clipBox;
+    DashPattern     m_dashes;
     const Image*    m_stencil;
     DrawingMode     m_drawingMode;
     BlendMode       m_blendMode;

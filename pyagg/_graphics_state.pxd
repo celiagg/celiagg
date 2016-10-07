@@ -27,6 +27,7 @@ cimport numpy
 import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
+from libcpp.vector cimport vector
 
 cimport _enums
 cimport _image
@@ -51,7 +52,7 @@ cdef extern from "graphics_state.h":
         bool antiAliased() const
 
         void clipBox(Rect r)
-        void  clipBox(double x1, double y1, double x2, double y2)
+        void clipBox(double x1, double y1, double x2, double y2)
         Rect clipBox() const
 
         void drawingMode(_enums.DrawingMode m)
@@ -77,6 +78,9 @@ cdef extern from "graphics_state.h":
 
         void lineJoin(_enums.LineJoin join)
         _enums.LineJoin lineJoin() const
+
+        void lineDashPattern(const double *dashes, size_t count)
+        const vector[double]& lineDashPattern() const
 
         void stencil(const _image.Image* image)
         const _image.Image* stencil() const

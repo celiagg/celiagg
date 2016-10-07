@@ -23,6 +23,7 @@
 # Authors: John Wiggins
 
 from types import GetSetDescriptorType
+from libcpp.vector cimport vector
 
 
 cdef class Rect:
@@ -100,6 +101,7 @@ cdef class GraphicsState:
     property anti_aliased:
         def __get__(self):
             return self._this.antiAliased()
+
         def __set__(self, aa):
             self._this.antiAliased(aa)
 
@@ -107,60 +109,88 @@ cdef class GraphicsState:
         def __get__(self):
             cdef _graphics_state.Rect ret = self._this.clipBox()
             return Rect(ret.x1, ret.y1, ret.x2, ret.y2)
+
         def __set__(self, Rect box):
             self._this.clipBox(box._this[0])
 
     property drawing_mode:
         def __get__(self):
             return DrawingMode(self._this.drawingMode())
+
         def __set__(self, DrawingMode m):
             self._this.drawingMode(m)
 
     property blend_mode:
         def __get__(self):
             return BlendMode(self._this.blendMode())
+
         def __set__(self, BlendMode m):
             self._this.blendMode(m)
 
     property image_blend_mode:
         def __get__(self):
             return BlendMode(self._this.imageBlendMode())
+
         def __set__(self, BlendMode m):
             self._this.imageBlendMode(m)
 
     property master_alpha:
         def __get__(self):
             return self._this.masterAlpha()
+
         def __set__(self, a):
             self._this.masterAlpha(a)
 
     property anti_alias_gamma:
         def __get__(self):
             return self._this.antiAliasGamma()
+
         def __set__(self, g):
             self._this.antiAliasGamma(g)
 
     property line_width:
         def __get__(self):
             return self._this.lineWidth()
+
         def __set__(self, w):
             self._this.lineWidth(w)
 
     property line_cap:
         def __get__(self):
             return LineCap(self._this.lineCap())
+
         def __set__(self, LineCap cap):
             self._this.lineCap(cap)
 
     property line_join:
         def __get__(self):
             return LineJoin(self._this.lineJoin())
+
         def __set__(self, LineJoin join):
             self._this.lineJoin(join)
+
+    property line_dash_pattern:
+        def __get__(self):
+            cdef vector[double] dashes = self._this.lineDashPattern()
+            return list(zip(dashes[:-1:2], dashes[1::2]))
+
+        def __set__(self, dashes):
+            if len(dashes) == 0:
+                self._this.lineDashPattern(<const double *>0, 0)
+                return
+
+            cdef double[:,::1] _dashes = numpy.asarray(dashes,
+                                                       dtype=numpy.float64,
+                                                       order='c')
+            if _dashes.shape[1] != 2:
+                msg = 'Dashes must be an iterable of (dash len, gap len) pairs.'
+                raise ValueError(msg)
+            self._this.lineDashPattern(&_dashes[0][0], _dashes.shape[0])
 
     property stencil:
         def __get__(self):
             return self._stencil_img
+
         def __set__(self, Image img):
             self._stencil_img = img
             if self._stencil_img is not None:

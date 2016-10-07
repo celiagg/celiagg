@@ -155,7 +155,6 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
 {
     typedef agg::conv_transform<VertexSource> conv_trans_t;
     typedef agg::conv_contour<conv_trans_t> contour_shape_t;
-    typedef agg::conv_stroke<conv_trans_t> stroke_shape_t;
 
     const GraphicsState::DrawingMode mode = gs.drawingMode();
     const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
@@ -181,14 +180,56 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
 
         if (line)
         {
-            stroke_shape_t stroke(trans_shape);
-            stroke.width(gs.lineWidth());
-
-            m_rasterizer.reset();
-            m_rasterizer.add_path(stroke);
-            linePaint.render<pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
+            // Handle dashing and other such details
+            _draw_shape_stroke_setup(trans_shape, mtx, linePaint, gs, renderer);
         }
     }
+}
+
+template<typename pixfmt_t>
+template<typename shape_t, typename base_renderer_t>
+void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_setup(shape_t& shape,
+    agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
+    base_renderer_t& renderer)
+{
+    typedef agg::conv_dash<shape_t> dash_t;
+    typedef agg::conv_stroke<dash_t> dash_stroke_t;
+    typedef agg::conv_stroke<shape_t> stroke_t;
+
+    if (gs.lineDashPattern().size() > 0)
+    {
+        typedef GraphicsState::DashPattern::size_type counter_t;
+
+        dash_t dash(shape);
+        dash_stroke_t stroke(dash);
+        const GraphicsState::DashPattern& dashPattern = gs.lineDashPattern();
+
+        for (counter_t i=0; i < dashPattern.size(); i+=2)
+            dash.add_dash(dashPattern[i], dashPattern[i+1]);
+        dash.dash_start(0.0);
+
+        _draw_shape_stroke_final(stroke, mtx, paint, gs, renderer);
+    }
+    else
+    {
+        stroke_t stroke(shape);
+        _draw_shape_stroke_final(stroke, mtx, paint, gs, renderer);
+    }
+}
+
+template<typename pixfmt_t>
+template<typename stroke_t, typename base_renderer_t>
+void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
+    agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
+    base_renderer_t& renderer)
+{
+    stroke.width(gs.lineWidth());
+    stroke.line_cap(agg::line_cap_e(gs.lineCap()));
+    stroke.line_join(agg::line_join_e(gs.lineJoin()));
+
+    m_rasterizer.reset();
+    m_rasterizer.add_path(stroke);
+    paint.render<pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
 }
 
 template<typename pixfmt_t>
