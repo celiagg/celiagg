@@ -52,6 +52,10 @@ cdef class Transform:
         self._this.reset()
         self._this.multiply(trans)
 
+    def copy(self):
+        return Transform(self._this.sx, self._this.shy, self._this.shx,
+                         self._this.sy, self._this.tx, self._this.ty)
+
     def reset(self):
         self._this.reset()
 
@@ -69,6 +73,12 @@ cdef class Transform:
 
     def translate(self, double x, double y):
         self._this.translate(x, y)
+
+    def premultiply(self, Transform other):
+        self._this.premultiply(dereference(other._this))
+
+    def multiply(self, Transform other):
+        self._this.multiply(dereference(other._this))
 
     def worldToScreen(self, double x, double y):
         self._this.transform(&x, &y)

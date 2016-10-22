@@ -82,5 +82,8 @@ cdef extern from "graphics_state.h":
         void lineDashPattern(const double *dashes, size_t count)
         const vector[double]& lineDashPattern() const
 
+        void lineDashPhase(const double phase)
+        double lineDashPhase() const
+
         void stencil(const _image.Image* image)
         const _image.Image* stencil() const

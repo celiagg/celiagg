@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef PYAGG_TEXT_H
-#define PYAGG_TEXT_H
+#ifndef PYAGG_FONT_H
+#define PYAGG_FONT_H
 
 #include <agg_basics.h>
 #include <agg_font_cache_manager.h>
@@ -54,8 +54,6 @@ public:
 public:
 
                         Font(char const* fileName, double const height,
-                             bool const bold = false,
-                             bool const italic = false,
                              FontCacheType const ch = RasterFontCache);
 
     FontCacheManager&   cache();
@@ -64,6 +62,7 @@ public:
     bool                hinting() const;
     void                hinting(bool const hint);
     double              height() const;
+    const char*         name() const;
     double              stringWidth(char const* str);
     void                transform(const agg::trans_affine& transform);
 
@@ -77,4 +76,4 @@ private:
     FontCacheManager    m_fontCacheManager;
 };
 
-#endif // PYAGG_TEXT_H
+#endif // PYAGG_FONT_H

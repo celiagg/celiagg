@@ -84,6 +84,8 @@ public:
     void close();
     void reset();
 
+    unsigned last_vertex(double* x, double* y) const;
+
     template<class VertexSource>
     void concat_path(VertexSource& vs, unsigned path_id)
     {

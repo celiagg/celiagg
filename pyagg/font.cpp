@@ -22,11 +22,13 @@
 //
 // Authors: John Wiggins
 
-#include "text.h"
+#include "font.h"
 #include "glyph_iter.h"
 
-Font::Font(char const* fontName, double const height, bool const bold,
-           bool const italic, FontCacheType const ch)
+#define WIN32_FONT_WEIGHT 400
+
+
+Font::Font(char const* fontName, double const height, FontCacheType const ch)
 : m_cacheType(ch),
 #ifdef _USE_FREETYPE
   m_fontEngine(),
@@ -52,8 +54,8 @@ Font::Font(char const* fontName, double const height, bool const bold,
                                 agg::glyph_ren_agg_gray8,
                               height,
                               0.0,
-                              bold ? 700 : 400,
-                              italic);
+                              WIN32_FONT_WEIGHT,
+                              false);
 #endif
     m_fontEngine.flip_y(true);
 }
@@ -86,6 +88,16 @@ void
 Font::hinting(bool const hint)
 {
     m_fontEngine.hinting(hint);
+}
+
+const char*
+Font::name() const
+{
+#ifdef _USE_FREETYPE
+    return m_fontEngine.name();
+#else
+    return m_fontEngine.typeface();
+#endif
 }
 
 double

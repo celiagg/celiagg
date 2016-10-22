@@ -99,6 +99,7 @@ public:
         m_imageBlendMode(BlendDst),
         m_masterAlpha(1.0),
         m_antiAliasGamma(1.0),
+        m_lineDashPhase(0.0),
         m_lineCap(CapSquare),
         m_lineJoin(JoinMiter),
         m_lineWidth(1),
@@ -148,6 +149,9 @@ public:
     }
     const DashPattern& lineDashPattern() const { return m_dashes; }
 
+    void lineDashPhase(const double phase) { m_lineDashPhase = phase; }
+    double lineDashPhase() const { return m_lineDashPhase; }
+
     void stencil(const Image* image) { m_stencil = image; }
     const Image* stencil() const { return m_stencil; }
 
@@ -160,6 +164,7 @@ private:
     BlendMode       m_imageBlendMode;
     double          m_masterAlpha;
     double          m_antiAliasGamma;
+    double          m_lineDashPhase;
     LineCap         m_lineCap;
     LineJoin        m_lineJoin;
     double          m_lineWidth;

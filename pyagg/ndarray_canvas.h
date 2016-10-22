@@ -51,11 +51,11 @@
 #include <agg_scanline_p.h>
 #include <ctrl/agg_polygon_ctrl.h>
 
+#include "font.h"
 #include "glyph_iter.h"
 #include "graphics_state.h"
 #include "image.h"
 #include "paint.h"
-#include "text.h"
 #include "vertex_source.h"
 
 // Interface to ndarray_canvas that is generic for all pixfmts, for the

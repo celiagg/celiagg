@@ -30,11 +30,11 @@ import numpy
 from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
 
 cimport _enums
+cimport _font
 cimport _graphics_state
 cimport _image
 cimport _ndarray_canvas
 cimport _paint
-cimport _text
 cimport _vertex_source
 cimport _transform
 
@@ -51,11 +51,11 @@ cdef _get_utf8_text(text, exp_msg):
         raise TypeError(exp_msg)
 
 include "enums.pxi"
+include "font.pxi"
 include "graphics_state.pxi"
 include "image.pxi"
 include "ndarray_canvas.pxi"
 include "paint.pxi"
-include "text.pxi"
 include "transform.pxi"
 include "vertex_source.pxi"
 include "conversion.pxi"

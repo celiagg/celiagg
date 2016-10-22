@@ -5,6 +5,11 @@ from pyagg import (GraphicsState, BlendMode, DrawingMode, Image, LineCap,
                    LineJoin, PixelFormat, Rect)
 
 
+def array_bases_equal(arr0, arr1):
+    return (arr0.__array_interface__['data'][0] ==
+            arr1.__array_interface__['data'][0])
+
+
 def test_state_properties():
     gs = GraphicsState()
 
@@ -52,7 +57,9 @@ def test_state_properties():
 
     dashes = [(1.0, 2.0), (3.0, 4.0)]
     gs.line_dash_pattern = dashes
+    gs.line_dash_phase = 5.0
     assert gs.line_dash_pattern == dashes
+    assert gs.line_dash_phase == 5.0
     gs.line_dash_pattern = []
     assert len(gs.line_dash_pattern) == 0
 
@@ -84,6 +91,7 @@ def test_kwargs_initialization():
         line_width=10.0,
         clip_box=box,
         line_dash_pattern=dashes,
+        line_dash_phase=3.5,
         stencil=img
     )
 
@@ -98,4 +106,44 @@ def test_kwargs_initialization():
     assert gs.line_width == 10.0
     assert gs.clip_box == box
     assert gs.line_dash_pattern == dashes
+    assert gs.line_dash_phase == 3.5
     assert gs.stencil is img
+
+
+def test_copy():
+    box = Rect(0.0, 0.0, 10.0, 20.0)
+    dashes = [(1.0, 2.0), (3.0, 4.0)]
+    img = Image(np.zeros((10, 10), dtype=np.uint8), PixelFormat.Gray8)
+    gs = GraphicsState(
+        anti_aliased=True,
+        drawing_mode=DrawingMode.DrawEofFill,
+        blend_mode=BlendMode.BlendXor,
+        image_blend_mode=BlendMode.BlendXor,
+        line_cap=LineCap.CapSquare,
+        line_join=LineJoin.JoinRound,
+        master_alpha=0.42,
+        anti_alias_gamma=1.337,
+        line_width=10.0,
+        clip_box=box,
+        line_dash_pattern=dashes,
+        line_dash_phase=3.5,
+        stencil=img
+    )
+    cpy = gs.copy()
+
+    assert cpy.anti_aliased is True
+    assert cpy.drawing_mode == DrawingMode.DrawEofFill
+    assert cpy.blend_mode == BlendMode.BlendXor
+    assert cpy.image_blend_mode == BlendMode.BlendXor
+    assert cpy.line_cap == LineCap.CapSquare
+    assert cpy.line_join == LineJoin.JoinRound
+    assert cpy.master_alpha == 0.42
+    assert cpy.anti_alias_gamma == 1.337
+    assert cpy.line_width == 10.0
+    assert cpy.clip_box == box
+    assert cpy.line_dash_pattern == dashes
+    assert cpy.line_dash_phase == 3.5
+
+    # The image has no comparison operator. Make sure its a new object
+    assert cpy.stencil is not img
+    assert not array_bases_equal(cpy.stencil.pixels, gs.stencil.pixels)

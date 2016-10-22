@@ -147,6 +147,12 @@ cdef class Image:
     def __dealloc__(self):
         del self._this
 
+    def copy(self):
+        """ Returns a deep copy of the image.
+        """
+        array = self.pixel_array.copy()
+        return Image(array, self.pixel_format)
+
     property format:
         def __get__(self):
             return self.pixel_format

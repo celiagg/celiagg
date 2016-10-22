@@ -93,6 +93,11 @@ void PathSource::reset()
     m_path.remove_all();
 }
 
+unsigned PathSource::last_vertex(double* x, double* y) const
+{
+    return m_path.last_vertex(x, y);
+}
+
 void PathSource::move_to(double x, double y)
 {
     m_path.move_to(x, y);

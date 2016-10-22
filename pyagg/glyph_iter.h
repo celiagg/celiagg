@@ -25,7 +25,7 @@
 #ifndef PYAGG_GLYPH_ITER_H
 #define PYAGG_GLYPH_ITER_H
 
-#include "text.h"
+#include "font.h"
 
 class GlyphIterator
 {

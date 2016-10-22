@@ -37,6 +37,35 @@ cdef class VertexSource:
         for pt in self.vertices():
             yield pt
 
+    def bounding_rect(self):
+        """ Returns a bounding rectangle for the vertices of the source in the
+        format: (x, y, w, h)
+        """
+        if self.length() == 0:
+            return (0, 0, 0, 0)
+
+        verts = self.vertices()
+        xs = verts[:, 0]
+        ys = verts[:, 1]
+        xmin, xmax = xs.min(), xs.max()
+        ymin, ymax = ys.min(), ys.max()
+        return (xmin, ymin, xmax - xmin, ymax - ymin)
+
+    def copy(self):
+        """ Returns a deep copy of the object.
+        """
+        raise NotImplementedError
+
+    def final_point(self):
+        """ Returns the last vertex that would be returned by the source.
+        """
+        raise NotImplementedError
+
+    def length(self):
+        """ Returns the number of vertices returned by vertices()
+        """
+        return self._this.total_vertices()
+
     def vertices(self):
         """ Returns all the vertices in the source as a numpy array.
         """
@@ -71,6 +100,13 @@ cdef class BSpline(VertexSource):
         # hold a reference to the backing ndarray
         self._points = _points
 
+    def copy(self):
+        points = self._points.copy()
+        return BSpline(points)
+
+    def final_point(self):
+        return self._points[-1]
+
 
 cdef class Path(VertexSource):
     """A path object.
@@ -78,6 +114,22 @@ cdef class Path(VertexSource):
 
     def __cinit__(self):
         self._this = <_vertex_source.VertexSource*> new _vertex_source.PathSource()
+
+    def copy(self):
+        cdef:
+            Path cpy = Path()
+            _vertex_source.PathSource* ths = <_vertex_source.PathSource*>self._this
+            _vertex_source.PathSource* other = <_vertex_source.PathSource*>cpy._this
+
+        other.concat_path[_vertex_source.PathSource](dereference(ths), 0)
+        return cpy
+
+    def final_point(self):
+        cdef:
+            _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
+            double x, y
+        pth.last_vertex(&x, &y)
+        return (x, y)
 
     def begin(self):
         """Begins a new subpath.
@@ -243,7 +295,7 @@ cdef class ShapeAtPoints(VertexSource):
       points : A sequence of (x, y) pairs where the shape defined by ``source``
                should be drawn.
     """
-    cdef object _sub_source
+    cdef VertexSource _sub_source
     cdef object _points
 
     def __cinit__(self, VertexSource source, points):
@@ -260,3 +312,13 @@ cdef class ShapeAtPoints(VertexSource):
         # Keep references for safety
         self._sub_source = source
         self._points = _points
+
+    def copy(self):
+        source = self._sub_source.copy()
+        points = self._points.copy()
+        return ShapeAtPoints(source, points)
+
+    def final_point(self):
+        x, y = self._sub_source.last_vertex()
+        tx, ty = self._points[-1]
+        return (x + tx, y + ty)

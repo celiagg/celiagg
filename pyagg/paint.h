@@ -139,6 +139,15 @@ public:
     void transform(const agg::trans_affine& mat);
     const agg::trans_affine& transform() const;
 
+    void spread(const GradientSpread spread) { m_spread = spread; }
+    GradientSpread spread() const { return m_spread; }
+
+    void units(const GradientUnits units) { m_units = units; }
+    GradientUnits units() const { return m_units; }
+
+    void style(const PatternStyle style) { m_pattern_style = style; }
+    PatternStyle style() const { return m_pattern_style; }
+
     template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
     void render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_affine& transform);
 

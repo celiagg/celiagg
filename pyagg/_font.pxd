@@ -26,16 +26,13 @@ from libcpp cimport bool
 cimport _enums
 
 
-cdef extern from "text.h":
+cdef extern from "font.h":
     cdef cppclass Font:
-        Font(char* fileName,
-             double height,
-             bool bold,
-             bool italic,
-             _enums.FontCacheType ch)
+        Font(char* fileName, double height, _enums.FontCacheType ch)
 
         _enums.FontCacheType cacheType() const
         bool hinting() const
         void hinting(bool hint)
         double height() const
+        const char* name() const
         double stringWidth(char* str)

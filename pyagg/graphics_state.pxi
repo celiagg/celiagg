@@ -81,7 +81,7 @@ cdef class Rect:
 
 cdef class GraphicsState:
     cdef _graphics_state.GraphicsState* _this
-    cdef object _stencil_img
+    cdef Image _stencil_img
 
     def __cinit__(self):
         self._this = new _graphics_state.GraphicsState()
@@ -91,12 +91,31 @@ cdef class GraphicsState:
         del self._this
 
     def __init__(self, **kwargs):
-        properties = [name for name in GraphicsState.__dict__.keys()
-                      if isinstance(getattr(GraphicsState, name),
-                                    GetSetDescriptorType)]
+        properties = self._propnames()
         for key, value in kwargs.items():
             if key in properties:
                 setattr(self, key, value)
+
+    cdef list _propnames(self):
+        return [name for name in GraphicsState.__dict__.keys()
+                if isinstance(getattr(GraphicsState, name),
+                              GetSetDescriptorType)]
+
+    def copy(self):
+        """ Return a deep copy of the object
+        """
+        cpy = GraphicsState()
+        properties = self._propnames()
+        properties.remove("stencil")
+
+        if self._stencil_img is not None:
+            cpy.stencil = self._stencil_img.copy()
+
+        for name in properties:
+            value = getattr(self, name)
+            setattr(cpy, name, value)
+
+        return cpy
 
     property anti_aliased:
         def __get__(self):
@@ -186,6 +205,13 @@ cdef class GraphicsState:
                 msg = 'Dashes must be an iterable of (dash len, gap len) pairs.'
                 raise ValueError(msg)
             self._this.lineDashPattern(&_dashes[0][0], _dashes.shape[0])
+
+    property line_dash_phase:
+        def __get__(self):
+            return self._this.lineDashPhase()
+
+        def __set__(self, double phase):
+            self._this.lineDashPhase(phase)
 
     property stencil:
         def __get__(self):

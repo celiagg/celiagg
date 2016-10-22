@@ -9,6 +9,12 @@ def test_construction():
     assert repr(t) == "Transform(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)"
 
 
+def test_copy():
+    t = Transform(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)
+    cpy = t.copy()
+    assert repr(cpy) == "Transform(1.0, 2.0, 3.0, 4.0, 5.0, 6.0)"
+
+
 def test_scale():
     t = Transform()
 

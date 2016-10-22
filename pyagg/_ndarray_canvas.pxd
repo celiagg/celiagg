@@ -28,10 +28,10 @@ import numpy
 from libc.stdint cimport uint8_t
 from libcpp cimport bool
 
+cimport _font
 cimport _graphics_state
 cimport _image
 cimport _paint
-cimport _text
 cimport _vertex_source
 cimport _transform
 
@@ -65,7 +65,7 @@ cdef extern from "ndarray_canvas.h":
                         const _transform.trans_affine& transform,
                         _paint.Paint& linePaint, _paint.Paint& fillPaint,
                         const _graphics_state.GraphicsState& gs)
-        void draw_text(const char* text, _text.Font& font,
+        void draw_text(const char* text, _font.Font& font,
                        const _transform.trans_affine& transform,
                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
                        const _graphics_state.GraphicsState& gs)

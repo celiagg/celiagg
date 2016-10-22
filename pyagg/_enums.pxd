@@ -22,6 +22,12 @@
 #
 # Authors: John Wiggins
 
+cdef extern from "font.h" namespace "Font":
+    cdef enum FontCacheType:
+        RasterFontCache
+        VectorFontCache
+
+
 cdef extern from "image.h":
     cdef enum PixelFormat:
         k_PixelFormatGray8
@@ -114,9 +120,3 @@ cdef extern from "paint.h" namespace "Paint":
     cdef enum PatternStyle:
         k_PatternStyleRepeat
         k_PatternStyleReflect
-
-
-cdef extern from "text.h" namespace "Font":
-    cdef enum FontCacheType:
-        RasterFontCache
-        VectorFontCache

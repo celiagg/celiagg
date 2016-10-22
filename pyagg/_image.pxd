@@ -29,6 +29,5 @@ cdef extern from "image.h":
     cdef cppclass Image:
         Image(uint8_t* buf, unsigned width, unsigned height, int stride)
 
-        void copy_pixels[dst_pixfmt_t](Image& dst_image)
         unsigned height()
         unsigned width()

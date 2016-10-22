@@ -29,23 +29,24 @@ cpdef enum FontCacheType:
 
 
 cdef class Font:
-    cdef _text.Font* _this
+    cdef _font.Font* _this
 
-    def __cinit__(self, fontName, double size, bool bold,
-                  bool italic, FontCacheType ch):
+    def __cinit__(self, fontName, double size, FontCacheType ch):
         """Font(path, height, bold, italic, cache_type)
         path : A unicode string containing the path of a Font file
         height : The size of the font
-        bold : A boolean flag indicating if the font is bold
-        italic : A boolean flag indicating if the font is italic
         cache_type : A FontCacheType
         """
         fontName = _get_utf8_text(fontName,
                                   "Font path must be a unicode string")
-        self._this = new _text.Font(fontName, size, bold, italic, ch)
+        self._this = new _font.Font(fontName, size, ch)
 
     def __dealloc__(self):
         del self._this
+
+    def copy(self):
+        return Font(self._this.name(), self._this.height(),
+                    self._this.cacheType())
 
     property cache_type:
         def __get__(self):

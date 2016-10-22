@@ -99,6 +99,16 @@ cdef class LinearGradientPaint(Paint):
         self._points = _points
         self._stops = _stops
 
+    def copy(self):
+        points = self._points  # Not a deep copy!
+        stops = self._stops  # Not a deep copy!
+        cpy = LinearGradientPaint(
+            points[0], points[1], points[2], points[3],
+            stops, self._this.spread(), self._this.units()
+        )
+        cpy.transform = self.transform
+        return cpy
+
 
 cdef class RadialGradientPaint(Paint):
     """ RadialGradientPaint(points, stops, spread, units)
@@ -125,6 +135,16 @@ cdef class RadialGradientPaint(Paint):
         self._points = _points
         self._stops = _stops
 
+    def copy(self):
+        points = self._points  # Not a deep copy!
+        stops = self._stops  # Not a deep copy!
+        cpy = RadialGradientPaint(
+            points[0], points[1], points[2], points[3], points[4],
+            stops, self._this.spread(), self._this.units()
+        )
+        cpy.transform = self.transform
+        return cpy
+
 
 cdef class PatternPaint(Paint):
     """ PatternPaint(style, image)
@@ -150,6 +170,12 @@ cdef class PatternPaint(Paint):
         fmt_pattern.transform = self.transform
         return fmt_pattern
 
+    def copy(self):
+        img = self.img_obj.copy()
+        cpy = PatternPaint(self.style, img)
+        cpy.transform = self.transform
+        return cpy
+
 
 cdef class SolidPaint(Paint):
     """ SolidPaint(r, g, b, a)
@@ -173,6 +199,12 @@ cdef class SolidPaint(Paint):
         else:
             msg = "That type of comparison is not implemented for SolidPaint"
             raise NotImplementedError(msg)
+
+    def copy(self):
+        cpy = SolidPaint(self._this.r(), self._this.g(), self._this.b(),
+                         self._this.a())
+        cpy.transform = self.transform
+        return cpy
 
     property a:
         def __get__(self):

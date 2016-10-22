@@ -42,6 +42,9 @@ cdef extern from "vertex_source.h":
         void begin()
         void close()
         void reset()
+        unsigned last_vertex(double* x, double* y)
+        void concat_path[T](T& vs, unsigned path_id)
+
         void move_to(double x, double y)
         void line_to(double x, double y)
         void arc_to(double rx, double ry, double angle, bool large_arc_flag,
