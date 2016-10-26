@@ -48,6 +48,30 @@ cdef class Transform:
             self._this.tx, self._this.ty
         )
 
+    property sx:
+        def __get__(self):
+            return self._this.sx
+
+    property sy:
+        def __get__(self):
+            return self._this.sy
+
+    property shx:
+        def __get__(self):
+            return self._this.shx
+
+    property shy:
+        def __get__(self):
+            return self._this.shy
+
+    property tx:
+        def __get__(self):
+            return self._this.tx
+
+    property ty:
+        def __get__(self):
+            return self._this.ty
+
     cdef _assign_obj(self, _transform.trans_affine trans):
         self._this.reset()
         self._this.multiply(trans)

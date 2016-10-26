@@ -164,10 +164,14 @@ cdef class Path(VertexSource):
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
         pth.line_to(x, y)
 
-    def arc_to(self, double rx, double ry, double angle, bool large_arc_flag,
-               bool sweep_flag, double x, double y):
+    def arc_to(self, double x1, double y1, double x2, double y2, double radius):
+        """ Adds an arc to the path connecting two points
+          x1, y1: The starting point of the arc
+          x2, y2: The end point of the arc
+          radius: The radius of the arc
+        """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
-        pth.arc_to(rx, ry, angle, large_arc_flag, sweep_flag, x, y)
+        pth.arc_to(x1, y1, x2, y2, radius)
 
     def quadric_to(self, double x_ctrl, double y_ctrl, double x_to, double y_to):
         """ Adds a quadratic Bezier curve to the path, starting from the
@@ -188,6 +192,17 @@ cdef class Path(VertexSource):
         """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
         pth.cubic_to(x_ctrl1, y_ctrl1, x_ctrl2, y_ctrl2, x_to, y_to)
+
+    def arc(self, double x, double y, double radius, double start_angle,
+            double end_angle, bool clockwise):
+        """ Adds an arc to the path.
+            x, y: Center (x, y) coordinate of the arc
+            radius: Radius of the arc
+            start_angle, end_angle: Starting and ending angles, in radians
+            clockwise: If True, the arc is drawn in a clockwise direction
+        """
+        cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
+        pth.arc(x, y, radius, start_angle, end_angle, clockwise)
 
     def ellipse(self, double cx, double cy, double rx, double ry):
         """ Adds an ellipse to the path.

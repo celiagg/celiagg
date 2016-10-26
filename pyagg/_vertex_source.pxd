@@ -47,11 +47,13 @@ cdef extern from "vertex_source.h":
 
         void move_to(double x, double y)
         void line_to(double x, double y)
-        void arc_to(double rx, double ry, double angle, bool large_arc_flag,
-                    bool sweep_flag, double x, double y)
+        void arc_to(double x1, double y1, double x2, double y2, double radius)
         void quadric_to(double x_ctrl, double y_ctrl, double x_to, double y_to)
         void cubic_to(double x_ctrl1, double y_ctrl1, double x_ctrl2,
                       double y_ctrl2,  double x_to, double y_to)
+
+        void arc(double x, double y, double radius,
+                 double start_angle, double end_angle, bool cw)
         void ellipse(double cx, double cy, double rx, double ry)
 
     cdef cppclass RepeatedSource:

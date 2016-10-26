@@ -24,6 +24,7 @@
 
 ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
+ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_bgra32] canvas_brga32_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t
@@ -205,13 +206,31 @@ cdef class CanvasRGBA128(CanvasBase):
     must be C-contiguous, and must be
     MxNx4 (4 channels: red, green, blue, and alpha).
     """
-    def __cinit__(self, float[:,:,::1] image):
+    def __cinit__(self, float[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA128
         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
                                                            image.shape[1],
                                                            image.shape[0],
-                                                           image.strides[0], 4)
+                                                           image.strides[0], 4,
+                                                           bottom_up)
+
+
+cdef class CanvasBGRA32(CanvasBase):
+    """CanvasBGRA32 provides AGG (Anti-Grain Geometry) drawing routines that
+    render to the numpy array passed as CanvasBGRA32's constructor argument.
+    Because this array is modified in place, it must be of type numpy.uint8,
+    must be C-contiguous, and must be
+    MxNx4 (4 channels: blue, green, red, alpha).
+    """
+    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
+        self.base_init(image, 4, True)
+        self.pixel_format = PixelFormat.BGRA32
+        self._this = <canvas_base_t*> new canvas_brga32_t(&image[0][0][0],
+                                                          image.shape[1],
+                                                          image.shape[0],
+                                                          image.strides[0], 4,
+                                                          bottom_up)
 
 
 cdef class CanvasRGBA32(CanvasBase):
@@ -221,13 +240,14 @@ cdef class CanvasRGBA32(CanvasBase):
     must be C-contiguous, and must be
     MxNx4 (4 channels: red, green, blue, and alpha).
     """
-    def __cinit__(self, uint8_t[:,:,::1] image):
+    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA32
         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
                                                           image.shape[1],
                                                           image.shape[0],
-                                                          image.strides[0], 4)
+                                                          image.strides[0], 4,
+                                                          bottom_up)
 
 
 cdef class CanvasRGB24(CanvasBase):
@@ -236,13 +256,14 @@ cdef class CanvasRGB24(CanvasBase):
     Because this array is modified in place, it must be of type numpy.uint8,
     must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
     """
-    def __cinit__(self, uint8_t[:,:,::1] image):
+    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, False)
         self.pixel_format = PixelFormat.RGB24
         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
                                                          image.shape[1],
                                                          image.shape[0],
-                                                         image.strides[0], 3)
+                                                         image.strides[0], 3,
+                                                         bottom_up)
 
 
 cdef class CanvasGA16(CanvasBase):
@@ -251,13 +272,14 @@ cdef class CanvasGA16(CanvasBase):
     Because this array is modified in place, it must be of type numpy.uint8,
     must be C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
     """
-    def __cinit__(self, uint8_t[:,:,::1] image):
+    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 2, True)
         self.pixel_format = PixelFormat.Gray8
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
                                                         image.shape[1],
                                                         image.shape[0],
-                                                        image.strides[0], 2)
+                                                        image.strides[0], 2,
+                                                        bottom_up)
 
 
 cdef class CanvasG8(CanvasBase):
@@ -266,10 +288,11 @@ cdef class CanvasG8(CanvasBase):
     array is modified in place, it must be of type numpy.uint8, must be
     C-contiguous, and must be MxN (1 channel: intensity).
     """
-    def __cinit__(self, uint8_t[:,::1] image):
+    def __cinit__(self, uint8_t[:,::1] image, bottom_up=False):
         self.base_init(image, 2, False)
         self.pixel_format = PixelFormat.Gray8
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
-                                                        image.strides[0], 1)
+                                                        image.strides[0], 1,
+                                                        bottom_up)

@@ -26,11 +26,12 @@
 template<typename pixfmt_t>
 ndarray_canvas<pixfmt_t>::ndarray_canvas(uint8_t* buf,
     const unsigned width, const unsigned height, const int stride,
-    const size_t channel_count)
+    const size_t channel_count, const bool bottom_up)
 : m_channel_count(channel_count)
-, m_renbuf(buf, width, height, stride)
+, m_renbuf(buf, width, height, bottom_up ? -stride : stride)
 , m_pixfmt(m_renbuf)
 , m_renderer(m_pixfmt)
+, m_bottom_up(bottom_up)
 {
     // Clipping at the rasterizer level (vectorial) is far faster than clipping at the renderer level (pixel-wise) when 
     // significant clipping is required.  Clipping in the renderer is done by throwing away pixel data falling outside 
@@ -241,6 +242,10 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     agg::trans_affine mtx = transform;
     double transform_array[6];
     double start_x, start_y;
+    const bool font_flip = font.flip();
+
+    // Flip the font?
+    font.flip(!m_bottom_up);
 
     // Pull the translation values out of the matrix as our starting offset and
     // then replace them with zeros for use in the font engine.
@@ -261,6 +266,9 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     {
         _draw_text_vector(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
     }
+
+    // Restore the font's flip state to whatever it was
+    font.flip(font_flip);
 }
 
 template<typename pixfmt_t>

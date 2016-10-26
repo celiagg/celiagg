@@ -33,4 +33,4 @@ from ._pyagg import (
     PixelFormat, Rect, ShapeAtPoints, SolidPaint, Transform
 )
 from ._pyagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,
-                     CanvasRGBA128)
+                     CanvasBGRA32, CanvasRGBA128)

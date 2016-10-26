@@ -59,9 +59,11 @@ public:
     FontCacheManager&   cache();
 
     FontCacheType       cacheType() const;
+    bool                flip() const;
+    void                flip(bool const flip);
+    double              height() const;
     bool                hinting() const;
     void                hinting(bool const hint);
-    double              height() const;
     const char*         name() const;
     double              stringWidth(char const* str);
     void                transform(const agg::trans_affine& transform);

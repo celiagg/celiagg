@@ -39,6 +39,8 @@ cimport _transform
 cdef extern from "ndarray_canvas.h" namespace "agg":
     cdef cppclass pixfmt_rgba128:
         pass
+    cdef cppclass pixfmt_bgra32:
+        pass
     cdef cppclass pixfmt_rgba32:
         pass
     cdef cppclass pixfmt_rgb24:
@@ -75,4 +77,5 @@ cdef extern from "ndarray_canvas.h":
                        const unsigned width,
                        const unsigned height,
                        const int stride,
-                       const size_t channel_count)
+                       const size_t channel_count,
+                       const bool bottom_up)

@@ -93,7 +93,7 @@ class ndarray_canvas : public ndarray_canvas_base
 public:
     ndarray_canvas(uint8_t* buf,
                    const unsigned width, const unsigned height, const int stride,
-                   const size_t channel_count);
+                   const size_t channel_count, const bool bottom_up = false);
     virtual ~ndarray_canvas(){}
 
     const size_t channel_count() const;
@@ -129,6 +129,7 @@ protected:
     renderer_t m_renderer;
     rasterizer_t m_rasterizer;
     agg::scanline_p8 m_scanline;
+    bool m_bottom_up;
 
 private:
 

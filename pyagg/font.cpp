@@ -57,7 +57,6 @@ Font::Font(char const* fontName, double const height, FontCacheType const ch)
                               WIN32_FONT_WEIGHT,
                               false);
 #endif
-    m_fontEngine.flip_y(true);
 }
 
 Font::FontCacheManager&
@@ -70,6 +69,18 @@ Font::FontCacheType
 Font::cacheType() const
 {
     return m_cacheType;
+}
+
+bool
+Font::flip() const
+{
+    return m_fontEngine.flip_y();
+}
+
+void
+Font::flip(bool const flip)
+{
+    m_fontEngine.flip_y(flip);
 }
 
 double

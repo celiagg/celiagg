@@ -108,10 +108,50 @@ void PathSource::line_to(double x, double y)
     m_path.line_to(x, y);
 }
 
-void PathSource::arc_to(double rx, double ry, double angle, bool large_arc_flag,
-                         bool sweep_flag, double x, double y)
+void PathSource::arc(double x, double y, double radius, double start_angle,
+                     double end_angle, bool cw)
 {
-    m_path.arc_to(rx, ry, angle, large_arc_flag, sweep_flag, x, y);
+    double sweep_angle = end_angle - start_angle;
+    if (cw)
+    {
+        sweep_angle = -(2 * M_PI - sweep_angle);
+    }
+
+    agg::bezier_arc _arc(x, y, radius, radius, start_angle, sweep_angle);
+    m_path.concat_path(_arc, 0);
+}
+
+void PathSource::arc_to(double x1, double y1, double x2, double y2, double radius)
+{
+    double tx1 = x1, ty1 = y1, tx2 = x2, ty2 = y2;
+    double startx, starty;
+    last_vertex(&startx, &starty);
+
+    double v1x = startx - x1, v1y = starty - y1;
+    double v2x = x2 - x1, v2y = y2 - y1;
+    _normalize(v1x, v1y);
+    _normalize(v2x, v2y);
+
+    const double angle = acos(v1x*v2x + v1y*v2y);
+    const double sin_half_angle = sin(angle / 2.0);
+
+    if (sin_half_angle != 0.0)
+    {
+        // calculate the distance from p1 to the center of the arc
+        double dist_to_center = radius / sin_half_angle;
+        // calculate the distance from p1 to each tangent point
+        double dist_to_tangent = sqrt(dist_to_center*dist_to_center - radius*radius);
+
+        // calculate the tangent points
+        tx1 = x1 + v1x*dist_to_tangent;
+        ty1 = y1 + v1y*dist_to_tangent;
+        tx2 = x1 + v2x*dist_to_tangent;
+        ty2 = y1 + v2y*dist_to_tangent;
+    }
+
+    m_path.line_to(tx1, ty1);
+    m_path.curve3(x1, y1, tx2, ty2);
+    m_path.line_to(x2, y2);
 }
 
 void PathSource::quadric_to(double x_ctrl, double y_ctrl, double x_to, double y_to)
@@ -127,9 +167,23 @@ void PathSource::cubic_to(double x_ctrl1, double y_ctrl1, double x_ctrl2,
 
 void PathSource::ellipse(double cx, double cy, double rx, double ry)
 {
-    agg::bezier_arc arc(cx, cy, rx, ry, 0, M_PI + M_PI);
-    m_path.concat_path(arc, 0);
+    agg::bezier_arc _arc(cx, cy, rx, ry, 0, M_PI + M_PI);
+    m_path.concat_path(_arc, 0);
     m_path.close_polygon();
+}
+
+void PathSource::_normalize(double& x, double& y)
+{
+    double length = sqrt(x*x + y*y);
+    if (length <= 1e-6)
+    {
+        x = y = 0.0;
+    }
+    else
+    {
+        x /= length;
+        y /= length;
+    }
 }
 
 // ----------------------------------------------------------------------------
