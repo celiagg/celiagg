@@ -255,16 +255,17 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     transform_array[4] = 0.0;
     transform_array[5] = 0.0;
     mtx.load_from(transform_array);
+    font.transform(mtx);
 
     GlyphIterator iterator(text, font, true, start_x, start_y);
     if (font.cacheType() == Font::RasterFontCache)
     {
-        font.transform(mtx);
         _draw_text_raster(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
     }
     else
     {
-        _draw_text_vector(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
+        agg::trans_affine identity;
+        _draw_text_vector(iterator, font, identity, linePaint, fillPaint, gs, renderer);
     }
 
     // Restore the font's flip state to whatever it was

@@ -87,16 +87,16 @@ cdef class Transform:
         self._this.invert()
 
     def scale(self, double sx, double sy):
-        self._this.scale(sx, sy)
+        self._this.premultiply(_transform.trans_affine_scaling(sx, sy))
 
     def rotate(self, double angle):
-        self._this.rotate(angle)
+        self._this.premultiply(_transform.trans_affine_rotation(angle))
 
     def skew(self, double sx, double sy):
-        self._this.multiply(_transform.trans_affine_skewing(sx, sy))
+        self._this.premultiply(_transform.trans_affine_skewing(sx, sy))
 
     def translate(self, double x, double y):
-        self._this.translate(x, y)
+        self._this.premultiply(_transform.trans_affine_translation(x, y))
 
     def premultiply(self, Transform other):
         self._this.premultiply(dereference(other._this))

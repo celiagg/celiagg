@@ -35,10 +35,6 @@ cdef extern from "agg_trans_affine.h" namespace "agg":
         trans_affine()
 
         const trans_affine& reset()
-        const trans_affine& translate(double x, double y)
-        const trans_affine& rotate(double a)
-        const trans_affine& scale(double s)
-        const trans_affine& scale(double x, double y)
         const trans_affine& multiply(const trans_affine& m)
         const trans_affine& premultiply(const trans_affine& m)
         const trans_affine& multiply_inv(const trans_affine& m)
@@ -46,6 +42,15 @@ cdef extern from "agg_trans_affine.h" namespace "agg":
         const trans_affine& invert()
         void transform(double* x, double* y) const
         void inverse_transform(double* x, double* y) const
+
+    cdef cppclass trans_affine_rotation(trans_affine):
+        trans_affine_rotation(double a)
+
+    cdef cppclass trans_affine_scaling(trans_affine):
+        trans_affine_scaling(double x, double y)
+
+    cdef cppclass trans_affine_translation(trans_affine):
+        trans_affine_translation(double x, double y)
 
     cdef cppclass trans_affine_skewing(trans_affine):
         trans_affine_skewing(double x, double y)
