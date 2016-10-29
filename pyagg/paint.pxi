@@ -152,7 +152,7 @@ cdef class PatternPaint(Paint):
           image: An Image object
     """
     cdef PatternStyle style
-    cdef object img_obj
+    cdef Image img_obj
 
     def __cinit__(self, PatternStyle style, Image image):
         self._this = new _paint.Paint(style, image._this)
@@ -165,7 +165,8 @@ cdef class PatternPaint(Paint):
         if self.img_obj.format == fmt:
             return self
 
-        fmt_image = convert_image(self.img_obj, fmt)
+        fmt_image = convert_image(self.img_obj, fmt,
+                                  bottom_up=self.img_obj.bottom_up)
         fmt_pattern = PatternPaint(self.style, fmt_image)
         fmt_pattern.transform = self.transform
         return fmt_pattern

@@ -57,66 +57,68 @@ cdef _get_format_last_dim(PixelFormat pixel_format):
     return format_dims[pixel_format]
 
 
-cdef img_ptr_t _get_2d_u8_img(uint8_t[:, ::1] arr):
+cdef img_ptr_t _get_2d_u8_img(uint8_t[:, ::1] arr, bool bottom_up):
     return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
-                            arr.strides[0])
+                            -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_2d_u16_img(uint16_t[:, ::1] arr):
+cdef img_ptr_t _get_2d_u16_img(uint16_t[:, ::1] arr, bool bottom_up):
     return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
-                            arr.strides[0])
+                            -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_2d_f32_img(float[:, ::1] arr):
+cdef img_ptr_t _get_2d_f32_img(float[:, ::1] arr, bool bottom_up):
     return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
-                            arr.strides[0])
+                            -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_u8_img(uint8_t[:, :, ::1] arr):
+cdef img_ptr_t _get_3d_u8_img(uint8_t[:, :, ::1] arr, bool bottom_up):
     return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
-                            arr.strides[0])
+                            -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_u16_img(uint16_t[:, :, ::1] arr):
+cdef img_ptr_t _get_3d_u16_img(uint16_t[:, :, ::1] arr, bool bottom_up):
     return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
-                            arr.strides[0])
+                            -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_f32_img(float[:, :, ::1] arr):
+cdef img_ptr_t _get_3d_f32_img(float[:, :, ::1] arr, bool bottom_up):
     return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
-                            arr.strides[0])
+                            -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_image(array, pixel_format):
+cdef img_ptr_t _get_image(array, pixel_format, bottom_up):
     dtype = _get_format_dtype(pixel_format)
 
     # Finally build the image
     if array.ndim == 2:
         if dtype is numpy.uint8:
-            return _get_2d_u8_img(array)
+            return _get_2d_u8_img(array, bottom_up)
         elif dtype is numpy.uint16:
-            return _get_2d_u16_img(array)
+            return _get_2d_u16_img(array, bottom_up)
         elif dtype is numpy.float32:
-            return _get_2d_f32_img(array)
+            return _get_2d_f32_img(array, bottom_up)
     else:
         if dtype is numpy.uint8:
-            return _get_3d_u8_img(array)
+            return _get_3d_u8_img(array, bottom_up)
         elif dtype is numpy.uint16:
-            return _get_3d_u16_img(array)
+            return _get_3d_u16_img(array, bottom_up)
         elif dtype is numpy.float32:
-            return _get_3d_f32_img(array)
+            return _get_3d_f32_img(array, bottom_up)
 
 
 cdef class Image:
-    """Image(array, pixel_format)
+    """Image(array, pixel_format, bottom_up=False)
         image: A 2D or 3D numpy array containing image data
         pixel_format: A PixelFormat describing the image's pixel format
+        bottom_up: If True, the image data starts at the bottom of the image
     """
     cdef img_ptr_t _this
     cdef PixelFormat pixel_format
     cdef object pixel_array
+    cdef bool bottom_up
 
-    def __cinit__(self, array, PixelFormat pixel_format):
+    def __cinit__(self, array, PixelFormat pixel_format, bool bottom_up=False):
         expected_dtype = _get_format_dtype(pixel_format)
         expected_dim = _get_format_last_dim(pixel_format)
 
@@ -140,9 +142,10 @@ cdef class Image:
             pix_fmt_name = PixelFormat(pixel_format).name
             raise ValueError(msg.format(pix_fmt_name, expected_dim))
 
-        self._this = _get_image(array, pixel_format)
+        self._this = _get_image(array, pixel_format, bottom_up)
         self.pixel_format = pixel_format
         self.pixel_array = array
+        self.bottom_up = bottom_up
 
     def __dealloc__(self):
         del self._this
@@ -151,7 +154,7 @@ cdef class Image:
         """ Returns a deep copy of the image.
         """
         array = self.pixel_array.copy()
-        return Image(array, self.pixel_format)
+        return Image(array, self.pixel_format, bottom_up=self.bottom_up)
 
     property format:
         def __get__(self):

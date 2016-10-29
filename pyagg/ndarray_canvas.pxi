@@ -35,6 +35,7 @@ cdef class CanvasBase:
     cdef canvas_base_t* _this
     cdef PixelFormat pixel_format
     cdef object py_array
+    cdef bool bottom_up
 
     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
         cdef uint64_t[:] image_shape = numpy.asarray(image.shape,
@@ -91,7 +92,8 @@ cdef class CanvasBase:
 
     property image:
         def __get__(self):
-            return Image(self.py_array.base, self.pixel_format)
+            return Image(self.py_array.base, self.pixel_format,
+                         bottom_up=self.bottom_up)
 
     def clear(self, double r, double g, double b, double a=1.0):
         """clear(self, r, g, b, a)
@@ -100,16 +102,17 @@ cdef class CanvasBase:
         self._this.clear(r, g, b, a)
 
     def draw_image(self, image, PixelFormat format, Transform transform,
-                   GraphicsState state):
+                   GraphicsState state, bottom_up=False):
         """draw_image(self, image, format, transform, state):
             image: A 2D or 3D numpy array containing image data
             format: A PixelFormat describing the array's data
             transform: A Transform object
             state: A GraphicsState object
+            bottom_up: If True, the image data is flipped in the y axis
         """
         self._check_stencil(state)
 
-        cdef Image input_img = Image(image, format)
+        cdef Image input_img = Image(image, format, bottom_up=bottom_up)
         cdef Image img = self._get_native_image(input_img, self.pixel_format)
 
         self._this.draw_image(dereference(img._this),
@@ -186,7 +189,7 @@ cdef class CanvasBase:
         if image.pixel_format == format:
             return image
 
-        return convert_image(image, format)
+        return convert_image(image, format, bottom_up=image.bottom_up)
 
     cdef Paint _get_native_paint(self, Paint paint, PixelFormat format):
         """_get_native_paint(self, Paint paint)
@@ -209,6 +212,7 @@ cdef class CanvasRGBA128(CanvasBase):
     def __cinit__(self, float[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA128
+        self.bottom_up = bottom_up
         self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
                                                            image.shape[1],
                                                            image.shape[0],
@@ -226,6 +230,7 @@ cdef class CanvasBGRA32(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.BGRA32
+        self.bottom_up = bottom_up
         self._this = <canvas_base_t*> new canvas_brga32_t(&image[0][0][0],
                                                           image.shape[1],
                                                           image.shape[0],
@@ -243,6 +248,7 @@ cdef class CanvasRGBA32(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA32
+        self.bottom_up = bottom_up
         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
                                                           image.shape[1],
                                                           image.shape[0],
@@ -259,6 +265,7 @@ cdef class CanvasRGB24(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, False)
         self.pixel_format = PixelFormat.RGB24
+        self.bottom_up = bottom_up
         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
                                                          image.shape[1],
                                                          image.shape[0],
@@ -275,6 +282,7 @@ cdef class CanvasGA16(CanvasBase):
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 2, True)
         self.pixel_format = PixelFormat.Gray8
+        self.bottom_up = bottom_up
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
                                                         image.shape[1],
                                                         image.shape[0],
@@ -291,6 +299,7 @@ cdef class CanvasG8(CanvasBase):
     def __cinit__(self, uint8_t[:,::1] image, bottom_up=False):
         self.base_init(image, 2, False)
         self.pixel_format = PixelFormat.Gray8
+        self.bottom_up = bottom_up
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
                                                         image.shape[1],
                                                         image.shape[0],

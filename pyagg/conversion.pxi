@@ -120,9 +120,9 @@ cdef rgb2gray(src, src_order, dtype=None):
     return dst
 
 
-def convert_image(Image src, PixelFormat to_format):
+def convert_image(Image src, PixelFormat to_format, bottom_up=False):
     """ Create a new image from input ``src`` with desired pixel format
-    ``to_format``.
+    ``to_format`` and orientation ``bottom_up``.
     """
     from_format = src.pixel_format
     dst_dtype = _get_format_dtype(to_format)
@@ -148,4 +148,4 @@ def convert_image(Image src, PixelFormat to_format):
             dst = rgb2rgb(src.pixels, src_order, dst_order, dtype=dst_dtype,
                           alpha=dst_alpha)
 
-    return Image(dst, to_format)
+    return Image(dst, to_format, bottom_up=bottom_up)
