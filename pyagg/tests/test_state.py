@@ -2,7 +2,7 @@ from nose.tools import assert_raises
 import numpy as np
 
 from pyagg import (GraphicsState, BlendMode, DrawingMode, Image, LineCap,
-                   LineJoin, PixelFormat, Rect)
+                   LineJoin, PixelFormat, Rect, TextDrawingMode)
 
 
 def array_bases_equal(arr0, arr1):
@@ -22,6 +22,11 @@ def test_state_properties():
     assert gs.drawing_mode == DrawingMode.DrawEofFill
     gs.drawing_mode = DrawingMode.DrawFillStroke
     assert gs.drawing_mode == DrawingMode.DrawFillStroke
+
+    gs.text_drawing_mode = TextDrawingMode.TextDrawStroke
+    assert gs.text_drawing_mode == TextDrawingMode.TextDrawStroke
+    gs.text_drawing_mode = TextDrawingMode.TextDrawFillStroke
+    assert gs.text_drawing_mode == TextDrawingMode.TextDrawFillStroke
 
     gs.blend_mode = BlendMode.BlendXor
     assert gs.blend_mode == BlendMode.BlendXor
@@ -82,6 +87,7 @@ def test_kwargs_initialization():
     gs = GraphicsState(
         anti_aliased=True,
         drawing_mode=DrawingMode.DrawEofFill,
+        text_drawing_mode=TextDrawingMode.TextDrawFillStroke,
         blend_mode=BlendMode.BlendXor,
         image_blend_mode=BlendMode.BlendXor,
         line_cap=LineCap.CapSquare,
@@ -97,6 +103,7 @@ def test_kwargs_initialization():
 
     assert gs.anti_aliased is True
     assert gs.drawing_mode == DrawingMode.DrawEofFill
+    assert gs.text_drawing_mode == TextDrawingMode.TextDrawFillStroke
     assert gs.blend_mode == BlendMode.BlendXor
     assert gs.image_blend_mode == BlendMode.BlendXor
     assert gs.line_cap == LineCap.CapSquare
@@ -117,6 +124,7 @@ def test_copy():
     gs = GraphicsState(
         anti_aliased=True,
         drawing_mode=DrawingMode.DrawEofFill,
+        text_drawing_mode=TextDrawingMode.TextDrawFillStroke,
         blend_mode=BlendMode.BlendXor,
         image_blend_mode=BlendMode.BlendXor,
         line_cap=LineCap.CapSquare,
@@ -133,6 +141,7 @@ def test_copy():
 
     assert cpy.anti_aliased is True
     assert cpy.drawing_mode == DrawingMode.DrawEofFill
+    assert cpy.text_drawing_mode == TextDrawingMode.TextDrawFillStroke
     assert cpy.blend_mode == BlendMode.BlendXor
     assert cpy.image_blend_mode == BlendMode.BlendXor
     assert cpy.line_cap == LineCap.CapSquare

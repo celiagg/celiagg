@@ -55,11 +55,25 @@ public:
     enum DrawingMode
     {
         // Bit 0: fill, Bit 1: stroke, Bit 2: EO flag
+        DrawInvisible = 0x0000,
         DrawFill = 0x0001,
         DrawStroke = 0x0002,
         DrawEofFill = 0x0004 | DrawFill,
         DrawFillStroke = DrawFill | DrawStroke,
         DrawEofFillStroke = DrawEofFill | DrawStroke
+    };
+
+    enum TextDrawingMode
+    {
+        // Bit 0: fill, Bit 1: stroke, Bit 2: clip
+        TextDrawInvisible = 0x0000,
+        TextDrawFill = 0x0001,
+        TextDrawStroke = 0x0002,
+        TextDrawClip = 0x0004,
+        TextDrawFillStroke = TextDrawFill | TextDrawStroke,
+        TextDrawFillClip = TextDrawFill | TextDrawClip,
+        TextDrawStrokeClip = TextDrawStroke | TextDrawClip,
+        TextDrawFillStrokeClip = TextDrawFill | TextDrawStroke | TextDrawClip,
     };
 
     enum BlendMode
@@ -95,6 +109,7 @@ public:
         m_clipBox(0, 0, 0, 0),
         m_stencil(NULL),
         m_drawingMode(DrawFillStroke),
+        m_textDrawingMode(TextDrawFill),
         m_blendMode(BlendAlpha),
         m_imageBlendMode(BlendDst),
         m_masterAlpha(1.0),
@@ -115,6 +130,9 @@ public:
 
     void drawingMode(DrawingMode m) { m_drawingMode = m; }
     DrawingMode drawingMode() const { return m_drawingMode; }
+
+    void textDrawingMode(TextDrawingMode tm) { m_textDrawingMode = tm; }
+    TextDrawingMode textDrawingMode() const { return m_textDrawingMode; }
 
     void blendMode(BlendMode m) { m_blendMode = m; }
     BlendMode blendMode() const { return m_blendMode; }
@@ -160,6 +178,7 @@ private:
     DashPattern     m_dashes;
     const Image*    m_stencil;
     DrawingMode     m_drawingMode;
+    TextDrawingMode m_textDrawingMode;
     BlendMode       m_blendMode;
     BlendMode       m_imageBlendMode;
     double          m_masterAlpha;

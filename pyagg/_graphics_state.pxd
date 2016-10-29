@@ -58,6 +58,9 @@ cdef extern from "graphics_state.h":
         void drawingMode(_enums.DrawingMode m)
         _enums.DrawingMode drawingMode() const
 
+        void textDrawingMode(_enums.TextDrawingMode m)
+        _enums.TextDrawingMode textDrawingMode() const
+
         void blendMode(_enums.BlendMode m)
         _enums.BlendMode blendMode() const
 

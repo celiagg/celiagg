@@ -71,6 +71,16 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         DrawFillStroke
         DrawEofFillStroke
 
+    cdef enum TextDrawingMode:
+        TextDrawInvisible
+        TextDrawFill
+        TextDrawStroke
+        TextDrawClip
+        TextDrawFillStroke
+        TextDrawFillClip
+        TextDrawStrokeClip
+        TextDrawFillStrokeClip
+
     cdef enum BlendMode:
         BlendAlpha
         BlendClear

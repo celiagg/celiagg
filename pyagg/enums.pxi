@@ -62,6 +62,16 @@ cpdef enum DrawingMode:
     DrawFillStroke = _enums.DrawFillStroke
     DrawEofFillStroke = _enums.DrawEofFillStroke
 
+cpdef enum TextDrawingMode:
+    TextDrawInvisible = _enums.TextDrawInvisible
+    TextDrawFill = _enums.TextDrawFill
+    TextDrawStroke = _enums.TextDrawStroke
+    TextDrawClip = _enums.TextDrawClip
+    TextDrawFillStroke = _enums.TextDrawFillStroke
+    TextDrawFillClip = _enums.TextDrawFillClip
+    TextDrawStrokeClip = _enums.TextDrawStrokeClip
+    TextDrawFillStrokeClip = _enums.TextDrawFillStrokeClip
+
 cpdef enum BlendMode:
     BlendAlpha = _enums.BlendAlpha
     BlendClear = _enums.BlendClear

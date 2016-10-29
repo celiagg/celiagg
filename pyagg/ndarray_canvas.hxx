@@ -265,7 +265,10 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     else
     {
         agg::trans_affine identity;
-        _draw_text_vector(iterator, font, identity, linePaint, fillPaint, gs, renderer);
+        // XXX: TextDrawingMode only applies to Vector fonts!
+        GraphicsState copy_state(gs);
+        copy_state.drawingMode(_convertTextMode(gs.textDrawingMode()));
+        _draw_text_vector(iterator, font, identity, linePaint, fillPaint, copy_state, renderer);
     }
 
     // Restore the font's flip state to whatever it was
@@ -313,6 +316,29 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
             _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
         }
         action = iterator.step();
+    }
+}
+
+template<typename pixfmt_t>
+GraphicsState::DrawingMode ndarray_canvas<pixfmt_t>::_convertTextMode(const GraphicsState::TextDrawingMode tm)
+{
+    // XXX: None of the clip drawing modes are implemented as clipping
+    switch (tm)
+    {
+        case GraphicsState::TextDrawInvisible:
+            return GraphicsState::DrawInvisible;
+        case GraphicsState::TextDrawClip:
+        case GraphicsState::TextDrawFill:
+        case GraphicsState::TextDrawFillClip:
+            return GraphicsState::DrawFill;
+        case GraphicsState::TextDrawStroke:
+        case GraphicsState::TextDrawStrokeClip:
+            return GraphicsState::DrawStroke;
+        case GraphicsState::TextDrawFillStroke:
+        case GraphicsState::TextDrawFillStrokeClip:
+            return GraphicsState::DrawFillStroke;
+        default:
+            return GraphicsState::DrawInvisible;
     }
 }
 

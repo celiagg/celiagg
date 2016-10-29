@@ -30,7 +30,7 @@ from ._pyagg import (
     AggError, BlendMode, BSpline, DrawingMode, Font, FontCacheType,
     GradientSpread, GradientUnits, GraphicsState, Image, LinearGradientPaint,
     LineCap, LineJoin, RadialGradientPaint, Path, PatternPaint, PatternStyle,
-    PixelFormat, Rect, ShapeAtPoints, SolidPaint, Transform
+    PixelFormat, Rect, ShapeAtPoints, SolidPaint, TextDrawingMode, Transform
 )
 from ._pyagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,
                      CanvasBGRA32, CanvasRGBA128)

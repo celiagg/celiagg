@@ -177,6 +177,7 @@ private:
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
 
+    GraphicsState::DrawingMode _convertTextMode(const GraphicsState::TextDrawingMode tm);
     masked_renderer_t _get_masked_renderer(const GraphicsState& gs);
     inline void _set_aa(const bool& aa);
 

@@ -139,6 +139,13 @@ cdef class GraphicsState:
         def __set__(self, DrawingMode m):
             self._this.drawingMode(m)
 
+    property text_drawing_mode:
+        def __get__(self):
+            return TextDrawingMode(self._this.textDrawingMode())
+
+        def __set__(self, TextDrawingMode m):
+            self._this.textDrawingMode(m)
+
     property blend_mode:
         def __get__(self):
             return BlendMode(self._this.blendMode())
