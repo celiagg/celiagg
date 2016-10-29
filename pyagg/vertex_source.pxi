@@ -149,6 +149,13 @@ cdef class Path(VertexSource):
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
         pth.reset()
 
+    def add_path(self, Path other):
+        """ Add another path to this path.
+        """
+        cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
+        cdef _vertex_source.PathSource* othr = <_vertex_source.PathSource*>self._this
+        pth.concat_path[_vertex_source.PathSource](dereference(othr), 0)
+
     def move_to(self, double x, double y):
         """ Moves the current position of the path.
             x, y: (x, y) coordinate of the new current position
