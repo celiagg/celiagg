@@ -45,12 +45,16 @@ cdef class Font:
         del self._this
 
     def copy(self):
-        return Font(self._this.name(), self._this.height(),
+        return Font(self._this.filepath(), self._this.height(),
                     self._this.cacheType())
 
     property cache_type:
         def __get__(self):
             return FontCacheType(self._this.cacheType())
+
+    property filepath:
+        def __get__(self):
+            return self._this.filepath()
 
     property height:
         def __get__(self):

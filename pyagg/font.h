@@ -64,7 +64,7 @@ public:
     double              height() const;
     bool                hinting() const;
     void                hinting(bool const hint);
-    const char*         name() const;
+    const char*         filepath() const;
     double              stringWidth(char const* str);
     void                transform(const agg::trans_affine& transform);
 

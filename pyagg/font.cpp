@@ -102,7 +102,7 @@ Font::hinting(bool const hint)
 }
 
 const char*
-Font::name() const
+Font::filepath() const
 {
 #ifdef _USE_FREETYPE
     return m_fontEngine.name();

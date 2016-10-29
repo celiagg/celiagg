@@ -34,5 +34,5 @@ cdef extern from "font.h":
         bool hinting() const
         void hinting(bool hint)
         double height() const
-        const char* name() const
+        const char* filepath() const
         double stringWidth(char* str)
