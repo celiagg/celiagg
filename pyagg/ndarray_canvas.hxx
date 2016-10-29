@@ -225,8 +225,11 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
     base_renderer_t& renderer)
 {
     stroke.width(gs.lineWidth());
+    stroke.miter_limit(gs.miterLimit());
+    stroke.inner_miter_limit(gs.innerMiterLimit());
     stroke.line_cap(agg::line_cap_e(gs.lineCap()));
     stroke.line_join(agg::line_join_e(gs.lineJoin()));
+    stroke.inner_join(agg::inner_join_e(gs.innerJoin()));
 
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);

@@ -45,6 +45,12 @@ cpdef enum PixelFormat:
     ARGB128 = _enums.k_PixelFormatARGB128
     ABGR128 = _enums.k_PixelFormatABGR128
 
+cpdef enum InnerJoin:
+    InnerBevel = _enums.InnerBevel
+    InnerMiter = _enums.InnerMiter
+    InnerJag = _enums.InnerJag
+    InnerRound = _enums.InnerRound
+
 cpdef enum LineJoin:
     JoinMiter = _enums.JoinMiter
     JoinRound = _enums.JoinRound

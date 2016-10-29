@@ -82,6 +82,15 @@ cdef extern from "graphics_state.h":
         void lineJoin(_enums.LineJoin join)
         _enums.LineJoin lineJoin() const
 
+        void innerJoin(_enums.InnerJoin join)
+        _enums.InnerJoin innerJoin() const
+
+        void miterLimit(double limit)
+        double miterLimit() const
+
+        void innerMiterLimit(double limit)
+        double innerMiterLimit() const
+
         void lineDashPattern(const double *dashes, size_t count)
         const vector[double]& lineDashPattern() const
 

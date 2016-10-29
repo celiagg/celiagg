@@ -54,6 +54,12 @@ cdef extern from "image.h":
 
 
 cdef extern from "graphics_state.h" namespace "GraphicsState":
+    cdef enum InnerJoin:
+        InnerBevel
+        InnerMiter
+        InnerJag
+        InnerRound
+
     cdef enum LineJoin:
         JoinMiter
         JoinRound

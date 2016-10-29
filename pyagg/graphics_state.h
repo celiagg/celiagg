@@ -38,6 +38,14 @@ public:
     typedef agg::rect_d Rect;
     typedef std::vector<double> DashPattern;
 
+    enum InnerJoin
+    {
+        InnerBevel = agg::inner_bevel,
+        InnerMiter = agg::inner_miter,
+        InnerJag = agg::inner_jag,
+        InnerRound = agg::inner_round
+    };
+
     enum LineJoin
     {
         JoinMiter = agg::miter_join,
@@ -115,9 +123,12 @@ public:
         m_masterAlpha(1.0),
         m_antiAliasGamma(1.0),
         m_lineDashPhase(0.0),
+        m_miterLimit(1.0),
+        m_innerMiterLimit(1.0),
+        m_lineWidth(1.0),
         m_lineCap(CapSquare),
         m_lineJoin(JoinMiter),
-        m_lineWidth(1),
+        m_innerJoin(InnerMiter),
         m_antiAliased(true)
         {}
 
@@ -155,6 +166,15 @@ public:
     void lineJoin(LineJoin join) { m_lineJoin = join; }
     LineJoin lineJoin() const { return m_lineJoin; }
 
+    void innerJoin(InnerJoin join) { m_innerJoin = join; }
+    InnerJoin innerJoin() const { return m_innerJoin; }
+
+    void miterLimit(double limit) { m_miterLimit = limit; }
+    double miterLimit() const { return m_miterLimit; }
+
+    void innerMiterLimit(double limit) { m_innerMiterLimit = limit; }
+    double innerMiterLimit() const { return m_innerMiterLimit; }
+
     void lineDashPattern(const double *dashes, size_t count)
     {
         m_dashes.clear();
@@ -184,9 +204,12 @@ private:
     double          m_masterAlpha;
     double          m_antiAliasGamma;
     double          m_lineDashPhase;
+    double          m_miterLimit;
+    double          m_innerMiterLimit;
+    double          m_lineWidth;
     LineCap         m_lineCap;
     LineJoin        m_lineJoin;
-    double          m_lineWidth;
+    InnerJoin       m_innerJoin;
     bool            m_antiAliased;
 };
 

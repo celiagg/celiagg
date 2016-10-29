@@ -195,6 +195,27 @@ cdef class GraphicsState:
         def __set__(self, LineJoin join):
             self._this.lineJoin(join)
 
+    property inner_join:
+        def __get__(self):
+            return InnerJoin(self._this.innerJoin())
+
+        def __set__(self, InnerJoin join):
+            self._this.innerJoin(join)
+
+    property miter_limit:
+        def __get__(self):
+            return self._this.miterLimit()
+
+        def __set__(self, double limit):
+            self._this.miterLimit(limit)
+
+    property inner_miter_limit:
+        def __get__(self):
+            return self._this.innerMiterLimit()
+
+        def __set__(self, double limit):
+            self._this.innerMiterLimit(limit)
+
     property line_dash_pattern:
         def __get__(self):
             cdef vector[double] dashes = self._this.lineDashPattern()

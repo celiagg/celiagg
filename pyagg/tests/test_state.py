@@ -1,8 +1,8 @@
 from nose.tools import assert_raises
 import numpy as np
 
-from pyagg import (GraphicsState, BlendMode, DrawingMode, Image, LineCap,
-                   LineJoin, PixelFormat, Rect, TextDrawingMode)
+from pyagg import (GraphicsState, BlendMode, DrawingMode, Image, InnerJoin,
+                   LineCap, LineJoin, PixelFormat, Rect, TextDrawingMode)
 
 
 def array_bases_equal(arr0, arr1):
@@ -48,6 +48,21 @@ def test_state_properties():
     gs.line_join = LineJoin.JoinBevel
     assert gs.line_join == LineJoin.JoinBevel
 
+    gs.inner_join = InnerJoin.InnerRound
+    assert gs.inner_join == InnerJoin.InnerRound
+    gs.inner_join = InnerJoin.InnerBevel
+    assert gs.inner_join == InnerJoin.InnerBevel
+
+    gs.miter_limit = 3.14
+    assert gs.miter_limit == 3.14
+    gs.miter_limit = 0.5
+    assert gs.miter_limit == 0.5
+
+    gs.inner_miter_limit = 3.14
+    assert gs.inner_miter_limit == 3.14
+    gs.inner_miter_limit = 0.5
+    assert gs.inner_miter_limit == 0.5
+
     gs.master_alpha = 0.42
     assert gs.master_alpha == 0.42
     gs.anti_alias_gamma = 1.337
@@ -92,6 +107,9 @@ def test_kwargs_initialization():
         image_blend_mode=BlendMode.BlendXor,
         line_cap=LineCap.CapSquare,
         line_join=LineJoin.JoinRound,
+        inner_join=InnerJoin.InnerRound,
+        miter_limit=3.14,
+        inner_miter_limit=3.14,
         master_alpha=0.42,
         anti_alias_gamma=1.337,
         line_width=10.0,
@@ -108,6 +126,9 @@ def test_kwargs_initialization():
     assert gs.image_blend_mode == BlendMode.BlendXor
     assert gs.line_cap == LineCap.CapSquare
     assert gs.line_join == LineJoin.JoinRound
+    assert gs.inner_join == InnerJoin.InnerRound
+    assert gs.miter_limit == 3.14
+    assert gs.inner_miter_limit == 3.14
     assert gs.master_alpha == 0.42
     assert gs.anti_alias_gamma == 1.337
     assert gs.line_width == 10.0
@@ -129,6 +150,9 @@ def test_copy():
         image_blend_mode=BlendMode.BlendXor,
         line_cap=LineCap.CapSquare,
         line_join=LineJoin.JoinRound,
+        inner_join=InnerJoin.InnerRound,
+        miter_limit=3.14,
+        inner_miter_limit=3.14,
         master_alpha=0.42,
         anti_alias_gamma=1.337,
         line_width=10.0,
@@ -146,6 +170,9 @@ def test_copy():
     assert cpy.image_blend_mode == BlendMode.BlendXor
     assert cpy.line_cap == LineCap.CapSquare
     assert cpy.line_join == LineJoin.JoinRound
+    assert cpy.inner_join == InnerJoin.InnerRound
+    assert cpy.miter_limit == 3.14
+    assert cpy.inner_miter_limit == 3.14
     assert cpy.master_alpha == 0.42
     assert cpy.anti_alias_gamma == 1.337
     assert cpy.line_width == 10.0
