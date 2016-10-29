@@ -4,7 +4,7 @@ from nose.tools import assert_raises
 import numpy as np
 from numpy.testing import assert_equal
 
-from pyagg import (AggError, CanvasG8, CanvasRGB24, GraphicsState, Path,
+from pyagg import (AggError, CanvasG8, CanvasRGB24, GraphicsState, Path, Rect,
                    SolidPaint, Transform)
 
 
@@ -56,26 +56,27 @@ def test_clear():
 
 
 def test_line():
-    expected = np.zeros((100, 100, 3), dtype=np.uint8)
-    buffer = np.zeros((100, 100, 3), dtype=np.uint8)
-    canvas = CanvasRGB24(buffer)
+    expected = np.zeros((10, 10), dtype=np.uint8)
+    buffer = np.zeros((10, 10), dtype=np.uint8)
+    canvas = CanvasG8(buffer)
     path = Path()
     transform = Transform()
     line_paint = SolidPaint(1.0, 1.0, 1.0)
-    gs = GraphicsState(anti_aliased=False, line_width=1.0)
+    bounds = Rect(0, 0, 10, 10)
+    gs = GraphicsState(anti_aliased=False, line_width=1.0, clip_box=bounds)
 
     expected[1, ...] = 255
     path.move_to(0, 1.5)
-    path.line_to(100, 1.5)
+    path.line_to(10, 1.5)
     canvas.draw_shape(path, transform, line_paint, line_paint, gs)
     assert_equal(expected, canvas.array)
 
     buffer[:] = 0
     expected[:] = 0
 
-    expected[:, 1, :] = 255
+    expected[:, 1] = 255
     path.reset()
     path.move_to(1.5, 0)
-    path.line_to(1.5, 100)
+    path.line_to(1.5, 10)
     canvas.draw_shape(path, transform, line_paint, line_paint, gs)
     assert_equal(expected, canvas.array)

@@ -33,10 +33,6 @@ ndarray_canvas<pixfmt_t>::ndarray_canvas(uint8_t* buf,
 , m_renderer(m_pixfmt)
 , m_bottom_up(bottom_up)
 {
-    // Clipping at the rasterizer level (vectorial) is far faster than clipping at the renderer level (pixel-wise) when 
-    // significant clipping is required.  Clipping in the renderer is done by throwing away pixel data falling outside 
-    // any clipping box, whereas the rasterizer clipping avoids generating pixels outside of its current clip box.
-    m_rasterizer.clip_box(0, 0, width, height);
 }
 
 template<typename pixfmt_t>
@@ -73,6 +69,9 @@ template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
+    const GraphicsState::Rect clip = gs.clipBox();
+    m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+
     if (gs.stencil() == NULL)
     {
         _draw_image_internal(img, transform, gs, m_renderer);
@@ -89,6 +88,9 @@ void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs)
 {
+    const GraphicsState::Rect clip = gs.clipBox();
+    m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+
     if (gs.stencil() == NULL)
     {
         _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, m_renderer);
@@ -105,6 +107,9 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform,
     Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
+    const GraphicsState::Rect clip = gs.clipBox();
+    m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+
     if (gs.stencil() == NULL)
     {
         _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, m_renderer);
