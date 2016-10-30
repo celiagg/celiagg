@@ -114,68 +114,64 @@ public:
     };
 
     GraphicsState() :
-        m_clipBox(0, 0, 0, 0),
+        m_clip_box(0, 0, 0, 0),
         m_stencil(NULL),
-        m_drawingMode(DrawFillStroke),
-        m_textDrawingMode(TextDrawFill),
-        m_blendMode(BlendAlpha),
-        m_imageBlendMode(BlendDst),
-        m_masterAlpha(1.0),
-        m_antiAliasGamma(1.0),
-        m_lineDashPhase(0.0),
-        m_miterLimit(1.0),
-        m_innerMiterLimit(1.0),
-        m_lineWidth(1.0),
-        m_lineCap(CapSquare),
-        m_lineJoin(JoinMiter),
-        m_innerJoin(InnerMiter),
-        m_antiAliased(true)
+        m_drawing_mode(DrawFillStroke),
+        m_text_drawing_mode(TextDrawFill),
+        m_blend_mode(BlendAlpha),
+        m_image_blend_mode(BlendDst),
+        m_master_alpha(1.0),
+        m_line_dash_phase(0.0),
+        m_miter_limit(1.0),
+        m_inner_miter_limit(1.0),
+        m_line_width(1.0),
+        m_line_cap(CapSquare),
+        m_line_join(JoinMiter),
+        m_inner_join(InnerMiter),
+        m_anti_aliased(true)
         {}
 
-    void antiAliased(bool aa) { m_antiAliased = aa; }
-    bool antiAliased() const { return m_antiAliased; }
+    void anti_aliased(bool aa) { m_anti_aliased = aa; }
+    bool anti_aliased() const { return m_anti_aliased; }
 
-    void clipBox(Rect r) { m_clipBox = r; }
-    void clipBox(double x1, double y1, double x2, double y2) { clipBox(Rect(x1, y1, x2, y2)); }
-    Rect clipBox() const { return m_clipBox; }
+    void clip_box(Rect r) { m_clip_box = r; }
+    void clip_box(double x1, double y1, double x2, double y2) { clip_box(Rect(x1, y1, x2, y2)); }
+    Rect clip_box() const { return m_clip_box; }
 
-    void drawingMode(DrawingMode m) { m_drawingMode = m; }
-    DrawingMode drawingMode() const { return m_drawingMode; }
+    void drawing_mode(DrawingMode m) { m_drawing_mode = m; }
+    DrawingMode drawing_mode() const { return m_drawing_mode; }
 
-    void textDrawingMode(TextDrawingMode tm) { m_textDrawingMode = tm; }
-    TextDrawingMode textDrawingMode() const { return m_textDrawingMode; }
+    void text_drawing_mode(TextDrawingMode tm) { m_text_drawing_mode = tm; }
+    TextDrawingMode text_drawing_mode() const { return m_text_drawing_mode; }
 
-    void blendMode(BlendMode m) { m_blendMode = m; }
-    BlendMode blendMode() const { return m_blendMode; }
+    void blend_mode(BlendMode m) { m_blend_mode = m; }
+    BlendMode blend_mode() const { return m_blend_mode; }
 
-    void imageBlendMode(BlendMode m) { m_imageBlendMode = m; }
-    BlendMode imageBlendMode() const { return m_imageBlendMode; }
+    void image_blend_mode(BlendMode m) { m_image_blend_mode = m; }
+    BlendMode image_blend_mode() const { return m_image_blend_mode; }
 
-    void masterAlpha(double a) { m_masterAlpha = a; }
-    double masterAlpha() const { return m_masterAlpha; }
+    void master_alpha(double a) { m_master_alpha = a; }
+    double master_alpha() const { return m_master_alpha; }
 
-    void antiAliasGamma(double g) { m_antiAliasGamma = g; }
-    double antiAliasGamma() const { return m_antiAliasGamma; }
+    void line_width(double w) { m_line_width = w; }
+    double line_width() const { return m_line_width; }
 
-    void lineWidth(double w) { m_lineWidth = w; }
-    double lineWidth() const { return m_lineWidth; }
+    void line_cap(LineCap cap) { m_line_cap = cap; }
+    LineCap line_cap() const { return m_line_cap; }
 
-    void lineCap(LineCap cap) { m_lineCap = cap; }
-    LineCap lineCap() const { return m_lineCap; }
+    void line_join(LineJoin join) { m_line_join = join; }
+    LineJoin line_join() const { return m_line_join; }
 
-    void lineJoin(LineJoin join) { m_lineJoin = join; }
-    LineJoin lineJoin() const { return m_lineJoin; }
+    void inner_join(InnerJoin join) { m_inner_join = join; }
+    InnerJoin inner_join() const { return m_inner_join; }
 
-    void innerJoin(InnerJoin join) { m_innerJoin = join; }
-    InnerJoin innerJoin() const { return m_innerJoin; }
+    void miter_limit(double limit) { m_miter_limit = limit; }
+    double miter_limit() const { return m_miter_limit; }
 
-    void miterLimit(double limit) { m_miterLimit = limit; }
-    double miterLimit() const { return m_miterLimit; }
+    void inner_miter_limit(double limit) { m_inner_miter_limit = limit; }
+    double inner_miter_limit() const { return m_inner_miter_limit; }
 
-    void innerMiterLimit(double limit) { m_innerMiterLimit = limit; }
-    double innerMiterLimit() const { return m_innerMiterLimit; }
-
-    void lineDashPattern(const double *dashes, size_t count)
+    void line_dash_pattern(const double *dashes, size_t count)
     {
         m_dashes.clear();
         m_dashes.reserve(count * 2);
@@ -185,32 +181,31 @@ public:
             m_dashes.push_back(dashes[i*2 + 1]);
         }
     }
-    const DashPattern& lineDashPattern() const { return m_dashes; }
+    const DashPattern& line_dash_pattern() const { return m_dashes; }
 
-    void lineDashPhase(const double phase) { m_lineDashPhase = phase; }
-    double lineDashPhase() const { return m_lineDashPhase; }
+    void line_dash_phase(const double phase) { m_line_dash_phase = phase; }
+    double line_dash_phase() const { return m_line_dash_phase; }
 
     void stencil(const Image* image) { m_stencil = image; }
     const Image* stencil() const { return m_stencil; }
 
 private:
-    Rect            m_clipBox;
+    Rect            m_clip_box;
     DashPattern     m_dashes;
     const Image*    m_stencil;
-    DrawingMode     m_drawingMode;
-    TextDrawingMode m_textDrawingMode;
-    BlendMode       m_blendMode;
-    BlendMode       m_imageBlendMode;
-    double          m_masterAlpha;
-    double          m_antiAliasGamma;
-    double          m_lineDashPhase;
-    double          m_miterLimit;
-    double          m_innerMiterLimit;
-    double          m_lineWidth;
-    LineCap         m_lineCap;
-    LineJoin        m_lineJoin;
-    InnerJoin       m_innerJoin;
-    bool            m_antiAliased;
+    DrawingMode     m_drawing_mode;
+    TextDrawingMode m_text_drawing_mode;
+    BlendMode       m_blend_mode;
+    BlendMode       m_image_blend_mode;
+    double          m_master_alpha;
+    double          m_line_dash_phase;
+    double          m_miter_limit;
+    double          m_inner_miter_limit;
+    double          m_line_width;
+    LineCap         m_line_cap;
+    LineJoin        m_line_join;
+    InnerJoin       m_inner_join;
+    bool            m_anti_aliased;
 };
 
 #endif // PYAGG_GRAPHICS_STATE_H

@@ -55,27 +55,28 @@ public:
 
                         Font(char const* fileName, double const height,
                              FontCacheType const ch = RasterFontCache);
+                        ~Font();
 
     FontCacheManager&   cache();
 
-    FontCacheType       cacheType() const;
+    FontCacheType       cache_type() const;
     bool                flip() const;
     void                flip(bool const flip);
     double              height() const;
     bool                hinting() const;
     void                hinting(bool const hint);
     const char*         filepath() const;
-    double              stringWidth(char const* str);
+    double              string_width(char const* str);
     void                transform(const agg::trans_affine& transform);
 
 private:
 
-    FontCacheType       m_cacheType;
+    FontCacheType       m_cache_type;
 #ifndef _USE_FREETYPE
-    HDC                 m_fontDC;
+    HDC                 m_font_dc;
 #endif
-    FontEngine          m_fontEngine;
-    FontCacheManager    m_fontCacheManager;
+    FontEngine          m_font_engine;
+    FontCacheManager    m_font_cache_manager;
 };
 
 #endif // PYAGG_FONT_H

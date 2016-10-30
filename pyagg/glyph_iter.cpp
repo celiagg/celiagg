@@ -25,10 +25,10 @@
 #include "glyph_iter.h"
 
 GlyphIterator::GlyphIterator(char const* utf8Text, Font& font, const bool drawing,
-                             const double x_Offset, const double y_Offset)
+                             const double x_off, const double y_off)
 : m_font(font)
-, m_offset_x(x_Offset)
-, m_offset_y(y_Offset)
+, m_offset_x(x_off)
+, m_offset_y(y_off)
 , m_text(utf8Text)
 , m_index(0)
 , m_is_drawing(drawing)
@@ -37,7 +37,7 @@ GlyphIterator::GlyphIterator(char const* utf8Text, Font& font, const bool drawin
 GlyphIterator::StepAction
 GlyphIterator::step()
 {
-    const unsigned codepoint = _getNextCodepoint();
+    const unsigned codepoint = _get_next_codepoint();
     if (codepoint != 0)
     {
         const agg::glyph_cache* glyph = m_font.cache().glyph(codepoint);
@@ -64,7 +64,7 @@ GlyphIterator::step()
 }
 
 unsigned
-GlyphIterator::_getNextCodepoint()
+GlyphIterator::_get_next_codepoint()
 {
     const char start = m_text[m_index];
 

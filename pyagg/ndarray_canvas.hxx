@@ -69,8 +69,9 @@ template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    const GraphicsState::Rect clip = gs.clipBox();
+    const GraphicsState::Rect clip = gs.clip_box();
     m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+    // XXX: Apply master alpha here somehow!
 
     if (gs.stencil() == NULL)
     {
@@ -88,8 +89,10 @@ void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs)
 {
-    const GraphicsState::Rect clip = gs.clipBox();
+    const GraphicsState::Rect clip = gs.clip_box();
     m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+    linePaint.master_alpha(gs.master_alpha());
+    fillPaint.master_alpha(gs.master_alpha());
 
     if (gs.stencil() == NULL)
     {
@@ -107,8 +110,10 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform,
     Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
-    const GraphicsState::Rect clip = gs.clipBox();
+    const GraphicsState::Rect clip = gs.clip_box();
     m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+    linePaint.master_alpha(gs.master_alpha());
+    fillPaint.master_alpha(gs.master_alpha());
 
     if (gs.stencil() == NULL)
     {
@@ -162,14 +167,14 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
     typedef agg::conv_transform<VertexSource> conv_trans_t;
     typedef agg::conv_contour<conv_trans_t> contour_shape_t;
 
-    const GraphicsState::DrawingMode mode = gs.drawingMode();
+    const GraphicsState::DrawingMode mode = gs.drawing_mode();
     const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
     const bool fill = (mode & GraphicsState::DrawFill) == GraphicsState::DrawFill;
     const bool eof = (mode & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
 
     if (line || fill)
     {
-        _set_aa(gs.antiAliased());
+        _set_aa(gs.anti_aliased());
         agg::trans_affine mtx = transform;
         conv_trans_t trans_shape(shape, mtx);
 
@@ -202,13 +207,13 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_setup(shape_t& shape,
     typedef agg::conv_stroke<dash_t> dash_stroke_t;
     typedef agg::conv_stroke<shape_t> stroke_t;
 
-    if (gs.lineDashPattern().size() > 0)
+    if (gs.line_dash_pattern().size() > 0)
     {
         typedef GraphicsState::DashPattern::size_type counter_t;
 
         dash_t dash(shape);
         dash_stroke_t stroke(dash);
-        const GraphicsState::DashPattern& dashPattern = gs.lineDashPattern();
+        const GraphicsState::DashPattern& dashPattern = gs.line_dash_pattern();
 
         for (counter_t i=0; i < dashPattern.size(); i+=2)
             dash.add_dash(dashPattern[i], dashPattern[i+1]);
@@ -229,12 +234,12 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
     agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
     base_renderer_t& renderer)
 {
-    stroke.width(gs.lineWidth());
-    stroke.miter_limit(gs.miterLimit());
-    stroke.inner_miter_limit(gs.innerMiterLimit());
-    stroke.line_cap(agg::line_cap_e(gs.lineCap()));
-    stroke.line_join(agg::line_join_e(gs.lineJoin()));
-    stroke.inner_join(agg::inner_join_e(gs.innerJoin()));
+    stroke.width(gs.line_width());
+    stroke.miter_limit(gs.miter_limit());
+    stroke.inner_miter_limit(gs.inner_miter_limit());
+    stroke.line_cap(agg::line_cap_e(gs.line_cap()));
+    stroke.line_join(agg::line_join_e(gs.line_join()));
+    stroke.inner_join(agg::inner_join_e(gs.inner_join()));
 
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
@@ -266,7 +271,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     font.transform(mtx);
 
     GlyphIterator iterator(text, font, true, start_x, start_y);
-    if (font.cacheType() == Font::RasterFontCache)
+    if (font.cache_type() == Font::RasterFontCache)
     {
         _draw_text_raster(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
     }
@@ -275,7 +280,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
         agg::trans_affine identity;
         // XXX: TextDrawingMode only applies to Vector fonts!
         GraphicsState copy_state(gs);
-        copy_state.drawingMode(_convertTextMode(gs.textDrawingMode()));
+        copy_state.drawing_mode(_convert_text_mode(gs.text_drawing_mode()));
         _draw_text_vector(iterator, font, identity, linePaint, fillPaint, copy_state, renderer);
     }
 
@@ -290,7 +295,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
     typedef Font::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
-    const bool eof = (gs.drawingMode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
+    const bool eof = (gs.drawing_mode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
     m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
 
     GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
@@ -328,7 +333,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
 }
 
 template<typename pixfmt_t>
-GraphicsState::DrawingMode ndarray_canvas<pixfmt_t>::_convertTextMode(const GraphicsState::TextDrawingMode tm)
+GraphicsState::DrawingMode ndarray_canvas<pixfmt_t>::_convert_text_mode(const GraphicsState::TextDrawingMode tm)
 {
     // XXX: None of the clip drawing modes are implemented as clipping
     switch (tm)

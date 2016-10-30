@@ -30,9 +30,9 @@ cdef extern from "font.h":
     cdef cppclass Font:
         Font(char* fileName, double height, _enums.FontCacheType ch)
 
-        _enums.FontCacheType cacheType() const
+        _enums.FontCacheType cache_type() const
         bool hinting() const
         void hinting(bool hint)
         double height() const
         const char* filepath() const
-        double stringWidth(char* str)
+        double string_width(char* str)

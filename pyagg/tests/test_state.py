@@ -10,6 +10,17 @@ def array_bases_equal(arr0, arr1):
             arr1.__array_interface__['data'][0])
 
 
+def test_rect():
+    r = Rect(0, 0, -1, -1)
+    assert not r.valid
+
+    r = Rect(2.0, 3.0, 5.0, 6.0)
+    assert r.x == 2.0
+    assert r.y == 3.0
+    assert r.w == 5.0
+    assert r.h == 6.0
+
+
 def test_state_properties():
     gs = GraphicsState()
 
@@ -65,8 +76,7 @@ def test_state_properties():
 
     gs.master_alpha = 0.42
     assert gs.master_alpha == 0.42
-    gs.anti_alias_gamma = 1.337
-    assert gs.anti_alias_gamma == 1.337
+
     gs.line_width = 10.0
     assert gs.line_width == 10.0
 
@@ -111,7 +121,6 @@ def test_kwargs_initialization():
         miter_limit=3.14,
         inner_miter_limit=3.14,
         master_alpha=0.42,
-        anti_alias_gamma=1.337,
         line_width=10.0,
         clip_box=box,
         line_dash_pattern=dashes,
@@ -130,7 +139,6 @@ def test_kwargs_initialization():
     assert gs.miter_limit == 3.14
     assert gs.inner_miter_limit == 3.14
     assert gs.master_alpha == 0.42
-    assert gs.anti_alias_gamma == 1.337
     assert gs.line_width == 10.0
     assert gs.clip_box == box
     assert gs.line_dash_pattern == dashes
@@ -154,7 +162,6 @@ def test_copy():
         miter_limit=3.14,
         inner_miter_limit=3.14,
         master_alpha=0.42,
-        anti_alias_gamma=1.337,
         line_width=10.0,
         clip_box=box,
         line_dash_pattern=dashes,
@@ -174,7 +181,6 @@ def test_copy():
     assert cpy.miter_limit == 3.14
     assert cpy.inner_miter_limit == 3.14
     assert cpy.master_alpha == 0.42
-    assert cpy.anti_alias_gamma == 1.337
     assert cpy.line_width == 10.0
     assert cpy.clip_box == box
     assert cpy.line_dash_pattern == dashes

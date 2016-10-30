@@ -124,17 +124,20 @@ public:
           const GradientUnits units = k_GradientUnitsUserSpace);
     Paint(const PatternStyle style, Image* img);
 
-    double  a() const;
-    void  a(const double);
+    double a() const;
+    void a(const double);
 
-    double  r() const;
-    void  r(const double);
+    double r() const;
+    void r(const double);
 
-    double  g() const;
-    void  g(const double);
+    double g() const;
+    void g(const double);
 
-    double  b() const;
-    void  b(const double);
+    double b() const;
+    void b(const double);
+
+    double master_alpha() const;
+    void master_alpha(const double);
 
     void transform(const agg::trans_affine& mat);
     const agg::trans_affine& transform() const;
@@ -181,6 +184,7 @@ private:
     PointArray          m_points;
     StopArray           m_stops;
     agg::trans_affine   m_transform;
+    double              m_master_alpha;
 
     agg::rgba           m_color;
 

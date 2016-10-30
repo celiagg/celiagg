@@ -29,26 +29,26 @@
 
 
 Font::Font(char const* fontName, double const height, FontCacheType const ch)
-: m_cacheType(ch),
+: m_cache_type(ch),
 #ifdef _USE_FREETYPE
-  m_fontEngine(),
+  m_font_engine(),
 #else
-  m_fontDC(::GetDC(0)),
-  m_fontEngine(m_fontDC),
+  m_font_dc(::GetDC(0)),
+  m_font_engine(m_font_dc),
 #endif
-  m_fontCacheManager(m_fontEngine)
+  m_font_cache_manager(m_font_engine)
 {
 #ifdef _USE_FREETYPE
-    m_fontEngine.load_font(fontName,
+    m_font_engine.load_font(fontName,
                            0,
                            (ch == VectorFontCache) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8);
-    m_fontEngine.hinting(true);
-    m_fontEngine.height(height);
+    m_font_engine.hinting(true);
+    m_font_engine.height(height);
 #else
-    m_fontEngine.hinting(true);
-    m_fontEngine.create_font(fontName,
+    m_font_engine.hinting(true);
+    m_font_engine.create_font(fontName,
                              (ch == VectorFontCache) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8,
@@ -59,68 +59,76 @@ Font::Font(char const* fontName, double const height, FontCacheType const ch)
 #endif
 }
 
+Font::~Font()
+{
+#ifndef _USE_FREETYPE
+    ::ReleaseDC(0, m_font_dc);
+#endif
+
+}
+
 Font::FontCacheManager&
 Font::cache()
 {
-    return m_fontCacheManager;
+    return m_font_cache_manager;
 }
 
 Font::FontCacheType
-Font::cacheType() const
+Font::cache_type() const
 {
-    return m_cacheType;
+    return m_cache_type;
 }
 
 bool
 Font::flip() const
 {
-    return m_fontEngine.flip_y();
+    return m_font_engine.flip_y();
 }
 
 void
 Font::flip(bool const flip)
 {
-    m_fontEngine.flip_y(flip);
+    m_font_engine.flip_y(flip);
 }
 
 double
 Font::height() const
 {
-    return m_fontEngine.height();
+    return m_font_engine.height();
 }
 
 bool
 Font::hinting() const
 {
-    return m_fontEngine.hinting();
+    return m_font_engine.hinting();
 }
 
 void
 Font::hinting(bool const hint)
 {
-    m_fontEngine.hinting(hint);
+    m_font_engine.hinting(hint);
 }
 
 const char*
 Font::filepath() const
 {
 #ifdef _USE_FREETYPE
-    return m_fontEngine.name();
+    return m_font_engine.name();
 #else
-    return m_fontEngine.typeface();
+    return m_font_engine.typeface();
 #endif
 }
 
 double
-Font::stringWidth(char const* str)
+Font::string_width(char const* str)
 {
     GlyphIterator iterator(str, *this);
     while (iterator.step() != GlyphIterator::k_StepActionEnd) {}
-    return iterator.xOffset();
+    return iterator.x_offset();
 }
 
 void
 Font::transform(const agg::trans_affine& transform)
 {
-    m_fontEngine.transform(transform);
+    m_font_engine.transform(transform);
 }

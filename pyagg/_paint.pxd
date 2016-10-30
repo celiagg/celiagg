@@ -48,20 +48,23 @@ cdef extern from "paint.h":
               const _enums.GradientUnits units)
         Paint(const _enums.PatternStyle style, _image.Image* img)
 
+        double  a()
+        void  a(const double _a)
+        double  r()
+        void  r(const double _r)
+        double  g()
+        void  g(const double _g)
+        double  b()
+        void  b(const double _b)
+
+        double master_alpha() const
+        void master_alpha(const double _a)
+        void transform(const _transform.trans_affine& mat)
+        const _transform.trans_affine& transform() const
+
         void spread(const _enums.GradientSpread spread)
         _enums.GradientSpread spread() const
         void units(const _enums.GradientUnits units)
         _enums.GradientUnits units() const
         void style(const _enums.PatternStyle style)
         _enums.PatternStyle style() const
-
-        void transform(const _transform.trans_affine& mat)
-        const _transform.trans_affine& transform() const
-        double  a()
-        double  r()
-        double  g()
-        double  b()
-        void  a(const double _a)
-        void  r(const double _r)
-        void  g(const double _g)
-        void  b(const double _b)

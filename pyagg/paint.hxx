@@ -23,7 +23,7 @@
 // Authors: John Wiggins
 
 template <typename pixfmt_t, typename array_t>
-void _generate_colors(const agg::pod_array_adaptor<GradientStop>& stops, array_t& array)
+void _generate_colors(const agg::pod_array_adaptor<GradientStop>& stops, double alpha, array_t& array)
 {
     double offset = 0.0;
     unsigned arr_index = 0;
@@ -33,8 +33,8 @@ void _generate_colors(const agg::pod_array_adaptor<GradientStop>& stops, array_t
     {
         const GradientStop& curr_stop = stops[stop_idx];
         const GradientStop& next_stop = stops[stop_idx+1];
-        const agg::rgba curr_rgba(curr_stop.r, curr_stop.g, curr_stop.b, curr_stop.a);
-        const agg::rgba next_rgba(next_stop.r, next_stop.g, next_stop.b, next_stop.a);
+        const agg::rgba curr_rgba(curr_stop.r, curr_stop.g, curr_stop.b, alpha*curr_stop.a);
+        const agg::rgba next_rgba(next_stop.r, next_stop.g, next_stop.b, alpha*next_stop.a);
         const typename pixfmt_t::color_type curr_color(curr_rgba);
         const typename pixfmt_t::color_type next_color(next_rgba);
         const double offset_range = next_stop.off - curr_stop.off;
@@ -243,7 +243,7 @@ void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad
     }
     gradient_mtx.invert();
 
-    _generate_colors<pixfmt_t, color_array_t>(m_stops, color_array);
+    _generate_colors<pixfmt_t, color_array_t>(m_stops, m_master_alpha, color_array);
 
     span_gradient_t span_gradient(span_interpolator, func, color_array, d1, d2);
     gradient_renderer_t grad_renderer(renderer, span_allocator, span_gradient);
@@ -295,6 +295,7 @@ void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
     span_gen_t span_generator(source, interpolator);
     img_renderer_t pattern_renderer(renderer, span_allocator, span_generator);
 
+    // XXX: Apply master alpha here somehow!
     agg::render_scanlines(ras, scanline, pattern_renderer);
 }
 
@@ -305,7 +306,8 @@ void Paint::_render_solid(rasterizer_t& ras, renderer_t& renderer)
 
     solid_renderer_t solid_renderer(renderer);
     agg::scanline_u8 scanline;
-    typename pixfmt_t::color_type color(m_color);
+    const agg::rgba color_with_alpha(m_color, m_master_alpha*m_color.a);
+    typename pixfmt_t::color_type color(color_with_alpha);
 
     solid_renderer.color(color);
     agg::render_scanlines(ras, scanline, solid_renderer);

@@ -48,54 +48,50 @@ cdef extern from "graphics_state.h":
     cdef cppclass GraphicsState:
         GraphicsState()
 
-        void antiAliased(bool aa)
-        bool antiAliased() const
+        void anti_aliased(bool aa)
+        bool anti_aliased() const
 
-        void clipBox(Rect r)
-        void clipBox(double x1, double y1, double x2, double y2)
-        Rect clipBox() const
+        void clip_box(Rect r)
+        Rect clip_box() const
 
-        void drawingMode(_enums.DrawingMode m)
-        _enums.DrawingMode drawingMode() const
+        void drawing_mode(_enums.DrawingMode m)
+        _enums.DrawingMode drawing_mode() const
 
-        void textDrawingMode(_enums.TextDrawingMode m)
-        _enums.TextDrawingMode textDrawingMode() const
+        void text_drawing_mode(_enums.TextDrawingMode m)
+        _enums.TextDrawingMode text_drawing_mode() const
 
-        void blendMode(_enums.BlendMode m)
-        _enums.BlendMode blendMode() const
+        void blend_mode(_enums.BlendMode m)
+        _enums.BlendMode blend_mode() const
 
-        void imageBlendMode(_enums.BlendMode m)
-        _enums.BlendMode imageBlendMode() const
+        void image_blend_mode(_enums.BlendMode m)
+        _enums.BlendMode image_blend_mode() const
 
-        void masterAlpha(double a)
-        double masterAlpha() const
+        void master_alpha(double a)
+        double master_alpha() const
 
-        void antiAliasGamma(double g)
-        double antiAliasGamma() const
+        void line_width(double w)
+        double line_width() const
 
-        void lineWidth(double w)
-        double lineWidth() const
+        void line_cap(_enums.LineCap cap)
+        _enums.LineCap line_cap() const
 
-        void lineCap(_enums.LineCap cap)
-        _enums.LineCap lineCap() const
+        void line_join(_enums.LineJoin join)
+        _enums.LineJoin line_join() const
 
-        void lineJoin(_enums.LineJoin join)
-        _enums.LineJoin lineJoin() const
+        void inner_join(_enums.InnerJoin join)
+        _enums.InnerJoin inner_join() const
 
-        void innerJoin(_enums.InnerJoin join)
-        _enums.InnerJoin innerJoin() const
+        void miter_limit(double limit)
+        double miter_limit() const
 
-        void miterLimit(double limit)
-        double miterLimit() const
+        void inner_miter_limit(double limit)
+        double inner_miter_limit() const
 
-        void innerMiterLimit(double limit)
-        double innerMiterLimit() const
+        void line_dash_pattern(const double *dashes, size_t count)
+        const vector[double]& line_dash_pattern() const
 
-        void lineDashPattern(const double *dashes, size_t count)
-        const vector[double]& lineDashPattern() const
-
-        void lineDashPhase(const double phase)
-        double lineDashPhase() const
+        void line_dash_phase(const double phase)
+        double line_dash_phase() const
 
         void stencil(const _image.Image* image)
         const _image.Image* stencil() const

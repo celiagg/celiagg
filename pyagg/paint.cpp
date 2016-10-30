@@ -27,6 +27,7 @@
 Paint::Paint(const double r, const double g, const double b, const double a)
 : m_points(NULL, 0)
 , m_stops(NULL, 0)
+, m_master_alpha(1.0)
 , m_color(r, g, b, a)
 , m_image(NULL)
 , m_type(k_PaintTypeSolid)
@@ -42,6 +43,7 @@ Paint::Paint(const PaintType type,
              const GradientSpread spread, const GradientUnits units)
 : m_points(points, n_points)
 , m_stops(reinterpret_cast<GradientStop*>(stops), n_stops)
+, m_master_alpha(1.0)
 , m_color(0.0, 0.0, 0.0, 0.0)
 , m_image(NULL)
 , m_type(type)
@@ -54,6 +56,7 @@ Paint::Paint(const PaintType type,
 Paint::Paint(const PatternStyle style, Image* img)
 : m_points(NULL, 0)
 , m_stops(NULL, 0)
+, m_master_alpha(1.0)
 , m_color(0.0, 0.0, 0.0, 0.0)
 , m_image(img)
 , m_type(k_PaintTypePattern)
@@ -61,6 +64,16 @@ Paint::Paint(const PatternStyle style, Image* img)
 , m_units(k_GradientUnitsUserSpace)
 , m_pattern_style(style)
 {
+}
+
+double Paint::master_alpha() const
+{
+    return m_master_alpha;
+}
+
+void Paint::master_alpha(const double a)
+{
+    m_master_alpha = a;
 }
 
 void Paint::transform(const agg::trans_affine& mat)

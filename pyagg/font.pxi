@@ -46,11 +46,11 @@ cdef class Font:
 
     def copy(self):
         return Font(self._this.filepath(), self._this.height(),
-                    self._this.cacheType())
+                    self._this.cache_type())
 
     property cache_type:
         def __get__(self):
-            return FontCacheType(self._this.cacheType())
+            return FontCacheType(self._this.cache_type())
 
     property filepath:
         def __get__(self):
@@ -71,4 +71,4 @@ cdef class Font:
         text : a unicode string
         """
         text = _get_utf8_text(text, "Argument must be a unicode string")
-        return self._this.stringWidth(text)
+        return self._this.string_width(text)

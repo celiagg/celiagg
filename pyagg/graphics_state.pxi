@@ -29,16 +29,18 @@ from libcpp.vector cimport vector
 cdef class Rect:
     cdef _graphics_state.Rect* _this
 
-    def __cinit__(self, double x1=0., double y1=0., double x2=0., double y2=0.):
-        self._this = new _graphics_state.Rect(x1, y1, x2, y2)
+    def __cinit__(self, double x=0., double y=0., double w=0., double h=0.):
+        self._this = new _graphics_state.Rect(x, y, x + w, y + h)
 
     def __dealloc__(self):
         del self._this
 
     def __repr__(self):
         name = type(self).__name__
+        width = self._this.x2 - self._this.x1
+        height = self._this.y2 - self._this.y1
         return "{}({}, {}, {}, {})".format(name, self._this.x1, self._this.y1,
-                                           self._this.x2, self._this.y2)
+                                           width, height)
 
     def __richcmp__(Rect self, Rect other, int op):
         if op == 2:  # ==
@@ -50,29 +52,29 @@ cdef class Rect:
             msg = "That type of comparison is not implemented for Rect"
             raise NotImplementedError(msg)
 
-    property x1:
+    property x:
         def __get__(self):
             return self._this.x1
         def __set__(self, value):
             self._this.x1 = value
 
-    property x2:
+    property w:
         def __get__(self):
-            return self._this.x2
+            return self._this.x2 - self._this.x1
         def __set__(self, value):
-            self._this.x2 = value
+            self._this.x2 = self._this.x1 + value
 
-    property y1:
+    property y:
         def __get__(self):
             return self._this.y1
         def __set__(self, value):
             self._this.y1 = value
 
-    property y2:
+    property h:
         def __get__(self):
-            return self._this.y2
+            return self._this.y2 - self._this.y1
         def __set__(self, value):
-            self._this.y2 = value
+            self._this.y2 = self._this.y1 + value
 
     property valid:
         def __get__(self):
@@ -119,111 +121,104 @@ cdef class GraphicsState:
 
     property anti_aliased:
         def __get__(self):
-            return self._this.antiAliased()
+            return self._this.anti_aliased()
 
         def __set__(self, aa):
-            self._this.antiAliased(aa)
+            self._this.anti_aliased(aa)
 
     property clip_box:
         def __get__(self):
-            cdef _graphics_state.Rect ret = self._this.clipBox()
-            return Rect(ret.x1, ret.y1, ret.x2, ret.y2)
+            cdef _graphics_state.Rect ret = self._this.clip_box()
+            return Rect(ret.x1, ret.y1, ret.x2 - ret.x1, ret.y2 - ret.y1)
 
         def __set__(self, Rect box):
-            self._this.clipBox(box._this[0])
+            self._this.clip_box(dereference(box._this))
 
     property drawing_mode:
         def __get__(self):
-            return DrawingMode(self._this.drawingMode())
+            return DrawingMode(self._this.drawing_mode())
 
         def __set__(self, DrawingMode m):
-            self._this.drawingMode(m)
+            self._this.drawing_mode(m)
 
     property text_drawing_mode:
         def __get__(self):
-            return TextDrawingMode(self._this.textDrawingMode())
+            return TextDrawingMode(self._this.text_drawing_mode())
 
         def __set__(self, TextDrawingMode m):
-            self._this.textDrawingMode(m)
+            self._this.text_drawing_mode(m)
 
     property blend_mode:
         def __get__(self):
-            return BlendMode(self._this.blendMode())
+            return BlendMode(self._this.blend_mode())
 
         def __set__(self, BlendMode m):
-            self._this.blendMode(m)
+            self._this.blend_mode(m)
 
     property image_blend_mode:
         def __get__(self):
-            return BlendMode(self._this.imageBlendMode())
+            return BlendMode(self._this.image_blend_mode())
 
         def __set__(self, BlendMode m):
-            self._this.imageBlendMode(m)
+            self._this.image_blend_mode(m)
 
     property master_alpha:
         def __get__(self):
-            return self._this.masterAlpha()
+            return self._this.master_alpha()
 
         def __set__(self, a):
-            self._this.masterAlpha(a)
-
-    property anti_alias_gamma:
-        def __get__(self):
-            return self._this.antiAliasGamma()
-
-        def __set__(self, g):
-            self._this.antiAliasGamma(g)
+            self._this.master_alpha(a)
 
     property line_width:
         def __get__(self):
-            return self._this.lineWidth()
+            return self._this.line_width()
 
         def __set__(self, w):
-            self._this.lineWidth(w)
+            self._this.line_width(w)
 
     property line_cap:
         def __get__(self):
-            return LineCap(self._this.lineCap())
+            return LineCap(self._this.line_cap())
 
         def __set__(self, LineCap cap):
-            self._this.lineCap(cap)
+            self._this.line_cap(cap)
 
     property line_join:
         def __get__(self):
-            return LineJoin(self._this.lineJoin())
+            return LineJoin(self._this.line_join())
 
         def __set__(self, LineJoin join):
-            self._this.lineJoin(join)
+            self._this.line_join(join)
 
     property inner_join:
         def __get__(self):
-            return InnerJoin(self._this.innerJoin())
+            return InnerJoin(self._this.inner_join())
 
         def __set__(self, InnerJoin join):
-            self._this.innerJoin(join)
+            self._this.inner_join(join)
 
     property miter_limit:
         def __get__(self):
-            return self._this.miterLimit()
+            return self._this.miter_limit()
 
         def __set__(self, double limit):
-            self._this.miterLimit(limit)
+            self._this.miter_limit(limit)
 
     property inner_miter_limit:
         def __get__(self):
-            return self._this.innerMiterLimit()
+            return self._this.inner_miter_limit()
 
         def __set__(self, double limit):
-            self._this.innerMiterLimit(limit)
+            self._this.inner_miter_limit(limit)
 
     property line_dash_pattern:
         def __get__(self):
-            cdef vector[double] dashes = self._this.lineDashPattern()
+            cdef vector[double] dashes = self._this.line_dash_pattern()
             return list(zip(dashes[:-1:2], dashes[1::2]))
 
         def __set__(self, dashes):
             if len(dashes) == 0:
-                self._this.lineDashPattern(<const double *>0, 0)
+                self._this.line_dash_pattern(<const double *>0, 0)
                 return
 
             cdef double[:,::1] _dashes = numpy.asarray(dashes,
@@ -232,14 +227,14 @@ cdef class GraphicsState:
             if _dashes.shape[1] != 2:
                 msg = 'Dashes must be an iterable of (dash len, gap len) pairs.'
                 raise ValueError(msg)
-            self._this.lineDashPattern(&_dashes[0][0], _dashes.shape[0])
+            self._this.line_dash_pattern(&_dashes[0][0], _dashes.shape[0])
 
     property line_dash_phase:
         def __get__(self):
-            return self._this.lineDashPhase()
+            return self._this.line_dash_phase()
 
         def __set__(self, double phase):
-            self._this.lineDashPhase(phase)
+            self._this.line_dash_phase(phase)
 
     property stencil:
         def __get__(self):

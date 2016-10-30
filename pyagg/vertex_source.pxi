@@ -279,7 +279,6 @@ cdef class Path(VertexSource):
         pth.move_to(_points[0, 0], _points[0, 1])
         for i in range(1, count):
             pth.line_to(_points[i, 0], _points[i, 1])
-        pth.close()
 
     @cython.boundscheck(False)
     @cython.wraparound(False)
@@ -308,7 +307,6 @@ cdef class Path(VertexSource):
         for i in range(0, starts_count):
             pth.move_to(_starts[i, 0], _starts[i, 1])
             pth.line_to(_ends[i, 0], _ends[i, 1])
-            pth.close()
 
 
 cdef class ShapeAtPoints(VertexSource):

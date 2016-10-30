@@ -42,15 +42,15 @@ public:
 public:
                         GlyphIterator(char const* utf8Text, Font& font,
                                       const bool drawing = false,
-                                      const double x_Offset = 0.0,
-                                      const double y_Offset = 0.0);
+                                      const double x_off = 0.0,
+                                      const double y_off = 0.0);
 
     StepAction          step();
-    double              xOffset() const { return m_offset_x; }
-    double              yOffset() const { return m_offset_y; }
+    double              x_offset() const { return m_offset_x; }
+    double              y_offset() const { return m_offset_y; }
 
 private:
-    unsigned            _getNextCodepoint();
+    unsigned            _get_next_codepoint();
 
 private:
     Font&       m_font;
