@@ -26,8 +26,6 @@ before_install:
 install:
     conda create -q -n test_env python=${PYTHON} numpy cython freetype nose;
     source activate test_env;
-    python setup.py install;
+    pip install -e .;
 script:
-    mkdir dummy && cd dummy;
     nosetests -v pyagg;
-
