@@ -38,6 +38,12 @@ cimport _paint
 cimport _vertex_source
 cimport _transform
 
+# This is a global flag which tells you if text rendering support was compiled
+IF _ENABLE_TEXT_RENDERING:
+    HAS_TEXT = True
+ELSE:
+    HAS_TEXT = False
+
 
 class AggError(Exception):
     pass

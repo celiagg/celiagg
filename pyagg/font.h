@@ -27,23 +27,28 @@
 
 #include <agg_basics.h>
 #include <agg_font_cache_manager.h>
+#include <agg_trans_affine.h>
+
+#ifdef _ENABLE_TEXT_RENDERING
 #ifdef _USE_FREETYPE
 #include <agg_font_freetype.h>
 #else
 #include <agg_font_win32_tt.h>
 #endif
-#include <agg_trans_affine.h>
+#endif
 
 class Font
 {
 public:
 
+#ifdef _ENABLE_TEXT_RENDERING
 #ifdef _USE_FREETYPE
     typedef agg::font_engine_freetype_int32       FontEngine;
 #else
     typedef agg::font_engine_win32_tt_int32       FontEngine;
 #endif
     typedef agg::font_cache_manager<FontEngine>   FontCacheManager;
+#endif
 
     enum FontCacheType
     {
@@ -57,7 +62,9 @@ public:
                              FontCacheType const ch = RasterFontCache);
                         ~Font();
 
+#ifdef _ENABLE_TEXT_RENDERING
     FontCacheManager&   cache();
+#endif
 
     FontCacheType       cache_type() const;
     bool                flip() const;
@@ -72,11 +79,13 @@ public:
 private:
 
     FontCacheType       m_cache_type;
+#ifdef _ENABLE_TEXT_RENDERING
 #ifndef _USE_FREETYPE
     HDC                 m_font_dc;
 #endif
     FontEngine          m_font_engine;
     FontCacheManager    m_font_cache_manager;
+#endif
 };
 
 #endif // PYAGG_FONT_H

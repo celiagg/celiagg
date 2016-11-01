@@ -26,6 +26,7 @@
 # flake8: noqa
 from __future__ import absolute_import
 
+from ._pyagg import HAS_TEXT
 from ._pyagg import (
     AggError, BlendMode, BSpline, DrawingMode, Font, FontCacheType,
     GradientSpread, GradientUnits, GraphicsState, Image, InnerJoin,

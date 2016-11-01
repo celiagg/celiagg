@@ -3,16 +3,19 @@ matrix:
     include:
         - os: linux
           language: generic
-          env: PYTHON="2.7" MINICONDA_OS="Linux"
+          env: PYTHON="2.7" MINICONDA_OS="Linux" BUILD_ARGS=""
         - os: linux
           language: generic
-          env: PYTHON="3.5" MINICONDA_OS="Linux"
+          env: PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS=""
+        - os: linux
+          language: generic
+          env: PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS="--install-option --no-text-rendering"
         - os: osx
           language: generic
-          env: PYTHON="2.7" MINICONDA_OS="MacOSX"
+          env: PYTHON="2.7" MINICONDA_OS="MacOSX" BUILD_ARGS=""
         - os: osx
           language: generic
-          env: PYTHON="3.5" MINICONDA_OS="MacOSX"
+          env: PYTHON="3.5" MINICONDA_OS="MacOSX" BUILD_ARGS=""
 
 before_install:
     URL="https://repo.continuum.io/miniconda/Miniconda3-latest-${MINICONDA_OS}-x86_64.sh";
@@ -26,6 +29,6 @@ before_install:
 install:
     conda create -q -n test_env python=${PYTHON} numpy cython freetype nose;
     source activate test_env;
-    pip install -e .;
+    pip install -e . ${BUILD_ARGS};
 script:
     nosetests -v pyagg;

@@ -294,6 +294,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
+#ifdef _ENABLE_TEXT_RENDERING
     typedef Font::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
     const bool eof = (gs.drawing_mode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
     m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
@@ -307,6 +308,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
         }
         action = iterator.step();
     }
+#endif
 }
 
 template<typename pixfmt_t>
@@ -315,6 +317,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
     Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
+#ifdef _ENABLE_TEXT_RENDERING
     typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
 
     GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
@@ -330,6 +333,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
         }
         action = iterator.step();
     }
+#endif
 }
 
 template<typename pixfmt_t>

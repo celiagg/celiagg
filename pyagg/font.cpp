@@ -27,16 +27,33 @@
 
 #define WIN32_FONT_WEIGHT 400
 
+#ifndef _ENABLE_TEXT_RENDERING
+// This is what happens when you disable font support!
+Font::Font(char const* fontName, double const height, FontCacheType const ch)
+: m_cache_type(ch) {}
+Font::~Font() {}
+
+Font::FontCacheType Font::cache_type() const { return m_cache_type; }
+bool Font::flip() const { return false; }
+void Font::flip(bool const flip) {}
+double Font::height() const { return 0.0; }
+bool Font::hinting() const { return false; }
+void Font::hinting(bool const hint) {}
+const char* Font::filepath() const { return ""; }
+double Font::string_width(char const* str) { return 0.0; }
+void Font::transform(const agg::trans_affine& transform) {}
+
+#else
 
 Font::Font(char const* fontName, double const height, FontCacheType const ch)
-: m_cache_type(ch),
+: m_cache_type(ch)
 #ifdef _USE_FREETYPE
-  m_font_engine(),
+, m_font_engine()
 #else
-  m_font_dc(::GetDC(0)),
-  m_font_engine(m_font_dc),
+, m_font_dc(::GetDC(0))
+, m_font_engine(m_font_dc)
 #endif
-  m_font_cache_manager(m_font_engine)
+, m_font_cache_manager(m_font_engine)
 {
 #ifdef _USE_FREETYPE
     m_font_engine.load_font(fontName,
@@ -64,7 +81,6 @@ Font::~Font()
 #ifndef _USE_FREETYPE
     ::ReleaseDC(0, m_font_dc);
 #endif
-
 }
 
 Font::FontCacheManager&
@@ -132,3 +148,4 @@ Font::transform(const agg::trans_affine& transform)
 {
     m_font_engine.transform(transform);
 }
+#endif

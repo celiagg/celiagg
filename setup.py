@@ -22,9 +22,23 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins <john.wiggins@xfel.eu>
+import os
+import sys
 
 from numpy.distutils.core import setup
 from numpy.distutils.misc_util import Configuration
+
+
+# Disable text rendering with this option
+if '--no-text-rendering' in sys.argv:
+    del sys.argv[sys.argv.index('--no-text-rendering')]
+    os.environ['PYAGG_TEXT_RENDERING'] = '0'
+else:
+    os.environ['PYAGG_TEXT_RENDERING'] = '1'
+    os.environ['PYAGG_USE_PKGCONFIG'] = '1'
+    if '--no-freetype-pkg-config' in sys.argv:
+        del sys.argv[sys.argv.index('--no-freetype-pkg-config')]
+        os.environ['PYAGG_USE_PKGCONFIG'] = '0'
 
 
 def configuration(parent_package='', top_path=None):

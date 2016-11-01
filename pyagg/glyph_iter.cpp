@@ -37,6 +37,7 @@ GlyphIterator::GlyphIterator(char const* utf8Text, Font& font, const bool drawin
 GlyphIterator::StepAction
 GlyphIterator::step()
 {
+#ifdef _ENABLE_TEXT_RENDERING
     const unsigned codepoint = _get_next_codepoint();
     if (codepoint != 0)
     {
@@ -59,6 +60,7 @@ GlyphIterator::step()
 
         return k_StepActionSkip;
     }
+#endif
 
     return k_StepActionEnd;
 }

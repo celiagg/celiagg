@@ -26,6 +26,7 @@
 from __future__ import print_function
 import os
 import os.path as op
+import platform
 import subprocess
 import sys
 
@@ -39,6 +40,10 @@ except ImportError:
     cythonize = None
     print("Cython does not appear to be installed.  Will attempt to use "
           "pre-made cpp file...")
+
+# These are added to the environment by the main setup.py script
+with_text_rendering = os.environ.get('PYAGG_TEXT_RENDERING', '0') == '1'
+with_pkgconfig = os.environ.get('PYAGG_USE_PKGCONFIG', '0') == '1'
 
 
 def get_freetype_info():
@@ -77,8 +82,10 @@ def get_freetype_info():
                "installed in standard system locations, it may work to run "
                "this script with --no-freetype-pkg-config.  Otherwise, "
                "appropriate CFLAGS and LDFLAGS environment variables must be "
-               "set.")
-        sys.stderr.write(msg)
+               "set.\n\n"
+               "If you wish to disable text rendering, you can re-run this "
+               "script with the --no-text-rendering flag.")
+        print(msg, file=sys.stderr)
         exit(-1)
     return data['cflags'], data['ldflags']
 
@@ -124,30 +131,22 @@ def configuration(parent_package='', top_path=None):
     extra_link_args = []
     define_macros = []
 
-    if '--with-freetype' in sys.argv:
-        idx = sys.argv.index('--with-freetype')
-        del sys.argv[idx]
-        with_freetype = True
-    else:
-        if os.name == 'nt':
-            with_freetype = False
+    if with_text_rendering:
+        if platform.system() == 'Windows':
+            include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
+            font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
         else:
-            with_freetype = True
+            if with_pkgconfig:
+                cflags, ldflags = get_freetype_info()
+                extra_compile_args.extend(cflags)
+                extra_link_args.extend(ldflags)
+            define_macros.append(('_USE_FREETYPE', 1))
+            include_dirs.append('agg-svn/agg-2.4/font_freetype')
+            font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
+        sources.append(font_source)
+        define_macros.append(('_ENABLE_TEXT_RENDERING', 1))
 
-    if with_freetype:
-        if '--no-freetype-pkg-config' in sys.argv:
-            idx = sys.argv.index('--no-freetype-pkg-config')
-            del sys.argv[idx]
-        else:
-            cflags, ldflags = get_freetype_info()
-            extra_compile_args.extend(cflags)
-            extra_link_args.extend(ldflags)
-        include_dirs.append('agg-svn/agg-2.4/font_freetype')
-        sources.append('agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp')
-        define_macros.extend([('_USE_FREETYPE', 1)])
-    else:
-        include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
-        sources.append('agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp')
+    cython_compile_env = {'_ENABLE_TEXT_RENDERING': with_text_rendering}
 
     ext_kwargs = {
         'include_dirs': include_dirs,
@@ -159,7 +158,8 @@ def configuration(parent_package='', top_path=None):
 
     if cythonize is not None:
         # Run Cython first
-        cythonize(pyagg_cython_source, language='c++')
+        cythonize(pyagg_cython_source, language='c++',
+                  compile_time_env=cython_compile_env)
 
     config = Configuration('pyagg', parent_package, top_path)
     config.add_extension('_pyagg', sources=pyagg_sources + sources,

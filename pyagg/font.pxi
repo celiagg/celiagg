@@ -28,47 +28,55 @@ cpdef enum FontCacheType:
     VectorFontCache = _enums.VectorFontCache 
 
 
-cdef class Font:
-    cdef _font.Font* _this
+IF _ENABLE_TEXT_RENDERING:
+    cdef class Font:
+        cdef _font.Font* _this
 
-    def __cinit__(self, fontName, double size, FontCacheType ch):
-        """Font(path, height, bold, italic, cache_type)
-        path : A unicode string containing the path of a Font file
-        height : The size of the font
-        cache_type : A FontCacheType
-        """
-        fontName = _get_utf8_text(fontName,
-                                  "Font path must be a unicode string")
-        self._this = new _font.Font(fontName, size, ch)
+        def __cinit__(self, fontName, double size, FontCacheType ch):
+            """Font(path, height, bold, italic, cache_type)
+            path : A unicode string containing the path of a Font file
+            height : The size of the font
+            cache_type : A FontCacheType
+            """
+            fontName = _get_utf8_text(fontName,
+                                    "Font path must be a unicode string")
+            self._this = new _font.Font(fontName, size, ch)
 
-    def __dealloc__(self):
-        del self._this
+        def __dealloc__(self):
+            del self._this
 
-    def copy(self):
-        return Font(self._this.filepath(), self._this.height(),
-                    self._this.cache_type())
+        def copy(self):
+            return Font(self._this.filepath(), self._this.height(),
+                        self._this.cache_type())
 
-    property cache_type:
-        def __get__(self):
-            return FontCacheType(self._this.cache_type())
+        property cache_type:
+            def __get__(self):
+                return FontCacheType(self._this.cache_type())
 
-    property filepath:
-        def __get__(self):
-            return self._this.filepath()
+        property filepath:
+            def __get__(self):
+                return self._this.filepath()
 
-    property height:
-        def __get__(self):
-            return self._this.height()
+        property height:
+            def __get__(self):
+                return self._this.height()
 
-    property hinting:
-        def __get__(self):
-            return self._this.hinting()
-        def __set__(self, bool value):
-            self._this.hinting(value)
+        property hinting:
+            def __get__(self):
+                return self._this.hinting()
+            def __set__(self, bool value):
+                self._this.hinting(value)
 
-    def width(self, text):
-        """width(self, text):
-        text : a unicode string
-        """
-        text = _get_utf8_text(text, "Argument must be a unicode string")
-        return self._this.string_width(text)
+        def width(self, text):
+            """width(self, text):
+            text : a unicode string
+            """
+            text = _get_utf8_text(text, "Argument must be a unicode string")
+            return self._this.string_width(text)
+ELSE:
+    cdef class Font:
+        def __init__(self, *args):
+            msg = ("The pyagg library was compiled without font support!  "
+                   "If you would like to render text, you will need to "
+                   "reinstall the library.")
+            raise RuntimeError(msg)

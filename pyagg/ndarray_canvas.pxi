@@ -101,7 +101,7 @@ cdef class CanvasBase:
         """
         self._this.clear(r, g, b, a)
 
-    def draw_image(self, image, PixelFormat format, Transform transform,
+    def draw_image(self, image, PixelFormat fmt, Transform transform,
                    GraphicsState state, bottom_up=False):
         """draw_image(self, image, format, transform, state):
             image: A 2D or 3D numpy array containing image data
@@ -112,7 +112,7 @@ cdef class CanvasBase:
         """
         self._check_stencil(state)
 
-        cdef Image input_img = Image(image, format, bottom_up=bottom_up)
+        cdef Image input_img = Image(image, fmt, bottom_up=bottom_up)
         cdef Image img = self._get_native_image(input_img, self.pixel_format)
 
         self._this.draw_image(dereference(img._this),
@@ -132,9 +132,9 @@ cdef class CanvasBase:
         self._check_stencil(state)
 
         cdef:
-            PixelFormat format = self.pixel_format
-            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+            PixelFormat fmt = self.pixel_format
+            Paint tmp_line_paint = self._get_native_paint(line_paint, fmt)
+            Paint tmp_fill_paint = self._get_native_paint(fill_paint, fmt)
 
         self._this.draw_shape(dereference(shape._this),
                               dereference(transform._this),
@@ -153,19 +153,25 @@ cdef class CanvasBase:
           state: A GraphicsState object
                 line color, line width, fill color, drawing mode, anti-aliased
         """
-        self._check_stencil(state)
+        IF _ENABLE_TEXT_RENDERING:
+            self._check_stencil(state)
 
-        cdef:
-            PixelFormat format = self.pixel_format
-            Paint tmp_line_paint = self._get_native_paint(line_paint, format)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, format)
+            cdef:
+                PixelFormat fmt = self.pixel_format
+                Paint tmp_line_paint = self._get_native_paint(line_paint, fmt)
+                Paint tmp_fill_paint = self._get_native_paint(fill_paint, fmt)
 
-        text = _get_utf8_text(text, "The text argument must be unicode.")
-        self._this.draw_text(text, dereference(font._this),
-                             dereference(transform._this),
-                             dereference(tmp_line_paint._this),
-                             dereference(tmp_fill_paint._this),
-                             dereference(state._this))
+            text = _get_utf8_text(text, "The text argument must be unicode.")
+            self._this.draw_text(text, dereference(font._this),
+                                dereference(transform._this),
+                                dereference(tmp_line_paint._this),
+                                dereference(tmp_fill_paint._this),
+                                dereference(state._this))
+        ELSE:
+            msg = ("The pyagg library was compiled without font support!  "
+                   "If you would like to render text, you will need to "
+                   "reinstall the library.")
+            raise RuntimeError(msg)
 
     cdef _check_stencil(self, GraphicsState state):
         """ Internal. Checks if a stencil's dimensions match those of the
@@ -181,17 +187,17 @@ cdef class CanvasBase:
                        "(({}, {}) vs. ({}, {}))").format(sw, sh, w, h)
                 raise AggError(msg)
 
-    cdef Image _get_native_image(self, Image image, PixelFormat format):
+    cdef Image _get_native_image(self, Image image, PixelFormat fmt):
         """_get_native_image(self, Image image)
           image: An Image object which is needed in a different pixel format.
           format: The desired output pixel format
         """
-        if image.pixel_format == format:
+        if image.pixel_format == fmt:
             return image
 
-        return convert_image(image, format, bottom_up=image.bottom_up)
+        return convert_image(image, fmt, bottom_up=image.bottom_up)
 
-    cdef Paint _get_native_paint(self, Paint paint, PixelFormat format):
+    cdef Paint _get_native_paint(self, Paint paint, PixelFormat fmt):
         """_get_native_paint(self, Paint paint)
           paint: A Paint object which is needed in a different pixel format.
           format: The desired output pixel format
@@ -199,7 +205,7 @@ cdef class CanvasBase:
         if not hasattr(paint, '_with_format'):
             return paint
 
-        return paint._with_format(format)
+        return paint._with_format(fmt)
 
 
 cdef class CanvasRGBA128(CanvasBase):
