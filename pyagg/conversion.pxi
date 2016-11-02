@@ -120,11 +120,20 @@ cdef rgb2gray(src, src_order, dtype=None):
     return dst
 
 
-def convert_image(Image src, PixelFormat to_format, bottom_up=False):
-    """ Create a new image from input ``src`` with desired pixel format
-    ``to_format`` and orientation ``bottom_up``.
+def convert_image(src, to_format, bottom_up=False):
+    """convert_image(src, to_format, bottom_up=False)
+    Create a new image with a desired pixel format and orientation.
+    image: An Image instance
+    to_format: A PixelFormat describing the desired output format
+    bottom_up: If True, the image data is flipped in the y axis
     """
-    from_format = src.pixel_format
+    if not isinstance(src, Image):
+        raise TypeError("src must an Image instance")
+    if not isinstance(to_format, (int, PixelFormat)):
+        raise TypeError("to_format must be a PixelFormat value")
+
+    to_format = PixelFormat(to_format)
+    from_format = src.format
     dst_dtype = _get_format_dtype(to_format)
     cdef bool dst_alpha = _has_alpha(to_format)
     cdef bool src_gray = _is_gray(from_format)

@@ -22,6 +22,8 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
+cimport numpy
+
 ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_bgra32] canvas_brga32_t
@@ -38,10 +40,14 @@ cdef class CanvasBase:
     cdef bool bottom_up
 
     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
+        if image is None:
+            raise ValueError('image argument must not be None.')
+
         cdef uint64_t[:] image_shape = numpy.asarray(image.shape,
                                                      dtype=numpy.uint64,
                                                      order='c')
         cdef uint64_t image_ndim = <uint64_t> image.ndim
+
         if not has_alpha:
             # Draw colors for images without alpha channels are specified with
             # alpha channels and the drawing operations are blended as if all
@@ -49,8 +55,6 @@ cdef class CanvasBase:
             # channel count is one less than default color channel count if
             # image does not have an alpha channel.
             channel_count -= 1
-        if image is None:
-            raise ValueError('image argument must not be None.')
         if (channel_count > 1 and (image_ndim != 3
                 or image_shape[2] != channel_count) or
                 channel_count == 1 and image_ndim != 2):
@@ -101,77 +105,122 @@ cdef class CanvasBase:
         """
         self._this.clear(r, g, b, a)
 
-    def draw_image(self, image, PixelFormat fmt, Transform transform,
-                   GraphicsState state, bottom_up=False):
-        """draw_image(self, image, format, transform, state):
+    def draw_image(self, image, fmt, transform, state, bottom_up=False):
+        """draw_image(self, image, format, transform, state, bottom_up=False)
             image: A 2D or 3D numpy array containing image data
             format: A PixelFormat describing the array's data
             transform: A Transform object
             state: A GraphicsState object
             bottom_up: If True, the image data is flipped in the y axis
         """
-        self._check_stencil(state)
+        if not isinstance(image, (numpy.ndarray, Image)):
+            raise TypeError("image must be an ndarray or Image instance")
+        if not isinstance(fmt, PixelFormat) and isinstance(image, numpy.ndarray):
+            raise TypeError("format must be a PixelFormat value")
+        if not isinstance(transform, Transform):
+            raise TypeError("transform must be a Transform instance")
+        if not isinstance(state, GraphicsState):
+            raise TypeError("state must be a GraphicsState instance")
 
-        cdef Image input_img = Image(image, fmt, bottom_up=bottom_up)
-        cdef Image img = self._get_native_image(input_img, self.pixel_format)
+        cdef GraphicsState gs = <GraphicsState>state
+        cdef PixelFormat pix_fmt = <PixelFormat>image.format if fmt is None else fmt
+        cdef Transform trans = <Transform>transform
+        cdef Image img
+        cdef Image input_img
 
+        self._check_stencil(gs)
+
+        if isinstance(image, Image):
+            input_img = image
+        else:
+            input_img = Image(image, pix_fmt, bottom_up=bottom_up)
+
+        img = self._get_native_image(input_img, self.pixel_format)
         self._this.draw_image(dereference(img._this),
-                              dereference(transform._this),
-                              dereference(state._this))
+                              dereference(trans._this),
+                              dereference(gs._this))
 
-    def draw_shape(self, VertexSource shape, Transform transform,
-                   Paint line_paint, Paint fill_paint, GraphicsState state):
-        """draw_shape(self, shape, transform, line_paint, fill_paint, state)
+    def draw_shape(self, shape, transform, state, stroke=None, fill=None):
+        """draw_shape(self, shape, transform, state, stroke=None, fill=None)
           shape: A VertexSource object
           transform: A Transform object
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
           state: A GraphicsState object
-                 line width, line color, fill color, anti-aliased
+          stroke: The Paint to use for outlines
+          fill: The Paint to use for fills
         """
-        self._check_stencil(state)
+        if not isinstance(shape, VertexSource):
+            raise TypeError("shape must be a VertexSource (Path, BSpline, etc)")
+        if not isinstance(transform, Transform):
+            raise TypeError("transform must be a Transform instance")
+        if not isinstance(state, GraphicsState):
+            raise TypeError("state must be a GraphicsState instance")
+        if stroke is not None and not isinstance(stroke, Paint):
+            raise TypeError("stroke must be a Paint instance")
+        if fill is not None and not isinstance(fill, Paint):
+            raise TypeError("fill must be a Paint instance")
 
         cdef:
+            VertexSource shp = <VertexSource>shape
+            GraphicsState gs = <GraphicsState>state
+            Transform trans = <Transform>transform
             PixelFormat fmt = self.pixel_format
-            Paint tmp_line_paint = self._get_native_paint(line_paint, fmt)
-            Paint tmp_fill_paint = self._get_native_paint(fill_paint, fmt)
+            Paint stroke_paint
+            Paint fill_paint
 
-        self._this.draw_shape(dereference(shape._this),
-                              dereference(transform._this),
-                              dereference(tmp_line_paint._this),
-                              dereference(tmp_fill_paint._this),
-                              dereference(state._this))
+        self._check_stencil(gs)
+        stroke_paint = self._get_native_paint(stroke, fmt)
+        fill_paint = self._get_native_paint(fill, fmt)
 
-    def draw_text(self, text, Font font, Transform transform, Paint line_paint,
-                  Paint fill_paint, GraphicsState state):
-        """draw_text(self, text, font, transform, state):
+        self._this.draw_shape(dereference(shp._this),
+                              dereference(trans._this),
+                              dereference(stroke_paint._this),
+                              dereference(fill_paint._this),
+                              dereference(gs._this))
+
+    def draw_text(self, text, font, transform, state, stroke=None, fill=None):
+        """draw_text(self, text, font, transform, state, stroke=None, fill=None)
           text: A Unicode string of text to be renderered.
           font: A Font object
           transform: A Transform object
-          line_paint: The Paint to use for outlines
-          fill_paint: The Paint to use for fills
           state: A GraphicsState object
-                line color, line width, fill color, drawing mode, anti-aliased
+          stroke: The Paint to use for outlines
+          fill: The Paint to use for fills
         """
-        IF _ENABLE_TEXT_RENDERING:
-            self._check_stencil(state)
-
-            cdef:
-                PixelFormat fmt = self.pixel_format
-                Paint tmp_line_paint = self._get_native_paint(line_paint, fmt)
-                Paint tmp_fill_paint = self._get_native_paint(fill_paint, fmt)
-
-            text = _get_utf8_text(text, "The text argument must be unicode.")
-            self._this.draw_text(text, dereference(font._this),
-                                dereference(transform._this),
-                                dereference(tmp_line_paint._this),
-                                dereference(tmp_fill_paint._this),
-                                dereference(state._this))
-        ELSE:
+        IF not _ENABLE_TEXT_RENDERING:
             msg = ("The pyagg library was compiled without font support!  "
                    "If you would like to render text, you will need to "
                    "reinstall the library.")
             raise RuntimeError(msg)
+
+        if not isinstance(font, Font):
+            raise TypeError("font must be a Font instance")
+        if not isinstance(transform, Transform):
+            raise TypeError("transform must be a Transform instance")
+        if not isinstance(state, GraphicsState):
+            raise TypeError("state must be a GraphicsState instance")
+        if stroke is not None and not isinstance(stroke, Paint):
+            raise TypeError("stroke must be a Paint instance")
+        if fill is not None and not isinstance(fill, Paint):
+            raise TypeError("fill must be a Paint instance")
+
+        cdef:
+            Font fnt = <Font>font
+            GraphicsState gs = <GraphicsState>state
+            Transform trans = <Transform>transform
+            PixelFormat fmt = self.pixel_format
+            Paint stroke_paint
+            Paint fill_paint
+
+        self._check_stencil(gs)
+        stroke_paint = self._get_native_paint(stroke, fmt)
+        fill_paint = self._get_native_paint(fill, fmt)
+
+        text = _get_utf8_text(text, "The text argument must be unicode.")
+        self._this.draw_text(text, dereference(fnt._this),
+                             dereference(trans._this),
+                             dereference(stroke_paint._this),
+                             dereference(fill_paint._this),
+                             dereference(gs._this))
 
     cdef _check_stencil(self, GraphicsState state):
         """ Internal. Checks if a stencil's dimensions match those of the
@@ -197,11 +246,15 @@ cdef class CanvasBase:
 
         return convert_image(image, fmt, bottom_up=image.bottom_up)
 
-    cdef Paint _get_native_paint(self, Paint paint, PixelFormat fmt):
+    cdef Paint _get_native_paint(self, paint, PixelFormat fmt):
         """_get_native_paint(self, Paint paint)
           paint: A Paint object which is needed in a different pixel format.
           format: The desired output pixel format
         """
+        if paint is None:
+            return SolidPaint(0.0, 0.0, 0.0)
+
+        cdef Paint pnt = <Paint>paint
         if not hasattr(paint, '_with_format'):
             return paint
 

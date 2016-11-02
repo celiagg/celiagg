@@ -71,8 +71,11 @@ cdef class Paint:
             cdef Transform trans = Transform()
             trans._assign_obj(self._this.transform())
             return trans
-        def __set__(self, Transform trans):
-            self._this.transform(dereference(trans._this))
+        def __set__(self, trans):
+            if not isinstance(trans, Transform):
+                raise TypeError("transform must be a Transform instance")
+            cdef Transform _trans = <Transform>trans
+            self._this.transform(dereference(_trans._this))
 
 
 cdef class LinearGradientPaint(Paint):
@@ -154,11 +157,15 @@ cdef class PatternPaint(Paint):
     cdef PatternStyle style
     cdef Image img_obj
 
-    def __cinit__(self, PatternStyle style, Image image):
-        self._this = new _paint.Paint(style, image._this)
+    def __cinit__(self, PatternStyle style, image):
+        if not isinstance(image, Image):
+            raise TypeError("image must be an Image instance")
+
+        cdef Image img = <Image>image
+        self._this = new _paint.Paint(style, img._this)
 
         # Hold a reference to the pattern image
-        self.img_obj = image
+        self.img_obj = img
         self.style = style
 
     def _with_format(self, PixelFormat fmt):

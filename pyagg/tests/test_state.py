@@ -21,6 +21,18 @@ def test_rect():
     assert r.h == 6.0
 
 
+def test_state_bad_value_types():
+    gs = GraphicsState()
+
+    with assert_raises(TypeError):
+        gs.clip_box = (0, 1, 2, 3)
+    with assert_raises(TypeError):
+        gs.clip_box = None
+
+    with assert_raises(TypeError):
+        gs.stencil = "dur hur"
+
+
 def test_state_properties():
     gs = GraphicsState()
 

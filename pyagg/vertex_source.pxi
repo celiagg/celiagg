@@ -318,7 +318,11 @@ cdef class ShapeAtPoints(VertexSource):
     cdef VertexSource _sub_source
     cdef object _points
 
-    def __cinit__(self, VertexSource source, points):
+    def __cinit__(self, source, points):
+        if not isinstance(source, VertexSource):
+            raise TypeError("source must be a VertexSource instance")
+
+        cdef VertexSource vs = <VertexSource>source
         cdef double[:,::1] _points = numpy.asarray(points, dtype=numpy.float64,
                                                    order='c')
 
@@ -327,10 +331,10 @@ cdef class ShapeAtPoints(VertexSource):
             raise ValueError(msg)
 
         self._this = <_vertex_source.VertexSource*> new _vertex_source.RepeatedSource(
-            dereference(source._this), &_points[0][0], _points.shape[0]
+            dereference(vs._this), &_points[0][0], _points.shape[0]
         )
         # Keep references for safety
-        self._sub_source = source
+        self._sub_source = vs
         self._points = _points
 
     def copy(self):

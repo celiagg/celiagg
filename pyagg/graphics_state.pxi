@@ -132,7 +132,11 @@ cdef class GraphicsState:
             return Rect(ret.x1, ret.y1, ret.x2 - ret.x1, ret.y2 - ret.y1)
 
         def __set__(self, Rect box):
-            self._this.clip_box(dereference(box._this))
+            if not isinstance(box, Rect):
+                raise TypeError("The clip_box property must be a Rect")
+
+            cdef Rect rect = <Rect>box
+            self._this.clip_box(dereference(rect._this))
 
     property drawing_mode:
         def __get__(self):
@@ -240,11 +244,15 @@ cdef class GraphicsState:
         def __get__(self):
             return self._stencil_img
 
-        def __set__(self, Image img):
-            self._stencil_img = img
+        def __set__(self, img):
+            if img is not None and not isinstance(img, Image):
+                raise TypeError("The stencil property must be an Image")
+
+            cdef Image image = <Image>img
+            self._stencil_img = image
             if self._stencil_img is not None:
-                if img.format != PixelFormat.Gray8:
+                if image.format != PixelFormat.Gray8:
                     raise ValueError("Stencil Images must have format Gray8!")
-                self._this.stencil(img._this)
+                self._this.stencil(image._this)
             else:
                 self._this.stencil(<_image.Image*>0)

@@ -1,6 +1,12 @@
+from nose.tools import assert_raises
 import numpy as np
 
-from pyagg import Path
+from pyagg import Path, ShapeAtPoints
+
+
+def test_sap_bad_init_args():
+    with assert_raises(TypeError):
+        ShapeAtPoints(None, [(0, 0), (10, 10)])
 
 
 def test_move_to():
