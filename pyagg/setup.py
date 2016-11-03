@@ -156,8 +156,13 @@ def configuration(parent_package='', top_path=None):
         'extra_link_args': extra_link_args
     }
 
-    if cythonize is not None:
-        # Run Cython first
+    # Installing from an SDIST is special...
+    cpp_pyagg = op.join('pyagg', '_pyagg.cpp')
+    pyx_pyagg = op.join('pyagg', '_pyagg.pyx')
+    is_sdist = op.exists(cpp_pyagg) and not op.exists(pyx_pyagg)
+
+    # Run Cython first if this is a development version
+    if not is_sdist and cythonize is not None:
         cythonize(pyagg_cython_source, language='c++',
                   compile_time_env=cython_compile_env)
 
