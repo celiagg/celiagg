@@ -28,7 +28,6 @@ import sys
 from numpy.distutils.core import setup
 from numpy.distutils.misc_util import Configuration
 
-
 # Disable text rendering with this option
 if '--no-text-rendering' in sys.argv:
     del sys.argv[sys.argv.index('--no-text-rendering')]
@@ -56,14 +55,16 @@ setup(
     name='pyagg',
     configuration=configuration,
     license='MIT',
-    version='0.0.1',
+    version='0.1.0',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Programming Language :: C++',
+        'Programming Language :: Cython',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries',
         'Operating System :: Microsoft :: Windows',
