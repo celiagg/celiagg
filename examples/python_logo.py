@@ -73,28 +73,28 @@ bottom.close()
 
 stops = ((0.0, 0.35294, 0.62353, 0.83137, 1.0),
          (1.0, 0.18824, 0.41176, 0.59608, 1.0))
-top_gradient = agg.LinearGradientPaint(
+top_grad = agg.LinearGradientPaint(
     26.648937, 20.603781, 135.66525, 114.39767, stops,
     agg.GradientSpread.SpreadPad, agg.GradientUnits.UserSpace)
-top_gradient.transform = agg.Transform(0.562541, 0, 0,
-                                       0.567972, -9.399749, -5.305317)
+top_grad.transform = agg.Transform(0.562541, 0, 0,
+                                   0.567972, -9.399749, -5.305317)
 stops = ((0.0, 1.0, 0.83137, 0.23137, 1.0),
          (1.0, 1.0, 0.90980, 0.45098, 1.0))
-bottom_gradient = agg.LinearGradientPaint(
+bottom_grad = agg.LinearGradientPaint(
     150.96111, 192.35176, 112.03144, 137.27299, stops,
     agg.GradientSpread.SpreadPad, agg.GradientUnits.UserSpace)
-bottom_gradient.transform = agg.Transform(0.562541, 0, 0,
-                                          0.567972, -9.399749, -5.305317)
+bottom_grad.transform = agg.Transform(0.562541, 0, 0,
+                                      0.567972, -9.399749, -5.305317)
 
 canvas = agg.CanvasRGB24(np.zeros((600, 600, 3), dtype=np.uint8))
-gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
-line_paint = agg.SolidPaint(0.0, 0.0, 0.0)
+gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill,
+                       clip_box=agg.Rect(0, 0, 600, 600))
 canvas.clear(1, 1, 1)
 transform = agg.Transform()
 transform.translate(300, 300)
 transform.scale(5, 5)
 transform.rotate(np.pi/4)
 transform.translate(-60, -60)
-canvas.draw_shape(top, transform, line_paint, top_gradient, gs)
-canvas.draw_shape(bottom, transform, line_paint, bottom_gradient, gs)
+canvas.draw_shape(top, transform, gs, fill=top_grad)
+canvas.draw_shape(bottom, transform, gs, fill=bottom_grad)
 imsave("python.png", canvas.array)
