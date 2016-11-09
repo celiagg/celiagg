@@ -187,7 +187,7 @@ cdef class CanvasBase:
           fill: The Paint to use for fills
         """
         IF not _ENABLE_TEXT_RENDERING:
-            msg = ("The pyagg library was compiled without font support!  "
+            msg = ("The celiagg library was compiled without font support!  "
                    "If you would like to render text, you will need to "
                    "reinstall the library.")
             raise RuntimeError(msg)
