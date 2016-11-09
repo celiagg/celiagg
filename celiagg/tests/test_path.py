@@ -1,7 +1,7 @@
 from nose.tools import assert_raises
 import numpy as np
 
-from pyagg import Path, ShapeAtPoints
+from celiagg import Path, ShapeAtPoints
 
 
 def test_sap_bad_init_args():

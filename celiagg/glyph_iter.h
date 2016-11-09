@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef PYAGG_GLYPH_ITER_H
-#define PYAGG_GLYPH_ITER_H
+#ifndef CELIAGG_GLYPH_ITER_H
+#define CELIAGG_GLYPH_ITER_H
 
 #include "font.h"
 
@@ -61,4 +61,4 @@ private:
     bool        m_is_drawing;
 };
 
-#endif // PYAGG_GLYPH_ITER_H
+#endif // CELIAGG_GLYPH_ITER_H

@@ -1,7 +1,7 @@
 import numpy as np
 from numpy.testing import assert_allclose
 
-from pyagg import Transform
+from celiagg import Transform
 
 
 def test_construction():

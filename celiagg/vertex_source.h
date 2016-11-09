@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef PYAGG_VERTEX_SOURCE_H
-#define PYAGG_VERTEX_SOURCE_H
+#ifndef CELIAGG_VERTEX_SOURCE_H
+#define CELIAGG_VERTEX_SOURCE_H
 
 #include <math.h>
 #include <agg_path_storage.h>
@@ -136,4 +136,4 @@ private:
     const RepeatedSource& operator=(const RepeatedSource&);
 };
 
-#endif // PYAGG_VERTEX_SOURCE_H
+#endif // CELIAGG_VERTEX_SOURCE_H

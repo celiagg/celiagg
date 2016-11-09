@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef PYAGG_PAINT_H
-#define PYAGG_PAINT_H
+#ifndef CELIAGG_PAINT_H
+#define CELIAGG_PAINT_H
 
 #include <stdint.h>
 
@@ -198,4 +198,4 @@ private:
 
 #include "paint.hxx"
 
-#endif // PYAGG_PAINT_H
+#endif // CELIAGG_PAINT_H

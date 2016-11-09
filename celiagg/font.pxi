@@ -76,7 +76,7 @@ IF _ENABLE_TEXT_RENDERING:
 ELSE:
     cdef class Font:
         def __init__(self, *args):
-            msg = ("The pyagg library was compiled without font support!  "
+            msg = ("The celiagg library was compiled without font support!  "
                    "If you would like to render text, you will need to "
                    "reinstall the library.")
             raise RuntimeError(msg)

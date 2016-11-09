@@ -22,8 +22,8 @@
 // 
 // Authors: John Wiggins
 
-#ifndef PYAGG_IMAGE_H
-#define PYAGG_IMAGE_H
+#ifndef CELIAGG_IMAGE_H
+#define CELIAGG_IMAGE_H
 
 #include <stdint.h>
 
@@ -252,4 +252,4 @@ public:
     unsigned width() const;
 };
 
-#endif // PYAGG_IMAGE_H
+#endif // CELIAGG_IMAGE_H

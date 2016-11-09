@@ -42,8 +42,8 @@ except ImportError:
           "pre-made cpp file...")
 
 # These are added to the environment by the main setup.py script
-with_text_rendering = os.environ.get('PYAGG_TEXT_RENDERING', '0') == '1'
-with_pkgconfig = os.environ.get('PYAGG_USE_PKGCONFIG', '0') == '1'
+with_text_rendering = os.environ.get('CELIAGG_TEXT_RENDERING', '0') == '1'
+with_pkgconfig = os.environ.get('CELIAGG_USE_PKGCONFIG', '0') == '1'
 
 
 def get_freetype_info():
@@ -120,9 +120,9 @@ def configuration(parent_package='', top_path=None):
         'agg-svn/agg-2.4/src/agg_vpgen_segmentator.cpp',
     ]
     base_path = op.abspath(op.dirname(__file__))
-    pyagg_cython_source = op.join(base_path, '_pyagg.pyx')
-    pyagg_sources = ['font.cpp', 'glyph_iter.cpp', 'image.cpp', 'paint.cpp',
-                     'vertex_source.cpp', '_pyagg.cpp']
+    celiagg_cython_source = op.join(base_path, '_celiagg.pyx')
+    celiagg_sources = ['font.cpp', 'glyph_iter.cpp', 'image.cpp', 'paint.cpp',
+                       'vertex_source.cpp', '_celiagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
@@ -157,17 +157,17 @@ def configuration(parent_package='', top_path=None):
     }
 
     # Installing from an SDIST is special...
-    cpp_pyagg = op.join('pyagg', '_pyagg.cpp')
-    pyx_pyagg = op.join('pyagg', '_pyagg.pyx')
-    is_sdist = op.exists(cpp_pyagg) and not op.exists(pyx_pyagg)
+    cpp_celiagg = op.join('celiagg', '_celiagg.cpp')
+    pyx_celiagg = op.join('celiagg', '_celiagg.pyx')
+    is_sdist = op.exists(cpp_celiagg) and not op.exists(pyx_celiagg)
 
     # Run Cython first if this is a development version
     if not is_sdist and cythonize is not None:
-        cythonize(pyagg_cython_source, language='c++',
+        cythonize(celiagg_cython_source, language='c++',
                   compile_time_env=cython_compile_env)
 
-    config = Configuration('pyagg', parent_package, top_path)
-    config.add_extension('_pyagg', sources=pyagg_sources + sources,
+    config = Configuration('celiagg', parent_package, top_path)
+    config.add_extension('_celiagg', sources=celiagg_sources + sources,
                          **ext_kwargs)
     config.add_subpackage('tests')
     return config

@@ -1,8 +1,8 @@
 from nose.tools import assert_raises
 import numpy as np
 
-from pyagg import (GraphicsState, BlendMode, DrawingMode, Image, InnerJoin,
-                   LineCap, LineJoin, PixelFormat, Rect, TextDrawingMode)
+from celiagg import (GraphicsState, BlendMode, DrawingMode, Image, InnerJoin,
+                     LineCap, LineJoin, PixelFormat, Rect, TextDrawingMode)
 
 
 def array_bases_equal(arr0, arr1):

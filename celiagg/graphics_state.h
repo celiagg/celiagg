@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef PYAGG_GRAPHICS_STATE_H
-#define PYAGG_GRAPHICS_STATE_H
+#ifndef CELIAGG_GRAPHICS_STATE_H
+#define CELIAGG_GRAPHICS_STATE_H
 
 #include <vector>
 #include <agg_basics.h>
@@ -208,4 +208,4 @@ private:
     bool            m_anti_aliased;
 };
 
-#endif // PYAGG_GRAPHICS_STATE_H
+#endif // CELIAGG_GRAPHICS_STATE_H

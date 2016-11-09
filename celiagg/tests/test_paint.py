@@ -1,5 +1,5 @@
-from pyagg import (GradientSpread, GradientUnits, SolidPaint,
-                   LinearGradientPaint, RadialGradientPaint)
+from celiagg import (GradientSpread, GradientUnits, SolidPaint,
+                     LinearGradientPaint, RadialGradientPaint)
 
 _GRADIENT_STOPS = ((0.0, 1.0, 0.0, 0.0, 1.0),
                    (0.5, 1.0, 1.0, 1.0, 1.0),

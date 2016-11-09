@@ -1,7 +1,7 @@
 import numpy as np
 from skimage.io import imsave
 
-import pyagg as agg
+import celiagg as agg
 
 
 top = agg.Path()
