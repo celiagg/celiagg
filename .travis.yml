@@ -31,4 +31,4 @@ install:
     source activate test_env;
     pip install -e . ${BUILD_ARGS};
 script:
-    nosetests -v pyagg;
+    nosetests -v celiagg;

@@ -1,7 +1,7 @@
 from nose.tools import assert_raises
 import numpy as np
 
-import pyagg as agg
+import celiagg as agg
 
 
 def test_no_text_font_failure():

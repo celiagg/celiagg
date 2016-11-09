@@ -31,13 +31,13 @@ from numpy.distutils.misc_util import Configuration
 # Disable text rendering with this option
 if '--no-text-rendering' in sys.argv:
     del sys.argv[sys.argv.index('--no-text-rendering')]
-    os.environ['PYAGG_TEXT_RENDERING'] = '0'
+    os.environ['CELIAGG_TEXT_RENDERING'] = '0'
 else:
-    os.environ['PYAGG_TEXT_RENDERING'] = '1'
-    os.environ['PYAGG_USE_PKGCONFIG'] = '1'
+    os.environ['CELIAGG_TEXT_RENDERING'] = '1'
+    os.environ['CELIAGG_USE_PKGCONFIG'] = '1'
     if '--no-freetype-pkg-config' in sys.argv:
         del sys.argv[sys.argv.index('--no-freetype-pkg-config')]
-        os.environ['PYAGG_USE_PKGCONFIG'] = '0'
+        os.environ['CELIAGG_USE_PKGCONFIG'] = '0'
 
 
 def configuration(parent_package='', top_path=None):
@@ -48,11 +48,11 @@ def configuration(parent_package='', top_path=None):
         delegate_options_to_subpackages=True,
         quiet=True)
 
-    config.add_subpackage('pyagg')
+    config.add_subpackage('celiagg')
     return config
 
 setup(
-    name='pyagg',
+    name='celiagg',
     configuration=configuration,
     license='MIT',
     version='0.1.0',
@@ -73,5 +73,5 @@ setup(
         'Operating System :: MacOS',
     ],
     requires=['numpy', 'freetype'],
-    packages=['pyagg', 'pyagg.tests']
+    packages=['celiagg', 'celiagg.tests']
 )

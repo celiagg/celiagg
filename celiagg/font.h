@@ -22,8 +22,8 @@
 //
 // Authors: John Wiggins
 
-#ifndef PYAGG_FONT_H
-#define PYAGG_FONT_H
+#ifndef CELIAGG_FONT_H
+#define CELIAGG_FONT_H
 
 #include <agg_basics.h>
 #include <agg_font_cache_manager.h>
@@ -88,4 +88,4 @@ private:
 #endif
 };
 
-#endif // PYAGG_FONT_H
+#endif // CELIAGG_FONT_H

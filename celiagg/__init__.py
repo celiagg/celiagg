@@ -26,13 +26,13 @@
 # flake8: noqa
 from __future__ import absolute_import
 
-from ._pyagg import HAS_TEXT
-from ._pyagg import (
+from ._celiagg import HAS_TEXT
+from ._celiagg import (
     AggError, BlendMode, BSpline, DrawingMode, Font, FontCacheType,
     GradientSpread, GradientUnits, GraphicsState, Image, InnerJoin,
     LinearGradientPaint, LineCap, LineJoin, RadialGradientPaint, Path,
     PatternPaint, PatternStyle, PixelFormat, Rect, ShapeAtPoints, SolidPaint,
     TextDrawingMode, Transform
 )
-from ._pyagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,
+from ._celiagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,
                      CanvasBGRA32, CanvasRGBA128)

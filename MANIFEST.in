@@ -1,4 +1,4 @@
-include pyagg/*.hxx
+include celiagg/*.hxx
 graft agg-svn/agg-2.4/include
 graft agg-svn/agg-2.4/font_freetype
 graft agg-svn/agg-2.4/font_win32_tt
