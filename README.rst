@@ -2,7 +2,7 @@ celiagg
 =======
 
 celiagg provides a simple, stateless canvas object that uses
-`Anti-Grain Geometry 2.4<svn://svn.code.sf.net/p/agg/svn>`_ with Cython to
+Anti-Grain Geometry 2.4 <svn://svn.code.sf.net/p/agg/svn> with Cython to
 render directly into a Numpy array.
 
 A respectably modern compiler is required to build celiagg
