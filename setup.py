@@ -51,11 +51,17 @@ def configuration(parent_package='', top_path=None):
     config.add_subpackage('celiagg')
     return config
 
+with open('README.rst', 'r') as fp:
+    long_description = fp.read()
+
 setup(
     name='celiagg',
     configuration=configuration,
     license='MIT',
-    version='0.1.0',
+    version='0.1.1',
+    description='Anti-Grain Geometry for Python (2 & 3) with Cython',
+    long_description=long_description,
+    url='https://github.com/celiagg/celiagg',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Environment :: Console',

@@ -23,6 +23,7 @@
 *.egg-info
 build
 dist
+MANIFEST
 
 # celiagg specific
 celiagg/_celiagg.cpp
