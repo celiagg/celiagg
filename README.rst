@@ -1,6 +1,14 @@
 celiagg
 =======
 
+.. image:: https://img.shields.io/pypi/v/celiagg.svg
+  :target: https://pypi.python.org/pypi/celiagg
+  :alt: PyPI
+
+.. image:: https://travis-ci.org/celiagg/celiagg.svg?branch=master
+   :target: https://travis-ci.org/celiagg/celiagg
+   :alt: Build status
+
 celiagg provides a simple, stateless canvas object that uses
 Anti-Grain Geometry 2.4 <svn://svn.code.sf.net/p/agg/svn> with Cython to
 render directly into a Numpy array.
@@ -11,7 +19,7 @@ A respectably modern compiler is required to build celiagg
 Installation
 ------------
 
-``python setup.py install`` should do the trick.
+``pip install celiagg`` should do the trick.
 
 Dependencies
 ------------
