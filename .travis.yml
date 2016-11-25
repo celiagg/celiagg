@@ -1,34 +1,16 @@
-language: python
-matrix:
-    include:
-        - os: linux
-          language: generic
-          env: PYTHON="2.7" MINICONDA_OS="Linux" BUILD_ARGS=""
-        - os: linux
-          language: generic
-          env: PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS=""
-        - os: linux
-          language: generic
-          env: PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS="--install-option --no-text-rendering"
-        - os: osx
-          language: generic
-          env: PYTHON="2.7" MINICONDA_OS="MacOSX" BUILD_ARGS=""
-        - os: osx
-          language: generic
-          env: PYTHON="3.5" MINICONDA_OS="MacOSX" BUILD_ARGS=""
+notifications:
+  email: false
 
-before_install:
-    URL="https://repo.continuum.io/miniconda/Miniconda3-latest-${MINICONDA_OS}-x86_64.sh";
-    wget "${URL}" -O miniconda.sh;
-    bash miniconda.sh -b -p $HOME/miniconda;
-    export PATH="$HOME/miniconda/bin:$PATH";
-    hash -r;
-    conda config --set always_yes yes --set changeps1 no;
-    conda update -q conda;
-    conda info -a;
+matrix:
+  include:
+    - sudo: required
+      services:
+        - docker
+      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+
 install:
-    conda create -q -n test_env python=${PYTHON} numpy cython freetype nose;
-    source activate test_env;
-    pip install -e . ${BUILD_ARGS};
+  - docker pull $DOCKER_IMAGE
+
 script:
-    nosetests -v celiagg;
+  - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/travis/build-wheels.sh
+  - ls wheelhouse/
