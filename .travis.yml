@@ -1,16 +1,31 @@
-notifications:
-  email: false
-
+language: python
 matrix:
   include:
+    - os: linux
+      language: generic
+      env: BUILD_TYPE="test" PYTHON="2.7" MINICONDA_OS="Linux" BUILD_ARGS=""
+    - os: linux
+      language: generic
+      env: BUILD_TYPE="test" PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS=""
+    - os: linux
+      language: generic
+      env: BUILD_TYPE="test" PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS="--install-option --no-text-rendering"
+    - os: osx
+      language: generic
+      env: BUILD_TYPE="test" PYTHON="2.7" MINICONDA_OS="MacOSX" BUILD_ARGS=""
+    - os: osx
+      language: generic
+      env: BUILD_TYPE="test" PYTHON="3.5" MINICONDA_OS="MacOSX" BUILD_ARGS=""
     - sudo: required
       services:
         - docker
-      env: DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+      env: BUILD_TYPE="package" DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
 
+before_install:
+  - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-before-install.sh; fi
 install:
-  - docker pull $DOCKER_IMAGE
-
+  - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-install.sh; fi
+  - if [[ $BUILD_TYPE == "package" ]]; then docker pull $DOCKER_IMAGE; fi
 script:
-  - docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/travis/build-wheels.sh
-  - ls wheelhouse/
+  - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-run.sh; fi
+  - if [[ $BUILD_TYPE == "package" ]]; then docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/travis/build-wheels.sh; fi
