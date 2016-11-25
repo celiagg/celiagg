@@ -1,9 +1,9 @@
-# Install miniconda
+# Install conda
 URL="https://repo.continuum.io/miniconda/Miniconda3-latest-${MINICONDA_OS}-x86_64.sh"
 wget "${URL}" -O miniconda.sh
 bash miniconda.sh -b -p $HOME/miniconda
 
-# Add it to the $PATH
+# Add conda to the $PATH
 export PATH="$HOME/miniconda/bin:$PATH"
 hash -r
 
