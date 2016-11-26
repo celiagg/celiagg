@@ -1,8 +1,5 @@
 language: generic
 
-env:
-  secure: "LmfVejil0XGE3VeuBeGnDz+chHboDF6BOy6JkUSoUyu/hVOf1s/bYdrS7/vO5kdVc/HiqHQeV13CKkRMtCBslkBUbyas29P8MWWzUbkBQ/H1tf5RUniMfIhWiHsQawWX+V47cfcLKhYPCTPPiWw1zqwYNn1awdTYX3IymBudwd21Sl+hteQI4K0yTX5ybFzF3ahTDCeRA464QsbORGQ00H/AFOLUTUshsi6g9NrYvVdaXUgHPR+ndI3HBu/Phes7/0lWs95lq5t8embeOrfuHLRnYfFerCDaYSbB+Q25VAKLrOeWkKcSdCUc48EhWiDoYJ+kr9U+qRr8odg5BuHdm/Lkh4osKfb4JqhPl25Jbeoi7c8Ye1+tAzriY4gStewEo+0jH/1IGitkvkjM5wWeVmJ1hYKBnu5aeDp7sBVjb77brlpjefr61iwkcfqQ3Uiz2xzigwhNlZ2eQtN1jh2tcCpekqSLhQO5NBbGA4voF5/uFCYEBriUb92ghiDHhW0u6rr25OcUOao7Cs77PsBDYrVS14XYL6tzk5fVzmqRRw6n2duaRBw9vTam3V+Ru/GKT8LscJX43gN9F/wqh/D1/ND2vlVxXYnPta178erxhhd20CO3zMH01fEfheAQReaEhqK3Gp3u3AYg6ohjeEQNfK9YrfsHU619SQ/T2P0fed0="
-
 matrix:
   include:
     - os: linux
@@ -18,7 +15,10 @@ matrix:
     - sudo: required
       services:
         - docker
-      env: BUILD_TYPE="package" DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+      env:
+        - BUILD_TYPE="package"
+        - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
+        - secure: "LmfVejil0XGE3VeuBeGnDz+chHboDF6BOy6JkUSoUyu/hVOf1s/bYdrS7/vO5kdVc/HiqHQeV13CKkRMtCBslkBUbyas29P8MWWzUbkBQ/H1tf5RUniMfIhWiHsQawWX+V47cfcLKhYPCTPPiWw1zqwYNn1awdTYX3IymBudwd21Sl+hteQI4K0yTX5ybFzF3ahTDCeRA464QsbORGQ00H/AFOLUTUshsi6g9NrYvVdaXUgHPR+ndI3HBu/Phes7/0lWs95lq5t8embeOrfuHLRnYfFerCDaYSbB+Q25VAKLrOeWkKcSdCUc48EhWiDoYJ+kr9U+qRr8odg5BuHdm/Lkh4osKfb4JqhPl25Jbeoi7c8Ye1+tAzriY4gStewEo+0jH/1IGitkvkjM5wWeVmJ1hYKBnu5aeDp7sBVjb77brlpjefr61iwkcfqQ3Uiz2xzigwhNlZ2eQtN1jh2tcCpekqSLhQO5NBbGA4voF5/uFCYEBriUb92ghiDHhW0u6rr25OcUOao7Cs77PsBDYrVS14XYL6tzk5fVzmqRRw6n2duaRBw9vTam3V+Ru/GKT8LscJX43gN9F/wqh/D1/ND2vlVxXYnPta178erxhhd20CO3zMH01fEfheAQReaEhqK3Gp3u3AYg6ohjeEQNfK9YrfsHU619SQ/T2P0fed0="
 
 before_install:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-before-install.sh; fi
