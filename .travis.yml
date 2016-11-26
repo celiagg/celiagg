@@ -25,7 +25,15 @@ before_install:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-before-install.sh; fi
 install:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-install.sh; fi
-  - if [[ $BUILD_TYPE == "package" ]]; then docker pull $DOCKER_IMAGE; fi
+  - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then docker pull $DOCKER_IMAGE; fi
 script:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-run.sh; fi
-  - if [[ $BUILD_TYPE == "package" ]]; then docker run --rm -v `pwd`:/io $DOCKER_IMAGE /io/travis/build-wheels.sh; fi
+  - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then ./travis/build-run.sh; fi
+
+deploy:
+  provider: pypi
+  user: jwiggins
+  skip_cleanup: true
+  on:
+    tags: true
+    condition: $BUILD_TYPE = "package"
