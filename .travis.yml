@@ -1,4 +1,8 @@
 language: generic
+
+env:
+  secure: "LmfVejil0XGE3VeuBeGnDz+chHboDF6BOy6JkUSoUyu/hVOf1s/bYdrS7/vO5kdVc/HiqHQeV13CKkRMtCBslkBUbyas29P8MWWzUbkBQ/H1tf5RUniMfIhWiHsQawWX+V47cfcLKhYPCTPPiWw1zqwYNn1awdTYX3IymBudwd21Sl+hteQI4K0yTX5ybFzF3ahTDCeRA464QsbORGQ00H/AFOLUTUshsi6g9NrYvVdaXUgHPR+ndI3HBu/Phes7/0lWs95lq5t8embeOrfuHLRnYfFerCDaYSbB+Q25VAKLrOeWkKcSdCUc48EhWiDoYJ+kr9U+qRr8odg5BuHdm/Lkh4osKfb4JqhPl25Jbeoi7c8Ye1+tAzriY4gStewEo+0jH/1IGitkvkjM5wWeVmJ1hYKBnu5aeDp7sBVjb77brlpjefr61iwkcfqQ3Uiz2xzigwhNlZ2eQtN1jh2tcCpekqSLhQO5NBbGA4voF5/uFCYEBriUb92ghiDHhW0u6rr25OcUOao7Cs77PsBDYrVS14XYL6tzk5fVzmqRRw6n2duaRBw9vTam3V+Ru/GKT8LscJX43gN9F/wqh/D1/ND2vlVxXYnPta178erxhhd20CO3zMH01fEfheAQReaEhqK3Gp3u3AYg6ohjeEQNfK9YrfsHU619SQ/T2P0fed0="
+
 matrix:
   include:
     - os: linux
@@ -28,9 +32,7 @@ script:
 deploy:
   provider: pypi
   user: jwiggins
-  password:
-    secure: AiYWcQs0N/Sb5bLWC9YAOv91QId+NM7sf60FkTza8zOrbNaSVYAgc2P06jOgapbEqQ7l0CV8b4f7JRvQJ2S9A0J5R8+VTEZnwFxYNsHKj+2Z7s0fCRO62XmdCclQn0YNOBFH0/Rnd+bqe322WsSNHYLsOvSn+RdYVQ47iCNdF3iCZTHX8dIU0Wz7ZZPQCuZrV7x49czT/qgTCjWIvERM1JB8mh4/yrs5nqlHVcAk5BWFUgWw4woeV2uDkMowHxz2KWyx2SO4+mhMOcCzr75zDHfatwe5aVovOWaC+IT4FLLH/OcnSV9ryuppeGn46Ak9E7KQREMClYJOqUZayNs4oxLjSfMy9oYIZ/iLLtAmmZZtIsBMtqtb+c9uXW2uEpmEtcZO28x1ICy7YaxXIqrh9F8X8cPMda4vOxorvE3vPy0ItoQRBGlJJIMnu/J1MLPWNXUkW5YqT4r8bSujMxosjF7MIPXgG7SIOPjRk/MJjMhqoQVCgeQuOSTsuDnrYqL/ZEcY9uNlW8evDxiPCJb6PaFew8uSIY54FbqQ/SGNwqav51YZ9TA1X43oAdZAxrg0GlZLy1JTJjmTgOcbc7dyJLj2x3YkDXjPENaFEnvecUHAWX84X4/QOSP4Fa4JOX1ZBFKj75uLx6WHFPUAo74M/YDTFaWDG/0/dq3EO7oCj3k=
-  skip_cleanup: true
+  password: $PYPI_PASSWORD
   on:
     branch: master
     condition: $BUILD_TYPE = "package"

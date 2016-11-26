@@ -29,5 +29,10 @@ for PYBIN in /opt/python/cp{27,35}*/bin/; do
     (cd $HOME; ${PYBIN}/nosetests celiagg)
 done
 
-# Show what's been done
-ls /io/wheelhouse/
+
+# Upload to PyPI
+PY35BIN=/opt/python/cp35-cp35m/bin
+if [ -n $TRAVIS_TAG ]; then
+    $PY35BIN/pip install twine
+    $PY35BIN/twine upload -u jwiggins -p $PYPI_PASSWORD /io/wheelhouse/*.whl
+fi
