@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Add conda to the $PATH
 export PATH="$HOME/miniconda/bin:$PATH"
 hash -r

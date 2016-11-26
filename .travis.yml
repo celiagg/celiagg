@@ -1,20 +1,15 @@
-language: python
+language: generic
 matrix:
   include:
     - os: linux
-      language: generic
       env: BUILD_TYPE="test" PYTHON="2.7" MINICONDA_OS="Linux" BUILD_ARGS=""
     - os: linux
-      language: generic
       env: BUILD_TYPE="test" PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS=""
     - os: linux
-      language: generic
       env: BUILD_TYPE="test" PYTHON="3.5" MINICONDA_OS="Linux" BUILD_ARGS="--install-option --no-text-rendering"
     - os: osx
-      language: generic
       env: BUILD_TYPE="test" PYTHON="2.7" MINICONDA_OS="MacOSX" BUILD_ARGS=""
     - os: osx
-      language: generic
       env: BUILD_TYPE="test" PYTHON="3.5" MINICONDA_OS="MacOSX" BUILD_ARGS=""
     - sudo: required
       services:
@@ -32,8 +27,8 @@ script:
 
 deploy:
   provider: pypi
-  user: jwiggins
   skip_cleanup: true
   on:
-    tags: true
+    branch: master
     condition: $BUILD_TYPE = "package"
+    tags: true

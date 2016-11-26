@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # Install conda
 URL="https://repo.continuum.io/miniconda/Miniconda3-latest-${MINICONDA_OS}-x86_64.sh"
 wget "${URL}" -O miniconda.sh
