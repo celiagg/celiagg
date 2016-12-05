@@ -30,14 +30,15 @@ cpdef enum FontCacheType:
 
 IF _ENABLE_TEXT_RENDERING:
     cdef class Font:
+        """Font(path, size, cache_type)
+
+        :param path: A Unicode string containing the path of a ``Font`` file
+        :param size: The size of the font
+        :param cache_type: A ``FontCacheType``
+        """
         cdef _font.Font* _this
 
         def __cinit__(self, fontName, double size, FontCacheType ch):
-            """Font(path, height, bold, italic, cache_type)
-            path : A unicode string containing the path of a Font file
-            height : The size of the font
-            cache_type : A FontCacheType
-            """
             fontName = _get_utf8_text(fontName,
                                     "Font path must be a unicode string")
             self._this = new _font.Font(fontName, size, ch)
@@ -68,13 +69,18 @@ IF _ENABLE_TEXT_RENDERING:
                 self._this.hinting(value)
 
         def width(self, text):
-            """width(self, text):
-            text : a unicode string
+            """width(text)
+            Measures the width of a string rendered with the font.
+
+            :param text: a unicode string
             """
             text = _get_utf8_text(text, "Argument must be a unicode string")
             return self._this.string_width(text)
 ELSE:
     cdef class Font:
+        """Font()
+        NOTE: celiagg was compiled without text rendering support!
+        """
         def __init__(self, *args):
             msg = ("The celiagg library was compiled without font support!  "
                    "If you would like to render text, you will need to "

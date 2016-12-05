@@ -82,6 +82,28 @@ cdef class Rect:
 
 
 cdef class GraphicsState:
+    """GraphicsState(**properties)
+    A container for drawing state. Can be initialized using keyword
+    arguments and works as a namespace for the following properties:
+
+    * anti_aliased: A boolean denoting whether drawing is anti-aliased or not.
+    * drawing_mode: A `DrawingMode` value denoting the drawing mode.
+    * text_drawing_mode: A `TextDrawingMode` value denoting the text drawing mode.
+    * blend_mode: A `BlendMode` for non-image drawing. (ignored)
+    * image_blend_mode: A `BlendMode` for image drawing. (ignored)
+    * line_cap: A `LineCap` value denoting the style of line ends.
+    * line_join: A `LineJoin` value denoting the style of joins.
+    * inner_join: An `InnerJoin` value denoting the style of inner joins.
+    * miter_limit: The miter limit
+    * inner_miter_limit: The miter limit for inner joins
+    * master_alpha: A master opacity value.
+    * line_width: The width when stroking lines.
+    * clip_box: A `Rect` which defines a simple clipping area.
+    * line_dash_pattern: A sequence of (dash length, gap length) pairs.
+    * line_dash_phase: Where in `line_dash_pattern` to start.
+    * stencil: A grayscale image which will mask any drawing. Must match the
+      size of the canvas that is being drawn.
+    """
     cdef _graphics_state.GraphicsState* _this
     cdef Image _stencil_img
 
@@ -104,7 +126,7 @@ cdef class GraphicsState:
                               GetSetDescriptorType)]
 
     def copy(self):
-        """ Return a deep copy of the object
+        """Return a deep copy of the object
         """
         cpy = GraphicsState()
         properties = self._propnames()

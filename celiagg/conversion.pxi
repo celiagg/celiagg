@@ -57,7 +57,7 @@ cdef float _get_max_value(dtype):
 
 
 cdef gray2rgb(src, dst_order, dtype=None, alpha=False):
-    """ Convert gray pixels to RGB[A].
+    """Convert gray pixels to RGB[A].
     """
     last_dim = (4,) if alpha else (3,)
     dst = numpy.empty(src.shape + last_dim, dtype=dtype)
@@ -76,7 +76,7 @@ cdef gray2rgb(src, dst_order, dtype=None, alpha=False):
 
 
 cdef rgb2rgb(src, src_order, dst_order, dtype=None, alpha=False):
-    """ Convert RGB[A] pixels to RGB[A] pixels.
+    """Convert RGB[A] pixels to RGB[A] pixels.
     """
     last_dim = (4,) if alpha else (3,)
     dst = numpy.empty(src.shape[:2] + last_dim, dtype=dtype)
@@ -98,7 +98,7 @@ cdef rgb2rgb(src, src_order, dst_order, dtype=None, alpha=False):
 
 
 cdef gray2gray(src, dtype=None):
-    """ Convert gray pixels to gray pixels.
+    """Convert gray pixels to gray pixels.
     """
     dst = numpy.empty(src.shape, dtype=dtype)
     max_from = _get_max_value(src.dtype)
@@ -108,7 +108,7 @@ cdef gray2gray(src, dtype=None):
 
 
 cdef rgb2gray(src, src_order, dtype=None):
-    """ Convert RGB[A] pixels to gray.
+    """Convert RGB[A] pixels to gray.
     """
     dst = numpy.empty(src.shape[:2], dtype=dtype)
 
@@ -123,9 +123,10 @@ cdef rgb2gray(src, src_order, dtype=None):
 def convert_image(src, to_format, bottom_up=False):
     """convert_image(src, to_format, bottom_up=False)
     Create a new image with a desired pixel format and orientation.
-    image: An Image instance
-    to_format: A PixelFormat describing the desired output format
-    bottom_up: If True, the image data is flipped in the y axis
+
+    :param image: An Image instance
+    :param to_format: A PixelFormat describing the desired output format
+    :param bottom_up: If True, the image data is flipped in the y axis
     """
     if not isinstance(src, Image):
         raise TypeError("src must an Image instance")
