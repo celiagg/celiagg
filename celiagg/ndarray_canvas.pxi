@@ -112,7 +112,7 @@ cdef class CanvasBase:
 
     def draw_image(self, image, fmt, transform, state, bottom_up=False):
         """draw_image(image, format, transform, state, bottom_up=False)
-        Draw an image to the canvas.
+        Draw an image on the canvas.
 
         :param image: A 2D or 3D numpy array containing image data
         :param format: A ``PixelFormat`` describing the array's data
@@ -278,11 +278,14 @@ cdef class CanvasBase:
 
 
 cdef class CanvasRGBA128(CanvasBase):
-    """CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasRGBA128's constructor argument.
-    Because this array is modified in place, it must be of type numpy.float32,
-    must be C-contiguous, and must be
-    MxNx4 (4 channels: red, green, blue, and alpha).
+    """CanvasRGBA128(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.float32``, must be
+    C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).
+
+    :param array: A ``numpy.float32`` array with shape (H, W, 4).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, float[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
@@ -296,11 +299,14 @@ cdef class CanvasRGBA128(CanvasBase):
 
 
 cdef class CanvasBGRA32(CanvasBase):
-    """CanvasBGRA32 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasBGRA32's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be
-    MxNx4 (4 channels: blue, green, red, alpha).
+    """CanvasBGRA32(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx4 (4 channels: blue, green, red, alpha).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 4).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
@@ -314,11 +320,14 @@ cdef class CanvasBGRA32(CanvasBase):
 
 
 cdef class CanvasRGBA32(CanvasBase):
-    """CanvasRGBA32 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasRGBA32's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be
-    MxNx4 (4 channels: red, green, blue, and alpha).
+    """CanvasRGBA32(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 4).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
@@ -332,10 +341,14 @@ cdef class CanvasRGBA32(CanvasBase):
 
 
 cdef class CanvasRGB24(CanvasBase):
-    """CanvasRGB24 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasRGB24's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
+    """CanvasRGB24(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 3).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, False)
@@ -349,10 +362,14 @@ cdef class CanvasRGB24(CanvasBase):
 
 
 cdef class CanvasGA16(CanvasBase):
-    """CanvasGA16 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasGA16's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
+    """CanvasGA16(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 2).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 2, True)
@@ -366,10 +383,14 @@ cdef class CanvasGA16(CanvasBase):
 
 
 cdef class CanvasG8(CanvasBase):
-    """CanvasG8 provides AGG (Anti-Grain Geometry) drawing routines that render
-    to the numpy array passed as CanvasG8's constructor argument.  Because this
-    array is modified in place, it must be of type numpy.uint8, must be
+    """CanvasG8(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
     C-contiguous, and must be MxN (1 channel: intensity).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,::1] image, bottom_up=False):
         self.base_init(image, 2, False)
