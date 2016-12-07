@@ -35,4 +35,4 @@ from ._celiagg import (
     TextDrawingMode, Transform
 )
 from ._celiagg import (CanvasG8, CanvasGA16, CanvasRGB24, CanvasRGBA32,
-                     CanvasBGRA32, CanvasRGBA128)
+                       CanvasBGRA32, CanvasRGBA128)

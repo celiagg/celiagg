@@ -100,18 +100,25 @@ cdef class CanvasBase:
                          bottom_up=self.bottom_up)
 
     def clear(self, double r, double g, double b, double a=1.0):
-        """clear(self, r, g, b, a)
-          r, g, b, a: The RGBA color to clear the buffer with
+        """clear(r, g, b, a)
+        Fill the canvas with a single RGBA value
+
+        :param r: Red value in [0, 1]
+        :param g: Green value in [0, 1]
+        :param b: Blue value in [0, 1]
+        :param a: Alpha value in [0, 1] (defaults to 1.0)
         """
         self._this.clear(r, g, b, a)
 
     def draw_image(self, image, fmt, transform, state, bottom_up=False):
-        """draw_image(self, image, format, transform, state, bottom_up=False)
-            image: A 2D or 3D numpy array containing image data
-            format: A PixelFormat describing the array's data
-            transform: A Transform object
-            state: A GraphicsState object
-            bottom_up: If True, the image data is flipped in the y axis
+        """draw_image(image, format, transform, state, bottom_up=False)
+        Draw an image on the canvas.
+
+        :param image: A 2D or 3D numpy array containing image data
+        :param format: A ``PixelFormat`` describing the array's data
+        :param transform: A ``Transform`` object
+        :param state: A ``GraphicsState`` object
+        :param bottom_up: If True, the image data is flipped in the y axis
         """
         if not isinstance(image, (numpy.ndarray, Image)):
             raise TypeError("image must be an ndarray or Image instance")
@@ -141,12 +148,14 @@ cdef class CanvasBase:
                               dereference(gs._this))
 
     def draw_shape(self, shape, transform, state, stroke=None, fill=None):
-        """draw_shape(self, shape, transform, state, stroke=None, fill=None)
-          shape: A VertexSource object
-          transform: A Transform object
-          state: A GraphicsState object
-          stroke: The Paint to use for outlines
-          fill: The Paint to use for fills
+        """draw_shape(shape, transform, state, stroke=None, fill=None)
+        Draw a shape on the canvas.
+
+        :param shape: A ``VertexSource`` object
+        :param transform: A ``Transform`` object
+        :param state: A ``GraphicsState`` object
+        :param stroke: The ``Paint`` to use for outlines
+        :param fill: The ``Paint`` to use for fills
         """
         if not isinstance(shape, VertexSource):
             raise TypeError("shape must be a VertexSource (Path, BSpline, etc)")
@@ -178,13 +187,16 @@ cdef class CanvasBase:
                               dereference(gs._this))
 
     def draw_text(self, text, font, transform, state, stroke=None, fill=None):
-        """draw_text(self, text, font, transform, state, stroke=None, fill=None)
-          text: A Unicode string of text to be renderered.
-          font: A Font object
-          transform: A Transform object
-          state: A GraphicsState object
-          stroke: The Paint to use for outlines
-          fill: The Paint to use for fills
+        """draw_text(text, font, transform, state, stroke=None, fill=None)
+        Draw a line of text on the canvas.
+
+        :param text: A Unicode string of text to be renderered. Newlines will
+                     be ignored.
+        :param font: A ``Font`` object
+        :param transform: A ``Transform`` object
+        :param state: A ``GraphicsState`` object
+        :param stroke: The ``Paint`` to use for outlines
+        :param fill: The ``Paint`` to use for fills
         """
         IF not _ENABLE_TEXT_RENDERING:
             msg = ("The celiagg library was compiled without font support!  "
@@ -223,7 +235,7 @@ cdef class CanvasBase:
                              dereference(gs._this))
 
     cdef _check_stencil(self, GraphicsState state):
-        """ Internal. Checks if a stencil's dimensions match those of the
+        """Internal. Checks if a stencil's dimensions match those of the
         canvas.
         """
         cdef Image stencil = state.stencil
@@ -237,9 +249,11 @@ cdef class CanvasBase:
                 raise AggError(msg)
 
     cdef Image _get_native_image(self, Image image, PixelFormat fmt):
-        """_get_native_image(self, Image image)
-          image: An Image object which is needed in a different pixel format.
-          format: The desired output pixel format
+        """_get_native_image(image, format)
+
+        :param image: An ``Image`` object which is needed in a different pixel
+                      format.
+        :param format: The desired output pixel format
         """
         if image.pixel_format == fmt:
             return image
@@ -247,9 +261,11 @@ cdef class CanvasBase:
         return convert_image(image, fmt, bottom_up=image.bottom_up)
 
     cdef Paint _get_native_paint(self, paint, PixelFormat fmt):
-        """_get_native_paint(self, Paint paint)
-          paint: A Paint object which is needed in a different pixel format.
-          format: The desired output pixel format
+        """_get_native_paint(paint, format)
+
+        :param paint: A ``Paint`` object which is needed in a different pixel
+                      format.
+        :param format: The desired output pixel format
         """
         if paint is None:
             return SolidPaint(0.0, 0.0, 0.0)
@@ -262,11 +278,14 @@ cdef class CanvasBase:
 
 
 cdef class CanvasRGBA128(CanvasBase):
-    """CanvasRGBA128 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasRGBA128's constructor argument.
-    Because this array is modified in place, it must be of type numpy.float32,
-    must be C-contiguous, and must be
-    MxNx4 (4 channels: red, green, blue, and alpha).
+    """CanvasRGBA128(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.float32``, must be
+    C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).
+
+    :param array: A ``numpy.float32`` array with shape (H, W, 4).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, float[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
@@ -280,11 +299,14 @@ cdef class CanvasRGBA128(CanvasBase):
 
 
 cdef class CanvasBGRA32(CanvasBase):
-    """CanvasBGRA32 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasBGRA32's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be
-    MxNx4 (4 channels: blue, green, red, alpha).
+    """CanvasBGRA32(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx4 (4 channels: blue, green, red, alpha).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 4).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
@@ -298,11 +320,14 @@ cdef class CanvasBGRA32(CanvasBase):
 
 
 cdef class CanvasRGBA32(CanvasBase):
-    """CanvasRGBA32 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasRGBA32's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be
-    MxNx4 (4 channels: red, green, blue, and alpha).
+    """CanvasRGBA32(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 4).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
@@ -316,10 +341,14 @@ cdef class CanvasRGBA32(CanvasBase):
 
 
 cdef class CanvasRGB24(CanvasBase):
-    """CanvasRGB24 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasRGB24's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
+    """CanvasRGB24(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 3).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, False)
@@ -333,10 +362,14 @@ cdef class CanvasRGB24(CanvasBase):
 
 
 cdef class CanvasGA16(CanvasBase):
-    """CanvasGA16 provides AGG (Anti-Grain Geometry) drawing routines that
-    render to the numpy array passed as CanvasGA16's constructor argument.
-    Because this array is modified in place, it must be of type numpy.uint8,
-    must be C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
+    """CanvasGA16(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
+    C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W, 2).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 2, True)
@@ -350,10 +383,14 @@ cdef class CanvasGA16(CanvasBase):
 
 
 cdef class CanvasG8(CanvasBase):
-    """CanvasG8 provides AGG (Anti-Grain Geometry) drawing routines that render
-    to the numpy array passed as CanvasG8's constructor argument.  Because this
-    array is modified in place, it must be of type numpy.uint8, must be
+    """CanvasG8(array, bottom_up=False)
+    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+    numpy array passed as the constructor argument. Because this array is
+    modified in place, it must be of type ``numpy.uint8``, must be
     C-contiguous, and must be MxN (1 channel: intensity).
+
+    :param array: A ``numpy.uint8`` array with shape (H, W).
+    :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
     def __cinit__(self, uint8_t[:,::1] image, bottom_up=False):
         self.base_init(image, 2, False)

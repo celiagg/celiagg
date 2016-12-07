@@ -109,9 +109,10 @@ cdef img_ptr_t _get_image(array, pixel_format, bottom_up):
 
 cdef class Image:
     """Image(array, pixel_format, bottom_up=False)
-        image: A 2D or 3D numpy array containing image data
-        pixel_format: A PixelFormat describing the image's pixel format
-        bottom_up: If True, the image data starts at the bottom of the image
+
+    :param image: A 2D or 3D numpy array containing image data
+    :param pixel_format: A PixelFormat describing the image's pixel format
+    :param bottom_up: If True, the image data starts at the bottom of the image
     """
     cdef img_ptr_t _this
     cdef PixelFormat pixel_format
@@ -151,7 +152,7 @@ cdef class Image:
         del self._this
 
     def copy(self):
-        """ Returns a deep copy of the image.
+        """Returns a deep copy of the image.
         """
         array = self.pixel_array.copy()
         return Image(array, self.pixel_format, bottom_up=self.bottom_up)

@@ -79,12 +79,16 @@ cdef class Paint:
 
 
 cdef class LinearGradientPaint(Paint):
-    """ LinearGradientPaint(points, stops, spread, units)
-          x1, y1: Gradient start point (x, y)
-          x2, y2: Gradient end point (x, y)
-          stops: An iterable of gradient stops (offset, r, g, b, a)
-          spread: The GradientSpread type for this gradient
-          units: The GradientUnits type for this gradient
+    """LinearGradientPaint(x1, y1, x2, y2, stops, spread, units)
+    A ``Paint`` for drawing linear gradients
+
+    :param x1: Gradient start point X
+    :param y1: Gradient start point Y
+    :param x2: Gradient end point X
+    :param y2: Gradient end point Y
+    :param stops: An iterable of gradient stop tuples: (offset, r, g, b, a)
+    :param spread: The ``GradientSpread`` type for this gradient
+    :param units: The ``GradientUnits`` type for this gradient
     """
     cdef object _points
     cdef object _stops
@@ -114,13 +118,17 @@ cdef class LinearGradientPaint(Paint):
 
 
 cdef class RadialGradientPaint(Paint):
-    """ RadialGradientPaint(points, stops, spread, units)
-          cx, cy: Gradient center point (x, y)
-          r: Gradient radius
-          fx, fy: Gradient focus point (x, y)
-          stops: An iterable of gradient stops (offset, r, g, b, a)
-          spread: The GradientSpread type for this gradient
-          units: The GradientUnits type for this gradient
+    """RadialGradientPaint(cx, cy, r, fx, fy, stops, spread, units)
+    A ``Paint`` for drawing radial gradients
+
+    :param cx: Gradient center point X
+    :param cy: Gradient center point Y
+    :param r: Gradient radius
+    :param fx: Gradient focus point X
+    :param fy: Gradient focus point Y
+    :param stops: An iterable of gradient stop tuples: (offset, r, g, b, a)
+    :param spread: The ``GradientSpread`` type for this gradient
+    :param units: The ``GradientUnits`` type for this gradient
     """
     cdef object _points
     cdef object _stops
@@ -150,9 +158,11 @@ cdef class RadialGradientPaint(Paint):
 
 
 cdef class PatternPaint(Paint):
-    """ PatternPaint(style, image)
-          style: A PatternStyle
-          image: An Image object
+    """PatternPaint(style, image)
+    A ``Paint`` for repeating patterns.
+
+    :param style: A ``PatternStyle``
+    :param image: An ``Image`` object
     """
     cdef PatternStyle style
     cdef Image img_obj
@@ -186,7 +196,13 @@ cdef class PatternPaint(Paint):
 
 
 cdef class SolidPaint(Paint):
-    """ SolidPaint(r, g, b, a)
+    """SolidPaint(r, g, b, a)
+    A ``Paint`` for solid colors.
+
+    :param r: Red value in [0, 1]
+    :param g: Green value in [0, 1]
+    :param b: Blue value in [0, 1]
+    :param a: Alpha value in [0, 1] (defaults to 1.0)
     """
     def __cinit__(self, double r, double g, double b, double a=1.0):
         self._this = new _paint.Paint(r, g, b, a)
