@@ -1,0 +1,1313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>celiagg API documentation &#8212; celiagg 0.1.3 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1.3',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="top" title="celiagg 0.1.3 documentation" href="index.html" />
+    <link rel="prev" title="&lt;no title&gt;" href="philosophy.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-celiagg">
+<span id="celiagg-api-documentation"></span><h1>celiagg API documentation<a class="headerlink" href="#module-celiagg" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="canvas-classes">
+<h2>Canvas Classes<a class="headerlink" href="#canvas-classes" title="Permalink to this headline">¶</a></h2>
+<p>There are many canvas classes which all have a common interface. The difference
+between the classes is the color format of the destination frame buffer. The
+list of available canvas classes follows this documentation of <code class="docutils literal"><span class="pre">CanvasRGBA32</span></code>
+which covers the interface:</p>
+<dl class="class">
+<dt id="celiagg.CanvasRGBA32">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">CanvasRGBA32</code><span class="sig-paren">(</span><em>array</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+numpy array passed as the constructor argument. Because this array is
+modified in place, it must be of type <code class="docutils literal"><span class="pre">numpy.uint8</span></code>, must be
+C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; A <code class="docutils literal"><span class="pre">numpy.uint8</span></code> array with shape (H, W, 4).</li>
+<li><strong>bottom_up</strong> &#8211; If True, the origin is the bottom left, instead of top-left</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="celiagg.CanvasRGBA32.clear">
+<code class="descname">clear</code><span class="sig-paren">(</span><em>r</em>, <em>g</em>, <em>b</em>, <em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.clear" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fill the canvas with a single RGBA value</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>r</strong> &#8211; Red value in [0, 1]</li>
+<li><strong>g</strong> &#8211; Green value in [0, 1]</li>
+<li><strong>b</strong> &#8211; Blue value in [0, 1]</li>
+<li><strong>a</strong> &#8211; Alpha value in [0, 1] (defaults to 1.0)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.CanvasRGBA32.draw_image">
+<code class="descname">draw_image</code><span class="sig-paren">(</span><em>image</em>, <em>format</em>, <em>transform</em>, <em>state</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw an image on the canvas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; A 2D or 3D numpy array containing image data</li>
+<li><strong>format</strong> &#8211; A <code class="docutils literal"><span class="pre">PixelFormat</span></code> describing the array&#8217;s data</li>
+<li><strong>transform</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> object</li>
+<li><strong>state</strong> &#8211; A <code class="docutils literal"><span class="pre">GraphicsState</span></code> object</li>
+<li><strong>bottom_up</strong> &#8211; If True, the image data is flipped in the y axis</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.CanvasRGBA32.draw_shape">
+<code class="descname">draw_shape</code><span class="sig-paren">(</span><em>shape</em>, <em>transform</em>, <em>state</em>, <em>stroke=None</em>, <em>fill=None</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a shape on the canvas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>shape</strong> &#8211; A <code class="docutils literal"><span class="pre">VertexSource</span></code> object</li>
+<li><strong>transform</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> object</li>
+<li><strong>state</strong> &#8211; A <code class="docutils literal"><span class="pre">GraphicsState</span></code> object</li>
+<li><strong>stroke</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for outlines</li>
+<li><strong>fill</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for fills</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.CanvasRGBA32.draw_text">
+<code class="descname">draw_text</code><span class="sig-paren">(</span><em>text</em>, <em>font</em>, <em>transform</em>, <em>state</em>, <em>stroke=None</em>, <em>fill=None</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_text" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw a line of text on the canvas.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>text</strong> &#8211; A Unicode string of text to be renderered. Newlines will
+be ignored.</li>
+<li><strong>font</strong> &#8211; A <code class="docutils literal"><span class="pre">Font</span></code> object</li>
+<li><strong>transform</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> object</li>
+<li><strong>state</strong> &#8211; A <code class="docutils literal"><span class="pre">GraphicsState</span></code> object</li>
+<li><strong>stroke</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for outlines</li>
+<li><strong>fill</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for fills</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.CanvasG8">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">CanvasG8</code><span class="sig-paren">(</span><em>array</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasG8" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+numpy array passed as the constructor argument. Because this array is
+modified in place, it must be of type <code class="docutils literal"><span class="pre">numpy.uint8</span></code>, must be
+C-contiguous, and must be MxN (1 channel: intensity).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; A <code class="docutils literal"><span class="pre">numpy.uint8</span></code> array with shape (H, W).</li>
+<li><strong>bottom_up</strong> &#8211; If True, the origin is the bottom left, instead of top-left</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.CanvasGA16">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">CanvasGA16</code><span class="sig-paren">(</span><em>array</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasGA16" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+numpy array passed as the constructor argument. Because this array is
+modified in place, it must be of type <code class="docutils literal"><span class="pre">numpy.uint8</span></code>, must be
+C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; A <code class="docutils literal"><span class="pre">numpy.uint8</span></code> array with shape (H, W, 2).</li>
+<li><strong>bottom_up</strong> &#8211; If True, the origin is the bottom left, instead of top-left</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.CanvasRGB24">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">CanvasRGB24</code><span class="sig-paren">(</span><em>array</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGB24" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+numpy array passed as the constructor argument. Because this array is
+modified in place, it must be of type <code class="docutils literal"><span class="pre">numpy.uint8</span></code>, must be
+C-contiguous, and must be MxNx3 (3 channels: red, green, blue).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; A <code class="docutils literal"><span class="pre">numpy.uint8</span></code> array with shape (H, W, 3).</li>
+<li><strong>bottom_up</strong> &#8211; If True, the origin is the bottom left, instead of top-left</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.CanvasBGRA32">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">CanvasBGRA32</code><span class="sig-paren">(</span><em>array</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasBGRA32" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+numpy array passed as the constructor argument. Because this array is
+modified in place, it must be of type <code class="docutils literal"><span class="pre">numpy.uint8</span></code>, must be
+C-contiguous, and must be MxNx4 (4 channels: blue, green, red, alpha).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; A <code class="docutils literal"><span class="pre">numpy.uint8</span></code> array with shape (H, W, 4).</li>
+<li><strong>bottom_up</strong> &#8211; If True, the origin is the bottom left, instead of top-left</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.CanvasRGBA128">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">CanvasRGBA128</code><span class="sig-paren">(</span><em>array</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA128" title="Permalink to this definition">¶</a></dt>
+<dd><p>Provides AGG (Anti-Grain Geometry) drawing routines that render to the
+numpy array passed as the constructor argument. Because this array is
+modified in place, it must be of type <code class="docutils literal"><span class="pre">numpy.float32</span></code>, must be
+C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>array</strong> &#8211; A <code class="docutils literal"><span class="pre">numpy.float32</span></code> array with shape (H, W, 4).</li>
+<li><strong>bottom_up</strong> &#8211; If True, the origin is the bottom left, instead of top-left</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="drawing-state-container-classes">
+<h2>Drawing State Container Classes<a class="headerlink" href="#drawing-state-container-classes" title="Permalink to this headline">¶</a></h2>
+<p>There are a handful of objects which contain state or data useful to the
+various drawing methods of <code class="docutils literal"><span class="pre">Canvas</span></code>. <code class="docutils literal"><span class="pre">GraphicsState</span></code> and <code class="docutils literal"><span class="pre">Transform</span></code> for
+example, are passed to every drawing method. <code class="docutils literal"><span class="pre">Image</span></code> instances can either be
+drawn directly on a <code class="docutils literal"><span class="pre">Canvas</span></code>, or supplied to <code class="docutils literal"><span class="pre">PatternPaint</span></code> to serve as a
+repeating fill pattern. Finally, <code class="docutils literal"><span class="pre">Font</span></code> determines the font used when drawing
+text, and can also be used to measure the bounding rectangle of a rendered
+string.</p>
+<dl class="class">
+<dt id="celiagg.GraphicsState">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">GraphicsState</code><span class="sig-paren">(</span><em>**properties</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.GraphicsState" title="Permalink to this definition">¶</a></dt>
+<dd><p>A container for drawing state. Can be initialized using keyword
+arguments and works as a namespace for the following properties:</p>
+<ul>
+<li><p class="first">anti_aliased: A boolean denoting whether drawing is anti-aliased or not.</p>
+</li>
+<li><p class="first">drawing_mode: A <code class="docutils literal"><span class="pre">DrawingMode</span></code> value denoting the drawing mode.</p>
+</li>
+<li><dl class="first docutils">
+<dt>text_drawing_mode: A <code class="docutils literal"><span class="pre">TextDrawingMode</span></code> value denoting the text drawing</dt>
+<dd><p class="first last">mode.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">blend_mode: A <code class="docutils literal"><span class="pre">BlendMode</span></code> for non-image drawing. (ignored)</p>
+</li>
+<li><p class="first">image_blend_mode: A <code class="docutils literal"><span class="pre">BlendMode</span></code> for image drawing. (ignored)</p>
+</li>
+<li><p class="first">line_cap: A <code class="docutils literal"><span class="pre">LineCap</span></code> value denoting the style of line ends.</p>
+</li>
+<li><p class="first">line_join: A <code class="docutils literal"><span class="pre">LineJoin</span></code> value denoting the style of joins.</p>
+</li>
+<li><p class="first">inner_join: An <code class="docutils literal"><span class="pre">InnerJoin</span></code> value denoting the style of inner joins.</p>
+</li>
+<li><p class="first">miter_limit: The miter limit</p>
+</li>
+<li><p class="first">inner_miter_limit: The miter limit for inner joins</p>
+</li>
+<li><p class="first">master_alpha: A master opacity value.</p>
+</li>
+<li><p class="first">line_width: The width when stroking lines.</p>
+</li>
+<li><p class="first">clip_box: A <code class="docutils literal"><span class="pre">Rect</span></code> which defines a simple clipping area.</p>
+</li>
+<li><p class="first">line_dash_pattern: A sequence of (dash length, gap length) pairs.</p>
+</li>
+<li><p class="first">line_dash_phase: Where in <code class="docutils literal"><span class="pre">line_dash_pattern</span></code> to start, when drawing.</p>
+</li>
+<li><dl class="first docutils">
+<dt>stencil: An <code class="docutils literal"><span class="pre">Image</span></code> with format <code class="docutils literal"><span class="pre">Gray8</span></code> which will mask any drawing.</dt>
+<dd><p class="first last">The dimensions must match the size of the canvas that is being
+drawn to.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.Image">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">Image</code><span class="sig-paren">(</span><em>array</em>, <em>pixel_format</em>, <em>bottom_up=False</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Image" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>image</strong> &#8211; A 2D or 3D numpy array containing image data</li>
+<li><strong>pixel_format</strong> &#8211; A PixelFormat describing the image&#8217;s pixel format</li>
+<li><strong>bottom_up</strong> &#8211; If True, the image data starts at the bottom of the image</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.Font">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">Font</code><span class="sig-paren">(</span><em>path</em>, <em>size</em>, <em>cache_type</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Font" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>path</strong> &#8211; A Unicode string containing the path of a <code class="docutils literal"><span class="pre">Font</span></code> file</li>
+<li><strong>size</strong> &#8211; The size of the font</li>
+<li><strong>cache_type</strong> &#8211; A <code class="docutils literal"><span class="pre">FontCacheType</span></code></li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="celiagg.Font.width">
+<code class="descname">width</code><span class="sig-paren">(</span><em>text</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Font.width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Measures the width of a string rendered with the font.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>text</strong> &#8211; a unicode string</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.Rect">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">Rect</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>w</em>, <em>h</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>A rectangle.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; The X coordinate of the top left corner</li>
+<li><strong>y</strong> &#8211; The Y coordinate of the top left corner</li>
+<li><strong>w</strong> &#8211; The width of the rectangle in pixels</li>
+<li><strong>h</strong> &#8211; The height of the rectangle in pixels</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.Transform">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">Transform</code><span class="sig-paren">(</span><em>sx=1.0</em>, <em>shy=0.0</em>, <em>shx=0.0</em>, <em>sy=1.0</em>, <em>tx=0.0</em>, <em>ty=0.0</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform" title="Permalink to this definition">¶</a></dt>
+<dd><p>A 2D affine transform.</p>
+<p>After construction, the same names can be used as get/set properties for
+individual components of the transform.</p>
+<p>NOTE: If you&#8217;re familar with SVG, you&#8217;ll notice the format of this
+constructor. The arguments are exactly the same as the SVG <cite>matrix</cite>
+attribute.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sx</strong> &#8211; Scale X</li>
+<li><strong>shy</strong> &#8211; Shear/Skew Y</li>
+<li><strong>shx</strong> &#8211; Shear/Skew X</li>
+<li><strong>sy</strong> &#8211; Scale Y</li>
+<li><strong>tx</strong> &#8211; Translation X</li>
+<li><strong>ty</strong> &#8211; Translation Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="celiagg.Transform.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a deep copy of the object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.invert">
+<code class="descname">invert</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.invert" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inverts the matrix.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.multiply">
+<code class="descname">multiply</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.multiply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Post-multiply this transform with another transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> instance to multiply</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.premultiply">
+<code class="descname">premultiply</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.premultiply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pre-multiply this transform with another transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> instance to premultiply</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Resets to the identity transform.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.rotate">
+<code class="descname">rotate</code><span class="sig-paren">(</span><em>angle</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.rotate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a rotation to the transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>angle</strong> &#8211; The desired rotation in radians.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.scale">
+<code class="descname">scale</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.scale" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a scaling to the transform</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; The scale factor in X</li>
+<li><strong>y</strong> &#8211; The scale factor in Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.screenToWorld">
+<code class="descname">screenToWorld</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.screenToWorld" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms a point from screen space to world space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The X coordinate of the point to transform.</li>
+<li><strong>y</strong> &#8211; The Y coordinate of the point to transform.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An (x, y) tuple containing the transformed point.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.skew">
+<code class="descname">skew</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.skew" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a skew to the transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; The skew factor in X</li>
+<li><strong>y</strong> &#8211; The skew factor in Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.translate">
+<code class="descname">translate</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.translate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a translation to the transform.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; The translation in X</li>
+<li><strong>y</strong> &#8211; The translation in Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Transform.worldToScreen">
+<code class="descname">worldToScreen</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Transform.worldToScreen" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transforms a point from world space to screen space.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>x</strong> &#8211; The X coordinate of the point to transform.</li>
+<li><strong>y</strong> &#8211; The Y coordinate of the point to transform.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">An (x, y) tuple containing the transformed point.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="paint-classes">
+<h2>Paint Classes<a class="headerlink" href="#paint-classes" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">Paint</span></code> (an internal base class) classes determine the look of strokes
+and fills. <code class="docutils literal"><span class="pre">Canvas.draw_shape</span></code> and <code class="docutils literal"><span class="pre">Canvas.draw_text</span></code> both accept optional
+arguments for <cite>fill</cite> and <cite>stroke</cite> <a href="#id1"><span class="problematic" id="id2">``</span></a>Paint``s. The currently available options
+are solid colors, gradients, or image patterns.</p>
+<dl class="class">
+<dt id="celiagg.LinearGradientPaint">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">LinearGradientPaint</code><span class="sig-paren">(</span><em>x1</em>, <em>y1</em>, <em>x2</em>, <em>y2</em>, <em>stops</em>, <em>spread</em>, <em>units</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.LinearGradientPaint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">Paint</span></code> for drawing linear gradients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x1</strong> &#8211; Gradient start point X</li>
+<li><strong>y1</strong> &#8211; Gradient start point Y</li>
+<li><strong>x2</strong> &#8211; Gradient end point X</li>
+<li><strong>y2</strong> &#8211; Gradient end point Y</li>
+<li><strong>stops</strong> &#8211; An iterable of gradient stop tuples: (offset, r, g, b, a)</li>
+<li><strong>spread</strong> &#8211; The <code class="docutils literal"><span class="pre">GradientSpread</span></code> type for this gradient</li>
+<li><strong>units</strong> &#8211; The <code class="docutils literal"><span class="pre">GradientUnits</span></code> type for this gradient</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.RadialGradientPaint">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">RadialGradientPaint</code><span class="sig-paren">(</span><em>cx</em>, <em>cy</em>, <em>r</em>, <em>fx</em>, <em>fy</em>, <em>stops</em>, <em>spread</em>, <em>units</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.RadialGradientPaint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">Paint</span></code> for drawing radial gradients</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cx</strong> &#8211; Gradient center point X</li>
+<li><strong>cy</strong> &#8211; Gradient center point Y</li>
+<li><strong>r</strong> &#8211; Gradient radius</li>
+<li><strong>fx</strong> &#8211; Gradient focus point X</li>
+<li><strong>fy</strong> &#8211; Gradient focus point Y</li>
+<li><strong>stops</strong> &#8211; An iterable of gradient stop tuples: (offset, r, g, b, a)</li>
+<li><strong>spread</strong> &#8211; The <code class="docutils literal"><span class="pre">GradientSpread</span></code> type for this gradient</li>
+<li><strong>units</strong> &#8211; The <code class="docutils literal"><span class="pre">GradientUnits</span></code> type for this gradient</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.PatternPaint">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">PatternPaint</code><span class="sig-paren">(</span><em>style</em>, <em>image</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.PatternPaint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">Paint</span></code> for repeating patterns.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>style</strong> &#8211; A <code class="docutils literal"><span class="pre">PatternStyle</span></code></li>
+<li><strong>image</strong> &#8211; An <code class="docutils literal"><span class="pre">Image</span></code> object</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.SolidPaint">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">SolidPaint</code><span class="sig-paren">(</span><em>r</em>, <em>g</em>, <em>b</em>, <em>a</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.SolidPaint" title="Permalink to this definition">¶</a></dt>
+<dd><p>A <code class="docutils literal"><span class="pre">Paint</span></code> for solid colors.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>r</strong> &#8211; Red value in [0, 1]</li>
+<li><strong>g</strong> &#8211; Green value in [0, 1]</li>
+<li><strong>b</strong> &#8211; Blue value in [0, 1]</li>
+<li><strong>a</strong> &#8211; Alpha value in [0, 1] (defaults to 1.0)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+<div class="section" id="vetexsource-classes">
+<h2><code class="docutils literal"><span class="pre">VetexSource</span></code> Classes<a class="headerlink" href="#vetexsource-classes" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal"><span class="pre">VertexSource</span></code> (an internal base class) classes contain geometry data
+which can be drawn using the <code class="docutils literal"><span class="pre">Canvas.draw_shape</span></code> method.</p>
+<dl class="class">
+<dt id="celiagg.BSpline">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">BSpline</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.BSpline" title="Permalink to this definition">¶</a></dt>
+<dd><p>A B-Spline curve.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>points</strong> &#8211; 2D array of (x, y) pairs</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="celiagg.BSpline.bounding_rect">
+<code class="descname">bounding_rect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.BSpline.bounding_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a bounding rectangle for the vertices of the source in the
+format: (x, y, w, h)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.BSpline.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.BSpline.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a deep copy of the object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.BSpline.final_point">
+<code class="descname">final_point</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.BSpline.final_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last vertex that will be returned by the source.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.BSpline.length">
+<code class="descname">length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.BSpline.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of vertices returned by <code class="docutils literal"><span class="pre">vertices()</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.BSpline.vertices">
+<code class="descname">vertices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.BSpline.vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the vertices in the source as a numpy array.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.Path">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">Path</code><a class="headerlink" href="#celiagg.Path" title="Permalink to this definition">¶</a></dt>
+<dd><p>A path object.</p>
+<dl class="method">
+<dt id="celiagg.Path.add_path">
+<code class="descname">add_path</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.add_path" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add another path to this path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>other</strong> &#8211; A <code class="docutils literal"><span class="pre">Path</span></code> object which will be concatenated onto the end
+of this path.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.arc">
+<code class="descname">arc</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>radius</em>, <em>start_angle</em>, <em>end_angle</em>, <em>clockwise</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.arc" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an arc to the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Center X coordinate of the arc</li>
+<li><strong>y</strong> &#8211; Center Y coordinate of the arc</li>
+<li><strong>radius</strong> &#8211; Radius of the arc</li>
+<li><strong>start_angle</strong> &#8211; Starting angle, in radians</li>
+<li><strong>end_angle</strong> &#8211; Ending angle, in radians</li>
+<li><strong>clockwise</strong> &#8211; If True, the arc is drawn in a clockwise direction</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.arc_to">
+<code class="descname">arc_to</code><span class="sig-paren">(</span><em>x1</em>, <em>y1</em>, <em>x2</em>, <em>y2</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.arc_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an arc to the path connecting two points</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x1</strong> &#8211; The starting X point of the arc</li>
+<li><strong>y1</strong> &#8211; The starting Y point of the arc</li>
+<li><strong>x2</strong> &#8211; The end X point of the arc</li>
+<li><strong>y2</strong> &#8211; The end Y point of the arc</li>
+<li><strong>radius</strong> &#8211; The radius of the arc</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.begin">
+<code class="descname">begin</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.begin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Begins a new subpath.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.bounding_rect">
+<code class="descname">bounding_rect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.bounding_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a bounding rectangle for the vertices of the source in the
+format: (x, y, w, h)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the current subpath.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a deep copy of the object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.cubic_to">
+<code class="descname">cubic_to</code><span class="sig-paren">(</span><em>x_ctrl1</em>, <em>y_ctrl1</em>, <em>x_ctrl2</em>, <em>y_ctrl2</em>, <em>x_to</em>, <em>y_to</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.cubic_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a cubic Bezier curve to the path, starting from the current pen
+position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_ctrl1</strong> &#8211; First control point X</li>
+<li><strong>y_ctrl1</strong> &#8211; First control point Y</li>
+<li><strong>x_ctrl2</strong> &#8211; Second control point X</li>
+<li><strong>y_ctrl2</strong> &#8211; Second control point Y</li>
+<li><strong>x_to</strong> &#8211; End point X</li>
+<li><strong>y_to</strong> &#8211; End point Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.ellipse">
+<code class="descname">ellipse</code><span class="sig-paren">(</span><em>cx</em>, <em>cy</em>, <em>rx</em>, <em>ry</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.ellipse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds an ellipse to the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>cx</strong> &#8211; Center X coordinate of the ellipse</li>
+<li><strong>cy</strong> &#8211; Center Y coordinate of the ellipse</li>
+<li><strong>rx</strong> &#8211; Ellipse radii x dimension.</li>
+<li><strong>ry</strong> &#8211; Ellipse radii y dimension.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.final_point">
+<code class="descname">final_point</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.final_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last vertex that will be returned by the source.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.length">
+<code class="descname">length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of vertices returned by <code class="docutils literal"><span class="pre">vertices()</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.line_to">
+<code class="descname">line_to</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.line_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a line segment to the path from the current position to the given
+position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; X coordinate of the line end point</li>
+<li><strong>y</strong> &#8211; Y coordinate of the line end point</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.lines">
+<code class="descname">lines</code><span class="sig-paren">(</span><em>points</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds multiple connected line segmests to the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>points</strong> &#8211; 2D array of (x, y) pairs</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.lines_set">
+<code class="descname">lines_set</code><span class="sig-paren">(</span><em>starts</em>, <em>ends</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.lines_set" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds multiple disconnected line segments to the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>starts</strong> &#8211; 2D array of (x, y) pairs</li>
+<li><strong>ends</strong> &#8211; 2D array of (x, y) pairs</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.move_to">
+<code class="descname">move_to</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.move_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Moves the current position of the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; X coordinate of the new current position</li>
+<li><strong>y</strong> &#8211; Y coordinate of the new current position</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.quadric_to">
+<code class="descname">quadric_to</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.quadric_to" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a quadratic Bezier curve to the path, starting from the
+current position.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_ctrl</strong> &#8211; Control point X</li>
+<li><strong>y_ctrl</strong> &#8211; Control point Y</li>
+<li><strong>x_to</strong> &#8211; End point X</li>
+<li><strong>y_to</strong> &#8211; End point Y</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.rect">
+<code class="descname">rect</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a rectangle to the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; Rectangle X position</li>
+<li><strong>y</strong> &#8211; Rectangle Y position</li>
+<li><strong>width</strong> &#8211; Rectangle widtht</li>
+<li><strong>height</strong> &#8211; Rectangle height</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.rects">
+<code class="descname">rects</code><span class="sig-paren">(</span><em>rects</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.rects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds multiple rectangles to the path.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rects</strong> &#8211; 2D array of (x, y, w, h) sequences</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.reset">
+<code class="descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clears the path.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.Path.vertices">
+<code class="descname">vertices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.Path.vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the vertices in the source as a numpy array.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="celiagg.ShapeAtPoints">
+<em class="property">class </em><code class="descclassname">celiagg.</code><code class="descname">ShapeAtPoints</code><span class="sig-paren">(</span><em>source</em>, <em>points</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.ShapeAtPoints" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replicates a shape at mutiple points.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>source</strong> &#8211; A <code class="docutils literal"><span class="pre">VertexSource</span></code> object (<code class="docutils literal"><span class="pre">BSpline</span></code>, <code class="docutils literal"><span class="pre">Path</span></code>, etc.)</li>
+<li><strong>points</strong> &#8211; A sequence of (x, y) pairs where the shape defined by
+<code class="docutils literal"><span class="pre">source</span></code> should be drawn.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="celiagg.ShapeAtPoints.bounding_rect">
+<code class="descname">bounding_rect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.ShapeAtPoints.bounding_rect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a bounding rectangle for the vertices of the source in the
+format: (x, y, w, h)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.ShapeAtPoints.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.ShapeAtPoints.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a deep copy of the object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.ShapeAtPoints.final_point">
+<code class="descname">final_point</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.ShapeAtPoints.final_point" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the last vertex that will be returned by the source.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.ShapeAtPoints.length">
+<code class="descname">length</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.ShapeAtPoints.length" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of vertices returned by <code class="docutils literal"><span class="pre">vertices()</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="celiagg.ShapeAtPoints.vertices">
+<code class="descname">vertices</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.ShapeAtPoints.vertices" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns all the vertices in the source as a numpy array.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="enumerations">
+<h2>Enumerations<a class="headerlink" href="#enumerations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="blendmode">
+<h3>BlendMode<a class="headerlink" href="#blendmode" title="Permalink to this headline">¶</a></h3>
+<p>NOTE: The various blend modes are currently <em>ignored</em>.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">BlendAlpha</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendClear</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendSrc</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDst</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendSrcOver</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDstOver</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendSrcIn</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDstIn</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendSrcOut</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDstOut</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendSrcAtop</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDstAtop</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendXor</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendAdd</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendMultiply</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendScreen</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendOverlay</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDarken</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendLighten</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendColorDodge</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendColorBurn</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendHardLight</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendSoftLight</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendDifference</span></code></li>
+<li><code class="docutils literal"><span class="pre">BlendExclusion</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="drawingmode">
+<h3>DrawingMode<a class="headerlink" href="#drawingmode" title="Permalink to this headline">¶</a></h3>
+<p>Drawing mode: outline (stroke) only, fill only, or a combination. The <code class="docutils literal"><span class="pre">Eof</span></code>
+fill variations use the even-odd rule when filling self-intersecting curves.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">DrawFill</span></code></li>
+<li><code class="docutils literal"><span class="pre">DrawEofFill</span></code></li>
+<li><code class="docutils literal"><span class="pre">DrawStroke</span></code></li>
+<li><code class="docutils literal"><span class="pre">DrawFillStroke</span></code></li>
+<li><code class="docutils literal"><span class="pre">DrawEofFillStroke</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="fontcachetype">
+<h3>FontCacheType<a class="headerlink" href="#fontcachetype" title="Permalink to this headline">¶</a></h3>
+<p>Determines whether text is rendered with a raster or vector representation.
+Raster text is faster, but doesn&#8217;t support different stroke and fill paints;
+only solid color. Vector text is slower but very powerful, and can make use of
+gradients or patterned fills/strokes.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">RasterFontCache</span></code></li>
+<li><code class="docutils literal"><span class="pre">VectorFontCache</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="gradientspread">
+<h3>GradientSpread<a class="headerlink" href="#gradientspread" title="Permalink to this headline">¶</a></h3>
+<p>How a gradient behaves at its boundaries. <code class="docutils literal"><span class="pre">Pad</span></code> means that the colors at the
+ends of a gradient extend to infinity. <code class="docutils literal"><span class="pre">Reflect</span></code> sweeps back and forth over
+a gradient, and <code class="docutils literal"><span class="pre">Repeat</span></code> starts over at the first color after getting to the
+end of a gradient.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">SpreadPad</span></code></li>
+<li><code class="docutils literal"><span class="pre">SpreadReflect</span></code></li>
+<li><code class="docutils literal"><span class="pre">SpreadRepeat</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="gradientunits">
+<h3>GradientUnits<a class="headerlink" href="#gradientunits" title="Permalink to this headline">¶</a></h3>
+<p>How the coordinates of a gradient object are interpreted. <code class="docutils literal"><span class="pre">UserSpace</span></code> means
+the local transform (the <code class="docutils literal"><span class="pre">Transform</span></code> passed to the draw method) affects the
+gradient coordinates. <code class="docutils literal"><span class="pre">ObjectBoundingBox</span></code> means the coordinates are
+interpreted as relative values (percentages) within the bounding box of the
+<code class="docutils literal"><span class="pre">VertexSource</span></code> object currently being drawn.</p>
+<p>NOTE: This is identical to how SVG handles gradients.
+See <a class="reference external" href="https://www.w3.org/TR/SVG/pservers.html">https://www.w3.org/TR/SVG/pservers.html</a> for a more lucid description.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">UserSpace</span></code></li>
+<li><code class="docutils literal"><span class="pre">ObjectBoundingBox</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="innerjoin">
+<h3>InnerJoin<a class="headerlink" href="#innerjoin" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">InnerBevel</span></code></li>
+<li><code class="docutils literal"><span class="pre">InnerMiter</span></code></li>
+<li><code class="docutils literal"><span class="pre">InnerJag</span></code></li>
+<li><code class="docutils literal"><span class="pre">InnerRound</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="linecap">
+<h3>LineCap<a class="headerlink" href="#linecap" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">CapButt</span></code></li>
+<li><code class="docutils literal"><span class="pre">CapSquare</span></code></li>
+<li><code class="docutils literal"><span class="pre">CapRound</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="linejoin">
+<h3>LineJoin<a class="headerlink" href="#linejoin" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">JoinMiter</span></code></li>
+<li><code class="docutils literal"><span class="pre">JoinRound</span></code></li>
+<li><code class="docutils literal"><span class="pre">JoinBevel</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="patternstyle">
+<h3>PatternStyle<a class="headerlink" href="#patternstyle" title="Permalink to this headline">¶</a></h3>
+<p>Similar to <code class="docutils literal"><span class="pre">GradientSpread</span></code>, patterns can either reflect or repeat.</p>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">StyleRepeat</span></code></li>
+<li><code class="docutils literal"><span class="pre">StyleReflect</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="pixelformat">
+<h3>PixelFormat<a class="headerlink" href="#pixelformat" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">Gray8</span></code></li>
+<li><code class="docutils literal"><span class="pre">Gray16</span></code></li>
+<li><code class="docutils literal"><span class="pre">Gray32</span></code></li>
+<li><code class="docutils literal"><span class="pre">BGR24</span></code></li>
+<li><code class="docutils literal"><span class="pre">RGB24</span></code></li>
+<li><code class="docutils literal"><span class="pre">BGR48</span></code></li>
+<li><code class="docutils literal"><span class="pre">RGB48</span></code></li>
+<li><code class="docutils literal"><span class="pre">BGR96</span></code></li>
+<li><code class="docutils literal"><span class="pre">RGB96</span></code></li>
+<li><code class="docutils literal"><span class="pre">BGRA32</span></code></li>
+<li><code class="docutils literal"><span class="pre">RGBA32</span></code></li>
+<li><code class="docutils literal"><span class="pre">ARGB32</span></code></li>
+<li><code class="docutils literal"><span class="pre">ABGR32</span></code></li>
+<li><code class="docutils literal"><span class="pre">BGRA64</span></code></li>
+<li><code class="docutils literal"><span class="pre">RGBA64</span></code></li>
+<li><code class="docutils literal"><span class="pre">ARGB64</span></code></li>
+<li><code class="docutils literal"><span class="pre">ABGR64</span></code></li>
+<li><code class="docutils literal"><span class="pre">BGRA128</span></code></li>
+<li><code class="docutils literal"><span class="pre">RGBA128</span></code></li>
+<li><code class="docutils literal"><span class="pre">ARGB128</span></code></li>
+<li><code class="docutils literal"><span class="pre">ABGR128</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="textdrawingmode">
+<h3>TextDrawingMode<a class="headerlink" href="#textdrawingmode" title="Permalink to this headline">¶</a></h3>
+<blockquote>
+<div><ul class="simple">
+<li><code class="docutils literal"><span class="pre">TextDrawInvisible</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawFill</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawStroke</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawClip</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawFillStroke</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawFillClip</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawStrokeClip</span></code></li>
+<li><code class="docutils literal"><span class="pre">TextDrawFillStrokeClip</span></code></li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="miscellaneous">
+<h3>Miscellaneous<a class="headerlink" href="#miscellaneous" title="Permalink to this headline">¶</a></h3>
+<dl class="exception">
+<dt id="celiagg.AggError">
+<em class="property">exception </em><code class="descclassname">celiagg.</code><code class="descname">AggError</code><a class="headerlink" href="#celiagg.AggError" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">celiagg API documentation</a><ul>
+<li><a class="reference internal" href="#canvas-classes">Canvas Classes</a></li>
+<li><a class="reference internal" href="#drawing-state-container-classes">Drawing State Container Classes</a></li>
+<li><a class="reference internal" href="#paint-classes">Paint Classes</a></li>
+<li><a class="reference internal" href="#vetexsource-classes"><code class="docutils literal"><span class="pre">VetexSource</span></code> Classes</a></li>
+<li><a class="reference internal" href="#enumerations">Enumerations</a><ul>
+<li><a class="reference internal" href="#blendmode">BlendMode</a></li>
+<li><a class="reference internal" href="#drawingmode">DrawingMode</a></li>
+<li><a class="reference internal" href="#fontcachetype">FontCacheType</a></li>
+<li><a class="reference internal" href="#gradientspread">GradientSpread</a></li>
+<li><a class="reference internal" href="#gradientunits">GradientUnits</a></li>
+<li><a class="reference internal" href="#innerjoin">InnerJoin</a></li>
+<li><a class="reference internal" href="#linecap">LineCap</a></li>
+<li><a class="reference internal" href="#linejoin">LineJoin</a></li>
+<li><a class="reference internal" href="#patternstyle">PatternStyle</a></li>
+<li><a class="reference internal" href="#pixelformat">PixelFormat</a></li>
+<li><a class="reference internal" href="#textdrawingmode">TextDrawingMode</a></li>
+<li><a class="reference internal" href="#miscellaneous">Miscellaneous</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="philosophy.html" title="previous chapter">&lt;no title&gt;</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/api.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, John Wiggins, Erik Hvatum.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      
+      |
+      <a href="_sources/api.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
