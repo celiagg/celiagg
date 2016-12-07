@@ -16,6 +16,8 @@ render directly into a Numpy array.
 A respectably modern compiler is required to build celiagg
 (one supporting certain C++11 features).
 
+`Documentation! <https://celiagg.github.io/celiagg/>`_
+
 Installation
 ------------
 
