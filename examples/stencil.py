@@ -23,8 +23,7 @@ small_box.rect(0, 0, SIZE/2, SIZE/2)
 
 stencil_canvas = agg.CanvasG8(np.zeros((SIZE, SIZE), dtype=np.uint8))
 canvas = agg.CanvasRGB24(np.zeros((SIZE, SIZE, 3), dtype=np.uint8))
-gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill, line_width=6.0,
-                       clip_box=agg.Rect(0, 0, SIZE, SIZE))
+gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill, line_width=6.0)
 transform = agg.Transform()
 blue_paint = agg.SolidPaint(0.1, 0.1, 1.0)
 white_paint = agg.SolidPaint(1.0, 1.0, 1.0)

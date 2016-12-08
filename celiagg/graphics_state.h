@@ -114,7 +114,7 @@ public:
     };
 
     GraphicsState() :
-        m_clip_box(0, 0, 0, 0),
+        m_clip_box(0.0, 0.0, -1.0, -1.0),  // Invalid by default!
         m_stencil(NULL),
         m_drawing_mode(DrawFillStroke),
         m_text_drawing_mode(TextDrawFill),

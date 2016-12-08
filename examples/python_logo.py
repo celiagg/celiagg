@@ -87,8 +87,7 @@ bottom_grad.transform = agg.Transform(0.562541, 0, 0,
                                       0.567972, -9.399749, -5.305317)
 
 canvas = agg.CanvasRGB24(np.zeros((600, 600, 3), dtype=np.uint8))
-gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill,
-                       clip_box=agg.Rect(0, 0, 600, 600))
+gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
 canvas.clear(1, 1, 1)
 transform = agg.Transform()
 transform.translate(300, 300)

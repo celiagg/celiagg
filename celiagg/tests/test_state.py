@@ -20,6 +20,9 @@ def test_rect():
     assert r.w == 5.0
     assert r.h == 6.0
 
+    gs = GraphicsState()
+    assert not gs.clip_box.valid
+
 
 def test_state_bad_value_types():
     gs = GraphicsState()
