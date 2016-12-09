@@ -180,6 +180,7 @@ private:
     GraphicsState::DrawingMode _convert_text_mode(const GraphicsState::TextDrawingMode tm);
     masked_renderer_t _get_masked_renderer(const GraphicsState& gs);
     inline void _set_aa(const bool& aa);
+    inline void _set_clipping(const GraphicsState::Rect& rect);
 
 private:
     // Target buffer/numpy array must be supplied to constructor.  The following line ensures that no default 

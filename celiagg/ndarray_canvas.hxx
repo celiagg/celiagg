@@ -69,8 +69,7 @@ template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    const GraphicsState::Rect clip = gs.clip_box();
-    m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+    _set_clipping(gs.clip_box());
     // XXX: Apply master alpha here somehow!
 
     if (gs.stencil() == NULL)
@@ -89,8 +88,7 @@ void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs)
 {
-    const GraphicsState::Rect clip = gs.clip_box();
-    m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+    _set_clipping(gs.clip_box());
     linePaint.master_alpha(gs.master_alpha());
     fillPaint.master_alpha(gs.master_alpha());
 
@@ -110,8 +108,7 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform,
     Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
 {
-    const GraphicsState::Rect clip = gs.clip_box();
-    m_rasterizer.clip_box(clip.x1, clip.y1, clip.x2, clip.y2);
+    _set_clipping(gs.clip_box());
     linePaint.master_alpha(gs.master_alpha());
     fillPaint.master_alpha(gs.master_alpha());
 
@@ -380,5 +377,18 @@ void ndarray_canvas<pixfmt_t>::_set_aa(const bool& aa)
     else
     {
         m_rasterizer.gamma(agg::gamma_threshold(0.5));
+    }
+}
+
+template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::_set_clipping(const GraphicsState::Rect& rect)
+{
+    if (rect.is_valid())
+    {
+        m_rasterizer.clip_box(rect.x1, rect.y1, rect.x2, rect.y2);
+    }
+    else
+    {
+        m_rasterizer.reset_clipping();
     }
 }
