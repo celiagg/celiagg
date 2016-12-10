@@ -1,16 +1,29 @@
 #!/bin/bash
 set -e -x
 
-# Install FreeType
-FREETYPE="freetype-2.6.5"
-URL="http://download.savannah.gnu.org/releases/freetype/${FREETYPE}.tar.bz2"
-curl -L "${URL}" -o ${FREETYPE}.tar.bz2
-tar jxf ${FREETYPE}.tar.bz2
-pushd ${FREETYPE}
-./configure
-make
-make install
-popd
+PACKAGES=(
+    zlib-1.2.8
+    libpng-1.6.26
+    freetype-2.6.5
+)
+
+URLS=(
+    http://zlib.net/zlib-1.2.8.tar.gz
+    http://download.sourceforge.net/libpng/libpng-1.6.26.tar.gz
+    http://download.savannah.gnu.org/releases/freetype/freetype-2.6.5.tar.gz
+)
+
+for idx in {0..2}; do
+    PACK=${PACKAGES[$idx]}
+    URL=${URLS[$idx]}
+    curl -L "${URL}" -o ${PACK}.tar.gz
+    tar zxf ${PACK}.tar.gz
+    pushd ${PACK}
+    ./configure
+    make
+    make install
+    popd
+done
 
 # Compile wheels
 for PYBIN in /opt/python/cp{27,35}*/bin; do
