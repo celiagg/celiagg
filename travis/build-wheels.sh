@@ -15,7 +15,7 @@ URLS=(
     http://download.savannah.gnu.org/releases/freetype/freetype-2.6.5.tar.gz
 )
 
-for idx in {0..2}; do
+for idx in {0..3}; do
     PACK=${PACKAGES[$idx]}
     URL=${URLS[$idx]}
     curl -L "${URL}" -o ${PACK}.tar.gz
