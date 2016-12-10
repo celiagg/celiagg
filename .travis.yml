@@ -18,7 +18,7 @@ matrix:
       env:
         - BUILD_TYPE="package"
         - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
-        - secure: "LmfVejil0XGE3VeuBeGnDz+chHboDF6BOy6JkUSoUyu/hVOf1s/bYdrS7/vO5kdVc/HiqHQeV13CKkRMtCBslkBUbyas29P8MWWzUbkBQ/H1tf5RUniMfIhWiHsQawWX+V47cfcLKhYPCTPPiWw1zqwYNn1awdTYX3IymBudwd21Sl+hteQI4K0yTX5ybFzF3ahTDCeRA464QsbORGQ00H/AFOLUTUshsi6g9NrYvVdaXUgHPR+ndI3HBu/Phes7/0lWs95lq5t8embeOrfuHLRnYfFerCDaYSbB+Q25VAKLrOeWkKcSdCUc48EhWiDoYJ+kr9U+qRr8odg5BuHdm/Lkh4osKfb4JqhPl25Jbeoi7c8Ye1+tAzriY4gStewEo+0jH/1IGitkvkjM5wWeVmJ1hYKBnu5aeDp7sBVjb77brlpjefr61iwkcfqQ3Uiz2xzigwhNlZ2eQtN1jh2tcCpekqSLhQO5NBbGA4voF5/uFCYEBriUb92ghiDHhW0u6rr25OcUOao7Cs77PsBDYrVS14XYL6tzk5fVzmqRRw6n2duaRBw9vTam3V+Ru/GKT8LscJX43gN9F/wqh/D1/ND2vlVxXYnPta178erxhhd20CO3zMH01fEfheAQReaEhqK3Gp3u3AYg6ohjeEQNfK9YrfsHU619SQ/T2P0fed0="
+        - secure: "CdWhPsjLAr2yH2X2lhRVTkh+XuMHDPJJPSWQgYNogYfN5o2wy4HbD/Qw9erUc3Rg5G6m6P7Qk5BfPOeQdKowdN0FqLwuSFNry/OGRlQqhMN1Qf/LzLuTtdUAk+oKBdyV8VsR+HGTc4eVEruSjOCxZaqT74HY8Hnd1gYuce0SEocPIgCntDCnJExQzJc8830s8CeG1pc7vUS9Nt9cbdIWHYpirbbhGAZiFIM4QK7hygnwh1r7wSL3h3ZsWVd4byGGpACx7Dw4pBmaVSr2jSQXOHcaFjXcdlB8f4ax3TKW7uUZCbOYv1BJ97XHBzipmlWrFh0x5nQwVuYciDfh26meOmmVhGchmBdEIBtF6JfVFUugnI/D/sw1a7PQ3kM/ZOQKXze/zqBDGkRh/0jtP/8hBcMDwF7hg3qgQCPcDhkesFAkwpwqEbwAgtJ8hWTI0EafDRmyeUJWs1s1Go+xNuACQPAo7mmhXCqXVPjSU9/3mUOuIdW9pvLe2VVNvh2yvtepJy8ndHmnSWI9YigWaMXtHXbbSNzfEPDxo3PqnvLRZwzVNpor/YlTKh/bfLQMgAZiK6WSydf7BRT0OFEWcHkS4kz6szUHGSeWBNofoycGZ5Bhca0Xr0hESDUpQQ+5nBRu4TYSLDmQw1lyb+rBieULAjFKNppzW1lV2swwI2qSraA="
 
 before_install:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-before-install.sh; fi
@@ -32,7 +32,7 @@ script:
 deploy:
   provider: pypi
   user: jwiggins
-  password: $PYPI_PASSWORD
+  password: $TWINE_PASSWORD
   on:
     branch: master
     condition: $BUILD_TYPE = "package"
