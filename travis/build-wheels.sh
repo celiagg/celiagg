@@ -28,11 +28,3 @@ for PYBIN in /opt/python/cp{27,35}*/bin/; do
     ${PYBIN}/pip install celiagg --no-index -f /io/wheelhouse
     (cd $HOME; ${PYBIN}/nosetests celiagg)
 done
-
-
-# Upload to PyPI
-PY35BIN=/opt/python/cp35-cp35m/bin
-if [ -n $TRAVIS_TAG ]; then
-    $PY35BIN/pip install twine
-    $PY35BIN/twine upload -u jwiggins /io/wheelhouse/*.whl
-fi
