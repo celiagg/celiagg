@@ -13,9 +13,13 @@ hash -r
 
 conda config --set always_yes yes --set changeps1 no
 conda update -q conda
-conda create -q -n twine_env python=3.5
+conda create -q -n twine_env python=3.5 numpy cython freetype nose
 source activate twine_env
+
+# Build an SDIST
+python setup.py sdist
 
 # Upload to PyPI
 pip install twine
 twine upload -u jwiggins wheelhouse/celiagg-*.whl
+twine upload -u jwiggins dist/celiagg-*.tar.gz

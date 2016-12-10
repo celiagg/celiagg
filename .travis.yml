@@ -28,12 +28,3 @@ install:
 script:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-run.sh; fi
   - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then ./travis/build-run.sh; fi
-
-deploy:
-  provider: pypi
-  user: jwiggins
-  password: $TWINE_PASSWORD
-  on:
-    branch: master
-    condition: $BUILD_TYPE = "package"
-    tags: true
