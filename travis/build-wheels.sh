@@ -3,26 +3,23 @@ set -e -x
 
 PACKAGES=(
     zlib-1.2.8
-    bzip2-1.0.6
     libpng-1.6.26
     freetype-2.6.5
 )
 
 URLS=(
     http://zlib.net/zlib-1.2.8.tar.gz
-    http://www.bzip.org/1.0.6/bzip2-1.0.6.tar.gz
     http://download.sourceforge.net/libpng/libpng-1.6.26.tar.gz
     http://download.savannah.gnu.org/releases/freetype/freetype-2.6.5.tar.gz
 )
 
-for idx in {0..3}; do
+for idx in {0..2}; do
     PACK=${PACKAGES[$idx]}
     URL=${URLS[$idx]}
     curl -L "${URL}" -o ${PACK}.tar.gz
     tar zxf ${PACK}.tar.gz
     pushd ${PACK}
-    # bzip doesn't have a configure script, so ignore errors
-    ./configure || true
+    ./configure
     make
     make install
     popd
