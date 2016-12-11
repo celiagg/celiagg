@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>&lt;no title&gt; &#8212; celiagg 0.1.3 documentation</title>
+    <title>About celiagg &#8212; celiagg 0.1.3 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -43,13 +43,83 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  
+  <div class="section" id="about-celiagg">
+<h1>About celiagg<a class="headerlink" href="#about-celiagg" title="Permalink to this headline">¶</a></h1>
+<p>celiagg is designed to be a <em>simple</em>, <em>stateless</em> library for 2D vector graphics.
+<strong>Simple</strong>, because it provides a general API which should be simple enough to
+fit in ones head while still being a general solution for 2D vector
+rasterization. <strong>Stateless</strong>, because unlike <a class="reference external" href="https://cairographics.org/">Cairo</a>
+or
+<a class="reference external" href="https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_overview/dq_overview.html">Quartz</a>
+(for example), celiagg&#8217;s main drawing object (<code class="docutils literal"><span class="pre">Canvas</span></code>) holds the absolute
+minimum state required to do its job. Instead, the celiagg API includes a
+handful of stateful objects which are used to pass various drawing attributes
+to the methods of <code class="docutils literal"><span class="pre">Canvas</span></code>. In this way, it is more like
+<a class="reference external" href="https://skia.org/user/api">Skia</a> (but much simpler, of course).</p>
+<div class="section" id="high-level-overview">
+<h2>High-level Overview<a class="headerlink" href="#high-level-overview" title="Permalink to this headline">¶</a></h2>
+<p>These are the main objects used for drawing in celiagg.</p>
+<ul class="simple">
+<li><code class="docutils literal"><span class="pre">Canvas</span></code>: The object which has the main drawing methods. It also manages
+the frame buffer which is being drawn into.</li>
+<li><code class="docutils literal"><span class="pre">VertexSource</span></code>: A family of classes which contain vector data to be
+rasterized. Includes <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">BSpline</span></code>, and <code class="docutils literal"><span class="pre">ShapeAtPoints</span></code></li>
+<li><code class="docutils literal"><span class="pre">Paint</span></code>: Another family of classes which describe the color and texture of
+lines and fills. Includes <code class="docutils literal"><span class="pre">SolidPaint</span></code>, <code class="docutils literal"><span class="pre">PatternPaint</span></code>,
+<code class="docutils literal"><span class="pre">LinearGradientPaint</span></code>, and <code class="docutils literal"><span class="pre">RadialGradientPaint</span></code>.</li>
+<li><code class="docutils literal"><span class="pre">Transform</span></code>: A 2D affine transform</li>
+<li><code class="docutils literal"><span class="pre">Font</span></code>: A single font, needed when rendering text. It can also measure the
+bounding box of a line of text.</li>
+<li><code class="docutils literal"><span class="pre">Image</span></code>: A container for raster image data.</li>
+</ul>
+</div>
+<div class="section" id="code-example">
+<h2>Code Example<a class="headerlink" href="#code-example" title="Permalink to this headline">¶</a></h2>
+<p>Here&#8217;s how those classes can be used to render a red circle with the word
+&#8220;celiagg&#8221; inside:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">celiagg</span> <span class="kn">as</span> <span class="nn">agg</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">skimage.io</span> <span class="kn">import</span> <span class="n">imsave</span>
+
+<span class="n">canvas</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">CanvasRGB24</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">GraphicsState</span><span class="p">(</span><span class="n">drawing_mode</span><span class="o">=</span><span class="n">agg</span><span class="o">.</span><span class="n">DrawingMode</span><span class="o">.</span><span class="n">DrawStroke</span><span class="p">,</span>
+                          <span class="n">line_width</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Transform</span><span class="p">()</span>
+<span class="n">red_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">black_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s2">&quot;/Library/Fonts/Verdana.ttf&quot;</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span>
+                <span class="n">agg</span><span class="o">.</span><span class="n">FontCacheType</span><span class="o">.</span><span class="n">RasterFontCache</span><span class="p">)</span>
+<span class="n">path</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span>
+<span class="n">path</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">draw_shape</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="n">red_paint</span><span class="p">)</span>
+<span class="n">transform</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">220.0</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s2">&quot;celiagg&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span>
+                 <span class="n">stroke</span><span class="o">=</span><span class="n">black_paint</span><span class="p">)</span>
+
+<span class="n">imsave</span><span class="p">(</span><span class="s2">&quot;example.png&quot;</span><span class="p">,</span> <span class="n">canvas</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Which gives the resulting image:</p>
+<img alt="_images/example.png" src="_images/example.png" />
+</div>
+</div>
+
 
           </div>
         </div>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper"><div class="relations">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">About celiagg</a><ul>
+<li><a class="reference internal" href="#high-level-overview">High-level Overview</a></li>
+<li><a class="reference internal" href="#code-example">Code Example</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
