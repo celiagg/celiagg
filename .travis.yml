@@ -28,3 +28,7 @@ install:
 script:
   - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-run.sh; fi
   - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then ./travis/build-run.sh; fi
+
+notifications:
+  email: false
+
