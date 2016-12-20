@@ -1,4 +1,5 @@
 from __future__ import division
+import argparse
 
 import numpy as np
 from skimage.color import hsv2rgb
@@ -6,43 +7,63 @@ from skimage.io import imsave
 
 import celiagg as agg
 
-SIZE = 1000
-COUNT = 50
-LEVELS = 35
+# Some constants to fiddle with
+CENTER_RADIUS = 25
+CIRCLE_COUNT = 60
+CIRCLE_SIZE = 20
 
-canvas = agg.CanvasRGB24(np.zeros((SIZE, SIZE, 3), dtype=np.uint8))
-gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
-transform = agg.Transform()
 
-canvas.clear(1, 1, 1)
-circle = agg.Path()
-circle.ellipse(0, 0, 50, 50)
+def compute_offsets(maxdim):
+    offset = CENTER_RADIUS
+    radius = 0
+    offsets = [offset]
+    while offset - radius <= maxdim / 2:
+        radius = np.pi * offset / CIRCLE_COUNT
 
-ts = np.linspace(0, 2*np.pi, COUNT, endpoint=False)
-centers = np.stack((np.cos(ts), np.sin(ts)), axis=1)
+        # Estimate how far to push out the next line
+        newradius = np.pi * (offset + radius * 2) / CIRCLE_COUNT
+        offset += radius + newradius
+        offsets.append(offset)
+    return offsets
 
-gray = agg.SolidPaint(0.5, 0.5, 0.5)
-hsvs = np.ones((LEVELS, 1, 3))
-hsvs[:, 0, 0] = np.linspace(0, 1, LEVELS, endpoint=False)
-hsvs[:, 0, 1] *= 0.95  # Saturation
-hsvs[:, 0, 2] *= 0.85  # Value
-rgbs = hsv2rgb(hsvs).reshape(LEVELS, 3)
 
-offset = 10
-for d in range(LEVELS):
-    radius = 2*np.pi*offset / (COUNT*2)
-    scale = radius / 50
-    colors = (gray, agg.SolidPaint(*rgbs[d]))
+def spiral(size):
+    canvas = agg.CanvasRGB24(np.zeros((size[1], size[0], 3), dtype=np.uint8))
+    gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
+    transform = agg.Transform()
+    circle = agg.Path()
+    circle.ellipse(0, 0, CIRCLE_SIZE, CIRCLE_SIZE)
 
-    for i in range(COUNT):
-        transform.reset()
-        transform.translate(SIZE/2 + offset*centers[i, 0],
-                            SIZE/2 + offset*centers[i, 1])
-        transform.scale(scale, scale)
-        canvas.draw_shape(circle, transform, gs, fill=colors[(d+i) % 2])
+    offsets = compute_offsets(max(size))
+    color_count = len(offsets)
+    divisions = np.linspace(0, 2*np.pi, CIRCLE_COUNT, endpoint=False)
+    centers = np.stack((np.cos(divisions), np.sin(divisions)), axis=1)
 
-    # Estimate how far to push out the next line
-    newradius = 2 * np.pi * (offset + radius * 2) / (COUNT*2)
-    offset += radius + newradius
+    hsv = np.ones((color_count, 1, 3))
+    hsv[:, 0, 0] = np.linspace(0, 1, color_count, endpoint=False)
+    hsv[:, 0, 1] *= 0.95  # Saturation
+    hsv[:, 0, 2] *= 0.85  # Value
+    spectrum = hsv2rgb(hsv).reshape(color_count, 3)
 
-imsave('spiral.png', canvas.array)
+    for idx, offset in enumerate(offsets):
+        paint = agg.SolidPaint(*spectrum[idx])
+        radius = np.pi * offset / CIRCLE_COUNT
+        scale = radius / CIRCLE_SIZE
+        for i in range(CIRCLE_COUNT):
+            if ((idx + i) % 2) == 0:
+                continue
+            transform.reset()
+            transform.translate(size[0]/2 + offset*centers[i, 0],
+                                size[1]/2 + offset*centers[i, 1])
+            transform.scale(scale, scale)
+            canvas.draw_shape(circle, transform, gs, fill=paint)
+
+    imsave('spiral.png', canvas.array)
+
+
+if __name__ == '__main__':
+    p = argparse.ArgumentParser()
+    p.add_argument('-s', '--size', nargs=2, default=[1000, 1000])
+    args = p.parse_args()
+    size = tuple(int(a) for a in args.size)
+    spiral(size)
