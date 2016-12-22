@@ -66,7 +66,7 @@ def get_freetype_info():
         try:
             for key, args in commands.items():
                 data[key] = run_cmd(cmd_prefix + args, env=env)
-        except subprocess.CalledProcessError:
+        except (subprocess.CalledProcessError, OSError):
             pass
         return data
 
