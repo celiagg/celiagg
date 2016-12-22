@@ -23,6 +23,10 @@ Installation
 
 ``pip install celiagg`` should do the trick.
 
+Building from source with the Freetype font library on macOS requires
+the `pkg-config` tool which can be installed via Homebrew, MacPorts, or
+other macOS package management systems.
+
 Dependencies
 ------------
 
