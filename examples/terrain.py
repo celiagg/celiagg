@@ -29,6 +29,25 @@ def gen_horizon(numpoints, edgemax):
     return xs, ys
 
 
+def hsv2rgb(h, s, v):
+    hp = h * 6
+    c = s * v
+    x = c * (1 - abs(hp % 2 - 1))
+    if 0. <= hp <= 1.:
+        return c, x, 0.
+    elif 1. < hp <= 2.:
+        return x, c, 0
+    elif 2. < hp <= 3.:
+        return 0, c, x
+    elif 3. < hp <= 4.:
+        return 0, x, c
+    elif 4. < hp <= 5.:
+        return x, 0, c
+    elif 5. < hp <= 6.:
+        return c, 0, x
+    return 0, 0, 0
+
+
 def midpoint_displace(xs, ys, index0, index1):
     indexdist = index1 - index0
     if indexdist <= 1:
@@ -55,13 +74,15 @@ def terrain(size):
     canvas = agg.CanvasRGB24(np.empty((size[1], size[0], 3), dtype='uint8'),
                              bottom_up=True)
     gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
-    canvas.clear(1, 1, 1)
+    canvas.clear(0, 0, 0)
 
     numpoints = nearest_pow2(size[0] // 4) + 1
-    for div in range(2, 7):
+    for div in range(2, 9):
         xs, ys = gen_horizon(numpoints, size[1] / (div - 1))
-        fill = agg.SolidPaint(*np.random.rand(3))
-        ys *= 1 / div
+        frac = (div - 1) / 8
+        r, g, b = hsv2rgb(frac, .7, .7)
+        fill = agg.SolidPaint(r, g, b, 0.5 * (1-frac) + 0.25)
+        ys /= div
         draw_horizon(xs, ys, canvas, gs, fill)
 
     imsave('terrain.png', canvas.array)
