@@ -133,7 +133,7 @@ protected:
 
 private:
 
-    template<typename base_renderer_t>
+    template<typename base_renderer_t, typename span_gen_t>
     void _draw_image_internal(Image& img,
                               const agg::trans_affine& transform,
                               const GraphicsState& gs,
@@ -179,6 +179,7 @@ private:
 
     GraphicsState::DrawingMode _convert_text_mode(const GraphicsState::TextDrawingMode tm);
     masked_renderer_t _get_masked_renderer(const GraphicsState& gs);
+    inline bool _is_simple_transform(const agg::trans_affine& transform);
     inline void _set_aa(const bool& aa);
     inline void _set_clipping(const GraphicsState::Rect& rect);
 

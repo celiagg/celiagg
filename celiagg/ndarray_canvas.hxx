@@ -69,17 +69,37 @@ template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
+    const bool simple_trans = _is_simple_transform(transform);
+
     _set_clipping(gs.clip_box());
     // XXX: Apply master alpha here somehow!
 
     if (gs.stencil() == NULL)
     {
-        _draw_image_internal(img, transform, gs, m_renderer);
+        if (simple_trans)
+        {
+            typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
+            _draw_image_internal<renderer_t, span_gen_t>(img, transform, gs, m_renderer);
+        }
+        else
+        {
+            typedef typename image_filters<pixfmt_t>::bilinear_t span_gen_t;
+            _draw_image_internal<renderer_t, span_gen_t>(img, transform, gs, m_renderer);
+        }
     }
     else
     {
         masked_renderer_t renderer = _get_masked_renderer(gs);
-        _draw_image_internal(img, transform, gs, renderer);
+        if (simple_trans)
+        {
+            typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
+            _draw_image_internal<masked_renderer_t, span_gen_t>(img, transform, gs, renderer);
+        }
+        else
+        {
+            typedef typename image_filters<pixfmt_t>::bilinear_t span_gen_t;
+            _draw_image_internal<masked_renderer_t, span_gen_t>(img, transform, gs, renderer);
+        }
     }
 }
 
@@ -124,12 +144,11 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
 }
 
 template<typename pixfmt_t>
-template<typename base_renderer_t>
+template<typename base_renderer_t, typename span_gen_t>
 void ndarray_canvas<pixfmt_t>::_draw_image_internal(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs,
     base_renderer_t& renderer)
 {
-    typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
     typedef typename image_filters<pixfmt_t>::source_t source_t;
     typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
     typedef agg::renderer_scanline_aa<base_renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
@@ -365,6 +384,21 @@ ndarray_canvas<pixfmt_t>::_get_masked_renderer(const GraphicsState& gs)
     alpha_mask_t stencil_mask(stencilbuf);
     masked_pxfmt_t masked_pixfmt(m_pixfmt, stencil_mask);
     return masked_renderer_t(masked_pixfmt);
+}
+
+template<typename pixfmt_t>
+bool ndarray_canvas<pixfmt_t>::_is_simple_transform(const agg::trans_affine& transform)
+{
+#define f_eq(a,b)  (fabs((a)-(b)) < 1e-3)
+#define f_round(a)  ((a) - int(a) < 1e-3)
+
+    double temp[6];
+    transform.store_to(temp);
+    return (f_eq(temp[0], 1.0) && f_eq(temp[1], 0.0) &&
+            f_eq(temp[2], 0.0) && f_eq(temp[3], 1.0) &&
+            f_round(temp[4]) && f_round(temp[5]));
+#undef f_eq
+#undef f_round
 }
 
 template<typename pixfmt_t>
