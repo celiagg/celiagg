@@ -13,11 +13,11 @@ CIRCLE_COUNT = 60
 CIRCLE_SIZE = 20
 
 
-def compute_offsets(maxdim):
+def compute_offsets(maxoffset):
     offset = CENTER_RADIUS
     radius = 0
     offsets = [offset]
-    while offset - radius <= maxdim / 2:
+    while offset < maxoffset:
         radius = np.pi * offset / CIRCLE_COUNT
 
         # Estimate how far to push out the next line
@@ -27,22 +27,22 @@ def compute_offsets(maxdim):
     return offsets
 
 
-def spiral(size):
+def spiral(size, hue, sat, val):
     canvas = agg.CanvasRGB24(np.zeros((size[1], size[0], 3), dtype=np.uint8))
     gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
     transform = agg.Transform()
     circle = agg.Path()
     circle.ellipse(0, 0, CIRCLE_SIZE, CIRCLE_SIZE)
 
-    offsets = compute_offsets(max(size))
-    color_count = len(offsets)
     divisions = np.linspace(0, 2*np.pi, CIRCLE_COUNT, endpoint=False)
     centers = np.stack((np.cos(divisions), np.sin(divisions)), axis=1)
+    offsets = compute_offsets(np.sqrt(size[0]**2 + size[1]**2) / 2)
+    color_count = len(offsets)
 
     hsv = np.ones((color_count, 1, 3))
-    hsv[:, 0, 0] = np.linspace(0, 1, color_count, endpoint=False)
-    hsv[:, 0, 1] *= 0.95  # Saturation
-    hsv[:, 0, 2] *= 0.85  # Value
+    hsv[:, 0, 0] = np.linspace(hue[0], hue[1], color_count, endpoint=False)
+    hsv[:, 0, 1] = np.linspace(sat[0], sat[1], color_count, endpoint=False)
+    hsv[:, 0, 2] = np.linspace(val[0], val[1], color_count, endpoint=False)
     spectrum = hsv2rgb(hsv).reshape(color_count, 3)
 
     for idx, offset in enumerate(offsets):
@@ -63,7 +63,13 @@ def spiral(size):
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser()
-    p.add_argument('-s', '--size', nargs=2, default=[1000, 1000])
+    p.add_argument('-z', '--size', nargs=2, default=[1000, 1000])
+    p.add_argument('-u', '--hue', nargs=2, default=[0.0, 1.0])
+    p.add_argument('-s', '--sat', nargs=2, default=[0.95, 0.95])
+    p.add_argument('-v', '--val', nargs=2, default=[0.85, 0.85])
     args = p.parse_args()
     size = tuple(int(a) for a in args.size)
-    spiral(size)
+    hue = tuple(float(a) for a in args.hue)
+    sat = tuple(float(a) for a in args.sat)
+    val = tuple(float(a) for a in args.val)
+    spiral(size, hue, sat, val)
