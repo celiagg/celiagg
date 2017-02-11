@@ -1,5 +1,5 @@
-from nose.tools import assert_raises
 import numpy as np
+import pytest
 
 from celiagg import (GraphicsState, BlendMode, DrawingMode, Image, InnerJoin,
                      LineCap, LineJoin, PixelFormat, Rect, TextDrawingMode)
@@ -27,12 +27,12 @@ def test_rect():
 def test_state_bad_value_types():
     gs = GraphicsState()
 
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         gs.clip_box = (0, 1, 2, 3)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         gs.clip_box = None
 
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         gs.stencil = "dur hur"
 
 
@@ -116,7 +116,7 @@ def test_state_properties():
     assert gs.stencil is None
 
     img = Image(np.zeros((10, 10, 3), dtype=np.uint8), PixelFormat.RGB24)
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         gs.stencil = img
 
 
@@ -201,6 +201,6 @@ def test_copy():
     assert cpy.line_dash_pattern == dashes
     assert cpy.line_dash_phase == 3.5
 
-    # The image has no comparison operator. Make sure its a new object
+    # The image has no comparison operator. Make sure it's a new object
     assert cpy.stencil is not img
     assert not array_bases_equal(cpy.stencil.pixels, gs.stencil.pixels)

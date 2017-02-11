@@ -1,8 +1,8 @@
 import weakref
 
-from nose.tools import assert_raises
 import numpy as np
 from numpy.testing import assert_equal
+import pytest
 
 import celiagg as agg
 
@@ -31,31 +31,31 @@ def test_bad_method_args():
     path = agg.Path()
     transform = agg.Transform()
 
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(None, pix_format, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(canvas.array, None, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(canvas.array, pix_format, None, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(canvas.array, pix_format, transform, None)
     # But this version should work
     canvas.draw_image(canvas.image, None, transform, gs)
 
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_shape(None, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_shape(path, None, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_shape(path, transform, None)
 
     text = "Hello!"
     font = agg.Font("Times New Roman", 12.0, agg.FontCacheType.RasterFontCache)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_text(text, None, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_text(text, font, None, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_text(text, font, transform, None)
 
 
@@ -66,7 +66,7 @@ def test_stencil_size_mismatch():
     path = agg.Path()
     transform = agg.Transform()
 
-    with assert_raises(agg.AggError):
+    with pytest.raises(agg.AggError):
         canvas.draw_shape(path, transform, gs)
 
 
@@ -85,31 +85,4 @@ def test_clear():
 
     expected[:] = 255
     canvas.clear(1, 1, 1)
-    assert_equal(expected, canvas.array)
-
-
-def test_line():
-    expected = np.zeros((10, 10), dtype=np.uint8)
-    buffer = np.zeros((10, 10), dtype=np.uint8)
-    canvas = agg.CanvasG8(buffer)
-    path = agg.Path()
-    transform = agg.Transform()
-    paint = agg.SolidPaint(1.0, 1.0, 1.0)
-    bounds = agg.Rect(0, 0, 10, 10)
-    gs = agg.GraphicsState(anti_aliased=False, line_width=1.0, clip_box=bounds)
-
-    expected[1, ...] = 255
-    path.move_to(0, 1.5)
-    path.line_to(10, 1.5)
-    canvas.draw_shape(path, transform, gs, stroke=paint)
-    assert_equal(expected, canvas.array)
-
-    buffer[:] = 0
-    expected[:] = 0
-
-    expected[:, 1] = 255
-    path.reset()
-    path.move_to(1.5, 0)
-    path.line_to(1.5, 10)
-    canvas.draw_shape(path, transform, gs, stroke=paint)
     assert_equal(expected, canvas.array)
