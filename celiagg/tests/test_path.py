@@ -1,11 +1,11 @@
-from nose.tools import assert_raises
 import numpy as np
+import pytest
 
 from celiagg import Path, ShapeAtPoints
 
 
 def test_sap_bad_init_args():
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         ShapeAtPoints(None, [(0, 0), (10, 10)])
 
 

@@ -1,8 +1,8 @@
 import weakref
 
-from nose.tools import assert_raises
 import numpy as np
 from numpy.testing import assert_equal
+import pytest
 
 import celiagg as agg
 
@@ -31,31 +31,31 @@ def test_bad_method_args():
     path = agg.Path()
     transform = agg.Transform()
 
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(None, pix_format, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(canvas.array, None, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(canvas.array, pix_format, None, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_image(canvas.array, pix_format, transform, None)
     # But this version should work
     canvas.draw_image(canvas.image, None, transform, gs)
 
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_shape(None, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_shape(path, None, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_shape(path, transform, None)
 
     text = "Hello!"
     font = agg.Font("Times New Roman", 12.0, agg.FontCacheType.RasterFontCache)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_text(text, None, transform, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_text(text, font, None, gs)
-    with assert_raises(TypeError):
+    with pytest.raises(TypeError):
         canvas.draw_text(text, font, transform, None)
 
 
@@ -66,7 +66,7 @@ def test_stencil_size_mismatch():
     path = agg.Path()
     transform = agg.Transform()
 
-    with assert_raises(agg.AggError):
+    with pytest.raises(agg.AggError):
         canvas.draw_shape(path, transform, gs)
 
 

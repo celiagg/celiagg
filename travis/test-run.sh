@@ -8,4 +8,4 @@ hash -r
 source activate test_env
 
 # Run the test suite
-nosetests -v celiagg
+pytest -v celiagg
