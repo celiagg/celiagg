@@ -86,30 +86,3 @@ def test_clear():
     expected[:] = 255
     canvas.clear(1, 1, 1)
     assert_equal(expected, canvas.array)
-
-
-def test_line():
-    expected = np.zeros((10, 10), dtype=np.uint8)
-    buffer = np.zeros((10, 10), dtype=np.uint8)
-    canvas = agg.CanvasG8(buffer)
-    path = agg.Path()
-    transform = agg.Transform()
-    paint = agg.SolidPaint(1.0, 1.0, 1.0)
-    bounds = agg.Rect(0, 0, 10, 10)
-    gs = agg.GraphicsState(anti_aliased=False, line_width=1.0, clip_box=bounds)
-
-    expected[1, ...] = 255
-    path.move_to(0, 1.5)
-    path.line_to(10, 1.5)
-    canvas.draw_shape(path, transform, gs, stroke=paint)
-    assert_equal(expected, canvas.array)
-
-    buffer[:] = 0
-    expected[:] = 0
-
-    expected[:, 1] = 255
-    path.reset()
-    path.move_to(1.5, 0)
-    path.line_to(1.5, 10)
-    canvas.draw_shape(path, transform, gs, stroke=paint)
-    assert_equal(expected, canvas.array)

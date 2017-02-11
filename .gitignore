@@ -21,6 +21,7 @@
 
 # Python files
 *.egg-info
+.cache
 build
 dist
 MANIFEST
