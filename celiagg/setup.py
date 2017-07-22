@@ -127,12 +127,20 @@ def configuration(parent_package='', top_path=None):
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
                     numpy.get_include()]
-    extra_compile_args = ['-Wfatal-errors', '-Wno-unused-function']
+    if platform.system() == "Windows":
+        # Visual studio does not support these
+        extra_compile_args = []
+    else:
+        extra_compile_args = [
+           '-Wfatal-errors',
+           '-Wno-unused-function'
+        ]
     extra_link_args = []
     define_macros = []
 
     if with_text_rendering:
         if platform.system() == 'Windows':
+            extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
             include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
             font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
         else:
