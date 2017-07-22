@@ -25,6 +25,7 @@
 #ifndef CELIAGG_VERTEX_SOURCE_H
 #define CELIAGG_VERTEX_SOURCE_H
 
+#define _USE_MATH_DEFINES
 #include <math.h>
 #include <agg_path_storage.h>
 #include <agg_conv_bspline.h>
