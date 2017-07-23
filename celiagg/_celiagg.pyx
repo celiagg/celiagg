@@ -52,9 +52,9 @@ class AggError(Exception):
 cdef _get_utf8_text(text, exp_msg):
     # Ensure UTF-8 encoded text is passed to C++ code.
     if isinstance(text, unicode):
-        return (<unicode>text).encode('utf8')
-    elif isinstance(text, str):
         return text.encode('utf8')
+    elif isinstance(text, bytes):
+        return text
     else:
         raise TypeError(exp_msg)
 

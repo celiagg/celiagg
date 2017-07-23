@@ -57,6 +57,7 @@ def test_bad_method_args():
         canvas.draw_text(text, font, None, gs)
     with pytest.raises(TypeError):
         canvas.draw_text(text, font, transform, None)
+    canvas.draw_text(text, font, transform, gs)
 
 
 def test_stencil_size_mismatch():
