@@ -9,7 +9,7 @@ celiagg
    :target: https://travis-ci.org/celiagg/celiagg
    :alt: Build status
 
-.. image:: https://ci.appveyor.com/api/projects/status/TODO
+.. image:: https://ci.appveyor.com/api/projects/status/485a2j15bkmq4pc7
    :target: https://ci.appveyor.com/project/celiagg/celiagg
    :alt: Appveyor Build status
 
