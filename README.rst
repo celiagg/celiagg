@@ -9,6 +9,10 @@ celiagg
    :target: https://travis-ci.org/celiagg/celiagg
    :alt: Build status
 
+.. image:: https://ci.appveyor.com/api/projects/status/1d7wb65intsxrn90
+   :target: https://ci.appveyor.com/project/jwiggins/celiagg
+   :alt: Appveyor Build status
+
 celiagg provides a simple, stateless canvas object that uses
 Anti-Grain Geometry 2.4 <svn://svn.code.sf.net/p/agg/svn> with Cython to
 render directly into a Numpy array.

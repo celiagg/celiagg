@@ -25,13 +25,13 @@ matrix:
         - secure: "CdWhPsjLAr2yH2X2lhRVTkh+XuMHDPJJPSWQgYNogYfN5o2wy4HbD/Qw9erUc3Rg5G6m6P7Qk5BfPOeQdKowdN0FqLwuSFNry/OGRlQqhMN1Qf/LzLuTtdUAk+oKBdyV8VsR+HGTc4eVEruSjOCxZaqT74HY8Hnd1gYuce0SEocPIgCntDCnJExQzJc8830s8CeG1pc7vUS9Nt9cbdIWHYpirbbhGAZiFIM4QK7hygnwh1r7wSL3h3ZsWVd4byGGpACx7Dw4pBmaVSr2jSQXOHcaFjXcdlB8f4ax3TKW7uUZCbOYv1BJ97XHBzipmlWrFh0x5nQwVuYciDfh26meOmmVhGchmBdEIBtF6JfVFUugnI/D/sw1a7PQ3kM/ZOQKXze/zqBDGkRh/0jtP/8hBcMDwF7hg3qgQCPcDhkesFAkwpwqEbwAgtJ8hWTI0EafDRmyeUJWs1s1Go+xNuACQPAo7mmhXCqXVPjSU9/3mUOuIdW9pvLe2VVNvh2yvtepJy8ndHmnSWI9YigWaMXtHXbbSNzfEPDxo3PqnvLRZwzVNpor/YlTKh/bfLQMgAZiK6WSydf7BRT0OFEWcHkS4kz6szUHGSeWBNofoycGZ5Bhca0Xr0hESDUpQQ+5nBRu4TYSLDmQw1lyb+rBieULAjFKNppzW1lV2swwI2qSraA="
 
 before_install:
-  - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-before-install.sh; fi
+  - if [[ $BUILD_TYPE == "test" ]]; then ./ci/test-before-install.sh; fi
 install:
-  - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-install.sh; fi
+  - if [[ $BUILD_TYPE == "test" ]]; then ./ci/test-install.sh; fi
   - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then docker pull $DOCKER_IMAGE; fi
 script:
-  - if [[ $BUILD_TYPE == "test" ]]; then ./travis/test-run.sh; fi
-  - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then ./travis/build-run.sh; fi
+  - if [[ $BUILD_TYPE == "test" ]]; then ./ci/test-run.sh; fi
+  - if [[ $BUILD_TYPE == "package" && -n $TRAVIS_TAG ]]; then ./ci/build-run.sh; fi
 
 notifications:
   email: false
