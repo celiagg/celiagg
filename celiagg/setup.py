@@ -130,6 +130,9 @@ def configuration(parent_package='', top_path=None):
     if platform.system() == "Windows":
         # Visual studio does not support these
         extra_compile_args = []
+        # Python 2.7 uses an old Visual Studio with no stdint.h
+        if sys.version_info[:2] == (2, 7):
+            include_dirs.append('celiagg/windows')
     else:
         extra_compile_args = [
            '-Wfatal-errors',
