@@ -9,8 +9,8 @@ def test_font_byte_string():
     gs = agg.GraphicsState()
     transform = agg.Transform()
 
-    text_unicode = "Hello!"
-    font_unicode = agg.Font("Times New Roman", 12.0, agg.FontCacheType.RasterFontCache)
+    text_unicode = u"Hello!"
+    font_unicode = agg.Font(u"Times New Roman", 12.0, agg.FontCacheType.RasterFontCache)
     text_byte = b"Hello!"
     font_byte = agg.Font(b"Times New Roman", 12.0, agg.FontCacheType.RasterFontCache)
 
