@@ -1,0 +1,1 @@
+pytest celiagg -n 2 %*
