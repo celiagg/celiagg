@@ -137,7 +137,7 @@ FontCacheType
 ~~~~~~~~~~~~~
 
 Determines whether text is rendered with a raster or vector representation.
-Raster text is faster, but doesn't support different stroke and fill paints;
+Raster text is faster, but *doesn't support different stroke and fill paints*;
 only solid color. Vector text is slower but very powerful, and can make use of
 gradients or patterned fills/strokes.
 
