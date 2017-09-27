@@ -148,14 +148,18 @@ cdef class CanvasBase:
                               dereference(gs._this))
 
     def draw_shape(self, shape, transform, state, stroke=None, fill=None):
-        """draw_shape(shape, transform, state, stroke=None, fill=None)
+        """draw_shape(shape, transform, state, stroke=SolidColor(0, 0, 0), fill=SolidColor(0, 0, 0))
         Draw a shape on the canvas.
+
+        .. note::
+           Use ``GraphicsState.drawing_mode`` to enable/disable stroke or fill
+           drawing.
 
         :param shape: A ``VertexSource`` object
         :param transform: A ``Transform`` object
         :param state: A ``GraphicsState`` object
-        :param stroke: The ``Paint`` to use for outlines
-        :param fill: The ``Paint`` to use for fills
+        :param stroke: The ``Paint`` to use for outlines. Defaults to black.
+        :param fill: The ``Paint`` to use for fills. Defaults to black.
         """
         if not isinstance(shape, VertexSource):
             raise TypeError("shape must be a VertexSource (Path, BSpline, etc)")
@@ -187,16 +191,20 @@ cdef class CanvasBase:
                               dereference(gs._this))
 
     def draw_text(self, text, font, transform, state, stroke=None, fill=None):
-        """draw_text(text, font, transform, state, stroke=None, fill=None)
+        """draw_text(text, font, transform, state, stroke=SolidColor(0, 0, 0), fill=SolidColor(0, 0, 0))
         Draw a line of text on the canvas.
+
+        .. note::
+           Use ``GraphicsState.drawing_mode`` to enable/disable stroke or fill
+           drawing.
 
         :param text: A Unicode string of text to be renderered. Newlines will
                      be ignored.
         :param font: A ``Font`` object
         :param transform: A ``Transform`` object
         :param state: A ``GraphicsState`` object
-        :param stroke: The ``Paint`` to use for outlines
-        :param fill: The ``Paint`` to use for fills
+        :param stroke: The ``Paint`` to use for outlines. Defaults to black.
+        :param fill: The ``Paint`` to use for fills. Defaults to black.
         """
         IF not _ENABLE_TEXT_RENDERING:
             msg = ("The celiagg library was compiled without font support!  "
@@ -270,7 +278,6 @@ cdef class CanvasBase:
         if paint is None:
             return SolidPaint(0.0, 0.0, 0.0)
 
-        cdef Paint pnt = <Paint>paint
         if not hasattr(paint, '_with_format'):
             return paint
 

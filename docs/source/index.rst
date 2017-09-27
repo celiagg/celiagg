@@ -14,6 +14,7 @@ an optional dependency if you don't want to draw text.
    :maxdepth: 2
 
    philosophy
+   example
    api
 
 Indices and tables
