@@ -22,12 +22,9 @@
 #
 # Authors: John Wiggins
 
-from libc.stdint cimport uint8_t
-
-
 cdef extern from "image.h":
     cdef cppclass Image:
-        Image(uint8_t* buf, unsigned width, unsigned height, int stride)
+        Image(unsigned char* buf, unsigned width, unsigned height, int stride)
 
         unsigned height()
         unsigned width()

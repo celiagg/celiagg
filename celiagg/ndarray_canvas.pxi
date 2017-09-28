@@ -24,6 +24,8 @@
 
 cimport numpy
 
+ctypedef unsigned char _bytes_t
+
 ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
 ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_bgra32] canvas_brga32_t
@@ -43,10 +45,10 @@ cdef class CanvasBase:
         if image is None:
             raise ValueError('image argument must not be None.')
 
-        cdef uint64_t[:] image_shape = numpy.asarray(image.shape,
-                                                     dtype=numpy.uint64,
-                                                     order='c')
-        cdef uint64_t image_ndim = <uint64_t> image.ndim
+        cdef numpy.npy_int32[:] image_shape = numpy.asarray(image.shape,
+                                                            dtype=numpy.int32,
+                                                            order='c')
+        cdef int image_ndim = <int> image.ndim
 
         if not has_alpha:
             # Draw colors for images without alpha channels are specified with
@@ -298,7 +300,7 @@ cdef class CanvasRGBA128(CanvasBase):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA128
         self.bottom_up = bottom_up
-        self._this = <canvas_base_t*> new canvas_rgba128_t(<uint8_t*>&image[0][0][0],
+        self._this = <canvas_base_t*> new canvas_rgba128_t(<_bytes_t*>&image[0][0][0],
                                                            image.shape[1],
                                                            image.shape[0],
                                                            image.strides[0], 4,
@@ -315,7 +317,7 @@ cdef class CanvasBGRA32(CanvasBase):
     :param array: A ``numpy.uint8`` array with shape (H, W, 4).
     :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
-    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
+    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.BGRA32
         self.bottom_up = bottom_up
@@ -336,7 +338,7 @@ cdef class CanvasRGBA32(CanvasBase):
     :param array: A ``numpy.uint8`` array with shape (H, W, 4).
     :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
-    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
+    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA32
         self.bottom_up = bottom_up
@@ -357,7 +359,7 @@ cdef class CanvasRGB24(CanvasBase):
     :param array: A ``numpy.uint8`` array with shape (H, W, 3).
     :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
-    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
+    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, False)
         self.pixel_format = PixelFormat.RGB24
         self.bottom_up = bottom_up
@@ -378,7 +380,7 @@ cdef class CanvasGA16(CanvasBase):
     :param array: A ``numpy.uint8`` array with shape (H, W, 2).
     :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
-    def __cinit__(self, uint8_t[:,:,::1] image, bottom_up=False):
+    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 2, True)
         self.pixel_format = PixelFormat.Gray8
         self.bottom_up = bottom_up
@@ -399,7 +401,7 @@ cdef class CanvasG8(CanvasBase):
     :param array: A ``numpy.uint8`` array with shape (H, W).
     :param bottom_up: If True, the origin is the bottom left, instead of top-left
     """
-    def __cinit__(self, uint8_t[:,::1] image, bottom_up=False):
+    def __cinit__(self, _bytes_t[:,::1] image, bottom_up=False):
         self.base_init(image, 2, False)
         self.pixel_format = PixelFormat.Gray8
         self.bottom_up = bottom_up

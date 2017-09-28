@@ -25,8 +25,6 @@
 #ifndef CELIAGG_PAINT_H
 #define CELIAGG_PAINT_H
 
-#include <stdint.h>
-
 #include <agg_array.h>
 #include <agg_basics.h>
 #include <agg_color_rgba.h>

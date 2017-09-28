@@ -25,7 +25,6 @@
 import cython
 cimport numpy
 import numpy
-from libc.stdint cimport uint8_t
 from libcpp cimport bool
 from libcpp.vector cimport vector
 

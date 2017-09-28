@@ -27,7 +27,6 @@ import cython
 from cython.operator cimport dereference
 cimport numpy
 import numpy
-from libc.stdint cimport uint8_t, uint16_t, uint32_t, uint64_t
 
 cimport _enums
 cimport _font

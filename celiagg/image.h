@@ -25,8 +25,6 @@
 #ifndef CELIAGG_IMAGE_H
 #define CELIAGG_IMAGE_H
 
-#include <stdint.h>
-
 #include <agg_image_accessors.h>
 #include <agg_path_storage.h>
 #include <agg_pixfmt_gray.h>
@@ -244,7 +242,7 @@ class Image
     agg::rendering_buffer m_buf;
 
 public:
-    Image(uint8_t* buf, unsigned width, unsigned height, int stride);
+    Image(unsigned char* buf, unsigned width, unsigned height, int stride);
 
     agg::rendering_buffer& get_buffer();
     agg::path_storage image_outline() const;
