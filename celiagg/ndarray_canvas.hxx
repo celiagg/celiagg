@@ -24,7 +24,7 @@
  
 
 template<typename pixfmt_t>
-ndarray_canvas<pixfmt_t>::ndarray_canvas(uint8_t* buf,
+ndarray_canvas<pixfmt_t>::ndarray_canvas(unsigned char* buf,
     const unsigned width, const unsigned height, const int stride,
     const size_t channel_count, const bool bottom_up)
 : m_channel_count(channel_count)

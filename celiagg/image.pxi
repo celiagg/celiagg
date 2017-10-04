@@ -22,6 +22,8 @@
 #
 # Authors: John Wiggins
 
+cimport numpy as np
+
 ctypedef _image.Image* img_ptr_t
 
 cdef _get_format_dtype(PixelFormat pixel_format):
@@ -57,33 +59,33 @@ cdef _get_format_last_dim(PixelFormat pixel_format):
     return format_dims[pixel_format]
 
 
-cdef img_ptr_t _get_2d_u8_img(uint8_t[:, ::1] arr, bool bottom_up):
-    return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
+cdef img_ptr_t _get_2d_u8_img(np.npy_uint8[:, ::1] arr, bool bottom_up):
+    return new _image.Image(<unsigned char*>&arr[0][0], arr.shape[1], arr.shape[0],
                             -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_2d_u16_img(uint16_t[:, ::1] arr, bool bottom_up):
-    return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
+cdef img_ptr_t _get_2d_u16_img(np.npy_uint16[:, ::1] arr, bool bottom_up):
+    return new _image.Image(<unsigned char*>&arr[0][0], arr.shape[1], arr.shape[0],
                             -arr.strides[0] if bottom_up else arr.strides[0])
 
 
 cdef img_ptr_t _get_2d_f32_img(float[:, ::1] arr, bool bottom_up):
-    return new _image.Image(<uint8_t*>&arr[0][0], arr.shape[1], arr.shape[0],
+    return new _image.Image(<unsigned char*>&arr[0][0], arr.shape[1], arr.shape[0],
                             -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_u8_img(uint8_t[:, :, ::1] arr, bool bottom_up):
-    return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
+cdef img_ptr_t _get_3d_u8_img(np.npy_uint8[:, :, ::1] arr, bool bottom_up):
+    return new _image.Image(<unsigned char*>&arr[0][0][0], arr.shape[1], arr.shape[0],
                             -arr.strides[0] if bottom_up else arr.strides[0])
 
 
-cdef img_ptr_t _get_3d_u16_img(uint16_t[:, :, ::1] arr, bool bottom_up):
-    return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
+cdef img_ptr_t _get_3d_u16_img(np.npy_uint16[:, :, ::1] arr, bool bottom_up):
+    return new _image.Image(<unsigned char*>&arr[0][0][0], arr.shape[1], arr.shape[0],
                             -arr.strides[0] if bottom_up else arr.strides[0])
 
 
 cdef img_ptr_t _get_3d_f32_img(float[:, :, ::1] arr, bool bottom_up):
-    return new _image.Image(<uint8_t*>&arr[0][0][0], arr.shape[1], arr.shape[0],
+    return new _image.Image(<unsigned char*>&arr[0][0][0], arr.shape[1], arr.shape[0],
                             -arr.strides[0] if bottom_up else arr.strides[0])
 
 

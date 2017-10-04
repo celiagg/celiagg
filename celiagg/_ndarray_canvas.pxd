@@ -25,7 +25,6 @@
 import cython
 cimport numpy
 import numpy
-from libc.stdint cimport uint8_t
 from libcpp cimport bool
 
 cimport _font
@@ -73,7 +72,7 @@ cdef extern from "ndarray_canvas.h":
                        const _graphics_state.GraphicsState& gs)
 
     cdef cppclass ndarray_canvas[pixfmt_T]:
-        ndarray_canvas(uint8_t* buf,
+        ndarray_canvas(unsigned char* buf,
                        const unsigned width,
                        const unsigned height,
                        const int stride,

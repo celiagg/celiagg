@@ -28,9 +28,6 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 
-// for integer typedefs
-#include <stdint.h>
-
 #include <agg_alpha_mask_u8.h>
 #include <agg_bezier_arc.h>
 #include <agg_bspline.h>
@@ -91,7 +88,7 @@ template<typename pixfmt_t>
 class ndarray_canvas : public ndarray_canvas_base
 {
 public:
-    ndarray_canvas(uint8_t* buf,
+    ndarray_canvas(unsigned char* buf,
                    const unsigned width, const unsigned height, const int stride,
                    const size_t channel_count, const bool bottom_up = false);
     virtual ~ndarray_canvas(){}
