@@ -8,6 +8,11 @@
 matrix:
   fast_finish: true     # immediately finish build once one of the jobs fails.
 
+# Only build after merging to master (in addition to PR builds)
+branches:
+  only:
+    - master
+
 environment:
   global:
     # SDK v7.0 MSVC Express 2008's SetEnv.cmd script will fail if the

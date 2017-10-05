@@ -1,5 +1,10 @@
 language: generic
 
+branches:
+  only:
+    - master
+    - /^(\d+\.)(\d+\.)(\d+)((a|b|rc)\d+)?$/
+
 matrix:
   include:
     - os: linux
