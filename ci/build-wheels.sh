@@ -27,7 +27,7 @@ done
 
 # Compile wheels
 for PYBIN in /opt/python/cp{27,35}*/bin; do
-    ${PYBIN}/pip install -r /io/travis/build-requirements.txt
+    ${PYBIN}/pip install -r /io/ci/build-requirements.txt
     ${PYBIN}/pip wheel /io/ -w wheelhouse/
 done
 
