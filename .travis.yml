@@ -27,7 +27,8 @@ matrix:
       env:
         - BUILD_TYPE="package"
         - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
-        - secure: "CdWhPsjLAr2yH2X2lhRVTkh+XuMHDPJJPSWQgYNogYfN5o2wy4HbD/Qw9erUc3Rg5G6m6P7Qk5BfPOeQdKowdN0FqLwuSFNry/OGRlQqhMN1Qf/LzLuTtdUAk+oKBdyV8VsR+HGTc4eVEruSjOCxZaqT74HY8Hnd1gYuce0SEocPIgCntDCnJExQzJc8830s8CeG1pc7vUS9Nt9cbdIWHYpirbbhGAZiFIM4QK7hygnwh1r7wSL3h3ZsWVd4byGGpACx7Dw4pBmaVSr2jSQXOHcaFjXcdlB8f4ax3TKW7uUZCbOYv1BJ97XHBzipmlWrFh0x5nQwVuYciDfh26meOmmVhGchmBdEIBtF6JfVFUugnI/D/sw1a7PQ3kM/ZOQKXze/zqBDGkRh/0jtP/8hBcMDwF7hg3qgQCPcDhkesFAkwpwqEbwAgtJ8hWTI0EafDRmyeUJWs1s1Go+xNuACQPAo7mmhXCqXVPjSU9/3mUOuIdW9pvLe2VVNvh2yvtepJy8ndHmnSWI9YigWaMXtHXbbSNzfEPDxo3PqnvLRZwzVNpor/YlTKh/bfLQMgAZiK6WSydf7BRT0OFEWcHkS4kz6szUHGSeWBNofoycGZ5Bhca0Xr0hESDUpQQ+5nBRu4TYSLDmQw1lyb+rBieULAjFKNppzW1lV2swwI2qSraA="
+        - TWINE_USENAME=jwiggins
+          # TWINE_PASSWORD is in Travis settings
 
 before_install:
   - if [[ $BUILD_TYPE == "test" ]]; then ./ci/test-before-install.sh; fi
