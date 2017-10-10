@@ -29,16 +29,3 @@ These are the main objects used for drawing in celiagg.
 * ``Font``: A single font, needed when rendering text. It can also measure the
   bounding box of a line of text.
 * ``Image``: A container for raster image data.
-
-Code Example
-~~~~~~~~~~~~
-
-Here's how those classes can be used to render a red circle with the word
-"celiagg" inside:
-
-.. literalinclude:: simple_ex.py
-  :language: python
-
-Which gives the resulting image:
-
-.. image:: example.png
