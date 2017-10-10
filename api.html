@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>celiagg API documentation &#8212; celiagg 0.1.3 documentation</title>
+    <title>celiagg API documentation &#8212; celiagg 1.0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1.3',
+        VERSION:     '1.0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,8 +25,8 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="celiagg 0.1.3 documentation" href="index.html" />
-    <link rel="prev" title="About celiagg" href="philosophy.html" />
+    <link rel="top" title="celiagg 1.0.3 documentation" href="index.html" />
+    <link rel="prev" title="Code Example" href="example.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -112,8 +112,13 @@ C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).</p>
 
 <dl class="method">
 <dt id="celiagg.CanvasRGBA32.draw_shape">
-<code class="descname">draw_shape</code><span class="sig-paren">(</span><em>shape</em>, <em>transform</em>, <em>state</em>, <em>stroke=None</em>, <em>fill=None</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_shape" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_shape</code><span class="sig-paren">(</span><em>shape</em>, <em>transform</em>, <em>state</em>, <em>stroke=SolidColor(0</em>, <em>0</em>, <em>0)</em>, <em>fill=SolidColor(0</em>, <em>0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_shape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a shape on the canvas.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Use <code class="docutils literal"><span class="pre">GraphicsState.drawing_mode</span></code> to enable/disable stroke or fill
+drawing.</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -122,8 +127,8 @@ C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).</p>
 <li><strong>shape</strong> &#8211; A <code class="docutils literal"><span class="pre">VertexSource</span></code> object</li>
 <li><strong>transform</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> object</li>
 <li><strong>state</strong> &#8211; A <code class="docutils literal"><span class="pre">GraphicsState</span></code> object</li>
-<li><strong>stroke</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for outlines</li>
-<li><strong>fill</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for fills</li>
+<li><strong>stroke</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for outlines. Defaults to black.</li>
+<li><strong>fill</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for fills. Defaults to black.</li>
 </ul>
 </td>
 </tr>
@@ -133,8 +138,13 @@ C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).</p>
 
 <dl class="method">
 <dt id="celiagg.CanvasRGBA32.draw_text">
-<code class="descname">draw_text</code><span class="sig-paren">(</span><em>text</em>, <em>font</em>, <em>transform</em>, <em>state</em>, <em>stroke=None</em>, <em>fill=None</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_text" title="Permalink to this definition">¶</a></dt>
+<code class="descname">draw_text</code><span class="sig-paren">(</span><em>text</em>, <em>font</em>, <em>transform</em>, <em>state</em>, <em>stroke=SolidColor(0</em>, <em>0</em>, <em>0)</em>, <em>fill=SolidColor(0</em>, <em>0</em>, <em>0)</em><span class="sig-paren">)</span><a class="headerlink" href="#celiagg.CanvasRGBA32.draw_text" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw a line of text on the canvas.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Use <code class="docutils literal"><span class="pre">GraphicsState.drawing_mode</span></code> to enable/disable stroke or fill
+drawing.</p>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -145,8 +155,8 @@ be ignored.</li>
 <li><strong>font</strong> &#8211; A <code class="docutils literal"><span class="pre">Font</span></code> object</li>
 <li><strong>transform</strong> &#8211; A <code class="docutils literal"><span class="pre">Transform</span></code> object</li>
 <li><strong>state</strong> &#8211; A <code class="docutils literal"><span class="pre">GraphicsState</span></code> object</li>
-<li><strong>stroke</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for outlines</li>
-<li><strong>fill</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for fills</li>
+<li><strong>stroke</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for outlines. Defaults to black.</li>
+<li><strong>fill</strong> &#8211; The <code class="docutils literal"><span class="pre">Paint</span></code> to use for fills. Defaults to black.</li>
 </ul>
 </td>
 </tr>
@@ -1099,7 +1109,7 @@ fill variations use the even-odd rule when filling self-intersecting curves.</p>
 <div class="section" id="fontcachetype">
 <h3>FontCacheType<a class="headerlink" href="#fontcachetype" title="Permalink to this headline">¶</a></h3>
 <p>Determines whether text is rendered with a raster or vector representation.
-Raster text is faster, but doesn&#8217;t support different stroke and fill paints;
+Raster text is faster, but <em>doesn&#8217;t support different stroke and fill paints</em>;
 only solid color. Vector text is slower but very powerful, and can make use of
 gradients or patterned fills/strokes.</p>
 <blockquote>
@@ -1269,7 +1279,7 @@ See <a class="reference external" href="https://www.w3.org/TR/SVG/pservers.html"
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="philosophy.html" title="previous chapter">About celiagg</a></li>
+      <li>Previous: <a href="example.html" title="previous chapter">Code Example</a></li>
   </ul></li>
 </ul>
 </div>
@@ -1295,7 +1305,7 @@ See <a class="reference external" href="https://www.w3.org/TR/SVG/pservers.html"
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2016, John Wiggins, Erik Hvatum.
+      &copy;2015-2017, John Wiggins, Erik Hvatum.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
