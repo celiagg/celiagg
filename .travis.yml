@@ -27,7 +27,7 @@ matrix:
       env:
         - BUILD_TYPE="package"
         - DOCKER_IMAGE=quay.io/pypa/manylinux1_x86_64
-        - TWINE_USENAME=jwiggins
+        - TWINE_USERNAME=jwiggins
           # TWINE_PASSWORD is in Travis settings
 
 before_install:

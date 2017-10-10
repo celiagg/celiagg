@@ -17,8 +17,7 @@ celiagg provides a simple, stateless canvas object that uses
 Anti-Grain Geometry 2.4 <svn://svn.code.sf.net/p/agg/svn> with Cython to
 render directly into a Numpy array.
 
-A respectably modern compiler is required to build celiagg
-(one supporting certain C++11 features).
+A respectably modern C++ compiler is required to build celiagg
 
 `Documentation! <https://celiagg.github.io/celiagg/>`_
 
@@ -35,7 +34,7 @@ Dependencies
 ------------
 
 * Numpy
-* Cython
+* Cython (build-time only)
 * Freetype2 (optional)
 
 Contributing
