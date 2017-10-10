@@ -21,5 +21,5 @@ python setup.py sdist
 
 # Upload to PyPI
 pip install twine
-twine upload -u jwiggins wheelhouse/celiagg-*.whl
-twine upload -u jwiggins dist/celiagg-*.tar.gz
+twine upload wheelhouse/celiagg-*.whl
+twine upload dist/celiagg-*.tar.gz
