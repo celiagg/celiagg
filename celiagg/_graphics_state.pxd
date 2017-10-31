@@ -23,9 +23,6 @@
 #
 # Authors: John Wiggins
 
-import cython
-cimport numpy
-import numpy
 from libcpp cimport bool
 from libcpp.vector cimport vector
 
