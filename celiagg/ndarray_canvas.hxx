@@ -21,7 +21,17 @@
 // SOFTWARE.
 // 
 // Authors: Erik Hvatum <ice.rikh@gmail.com>
- 
+
+// NOTE: The renderer object constructed here keeps pointers to objects which
+// are allocated on the stack, so in order to avoid code duplication, we get
+// this funky macro...
+#define _WITH_MASKED_RENDERER(gs, name) \
+Image* stencil = const_cast<Image*>(gs.stencil());\
+agg::rendering_buffer& stencilbuf = stencil->get_buffer();\
+alpha_mask_t stencil_mask(stencilbuf);\
+masked_pxfmt_t masked_pixfmt(m_pixfmt, stencil_mask);\
+masked_renderer_t name(masked_pixfmt);
+
 
 template<typename pixfmt_t>
 ndarray_canvas<pixfmt_t>::ndarray_canvas(unsigned char* buf,
@@ -89,7 +99,7 @@ void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     }
     else
     {
-        masked_renderer_t renderer = _get_masked_renderer(gs);
+        _WITH_MASKED_RENDERER(gs, renderer)
         if (simple_trans)
         {
             typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
@@ -118,7 +128,7 @@ void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
     }
     else
     {
-        masked_renderer_t renderer = _get_masked_renderer(gs);
+        _WITH_MASKED_RENDERER(gs, renderer)
         _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
     }
 }
@@ -138,7 +148,7 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     }
     else
     {
-        masked_renderer_t renderer = _get_masked_renderer(gs);
+        _WITH_MASKED_RENDERER(gs, renderer)
         _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, renderer);
     }
 }
@@ -373,17 +383,6 @@ GraphicsState::DrawingMode ndarray_canvas<pixfmt_t>::_convert_text_mode(const Gr
         default:
             return GraphicsState::DrawInvisible;
     }
-}
-
-template<typename pixfmt_t>
-typename ndarray_canvas<pixfmt_t>::masked_renderer_t
-ndarray_canvas<pixfmt_t>::_get_masked_renderer(const GraphicsState& gs)
-{
-    Image* stencil = const_cast<Image*>(gs.stencil());
-    agg::rendering_buffer& stencilbuf = stencil->get_buffer();
-    alpha_mask_t stencil_mask(stencilbuf);
-    masked_pxfmt_t masked_pixfmt(m_pixfmt, stencil_mask);
-    return masked_renderer_t(masked_pixfmt);
 }
 
 template<typename pixfmt_t>
