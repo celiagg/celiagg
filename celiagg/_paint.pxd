@@ -41,12 +41,12 @@ cdef extern from "paint.h":
     cdef cppclass Paint:
         Paint(const double r, const double g, const double b,
               const double a)
-        Paint(const _enums.PaintType type,
+        Paint(_enums.PaintType type,
               double* points, const unsigned n_points,
               double* stops, const unsigned n_stops,
-              const _enums.GradientSpread spread,
-              const _enums.GradientUnits units)
-        Paint(const _enums.PatternStyle style, _image.Image* img)
+              _enums.GradientSpread spread,
+              _enums.GradientUnits units)
+        Paint(_enums.PatternStyle style, _image.Image* img)
 
         double  a()
         void  a(const double _a)
