@@ -86,7 +86,13 @@ def get_freetype_info():
                "If you wish to disable text rendering, you can re-run this "
                "script with the --no-text-rendering flag.")
         print(msg, file=sys.stderr)
-        exit(-1)
+
+        # NOTE: Avoid exiting when pip is running an egg_info command. Without
+        # this, it's not possible to avoid freetype when installing from pip.
+        if 'egg_info' not in sys.argv:
+            exit(-1)
+        else:
+            return [], []
     return data['cflags'], data['ldflags']
 
 
@@ -179,6 +185,7 @@ def configuration(parent_package='', top_path=None):
                          **ext_kwargs)
     config.add_subpackage('tests')
     return config
+
 
 if __name__ == '__main__':
     setup(**(configuration(top_path='').todict()))
