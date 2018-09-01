@@ -175,7 +175,6 @@ private:
                            base_renderer_t& renderer);
 
     GraphicsState::DrawingMode _convert_text_mode(const GraphicsState::TextDrawingMode tm);
-    inline bool _is_simple_transform(const agg::trans_affine& transform);
     inline void _set_aa(const bool& aa);
     inline void _set_clipping(const GraphicsState::Rect& rect);
 
