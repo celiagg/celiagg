@@ -8,4 +8,4 @@ hash -r
 source activate test_env
 
 # Run the test suite
-pytest -v celiagg
+python -m unittest discover -v celiagg

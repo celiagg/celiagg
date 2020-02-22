@@ -1,59 +1,56 @@
+import unittest
+
 import numpy as np
-import pytest
 
 from celiagg import Path, ShapeAtPoints
 
 
-def test_sap_bad_init_args():
-    with pytest.raises(TypeError):
-        ShapeAtPoints(None, [(0, 0), (10, 10)])
+class TestPath(unittest.TestCase):
+    def test_sap_bad_init_args(self):
+        with self.assertRaises(TypeError):
+            ShapeAtPoints(None, [(0, 0), (10, 10)])
 
+    def test_move_to(self):
+        pth = Path()
+        pth.move_to(10, 10)
+        pth.move_to(0, 0)
 
-def test_move_to():
-    pth = Path()
-    pth.move_to(10, 10)
-    pth.move_to(0, 0)
+        self.assertTrue(np.all(pth.vertices() == [[10.0, 10.0], [0.0, 0.0]]))
 
-    assert np.all(pth.vertices() == [[10.0, 10.0], [0.0, 0.0]])
+    def test_copy(self):
+        pth = Path()
+        pth.move_to(10, 10)
+        pth.move_to(0, 0)
 
+        cpy = pth.copy()
+        self.assertNotEqual(id(cpy), id(pth))
+        self.assertEqual(len(cpy.vertices()), len(pth.vertices()))
 
-def test_copy():
-    pth = Path()
-    pth.move_to(10, 10)
-    pth.move_to(0, 0)
+        cpy_pts = np.array(list(iter(cpy)))
+        pth_pts = np.array(list(iter(pth)))
+        self.assertTrue(np.all(cpy_pts == pth_pts))
 
-    cpy = pth.copy()
-    assert id(cpy) != id(pth)
-    assert len(cpy.vertices()) == len(pth.vertices())
+    def test_reset(self):
+        pth = Path()
+        pth.move_to(10, 10)
+        pth.move_to(0, 0)
 
-    cpy_pts = np.array(list(iter(cpy)))
-    pth_pts = np.array(list(iter(pth)))
-    assert np.all(cpy_pts == pth_pts)
+        pth.reset()
+        self.assertEqual(len(pth.vertices()), 0)
 
+    def test_closing(self):
+        pth = Path()
+        pth.move_to(10, 10)
+        pth.move_to(0, 0)
+        pth.close()
 
-def test_reset():
-    pth = Path()
-    pth.move_to(10, 10)
-    pth.move_to(0, 0)
+        self.assertEqual(len(pth.vertices()), 3)
+        self.assertTrue(np.all(pth.vertices()[-1] == [0.0, 0.0]))
 
-    pth.reset()
-    assert len(pth.vertices()) == 0
+    def test_iteration(self):
+        pth = Path()
+        pth.move_to(10, 10)
 
-
-def test_closing():
-    pth = Path()
-    pth.move_to(10, 10)
-    pth.move_to(0, 0)
-    pth.close()
-
-    assert len(pth.vertices()) == 3
-    assert np.all(pth.vertices()[-1] == [0.0, 0.0])
-
-
-def test_iteration():
-    pth = Path()
-    pth.move_to(10, 10)
-
-    lp = list(iter(pth))
-    assert len(lp) == 1
-    assert np.all(lp[0] == [10.0, 10.0])
+        lp = list(iter(pth))
+        self.assertEqual(len(lp), 1)
+        self.assertTrue(np.all(lp[0] == [10.0, 10.0]))

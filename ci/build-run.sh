@@ -13,7 +13,7 @@ hash -r
 
 conda config --set always_yes yes --set changeps1 no
 conda update -q conda
-conda create -q -n twine_env python=3.5 numpy cython freetype pytest
+conda create -q -n twine_env python=3.5 numpy cython freetype
 source activate twine_env
 
 # Build an SDIST
