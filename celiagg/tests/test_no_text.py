@@ -1,26 +1,22 @@
+import unittest
+
 import numpy as np
-import pytest
 
 import celiagg as agg
 
 
-def test_no_text_font_failure():
-    if agg.HAS_TEXT:
-        return
+@unittest.skipIf(agg.HAS_TEXT, 'Text support is available')
+class TestNoTextSupport(unittest.TestCase):
+    def test_no_text_font_failure(self):
+        with self.assertRaises(RuntimeError):
+            agg.Font()
 
-    with pytest.raises(RuntimeError):
-        agg.Font()
+    def test_no_text_draw_text_failure(self):
+        buffer = np.zeros((1, 1), dtype=np.uint8)
+        canvas = agg.CanvasG8(buffer)
+        transform = agg.Transform()
+        line_paint = agg.SolidPaint(1.0, 1.0, 1.0)
+        gs = agg.GraphicsState()
 
-
-def test_no_text_draw_text_failure():
-    if agg.HAS_TEXT:
-        return
-
-    buffer = np.zeros((1, 1), dtype=np.uint8)
-    canvas = agg.CanvasG8(buffer)
-    transform = agg.Transform()
-    line_paint = agg.SolidPaint(1.0, 1.0, 1.0)
-    gs = agg.GraphicsState()
-
-    with pytest.raises(RuntimeError):
-        canvas.draw_text("", None, transform, line_paint, line_paint, gs)
+        with self.assertRaises(RuntimeError):
+            canvas.draw_text('', None, transform, line_paint, line_paint, gs)

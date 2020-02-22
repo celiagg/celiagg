@@ -5,7 +5,7 @@ export PATH="$HOME/miniconda/bin:$PATH"
 hash -r
 
 # Create an environment with our build/test requirements
-conda create -q -n test_env python=${PYTHON} numpy cython freetype pytest
+conda create -q -n test_env python=${PYTHON} numpy cython freetype
 
 # Activate it
 source activate test_env

@@ -77,7 +77,7 @@ install:
   - cmd: conda info -a
 
   # create our env
-  - cmd: conda create -n celiagg python=%PYTHON_VERSION% cython pytest pytest-xdist numpy
+  - cmd: conda create -n celiagg python=%PYTHON_VERSION% cython numpy
   - cmd: activate celiagg
   - SET REQ=ci\build-requirements.txt
   - cmd: echo "installing requirements from %REQ%"
