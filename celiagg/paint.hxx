@@ -56,8 +56,8 @@ void _rasterizer_path_bbox(rasterizer_t& ras, double& x, double& y, double& w, d
     h = ras.max_y() - y;
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_affine& transform)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+void Paint::render(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer, const agg::trans_affine& transform)
 {
     const agg::trans_affine saved_transform(m_transform);
 
@@ -69,19 +69,19 @@ void Paint::render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_aff
     switch (m_type)
     {
     case Paint::k_PaintTypeSolid:
-        _render_solid<pixfmt_t, rasterizer_t, renderer_t>(ras, renderer);
+        _render_solid<pixfmt_t, rasterizer_t, scanline_t, renderer_t>(ras, scanline, renderer);
         break;
 
     case Paint::k_PaintTypeLinearGradient:
-        _render_linear_grad<pixfmt_t, rasterizer_t, renderer_t>(ras, renderer);
+        _render_linear_grad<pixfmt_t, rasterizer_t, scanline_t, renderer_t>(ras, scanline, renderer);
         break;
 
     case Paint::k_PaintTypeRadialGradient:
-        _render_radial_grad<pixfmt_t, rasterizer_t, renderer_t>(ras, renderer);
+        _render_radial_grad<pixfmt_t, rasterizer_t, scanline_t, renderer_t>(ras, scanline, renderer);
         break;
 
     case Paint::k_PaintTypePattern:
-        _render_pattern<pixfmt_t, rasterizer_t, renderer_t>(ras, renderer);
+        _render_pattern<pixfmt_t, rasterizer_t, scanline_t, renderer_t>(ras, scanline, renderer);
         break;
 
     default:
@@ -92,8 +92,8 @@ void Paint::render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_aff
 }
 
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::_render_linear_grad(rasterizer_t& ras, renderer_t& renderer)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+void Paint::_render_linear_grad(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer)
 {
     typedef agg::pod_auto_vector<double, k_LinearPointsSize> vector_t;
 
@@ -116,24 +116,24 @@ void Paint::_render_linear_grad(rasterizer_t& ras, renderer_t& renderer)
     {
         typedef agg::gradient_y function_t;
         function_t func;
-        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
+        _render_spread_grad<pixfmt_t, rasterizer_t, scanline_t, renderer_t, function_t, vector_t>(ras, scanline, renderer, func, points);
     }
     else if (points[1] == points[3])
     {
         typedef agg::gradient_x function_t;
         function_t func;
-        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
+        _render_spread_grad<pixfmt_t, rasterizer_t, scanline_t, renderer_t, function_t, vector_t>(ras, scanline, renderer, func, points);
     }
     else
     {
         typedef agg::gradient_x function_t;
         function_t func;
-        _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, function_t, vector_t>(ras, renderer, func, points);
+        _render_spread_grad<pixfmt_t, rasterizer_t, scanline_t, renderer_t, function_t, vector_t>(ras, scanline, renderer, func, points);
     }
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::_render_radial_grad(rasterizer_t& ras, renderer_t& renderer)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+void Paint::_render_radial_grad(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer)
 {
     // m_points: cx, cy, r, fx, fy
     typedef agg::pod_auto_vector<double, k_RadialPointsSize> vector_t;
@@ -159,11 +159,11 @@ void Paint::_render_radial_grad(rasterizer_t& ras, renderer_t& renderer)
     agg::gradient_radial_focus func(points[k_RadialR],
                                     points[k_RadialFX] - points[k_RadialCX],
                                     points[k_RadialFY] - points[k_RadialCY]);
-    _render_spread_grad<pixfmt_t, rasterizer_t, renderer_t, grad_func_t, vector_t>(ras, renderer, func, points);
+    _render_spread_grad<pixfmt_t, rasterizer_t, scanline_t, renderer_t, grad_func_t, vector_t>(ras, scanline, renderer, func, points);
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
-void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t, typename grad_func_t, typename vector_t>
+void Paint::_render_spread_grad(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer, grad_func_t& func, vector_t& points)
 {
     // apply the proper fill adapter based on the spread method
     switch (m_spread)
@@ -172,7 +172,7 @@ void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_fu
         {
             typedef agg::gradient_reflect_adaptor<grad_func_t> adapted_func_t;
             agg::gradient_reflect_adaptor<grad_func_t> adaptor(func);
-            _render_gradient_final<pixfmt_t, rasterizer_t, renderer_t, adapted_func_t, vector_t>(ras, renderer, adaptor, points);
+            _render_gradient_final<pixfmt_t, rasterizer_t, scanline_t, renderer_t, adapted_func_t, vector_t>(ras, scanline, renderer, adaptor, points);
         }
         break;
 
@@ -180,19 +180,19 @@ void Paint::_render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_fu
         {
             typedef agg::gradient_repeat_adaptor<grad_func_t> adapted_func_t;
             agg::gradient_repeat_adaptor<grad_func_t> adaptor(func);
-            _render_gradient_final<pixfmt_t, rasterizer_t, renderer_t, adapted_func_t, vector_t>(ras, renderer, adaptor, points);
+            _render_gradient_final<pixfmt_t, rasterizer_t, scanline_t, renderer_t, adapted_func_t, vector_t>(ras, scanline, renderer, adaptor, points);
         }
         break;
 
     case Paint::k_GradientSpreadPad:
     default:
-        _render_gradient_final<pixfmt_t, rasterizer_t, renderer_t, grad_func_t, vector_t>(ras, renderer, func, points);
+        _render_gradient_final<pixfmt_t, rasterizer_t, scanline_t, renderer_t, grad_func_t, vector_t>(ras, scanline, renderer, func, points);
         break;
     }
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
-void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t, typename grad_func_t, typename vector_t>
+void Paint::_render_gradient_final(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer, grad_func_t& func, vector_t& points)
 {
     typedef agg::span_interpolator_linear<> span_interpolator_t;
     typedef agg::pod_auto_array<typename pixfmt_t::color_type, 256> color_array_t;
@@ -204,7 +204,6 @@ void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad
     span_interpolator_t span_interpolator(gradient_mtx);
     span_allocator_t span_allocator;
     color_array_t color_array;
-    agg::scanline_u8 scanline;
     double d1 = 0, d2 = 0;
 
     if (m_type == Paint::k_PaintTypeRadialGradient)
@@ -250,8 +249,8 @@ void Paint::_render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad
     agg::render_scanlines(ras, scanline, grad_renderer);
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+void Paint::_render_pattern(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer)
 {
     switch (m_pattern_style)
     {
@@ -260,7 +259,7 @@ void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
             typedef typename image_filters<pixfmt_t>::source_reflect_t source_t;
             typedef typename image_filters<pixfmt_t>::nearest_reflect_t span_gen_t;
 
-            _render_pattern_final<pixfmt_t, rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
+            _render_pattern_final<pixfmt_t, rasterizer_t, scanline_t, renderer_t, source_t, span_gen_t>(ras, scanline, renderer);
         }
         break;
 
@@ -269,7 +268,7 @@ void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
             typedef typename image_filters<pixfmt_t>::source_repeat_t source_t;
             typedef typename image_filters<pixfmt_t>::nearest_repeat_t span_gen_t;
 
-            _render_pattern_final<pixfmt_t, rasterizer_t, renderer_t, source_t, span_gen_t>(ras, renderer);
+            _render_pattern_final<pixfmt_t, rasterizer_t, scanline_t, renderer_t, source_t, span_gen_t>(ras, scanline, renderer);
         }
         break;
 
@@ -278,8 +277,8 @@ void Paint::_render_pattern(rasterizer_t& ras, renderer_t& renderer)
     }
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename source_t, typename span_gen_t>
-void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t, typename source_t, typename span_gen_t>
+void Paint::_render_pattern_final(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer)
 {
     typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
     typedef agg::renderer_scanline_aa<renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
@@ -288,7 +287,6 @@ void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
     inv_img_mtx.invert();
     interpolator_t interpolator(inv_img_mtx);
 
-    agg::scanline_u8 scanline;
     span_alloc_t span_allocator;
     pixfmt_t src_pix(m_image->get_buffer());
     source_t source(src_pix);
@@ -299,13 +297,12 @@ void Paint::_render_pattern_final(rasterizer_t& ras, renderer_t& renderer)
     agg::render_scanlines(ras, scanline, pattern_renderer);
 }
 
-template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-void Paint::_render_solid(rasterizer_t& ras, renderer_t& renderer)
+template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+void Paint::_render_solid(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer)
 {
     typedef agg::renderer_scanline_aa_solid<renderer_t> solid_renderer_t;
 
     solid_renderer_t solid_renderer(renderer);
-    agg::scanline_u8 scanline;
     const agg::rgba color_with_alpha(m_color, m_master_alpha*m_color.a);
     typename pixfmt_t::color_type color(color_with_alpha);
 

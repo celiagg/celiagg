@@ -25,6 +25,8 @@
 #ifndef CELIAGG_FONT_H
 #define CELIAGG_FONT_H
 
+#include <string>
+
 #include <agg_basics.h>
 #include <agg_font_cache_manager.h>
 #include <agg_trans_affine.h>
@@ -62,6 +64,8 @@ public:
                              FontCacheType const ch = RasterFontCache);
                         ~Font();
 
+    void                activate();
+
 #ifdef _ENABLE_TEXT_RENDERING
     FontCacheManager&   cache();
 #endif
@@ -78,13 +82,16 @@ public:
 
 private:
 
+    double              m_height;
+    std::string         m_font_name;
     FontCacheType       m_cache_type;
+
 #ifdef _ENABLE_TEXT_RENDERING
 #ifndef _USE_FREETYPE
-    HDC                 m_font_dc;
+    thread_local static HDC                 m_font_dc;
 #endif
-    FontEngine          m_font_engine;
-    FontCacheManager    m_font_cache_manager;
+    thread_local static FontEngine          m_font_engine;
+    thread_local static FontCacheManager    m_font_cache_manager;
 #endif
 };
 

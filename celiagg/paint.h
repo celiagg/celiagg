@@ -149,31 +149,31 @@ public:
     void style(const PatternStyle style) { m_pattern_style = style; }
     PatternStyle style() const { return m_pattern_style; }
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void render(rasterizer_t& ras, renderer_t& renderer, const agg::trans_affine& transform);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+    void render(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer, const agg::trans_affine& transform);
 
 private:
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void _render_linear_grad(rasterizer_t& ras, renderer_t& renderer);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+    void _render_linear_grad(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void _render_radial_grad(rasterizer_t& ras, renderer_t& renderer);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+    void _render_radial_grad(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
-    void _render_spread_grad(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t, typename grad_func_t, typename vector_t>
+    void _render_spread_grad(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer, grad_func_t& func, vector_t& points);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename grad_func_t, typename vector_t>
-    void _render_gradient_final(rasterizer_t& ras, renderer_t& renderer, grad_func_t& func, vector_t& points);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t, typename grad_func_t, typename vector_t>
+    void _render_gradient_final(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer, grad_func_t& func, vector_t& points);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void _render_pattern(rasterizer_t& ras, renderer_t& renderer);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+    void _render_pattern(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t, typename source_t, typename span_gen_t>
-    void _render_pattern_final(rasterizer_t& ras, renderer_t& renderer);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t, typename source_t, typename span_gen_t>
+    void _render_pattern_final(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer);
 
-    template <typename pixfmt_t, typename rasterizer_t, typename renderer_t>
-    void _render_solid(rasterizer_t& ras, renderer_t& renderer);
+    template <typename pixfmt_t, typename rasterizer_t, typename scanline_t, typename renderer_t>
+    void _render_solid(rasterizer_t& ras, scanline_t& scanline, renderer_t& renderer);
 
 private:
     typedef agg::pod_array_adaptor<double> PointArray;

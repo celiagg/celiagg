@@ -124,6 +124,9 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     linePaint.master_alpha(gs.master_alpha());
     fillPaint.master_alpha(gs.master_alpha());
 
+    // Make sure the font is activated
+    font.activate();
+
     if (gs.stencil() == NULL)
     {
         _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, m_renderer);
@@ -174,6 +177,7 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
 {
     typedef agg::conv_transform<VertexSource> conv_trans_t;
     typedef agg::conv_contour<conv_trans_t> contour_shape_t;
+    typedef agg::scanline_u8 scanline_t;
 
     const GraphicsState::DrawingMode mode = gs.drawing_mode();
     const bool line = (mode & GraphicsState::DrawStroke) == GraphicsState::DrawStroke;
@@ -185,6 +189,7 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
         _set_aa(gs.anti_aliased());
         agg::trans_affine mtx = transform;
         conv_trans_t trans_shape(shape, mtx);
+        scanline_t scanline;
 
         if (fill)
         {
@@ -194,7 +199,7 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
             m_rasterizer.reset();
             m_rasterizer.add_path(contour);
             m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
-            fillPaint.render<pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
+            fillPaint.render<pixfmt_t, rasterizer_t, scanline_t, base_renderer_t>(m_rasterizer, scanline, renderer, mtx);
         }
 
         if (line)
@@ -242,6 +247,9 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
     agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
     base_renderer_t& renderer)
 {
+    typedef agg::scanline_u8 scanline_t;
+    scanline_t scanline;
+
     stroke.width(gs.line_width());
     stroke.miter_limit(gs.miter_limit());
     stroke.inner_miter_limit(gs.inner_miter_limit());
@@ -251,7 +259,7 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
 
     m_rasterizer.reset();
     m_rasterizer.add_path(stroke);
-    paint.render<pixfmt_t, rasterizer_t, base_renderer_t>(m_rasterizer, renderer, mtx);
+    paint.render<pixfmt_t, rasterizer_t, scanline_t, base_renderer_t>(m_rasterizer, scanline, renderer, mtx);
 }
 
 template<typename pixfmt_t>
@@ -304,6 +312,11 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
 {
 #ifdef _ENABLE_TEXT_RENDERING
     typedef Font::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
+    typedef Font::FontCacheManager::gray8_scanline_type scanline_t;
+
+    font_rasterizer_t& ras = font.cache().gray8_adaptor();
+    scanline_t& scanline = font.cache().gray8_scanline();
+
     const bool eof = (gs.drawing_mode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
     m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
 
@@ -312,7 +325,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            linePaint.render<pixfmt_t, font_rasterizer_t, base_renderer_t>(font.cache().gray8_adaptor(), renderer, transform);
+            linePaint.render<pixfmt_t, font_rasterizer_t, scanline_t, base_renderer_t>(ras, scanline, renderer, transform);
         }
         action = iterator.step();
     }
