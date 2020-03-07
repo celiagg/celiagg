@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2014-2016 WUSTL ZPLAB
+# Copyright (c) 2016-2020 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +22,7 @@
 # SOFTWARE.
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
-#          John Wiggins <john.wiggins@xfel.eu>
+#          John Wiggins <jwiggins@enthought.com>
 import os
 import sys
 
@@ -59,7 +60,7 @@ setup(
     configuration=configuration,
     license='MIT',
     version='1.0.4',
-    description='Anti-Grain Geometry for Python (2 & 3) with Cython',
+    description='Anti-Grain Geometry for Python 3 with Cython',
     long_description=long_description,
     url='https://github.com/celiagg/celiagg',
     classifiers=[
@@ -70,7 +71,6 @@ setup(
         'Programming Language :: C++',
         'Programming Language :: Cython',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'Topic :: Software Development :: Libraries',
         'Operating System :: Microsoft :: Windows',
