@@ -26,7 +26,7 @@ for idx in {0..2}; do
 done
 
 # Compile wheels
-for PYBIN in /opt/python/cp{27,35}*/bin; do
+for PYBIN in /opt/python/cp{36,37}*/bin; do
     ${PYBIN}/pip install -r /io/ci/build-requirements.txt
     ${PYBIN}/pip wheel /io/ -w wheelhouse/
 done
@@ -37,7 +37,7 @@ for whl in wheelhouse/*.whl; do
 done
 
 # Install packages and test
-for PYBIN in /opt/python/cp{27,35}*/bin/; do
+for PYBIN in /opt/python/cp{36,37}*/bin/; do
     ${PYBIN}/pip install celiagg --no-index -f /io/wheelhouse
     (cd $HOME; ${PYBIN}/python -m unitest discover -v celiagg)
 done
