@@ -134,12 +134,13 @@ def configuration(parent_package='', top_path=None):
                     'agg-svn/agg-2.4',
                     numpy.get_include()]
     if platform.system() == "Windows":
-        # Visual studio does not support these
+        # Visual studio does not support/need these
         extra_compile_args = []
     else:
         extra_compile_args = [
            '-Wfatal-errors',
-           '-Wno-unused-function'
+           '-Wno-unused-function',
+           '-std=c++11',
         ]
     extra_link_args = []
     define_macros = []
@@ -177,8 +178,7 @@ def configuration(parent_package='', top_path=None):
 
     # Run Cython first if this is a development version
     if not is_sdist and cythonize is not None:
-        cythonize(celiagg_cython_source, language='c++',
-                  compile_time_env=cython_compile_env)
+        cythonize(celiagg_cython_source, compile_time_env=cython_compile_env)
 
     config = Configuration('celiagg', parent_package, top_path)
     config.add_extension('_celiagg', sources=celiagg_sources + sources,

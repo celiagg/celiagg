@@ -22,6 +22,7 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
+# distutils: language=c++
 from libcpp cimport bool
 import cython
 from cython.operator cimport dereference

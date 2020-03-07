@@ -33,6 +33,7 @@ Font::Font(char const* fontName, double const height, FontCacheType const ch)
 : m_cache_type(ch) {}
 Font::~Font() {}
 
+void Font::activate() {}
 Font::FontCacheType Font::cache_type() const { return m_cache_type; }
 bool Font::flip() const { return false; }
 void Font::flip(bool const flip) {}
@@ -45,36 +46,19 @@ void Font::transform(const agg::trans_affine& transform) {}
 
 #else
 
+#ifndef _USE_FREETYPE
+thread_local HDC Font::m_font_dc(::GetDC(0));
+thread_local Font::FontEngine Font::m_font_engine(Font::m_font_dc);
+#else
+thread_local Font::FontEngine Font::m_font_engine;
+#endif
+thread_local Font::FontCacheManager Font::m_font_cache_manager(Font::m_font_engine);
+
 Font::Font(char const* fontName, double const height, FontCacheType const ch)
-: m_cache_type(ch)
-#ifdef _USE_FREETYPE
-, m_font_engine()
-#else
-, m_font_dc(::GetDC(0))
-, m_font_engine(m_font_dc)
-#endif
-, m_font_cache_manager(m_font_engine)
-{
-#ifdef _USE_FREETYPE
-    m_font_engine.load_font(fontName,
-                           0,
-                           (ch == VectorFontCache) ?
-                                agg::glyph_ren_outline :
-                                agg::glyph_ren_agg_gray8);
-    m_font_engine.hinting(true);
-    m_font_engine.height(height);
-#else
-    m_font_engine.hinting(true);
-    m_font_engine.create_font(fontName,
-                             (ch == VectorFontCache) ?
-                                agg::glyph_ren_outline :
-                                agg::glyph_ren_agg_gray8,
-                              height,
-                              0.0,
-                              WIN32_FONT_WEIGHT,
-                              false);
-#endif
-}
+: m_height(height)
+, m_font_name(fontName)
+, m_cache_type(ch)
+{}
 
 Font::~Font()
 {
@@ -87,6 +71,30 @@ Font::FontCacheManager&
 Font::cache()
 {
     return m_font_cache_manager;
+}
+
+void
+Font::activate()
+{
+#ifdef _USE_FREETYPE
+    m_font_engine.load_font(m_font_name.c_str(),
+                           0,
+                           (m_cache_type == VectorFontCache) ?
+                                agg::glyph_ren_outline :
+                                agg::glyph_ren_agg_gray8);
+    m_font_engine.hinting(true);
+    m_font_engine.height(m_height);
+#else
+    m_font_engine.hinting(true);
+    m_font_engine.create_font(m_font_name.c_str(),
+                             (m_cache_type == VectorFontCache) ?
+                                agg::glyph_ren_outline :
+                                agg::glyph_ren_agg_gray8,
+                              m_height,
+                              0.0,
+                              WIN32_FONT_WEIGHT,
+                              false);
+#endif
 }
 
 Font::FontCacheType
