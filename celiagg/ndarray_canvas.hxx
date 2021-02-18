@@ -187,12 +187,12 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
     if (line || fill)
     {
         _set_aa(gs.anti_aliased());
-        agg::trans_affine mtx = transform;
-        conv_trans_t trans_shape(shape, mtx);
         scanline_t scanline;
 
         if (fill)
         {
+            agg::trans_affine mtx = transform;
+            conv_trans_t trans_shape(shape, mtx);
             contour_shape_t contour(trans_shape);
             contour.auto_detect_orientation(true);
 
@@ -205,20 +205,20 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_internal(VertexSource& shape,
         if (line)
         {
             // Handle dashing and other such details
-            _draw_shape_stroke_setup(trans_shape, mtx, linePaint, gs, renderer);
+            _draw_shape_stroke_setup(shape, transform, linePaint, gs, renderer);
         }
     }
 }
 
 template<typename pixfmt_t>
-template<typename shape_t, typename base_renderer_t>
-void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_setup(shape_t& shape,
-    agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
+template<typename base_renderer_t>
+void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_setup(VertexSource& shape,
+    const agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
     base_renderer_t& renderer)
 {
-    typedef agg::conv_dash<shape_t> dash_t;
+    typedef agg::conv_dash<VertexSource> dash_t;
     typedef agg::conv_stroke<dash_t> dash_stroke_t;
-    typedef agg::conv_stroke<shape_t> stroke_t;
+    typedef agg::conv_stroke<VertexSource> stroke_t;
 
     if (gs.line_dash_pattern().size() > 0)
     {
@@ -244,9 +244,10 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_setup(shape_t& shape,
 template<typename pixfmt_t>
 template<typename stroke_t, typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
-    agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
+    const agg::trans_affine& mtx, Paint& paint, const GraphicsState& gs,
     base_renderer_t& renderer)
 {
+    typedef agg::conv_transform<stroke_t> trans_stroke_t;
     typedef agg::scanline_u8 scanline_t;
     scanline_t scanline;
 
@@ -257,8 +258,11 @@ void ndarray_canvas<pixfmt_t>::_draw_shape_stroke_final(stroke_t& stroke,
     stroke.line_join(agg::line_join_e(gs.line_join()));
     stroke.inner_join(agg::inner_join_e(gs.inner_join()));
 
+    agg::trans_affine src_mtx = mtx;
+    trans_stroke_t trans(stroke, src_mtx);
+
     m_rasterizer.reset();
-    m_rasterizer.add_path(stroke);
+    m_rasterizer.add_path(trans);
     paint.render<pixfmt_t, rasterizer_t, scanline_t, base_renderer_t>(m_rasterizer, scanline, renderer, mtx);
 }
 
