@@ -141,15 +141,15 @@ private:
                               Paint& linePaint, Paint& fillPaint,
                               const GraphicsState& gs,
                               base_renderer_t& renderer);
-    template<typename shape_t, typename base_renderer_t>
-    void _draw_shape_stroke_setup(shape_t& shape,
-                                  agg::trans_affine& mtx,
+    template<typename base_renderer_t>
+    void _draw_shape_stroke_setup(VertexSource& shape,
+                                  const agg::trans_affine& mtx,
                                   Paint& paint,
                                   const GraphicsState& gs,
                                   base_renderer_t& renderer);
     template<typename stroke_t, typename base_renderer_t>
     void _draw_shape_stroke_final(stroke_t& stroke,
-                                  agg::trans_affine& mtx,
+                                  const agg::trans_affine& mtx,
                                   Paint& paint,
                                   const GraphicsState& gs,
                                   base_renderer_t& renderer);
