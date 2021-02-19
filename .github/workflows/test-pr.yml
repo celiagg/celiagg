@@ -1,0 +1,33 @@
+name: Test
+
+on: pull_request
+
+env:
+  INSTALL_EDM_VERSION: 3.2.1
+
+jobs:
+
+  test-with-edm:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
+        build-args: ['', '--install-option --no-text-rendering']
+    runs-on: ${{ matrix.os }}
+    env:
+      # Set root directory, mainly for Windows, so that the EDM Python
+      # environment lives in the same drive as the cloned source. Otherwise
+      # 'pip install' raises an error while trying to compute
+      # relative path between the site-packages and the source directory.
+      EDM_ROOT_DIRECTORY: ${{ github.workspace }}/.edm
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup EDM
+        uses: enthought/setup-edm-action@v1
+        with:
+          edm-version: ${{ env.INSTALL_EDM_VERSION }}
+      - name: Install test environment
+        run: |
+          edm --config ci/.edm.yaml install -y cython freetype numpy
+          edm run -- pip install -e . ${{ matrix.build-args }}
+      - name: Run tests
+        run: edm run -- python -m unittest discover -v celiagg

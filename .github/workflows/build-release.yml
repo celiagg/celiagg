@@ -1,0 +1,30 @@
+name: Publish release to PyPI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-sdist:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Check out the release commit
+      uses: actions/checkout@v2
+    - name: Setup EDM
+      uses: enthought/setup-edm-action@v1
+      with:
+        edm-version: ${{ env.INSTALL_EDM_VERSION }}
+    - name: Install build environment
+      run: |
+        edm --config ci/.edm.yaml install -y cython numpy
+        edm run -- pip install twine
+    - name: Build sdist
+      run: edm run -- python setup.py sdist
+    - name: Publish sdist to PyPI
+      env:
+        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        python -m twine check --strict dist/*.tar.gz
+        python -m twine upload dist/*.tar.gz
