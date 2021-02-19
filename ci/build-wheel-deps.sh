@@ -24,20 +24,3 @@ for idx in {0..2}; do
     make install
     popd
 done
-
-# Compile wheels
-for PYBIN in /opt/python/cp{36,37}*/bin; do
-    ${PYBIN}/pip install -r /io/ci/build-requirements.txt
-    ${PYBIN}/pip wheel /io/ -w wheelhouse/
-done
-
-# Bundle external shared libraries into the wheels
-for whl in wheelhouse/*.whl; do
-    auditwheel repair $whl -w /io/wheelhouse/
-done
-
-# Install packages and test
-for PYBIN in /opt/python/cp{36,37}*/bin/; do
-    ${PYBIN}/pip install celiagg --no-index -f /io/wheelhouse
-    (cd $HOME; ${PYBIN}/python -m unitest discover -v celiagg)
-done

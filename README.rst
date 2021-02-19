@@ -5,13 +5,9 @@ celiagg
   :target: https://pypi.python.org/pypi/celiagg
   :alt: PyPI
 
-.. image:: https://travis-ci.org/celiagg/celiagg.svg?branch=master
-   :target: https://travis-ci.org/celiagg/celiagg
+.. image:: https://github.com/celiagg/celiagg/workflows/Test/badge.svg
+   :target: https://github.com/celiagg/celiagg/actions?query=workflow%3A%22Test%22
    :alt: Build status
-
-.. image:: https://ci.appveyor.com/api/projects/status/1d7wb65intsxrn90
-   :target: https://ci.appveyor.com/project/jwiggins/celiagg
-   :alt: Appveyor Build status
 
 celiagg provides a simple, stateless canvas object that uses
 Anti-Grain Geometry 2.4 <svn://svn.code.sf.net/p/agg/svn> with Cython to
