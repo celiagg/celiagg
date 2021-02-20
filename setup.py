@@ -59,7 +59,7 @@ setup(
     name='celiagg',
     configuration=configuration,
     license='MIT',
-    version='1.1.0',
+    version='1.1.1',
     description='Anti-Grain Geometry for Python 3 with Cython',
     long_description=long_description,
     url='https://github.com/celiagg/celiagg',
