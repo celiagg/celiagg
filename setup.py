@@ -62,9 +62,10 @@ setup(
     version='1.1.1',
     description='Anti-Grain Geometry for Python 3 with Cython',
     long_description=long_description,
+    long_description_content_type='text/x-rst',
     url='https://github.com/celiagg/celiagg',
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
