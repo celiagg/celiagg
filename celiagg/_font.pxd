@@ -28,7 +28,8 @@ cimport _enums
 
 cdef extern from "font.h":
     cdef cppclass Font:
-        Font(char* fileName, double height, _enums.FontCacheType ch)
+        Font(char* fileName, double height, _enums.FontCacheType ch,
+             unsigned face_index)
 
         _enums.FontCacheType cache_type() const
         bool hinting() const
@@ -36,3 +37,4 @@ cdef extern from "font.h":
         double height() const
         const char* filepath() const
         double string_width(char* str)
+        unsigned face_index() const
