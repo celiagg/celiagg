@@ -29,8 +29,8 @@ jobs:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        python -m twine check --strict dist/*.tar.gz
-        python -m twine upload dist/*.tar.gz
+        edm run -- python -m twine check dist/*.tar.gz
+        edm run -- python -m twine upload dist/*.tar.gz
 
   build-wheel-linux:
     runs-on: ubuntu-latest
@@ -57,5 +57,5 @@ jobs:
         TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
         TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
       run: |
-        python -m twine check --strict dist/*-manylinux*.whl
+        python -m twine check dist/*-manylinux*.whl
         python -m twine upload dist/*-manylinux*.whl
