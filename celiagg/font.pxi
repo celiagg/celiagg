@@ -35,24 +35,31 @@ IF _ENABLE_TEXT_RENDERING:
         :param path: A Unicode string containing the path of a ``Font`` file
         :param size: The size of the font
         :param cache_type: A ``FontCacheType``
+        :param face_index: For .ttc fonts, the index of the desired font within
+                           the collection.
         """
         cdef _font.Font* _this
 
-        def __cinit__(self, fontName, double size, FontCacheType ch):
+        def __cinit__(self, fontName, double size, FontCacheType ch,
+                      unsigned face_index=0):
             fontName = _get_utf8_text(fontName,
                                     "Font path must be a unicode string")
-            self._this = new _font.Font(fontName, size, ch)
+            self._this = new _font.Font(fontName, size, ch, face_index)
 
         def __dealloc__(self):
             del self._this
 
         def copy(self):
             return Font(self._this.filepath(), self._this.height(),
-                        self._this.cache_type())
+                        self._this.cache_type(), self._this.face_index())
 
         property cache_type:
             def __get__(self):
                 return FontCacheType(self._this.cache_type())
+
+        property face_index:
+            def __get__(self):
+                return self._this.face_index()
 
         property filepath:
             def __get__(self):

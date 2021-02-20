@@ -61,7 +61,8 @@ public:
 public:
 
                         Font(char const* fileName, double const height,
-                             FontCacheType const ch = RasterFontCache);
+                             FontCacheType const ch = RasterFontCache,
+                             unsigned const face_index = 0);
                         ~Font();
 
     void                activate();
@@ -78,6 +79,7 @@ public:
     void                hinting(bool const hint);
     const char*         filepath() const;
     double              string_width(char const* str);
+    unsigned            face_index() const;
     void                transform(const agg::trans_affine& transform);
 
 private:
@@ -85,6 +87,7 @@ private:
     double              m_height;
     std::string         m_font_name;
     FontCacheType       m_cache_type;
+    unsigned            m_face_index;
 
 #ifdef _ENABLE_TEXT_RENDERING
 #ifndef _USE_FREETYPE

@@ -18,6 +18,7 @@ class TestTextDrawing(unittest.TestCase):
             'Times New Roman',
             12.0,
             agg.FontCacheType.RasterFontCache,
+            face_index=1,
         )
         text_byte = b'Hello!'
         font_byte = agg.Font(
