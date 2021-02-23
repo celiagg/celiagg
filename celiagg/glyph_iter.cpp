@@ -24,11 +24,10 @@
 
 #include "glyph_iter.h"
 
-GlyphIterator::GlyphIterator(char const* utf8Text, FontCache& cache, const bool drawing,
-                             const double x_off, const double y_off)
+GlyphIterator::GlyphIterator(char const* utf8Text, FontCache& cache, const bool drawing)
 : m_font_cache(cache)
-, m_offset_x(x_off)
-, m_offset_y(y_off)
+, m_offset_x(0.0)
+, m_offset_y(0.0)
 , m_text(utf8Text)
 , m_index(0)
 , m_is_drawing(drawing)

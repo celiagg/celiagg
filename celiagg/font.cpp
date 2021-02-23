@@ -24,20 +24,13 @@
 
 #include "font.h"
 
-Font::Font(char const* fontName, double const height, FontCacheType const ch, unsigned const face_index)
+Font::Font(char const* fontName, double const height, unsigned const face_index)
 : m_height(height)
 , m_font_name(fontName)
-, m_cache_type(ch)
 , m_face_index(face_index)
 , m_flip(false)
 , m_hinting(true)
 {}
-
-Font::FontCacheType
-Font::cache_type() const
-{
-    return m_cache_type;
-}
 
 unsigned
 Font::face_index() const

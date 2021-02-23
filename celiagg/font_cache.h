@@ -45,6 +45,12 @@ class FontCache
 {
 public:
 
+    enum GlyphType
+    {
+        RasterGlyph,
+        VectorGlyph
+    };
+
 #ifdef _ENABLE_TEXT_RENDERING
 #ifdef _USE_FREETYPE
     typedef agg::font_engine_freetype_int32       FontEngine;
@@ -57,7 +63,9 @@ public:
                         FontCache();
                         ~FontCache();
 
-    void                activate(const Font& font, const agg::trans_affine& transform);
+    void                activate(const Font& font,
+                                 const agg::trans_affine& transform,
+                                 GlyphType const type = RasterGlyph);
     double              measure_width(char const* str);
 
 #ifdef _ENABLE_TEXT_RENDERING

@@ -163,13 +163,15 @@ private:
                              base_renderer_t& renderer);
     template<typename base_renderer_t>
     void _draw_text_raster(GlyphIterator& iterator,
-                           agg::trans_affine& transform,
-                           Paint& linePaint, Paint& fillPaint,
+                           Font& font,
+                           const agg::trans_affine& transform,
+                           Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
     template<typename base_renderer_t>
     void _draw_text_vector(GlyphIterator& iterator,
-                           agg::trans_affine& transform,
+                           Font& font,
+                           const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);

@@ -270,38 +270,22 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
-    agg::trans_affine mtx = transform;
-    double transform_array[6];
-    double start_x, start_y;
-    const bool font_flip = font.flip();
-
     // Flip the font?
+    const bool font_flip = font.flip();
     font.flip(!m_bottom_up);
 
-    // Pull the translation values out of the matrix as our starting offset and
-    // then replace them with zeros for use in the font engine.
-    mtx.store_to(transform_array);
-    start_x = transform_array[4];
-    start_y = transform_array[5];
-    transform_array[4] = 0.0;
-    transform_array[5] = 0.0;
-    mtx.load_from(transform_array);
-
-    // Make sure the font is activated
-    m_font_cache.activate(font, mtx);
-
-    GlyphIterator iterator(text, m_font_cache, true, start_x, start_y);
-    if (font.cache_type() == Font::RasterFontCache)
+    GlyphIterator iterator(text, m_font_cache, true);
+    if (gs.text_drawing_mode() == GraphicsState::TextDrawRaster)
     {
-        _draw_text_raster(iterator, mtx, linePaint, fillPaint, gs, renderer);
+        // Raster text only uses the fill paint!
+        _draw_text_raster(iterator, font, transform, fillPaint, gs, renderer);
     }
     else
     {
-        agg::trans_affine identity;
-        // XXX: TextDrawingMode only applies to Vector fonts!
+        // Pick the correct drawing mode for the glyph paths
         GraphicsState copy_state(gs);
         copy_state.drawing_mode(_convert_text_mode(gs.text_drawing_mode()));
-        _draw_text_vector(iterator, identity, linePaint, fillPaint, copy_state, renderer);
+        _draw_text_vector(iterator, font, transform, linePaint, fillPaint, copy_state, renderer);
     }
 
     // Restore the font's flip state to whatever it was
@@ -311,25 +295,41 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
 template<typename pixfmt_t>
 template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
-    agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    Font& font, const agg::trans_affine& transform, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
 #ifdef _ENABLE_TEXT_RENDERING
     typedef FontCache::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
     typedef FontCache::FontCacheManager::gray8_scanline_type scanline_t;
 
-    font_rasterizer_t& ras = m_font_cache.manager().gray8_adaptor();
-    scanline_t& scanline = m_font_cache.manager().gray8_scanline();
-
     const bool eof = (gs.drawing_mode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
     m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
 
+    // Strip the translation out of the transformation when activating the font
+    // so that the cached glyphs aren't associated with a specific translation,
+    // only the current rotation & shear.
+    double transform_array[6];
+    transform.store_to(transform_array);
+    transform_array[4] = 0.0; transform_array[5] = 0.0;
+    m_font_cache.activate(font, agg::trans_affine(transform_array), FontCache::RasterGlyph);
+
+    // Determine the starting glyph position from the transform and initialize
+    // the iterator.
+    double start_x = 0.0, start_y = 0.0;
+    transform.transform(&start_x, &start_y);
+    iterator.offset(start_x, start_y);
+
+    // Rendery bits from the font cache
+    font_rasterizer_t& ras = m_font_cache.manager().gray8_adaptor();
+    scanline_t& scanline = m_font_cache.manager().gray8_scanline();
+
+    // Draw the glyphs one at a time
     GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
     while (action != GlyphIterator::k_StepActionEnd)
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            linePaint.render<pixfmt_t, font_rasterizer_t, scanline_t, base_renderer_t>(ras, scanline, renderer, transform);
+            fillPaint.render<pixfmt_t, font_rasterizer_t, scanline_t, base_renderer_t>(ras, scanline, renderer, transform);
         }
         action = iterator.step();
     }
@@ -339,25 +339,26 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
 template<typename pixfmt_t>
 template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
-    agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    Font& font, const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
 #ifdef _ENABLE_TEXT_RENDERING
-    typedef agg::conv_transform<FontCache::FontCacheManager::path_adaptor_type> trans_font_t;
+    PathSource shape;
+
+    // Activate the font with an identity transform. The passed in transform
+    // will be applied later when drawing the generated path.
+    m_font_cache.activate(font, agg::trans_affine(), FontCache::VectorGlyph);
 
     GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
     while (action != GlyphIterator::k_StepActionEnd)
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            trans_font_t tr(m_font_cache.manager().path_adaptor(), transform);
-            PathSource shape;
-            shape.concat_path(tr, 0);
-
-            _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
+            shape.concat_path(m_font_cache.manager().path_adaptor(), 0);
         }
         action = iterator.step();
     }
+    _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
 #endif
 }
 
@@ -372,6 +373,7 @@ GraphicsState::DrawingMode ndarray_canvas<pixfmt_t>::_convert_text_mode(const Gr
         case GraphicsState::TextDrawClip:
         case GraphicsState::TextDrawFill:
         case GraphicsState::TextDrawFillClip:
+        case GraphicsState::TextDrawRaster:
             return GraphicsState::DrawFill;
         case GraphicsState::TextDrawStroke:
         case GraphicsState::TextDrawStrokeClip:

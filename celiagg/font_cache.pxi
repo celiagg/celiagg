@@ -22,6 +22,7 @@
 #
 # Authors: John Wiggins
 
+
 cdef class FontCache:
     """FontCache()
 

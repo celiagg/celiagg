@@ -31,17 +31,9 @@ class Font
 {
 public:
 
-    enum FontCacheType
-    {
-        RasterFontCache,
-        VectorFontCache
-    };
-
                         Font(char const* fileName, double const height,
-                             FontCacheType const ch = RasterFontCache,
                              unsigned const face_index = 0);
 
-    FontCacheType       cache_type() const;
     unsigned            face_index() const;
     const char*         filepath() const;
 
@@ -58,7 +50,6 @@ private:
 
         double          m_height;
         std::string     m_font_name;
-        FontCacheType   m_cache_type;
         unsigned        m_face_index;
         bool            m_flip;
         bool            m_hinting;
