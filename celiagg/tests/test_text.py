@@ -1,36 +1,15 @@
 from __future__ import unicode_literals
 
-import os
-import sys
 import unittest
 
 import numpy as np
+import pkg_resources
 
 import celiagg as agg
 
-
-def _get_a_font():
-    """ Attempt to find a font file to load
-    """
-    if sys.platform in ('win32', 'cygwin'):
-        directories = [r'C:\Windows\Fonts']
-    elif sys.platform == 'darwin':
-        directories = ['/System/Library/Fonts']
-    else:
-        directories = [
-            '/usr/X11R6/lib/X11/fonts/TTF/',
-            '/usr/share/fonts/',
-            '/usr/local/share/fonts/',
-        ]
-
-    for directory in directories:
-        for name in os.listdir(directory):
-            if not name.lower().endswith('.ttf'):
-                continue
-
-            return os.path.join(directory, name)
-
-    return 'Mojibake'
+FONT_FILE = pkg_resources.resource_filename(
+    'celiagg.tests', 'data/Montserrat-Regular.ttf'
+)
 
 
 class TestTextDrawing(unittest.TestCase):
@@ -41,14 +20,14 @@ class TestTextDrawing(unittest.TestCase):
 
         text_unicode = 'Hello!'
         font_unicode = agg.Font(
-            'Times New Roman',
+            FONT_FILE,
             12.0,
             agg.FontCacheType.RasterFontCache,
             face_index=1,
         )
         text_byte = b'Hello!'
         font_byte = agg.Font(
-            b'Times New Roman',
+            FONT_FILE.encode('utf8'),
             12.0,
             agg.FontCacheType.RasterFontCache,
         )
@@ -65,9 +44,7 @@ class TestTextDrawing(unittest.TestCase):
         )
         canvas.clear(1.0, 1.0, 1.0)
 
-        # This loads a random font
-        font_name = _get_a_font()
-        font = agg.Font(font_name, 24.0, agg.FontCacheType.RasterFontCache)
+        font = agg.Font(FONT_FILE, 24.0, agg.FontCacheType.RasterFontCache)
         gs = agg.GraphicsState()
         paint = agg.SolidPaint(1.0, 0.0, 0.0, 1.0)
         transform = agg.Transform()
@@ -77,8 +54,7 @@ class TestTextDrawing(unittest.TestCase):
         canvas.draw_text(text, font, transform, gs, stroke=paint, fill=paint)
 
         check = np.sum(canvas.array == [255, 0, 0], axis=2) == 3
-        self.assertTrue(check.any(),
-                        f'Failed to render with font: {font_name}')
+        self.assertTrue(check.any())
 
     def test_text_measurement(self):
         # This is a regression test for issue #62
@@ -88,8 +64,7 @@ class TestTextDrawing(unittest.TestCase):
         canvas = agg.CanvasRGB24(
             np.zeros((100, 100, 3), dtype=np.uint8), font_cache=font_cache,
         )
-        font_name = _get_a_font()
-        font = agg.Font(font_name, 12.0, agg.FontCacheType.RasterFontCache)
+        font = agg.Font(FONT_FILE, 12.0, agg.FontCacheType.RasterFontCache)
         gs = agg.GraphicsState()
         paint = agg.SolidPaint(1.0, 0.0, 0.0, 1.0)
         text = 'Some appropriate string'

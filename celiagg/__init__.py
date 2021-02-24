@@ -32,7 +32,9 @@ from ._celiagg import (
     PixelFormat, RadialGradientPaint, Rect, ShapeAtPoints, SolidPaint,
     TextDrawingMode, Transform,
 )
-from ._celiagg import HAS_TEXT
+
+# Query the library
+HAS_TEXT = _celiagg.has_text_rendering()
 
 # Be explicit
 __all__ = [

@@ -41,10 +41,11 @@ cimport _vertex_source
 cimport _transform
 
 # This is a global flag which tells you if text rendering support was compiled
-IF _ENABLE_TEXT_RENDERING:
-    HAS_TEXT = True
-ELSE:
-    HAS_TEXT = False
+def has_text_rendering():
+    IF _ENABLE_TEXT_RENDERING:
+        return True
+    ELSE:
+        return False
 
 
 class AggError(Exception):

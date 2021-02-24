@@ -1,4 +1,9 @@
 include celiagg/*.hxx
+include celiagg/*.h
+include celiagg/*.pxd
+include celiagg/*.pxi
+include celiagg/*.pyx
+include celiagg/tests/data/*
 include LICENSE
 include README.rst
 graft agg-svn/agg-2.4/include
