@@ -13,17 +13,22 @@ def _get_a_font():
     """ Attempt to find a font file to load
     """
     if sys.platform in ('win32', 'cygwin'):
-        directory = r'C:\Windows\Fonts'
+        directories = [r'C:\Windows\Fonts']
     elif sys.platform == 'darwin':
-        directory = '/System/Library/Fonts'
+        directories = ['/System/Library/Fonts']
     else:
-        directory = '/usr/share/fonts'
+        directories = [
+            '/usr/X11R6/lib/X11/fonts/TTF/',
+            '/usr/share/fonts/',
+            '/usr/local/share/fonts/',
+        ]
 
-    for name in os.listdir(directory):
-        if not name.lower().endswith('.ttf'):
-            continue
+    for directory in directories:
+        for name in os.listdir(directory):
+            if not name.lower().endswith('.ttf'):
+                continue
 
-        return os.path.join(directory, name)
+            return os.path.join(directory, name)
 
     return 'Mojibake'
 
@@ -72,7 +77,8 @@ class TestTextDrawing(unittest.TestCase):
         canvas.draw_text(text, font, transform, gs, stroke=paint, fill=paint)
 
         check = np.sum(canvas.array == [255, 0, 0], axis=2) == 3
-        self.assertTrue(check.any())
+        self.assertTrue(check.any(),
+                        f'Failed to render with font: {font_name}')
 
     def test_text_measurement(self):
         # This is a regression test for issue #62
