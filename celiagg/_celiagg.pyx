@@ -1,6 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2014 WUSTL ZPLAB
+# Copyright (c) 2016-2021 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -30,23 +31,25 @@ cimport numpy
 import numpy
 
 cimport _enums
+cimport _font_cache
 cimport _font
 cimport _graphics_state
 cimport _image
 cimport _ndarray_canvas
 cimport _paint
 cimport _vertex_source
+cimport _text_support
 cimport _transform
-
-# This is a global flag which tells you if text rendering support was compiled
-IF _ENABLE_TEXT_RENDERING:
-    HAS_TEXT = True
-ELSE:
-    HAS_TEXT = False
 
 
 class AggError(Exception):
     pass
+
+
+def has_text_rendering():
+    """ Returns True if text rendering is available
+    """
+    return _text_support._has_text_rendering()
 
 
 cdef _get_utf8_text(text, exp_msg):
@@ -60,6 +63,7 @@ cdef _get_utf8_text(text, exp_msg):
 
 include "enums.pxi"
 include "font.pxi"
+include "font_cache.pxi"
 include "graphics_state.pxi"
 include "image.pxi"
 include "ndarray_canvas.pxi"

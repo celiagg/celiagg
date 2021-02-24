@@ -76,8 +76,8 @@ Next up, some text. As a small caveat, this demo was written to run on macOS
 where the path ``/Library/Fonts/Verdana.ttf`` points to a TTF font file. A raster
 ``font`` object is created with a point size of 96. The ``transform`` gets a
 translation of (30, 220) set. This corresponds to a point which is 30 pixels
-from the left side of the image and 220 pixels from the *bottom* of the image.
-(celiagg defaults to a lower-left origin, but also supports top-left origin)
+from the left side of the image and 220 pixels from the *top* of the image.
+(celiagg defaults to a top-left origin, but also supports bottom-left origin)
 The text will be drawn starting from that point.
 
 .. literalinclude:: simple_ex.py

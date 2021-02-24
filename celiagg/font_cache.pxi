@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2016 WUSTL ZPLAB
+# Copyright (c) 2016-2021 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,34 @@
 #
 # Authors: John Wiggins
 
-from libcpp cimport bool
-cimport _enums
+cdef class FontCache:
+    """FontCache()
 
+    An object which manages a render cache of glyphs.
+    """
+    cdef _font_cache.FontCache* _this
 
-cdef extern from "font.h":
-    cdef cppclass Font:
-        Font(char* fileName, double height, _enums.FontCacheType ch,
-             unsigned face_index)
+    def __cinit__(self):
+        self._this = new _font_cache.FontCache()
 
-        _enums.FontCacheType cache_type() const
-        unsigned face_index() const
-        const char* filepath() const
-        bool flip() const
-        void flip(bool flip)
-        double height() const
-        void height(double height)
-        bool hinting() const
-        void hinting(bool hint)
+    def __dealloc__(self):
+        del self._this
+
+    def width(self, Font font, text):
+        """width(font, text)
+        Measures the width of a string rendered with ``font``.
+
+        :param font: a ``Font`` instance
+        :param text: a unicode string
+        """
+        if not isinstance(font, Font):
+            raise TypeError("font must be a Font instance")
+
+        cdef:
+            Font fnt = <Font>font
+
+        text = _get_utf8_text(text, "Argument must be a unicode string")
+
+        # Pass an identity transform
+        self._this.activate(dereference(fnt._this), _transform.trans_affine())
+        return self._this.measure_width(text)

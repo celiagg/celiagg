@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2016 WUSTL ZPLAB
+# Copyright (c) 2016-2021 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -22,21 +22,13 @@
 #
 # Authors: John Wiggins
 
-from libcpp cimport bool
-cimport _enums
+cimport _font
+cimport _transform
 
 
-cdef extern from "font.h":
-    cdef cppclass Font:
-        Font(char* fileName, double height, _enums.FontCacheType ch,
-             unsigned face_index)
+cdef extern from "font_cache.h":
+    cdef cppclass FontCache:
+        FontCache()
 
-        _enums.FontCacheType cache_type() const
-        unsigned face_index() const
-        const char* filepath() const
-        bool flip() const
-        void flip(bool flip)
-        double height() const
-        void height(double height)
-        bool hinting() const
-        void hinting(bool hint)
+        void activate(_font.Font& font, _transform.trans_affine& transform);
+        double measure_width(char* str)

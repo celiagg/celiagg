@@ -27,6 +27,7 @@ cimport numpy
 import numpy
 from libcpp cimport bool
 
+cimport _font_cache
 cimport _font
 cimport _graphics_state
 cimport _image
@@ -77,4 +78,5 @@ cdef extern from "ndarray_canvas.h":
                        const unsigned height,
                        const int stride,
                        const size_t channel_count,
+                       _font_cache.FontCache& cache,
                        const bool bottom_up)

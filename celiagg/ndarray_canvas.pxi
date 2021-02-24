@@ -39,6 +39,7 @@ cdef class CanvasBase:
     cdef canvas_base_t* _this
     cdef PixelFormat pixel_format
     cdef object py_array
+    cdef object font_cache
     cdef bool bottom_up
 
     cdef int base_init(self, image, int channel_count, bool has_alpha) except -1:
@@ -95,6 +96,10 @@ cdef class CanvasBase:
             # attach, but instead expects the original array or buffer (which
             # is why self.py_array.base is returned rather than self.py_array).
             return self.py_array.base
+
+    property font_cache:
+        def __get__(self):
+            return self.font_cache
 
     property image:
         def __get__(self):
@@ -208,7 +213,7 @@ cdef class CanvasBase:
         :param stroke: The ``Paint`` to use for outlines. Defaults to black.
         :param fill: The ``Paint`` to use for fills. Defaults to black.
         """
-        IF not _ENABLE_TEXT_RENDERING:
+        if not _text_support._has_text_rendering():
             msg = ("The celiagg library was compiled without font support!  "
                    "If you would like to render text, you will need to "
                    "reinstall the library.")
@@ -287,126 +292,102 @@ cdef class CanvasBase:
 
 
 cdef class CanvasRGBA128(CanvasBase):
-    """CanvasRGBA128(array, bottom_up=False)
-    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
-    numpy array passed as the constructor argument. Because this array is
-    modified in place, it must be of type ``numpy.float32``, must be
-    C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).
+    def __cinit__(self, float[:,:,::1] image, FontCache cache, bottom_up=False):
+        cdef:
+            FontCache font_cache = <FontCache>cache
 
-    :param array: A ``numpy.float32`` array with shape (H, W, 4).
-    :param bottom_up: If True, the origin is the bottom left, instead of top-left
-    """
-    def __cinit__(self, float[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA128
         self.bottom_up = bottom_up
+        self.font_cache = cache
         self._this = <canvas_base_t*> new canvas_rgba128_t(<_bytes_t*>&image[0][0][0],
                                                            image.shape[1],
                                                            image.shape[0],
                                                            image.strides[0], 4,
+                                                           dereference(font_cache._this),
                                                            bottom_up)
 
 
 cdef class CanvasBGRA32(CanvasBase):
-    """CanvasBGRA32(array, bottom_up=False)
-    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
-    numpy array passed as the constructor argument. Because this array is
-    modified in place, it must be of type ``numpy.uint8``, must be
-    C-contiguous, and must be MxNx4 (4 channels: blue, green, red, alpha).
+    def __cinit__(self, _bytes_t[:,:,::1] image, FontCache cache, bottom_up=False):
+        cdef:
+            FontCache font_cache = <FontCache>cache
 
-    :param array: A ``numpy.uint8`` array with shape (H, W, 4).
-    :param bottom_up: If True, the origin is the bottom left, instead of top-left
-    """
-    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.BGRA32
         self.bottom_up = bottom_up
+        self.font_cache = cache
         self._this = <canvas_base_t*> new canvas_brga32_t(&image[0][0][0],
                                                           image.shape[1],
                                                           image.shape[0],
                                                           image.strides[0], 4,
+                                                          dereference(font_cache._this),
                                                           bottom_up)
 
 
 cdef class CanvasRGBA32(CanvasBase):
-    """CanvasRGBA32(array, bottom_up=False)
-    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
-    numpy array passed as the constructor argument. Because this array is
-    modified in place, it must be of type ``numpy.uint8``, must be
-    C-contiguous, and must be MxNx4 (4 channels: red, green, blue, and alpha).
+    def __cinit__(self, _bytes_t[:,:,::1] image, FontCache cache, bottom_up=False):
+        cdef:
+            FontCache font_cache = <FontCache>cache
 
-    :param array: A ``numpy.uint8`` array with shape (H, W, 4).
-    :param bottom_up: If True, the origin is the bottom left, instead of top-left
-    """
-    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, True)
         self.pixel_format = PixelFormat.RGBA32
         self.bottom_up = bottom_up
+        self.font_cache = cache
         self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
                                                           image.shape[1],
                                                           image.shape[0],
                                                           image.strides[0], 4,
+                                                          dereference(font_cache._this),
                                                           bottom_up)
 
 
 cdef class CanvasRGB24(CanvasBase):
-    """CanvasRGB24(array, bottom_up=False)
-    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
-    numpy array passed as the constructor argument. Because this array is
-    modified in place, it must be of type ``numpy.uint8``, must be
-    C-contiguous, and must be MxNx3 (3 channels: red, green, blue).
+    def __cinit__(self, _bytes_t[:,:,::1] image, FontCache cache, bottom_up=False):
+        cdef:
+            FontCache font_cache = <FontCache>cache
 
-    :param array: A ``numpy.uint8`` array with shape (H, W, 3).
-    :param bottom_up: If True, the origin is the bottom left, instead of top-left
-    """
-    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 4, False)
         self.pixel_format = PixelFormat.RGB24
         self.bottom_up = bottom_up
+        self.font_cache = cache
         self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
                                                          image.shape[1],
                                                          image.shape[0],
                                                          image.strides[0], 3,
+                                                         dereference(font_cache._this),
                                                          bottom_up)
 
 
 cdef class CanvasGA16(CanvasBase):
-    """CanvasGA16(array, bottom_up=False)
-    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
-    numpy array passed as the constructor argument. Because this array is
-    modified in place, it must be of type ``numpy.uint8``, must be
-    C-contiguous, and must be MxNx2 (2 channels: intensity and alpha).
+    def __cinit__(self, _bytes_t[:,:,::1] image, FontCache cache, bottom_up=False):
+        cdef:
+            FontCache font_cache = <FontCache>cache
 
-    :param array: A ``numpy.uint8`` array with shape (H, W, 2).
-    :param bottom_up: If True, the origin is the bottom left, instead of top-left
-    """
-    def __cinit__(self, _bytes_t[:,:,::1] image, bottom_up=False):
         self.base_init(image, 2, True)
         self.pixel_format = PixelFormat.Gray8
         self.bottom_up = bottom_up
+        self.font_cache = cache
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 2,
+                                                        dereference(font_cache._this),
                                                         bottom_up)
 
 
 cdef class CanvasG8(CanvasBase):
-    """CanvasG8(array, bottom_up=False)
-    Provides AGG (Anti-Grain Geometry) drawing routines that render to the
-    numpy array passed as the constructor argument. Because this array is
-    modified in place, it must be of type ``numpy.uint8``, must be
-    C-contiguous, and must be MxN (1 channel: intensity).
+    def __cinit__(self, _bytes_t[:,::1] image, FontCache cache, bottom_up=False):
+        cdef:
+            FontCache font_cache = <FontCache>cache
 
-    :param array: A ``numpy.uint8`` array with shape (H, W).
-    :param bottom_up: If True, the origin is the bottom left, instead of top-left
-    """
-    def __cinit__(self, _bytes_t[:,::1] image, bottom_up=False):
         self.base_init(image, 2, False)
         self.pixel_format = PixelFormat.Gray8
         self.bottom_up = bottom_up
+        self.font_cache = cache
         self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
                                                         image.shape[1],
                                                         image.shape[0],
                                                         image.strides[0], 1,
+                                                        dereference(font_cache._this),
                                                         bottom_up)

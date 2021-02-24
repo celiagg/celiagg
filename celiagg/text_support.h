@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016 WUSTL ZPLAB
+// Copyright (c) 2016-2021 Celiagg Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,43 +22,18 @@
 //
 // Authors: John Wiggins
 
-#ifndef CELIAGG_GLYPH_ITER_H
-#define CELIAGG_GLYPH_ITER_H
+#ifndef CELIAGG_TEXT_SUPPORT_H
+#define CELIAGG_TEXT_SUPPORT_H
 
-#include "font_cache.h"
-
-class GlyphIterator
+// Just a simple function that tells us if text rendering is supported
+bool
+_has_text_rendering()
 {
-public:
-    enum StepAction
-    {
-        k_StepActionInvalid = -1,
-        k_StepActionDraw = 0,
-        k_StepActionSkip,
-        k_StepActionEnd,
-        k_StepActionCount
-    };
+#ifdef _ENABLE_TEXT_RENDERING
+    return true;
+#else
+    return false;
+#endif
+}
 
-public:
-                        GlyphIterator(char const* utf8Text, FontCache& cache,
-                                      const bool drawing = false,
-                                      const double x_off = 0.0,
-                                      const double y_off = 0.0);
-
-    StepAction          step();
-    double              x_offset() const { return m_offset_x; }
-    double              y_offset() const { return m_offset_y; }
-
-private:
-    unsigned            _get_next_codepoint();
-
-private:
-    FontCache&  m_font_cache;
-    double      m_offset_x;
-    double      m_offset_y;
-    char const* m_text;
-    int         m_index; 
-    bool        m_is_drawing;
-};
-
-#endif // CELIAGG_GLYPH_ITER_H
+#endif // CELIAGG_TEXT_SUPPORT_H

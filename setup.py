@@ -80,5 +80,8 @@ setup(
         'Operating System :: MacOS',
     ],
     requires=['numpy', 'freetype'],
-    packages=['celiagg', 'celiagg.tests']
+    packages=['celiagg', 'celiagg.tests'],
+    package_data={
+        'celiagg.tests': ['data/*'],
+    },
 )

@@ -27,30 +27,9 @@
 
 #include <string>
 
-#include <agg_basics.h>
-#include <agg_font_cache_manager.h>
-#include <agg_trans_affine.h>
-
-#ifdef _ENABLE_TEXT_RENDERING
-#ifdef _USE_FREETYPE
-#include <agg_font_freetype.h>
-#else
-#include <agg_font_win32_tt.h>
-#endif
-#endif
-
 class Font
 {
 public:
-
-#ifdef _ENABLE_TEXT_RENDERING
-#ifdef _USE_FREETYPE
-    typedef agg::font_engine_freetype_int32       FontEngine;
-#else
-    typedef agg::font_engine_win32_tt_int32       FontEngine;
-#endif
-    typedef agg::font_cache_manager<FontEngine>   FontCacheManager;
-#endif
 
     enum FontCacheType
     {
@@ -58,44 +37,31 @@ public:
         VectorFontCache
     };
 
-public:
-
                         Font(char const* fileName, double const height,
                              FontCacheType const ch = RasterFontCache,
                              unsigned const face_index = 0);
-                        ~Font();
-
-    void                activate();
-
-#ifdef _ENABLE_TEXT_RENDERING
-    FontCacheManager&   cache();
-#endif
 
     FontCacheType       cache_type() const;
+    unsigned            face_index() const;
+    const char*         filepath() const;
+
     bool                flip() const;
     void                flip(bool const flip);
+
     double              height() const;
+    void                height(double const height);
+
     bool                hinting() const;
     void                hinting(bool const hint);
-    const char*         filepath() const;
-    double              string_width(char const* str);
-    unsigned            face_index() const;
-    void                transform(const agg::trans_affine& transform);
 
 private:
 
-    double              m_height;
-    std::string         m_font_name;
-    FontCacheType       m_cache_type;
-    unsigned            m_face_index;
-
-#ifdef _ENABLE_TEXT_RENDERING
-#ifndef _USE_FREETYPE
-    thread_local static HDC                 m_font_dc;
-#endif
-    thread_local static FontEngine          m_font_engine;
-    thread_local static FontCacheManager    m_font_cache_manager;
-#endif
+        double          m_height;
+        std::string     m_font_name;
+        FontCacheType   m_cache_type;
+        unsigned        m_face_index;
+        bool            m_flip;
+        bool            m_hinting;
 };
 
 #endif // CELIAGG_FONT_H
