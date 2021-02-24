@@ -213,7 +213,7 @@ cdef class CanvasBase:
         :param stroke: The ``Paint`` to use for outlines. Defaults to black.
         :param fill: The ``Paint`` to use for fills. Defaults to black.
         """
-        IF not _ENABLE_TEXT_RENDERING:
+        if not _text_support._has_text_rendering():
             msg = ("The celiagg library was compiled without font support!  "
                    "If you would like to render text, you will need to "
                    "reinstall the library.")

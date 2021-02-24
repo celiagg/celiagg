@@ -155,13 +155,11 @@ def configuration(parent_package='', top_path=None):
                 cflags, ldflags = get_freetype_info()
                 extra_compile_args.extend(cflags)
                 extra_link_args.extend(ldflags)
-            define_macros.append(('_USE_FREETYPE', 1))
+            define_macros.append(('_USE_FREETYPE', None))
             include_dirs.append('agg-svn/agg-2.4/font_freetype')
             font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
         sources.append(font_source)
-        define_macros.append(('_ENABLE_TEXT_RENDERING', 1))
-
-    cython_compile_env = {'_ENABLE_TEXT_RENDERING': with_text_rendering}
+        define_macros.append(('_ENABLE_TEXT_RENDERING', None))
 
     ext_kwargs = {
         'include_dirs': include_dirs,
@@ -178,7 +176,7 @@ def configuration(parent_package='', top_path=None):
 
     # Run Cython first if this is a development version
     if not is_sdist and cythonize is not None:
-        cythonize(celiagg_cython_source, compile_time_env=cython_compile_env)
+        cythonize(celiagg_cython_source)
 
     config = Configuration('celiagg', parent_package, top_path)
     config.add_extension('_celiagg', sources=celiagg_sources + sources,

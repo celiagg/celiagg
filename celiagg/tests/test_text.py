@@ -12,6 +12,7 @@ FONT_FILE = pkg_resources.resource_filename(
 )
 
 
+@unittest.skipIf(not agg.HAS_TEXT, 'Text support is not available')
 class TestTextDrawing(unittest.TestCase):
     def test_font_byte_string(self):
         canvas = agg.CanvasG8(np.zeros((1, 1), dtype=np.uint8))

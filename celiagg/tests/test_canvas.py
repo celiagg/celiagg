@@ -48,17 +48,18 @@ class TestCanvas(unittest.TestCase):
         with self.assertRaises(TypeError):
             canvas.draw_shape(path, transform, None)
 
-        text = 'Hello!'
-        font = agg.Font(
-            'Times New Roman', 12.0, agg.FontCacheType.RasterFontCache
-        )
-        with self.assertRaises(TypeError):
-            canvas.draw_text(text, None, transform, gs)
-        with self.assertRaises(TypeError):
-            canvas.draw_text(text, font, None, gs)
-        with self.assertRaises(TypeError):
-            canvas.draw_text(text, font, transform, None)
-        canvas.draw_text(text, font, transform, gs)
+        if agg.HAS_TEXT:
+            text = 'Hello!'
+            font = agg.Font(
+                'Times New Roman', 12.0, agg.FontCacheType.RasterFontCache
+            )
+            with self.assertRaises(TypeError):
+                canvas.draw_text(text, None, transform, gs)
+            with self.assertRaises(TypeError):
+                canvas.draw_text(text, font, None, gs)
+            with self.assertRaises(TypeError):
+                canvas.draw_text(text, font, transform, None)
+            canvas.draw_text(text, font, transform, gs)
 
     def test_stencil_size_mismatch(self):
         canvas = agg.CanvasRGB24(np.zeros((4, 5, 3), dtype=np.uint8))
