@@ -25,7 +25,7 @@
 #ifndef CELIAGG_GLYPH_ITER_H
 #define CELIAGG_GLYPH_ITER_H
 
-#include "font.h"
+#include "font_cache.h"
 
 class GlyphIterator
 {
@@ -40,7 +40,7 @@ public:
     };
 
 public:
-                        GlyphIterator(char const* utf8Text, Font& font,
+                        GlyphIterator(char const* utf8Text, FontCache& cache,
                                       const bool drawing = false,
                                       const double x_off = 0.0,
                                       const double y_off = 0.0);
@@ -53,7 +53,7 @@ private:
     unsigned            _get_next_codepoint();
 
 private:
-    Font&       m_font;
+    FontCache&  m_font_cache;
     double      m_offset_x;
     double      m_offset_y;
     char const* m_text;

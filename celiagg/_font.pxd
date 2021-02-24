@@ -32,9 +32,11 @@ cdef extern from "font.h":
              unsigned face_index)
 
         _enums.FontCacheType cache_type() const
+        unsigned face_index() const
+        const char* filepath() const
+        bool flip() const
+        void flip(bool flip)
+        double height() const
+        void height(double height)
         bool hinting() const
         void hinting(bool hint)
-        double height() const
-        const char* filepath() const
-        double string_width(char* str)
-        unsigned face_index() const

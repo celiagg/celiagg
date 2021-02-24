@@ -48,7 +48,7 @@
 #include <agg_scanline_p.h>
 #include <ctrl/agg_polygon_ctrl.h>
 
-#include "font.h"
+#include "font_cache.h"
 #include "glyph_iter.h"
 #include "graphics_state.h"
 #include "image.h"
@@ -90,8 +90,9 @@ class ndarray_canvas : public ndarray_canvas_base
 public:
     ndarray_canvas(unsigned char* buf,
                    const unsigned width, const unsigned height, const int stride,
-                   const size_t channel_count, const bool bottom_up = false);
-    virtual ~ndarray_canvas(){}
+                   const size_t channel_count, FontCache& cache,
+                   const bool bottom_up = false);
+    virtual ~ndarray_canvas() {}
 
     const size_t channel_count() const;
     unsigned width() const;
@@ -121,6 +122,7 @@ protected:
     typedef agg::rasterizer_scanline_aa<> rasterizer_t;
 
     size_t m_channel_count;
+    FontCache& m_font_cache;
     agg::rendering_buffer m_renbuf;
     pixfmt_t m_pixfmt;
     renderer_t m_renderer;
@@ -161,14 +163,12 @@ private:
                              base_renderer_t& renderer);
     template<typename base_renderer_t>
     void _draw_text_raster(GlyphIterator& iterator,
-                           Font& font,
                            agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
     template<typename base_renderer_t>
     void _draw_text_vector(GlyphIterator& iterator,
-                           Font& font,
                            agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
                            const GraphicsState& gs,

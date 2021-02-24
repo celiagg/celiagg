@@ -23,7 +23,6 @@
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins <john.wiggins@xfel.eu>
 
-from __future__ import print_function
 import os
 import os.path as op
 import platform
@@ -127,8 +126,9 @@ def configuration(parent_package='', top_path=None):
     ]
     base_path = op.abspath(op.dirname(__file__))
     celiagg_cython_source = op.join(base_path, '_celiagg.pyx')
-    celiagg_sources = ['font.cpp', 'glyph_iter.cpp', 'image.cpp', 'paint.cpp',
-                       'vertex_source.cpp', '_celiagg.cpp']
+    celiagg_sources = ['font_cache.cpp', 'font.cpp', 'glyph_iter.cpp',
+                       'image.cpp', 'paint.cpp', 'vertex_source.cpp',
+                       '_celiagg.cpp']
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',

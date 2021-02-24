@@ -28,68 +28,56 @@ cpdef enum FontCacheType:
     VectorFontCache = _enums.VectorFontCache 
 
 
-IF _ENABLE_TEXT_RENDERING:
-    cdef class Font:
-        """Font(path, size, cache_type)
+cdef class Font:
+    """Font(path, size, cache_type, face_index=0)
 
-        :param path: A Unicode string containing the path of a ``Font`` file
-        :param size: The size of the font
-        :param cache_type: A ``FontCacheType``
-        :param face_index: For .ttc fonts, the index of the desired font within
-                           the collection.
-        """
-        cdef _font.Font* _this
+    :param path: A Unicode string containing the path of a ``Font`` file
+    :param size: The size of the font
+    :param cache_type: A ``FontCacheType``
+    :param face_index: For .ttc fonts, the index of the desired font within
+                        the collection.
+    """
+    cdef _font.Font* _this
 
-        def __cinit__(self, fontName, double size, FontCacheType ch,
-                      unsigned face_index=0):
-            fontName = _get_utf8_text(fontName,
-                                    "Font path must be a unicode string")
-            self._this = new _font.Font(fontName, size, ch, face_index)
+    def __cinit__(self, fontName, double size, FontCacheType ch,
+                    unsigned face_index=0):
+        fontName = _get_utf8_text(fontName,
+                                  "Font path must be a unicode string")
+        self._this = new _font.Font(fontName, size, ch, face_index)
 
-        def __dealloc__(self):
-            del self._this
+    def __dealloc__(self):
+        del self._this
 
-        def copy(self):
-            return Font(self._this.filepath(), self._this.height(),
-                        self._this.cache_type(), self._this.face_index())
+    def copy(self):
+        return Font(self._this.filepath(), self._this.height(),
+                    self._this.cache_type(), self._this.face_index())
 
-        property cache_type:
-            def __get__(self):
-                return FontCacheType(self._this.cache_type())
+    property cache_type:
+        def __get__(self):
+            return FontCacheType(self._this.cache_type())
 
-        property face_index:
-            def __get__(self):
-                return self._this.face_index()
+    property face_index:
+        def __get__(self):
+            return self._this.face_index()
 
-        property filepath:
-            def __get__(self):
-                return self._this.filepath()
+    property filepath:
+        def __get__(self):
+            return self._this.filepath()
 
-        property height:
-            def __get__(self):
-                return self._this.height()
+    property flip:
+        def __get__(self):
+            return self._this.flip()
+        def __set__(self, bool value):
+            self._this.flip(value)
 
-        property hinting:
-            def __get__(self):
-                return self._this.hinting()
-            def __set__(self, bool value):
-                self._this.hinting(value)
+    property height:
+        def __get__(self):
+            return self._this.height()
+        def __set__(self, double value):
+            self._this.height(value)
 
-        def width(self, text):
-            """width(text)
-            Measures the width of a string rendered with the font.
-
-            :param text: a unicode string
-            """
-            text = _get_utf8_text(text, "Argument must be a unicode string")
-            return self._this.string_width(text)
-ELSE:
-    cdef class Font:
-        """Font()
-        NOTE: celiagg was compiled without text rendering support!
-        """
-        def __init__(self, *args):
-            msg = ("The celiagg library was compiled without font support!  "
-                   "If you would like to render text, you will need to "
-                   "reinstall the library.")
-            raise RuntimeError(msg)
+    property hinting:
+        def __get__(self):
+            return self._this.hinting()
+        def __set__(self, bool value):
+            self._this.hinting(value)

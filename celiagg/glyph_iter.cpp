@@ -24,9 +24,9 @@
 
 #include "glyph_iter.h"
 
-GlyphIterator::GlyphIterator(char const* utf8Text, Font& font, const bool drawing,
+GlyphIterator::GlyphIterator(char const* utf8Text, FontCache& cache, const bool drawing,
                              const double x_off, const double y_off)
-: m_font(font)
+: m_font_cache(cache)
 , m_offset_x(x_off)
 , m_offset_y(y_off)
 , m_text(utf8Text)
@@ -41,16 +41,16 @@ GlyphIterator::step()
     const unsigned codepoint = _get_next_codepoint();
     if (codepoint != 0)
     {
-        const agg::glyph_cache* glyph = m_font.cache().glyph(codepoint);
+        const agg::glyph_cache* glyph = m_font_cache.manager().glyph(codepoint);
         if (glyph)
         {
             if (m_index > 0)
             {
-                m_font.cache().add_kerning(&m_offset_x, &m_offset_y);
+                m_font_cache.manager().add_kerning(&m_offset_x, &m_offset_y);
             }
             if (m_is_drawing)
             {
-                m_font.cache().init_embedded_adaptors(glyph, m_offset_x, m_offset_y);
+                m_font_cache.manager().init_embedded_adaptors(glyph, m_offset_x, m_offset_y);
             }
             m_offset_x += glyph->advance_x;
             m_offset_y += glyph->advance_y;

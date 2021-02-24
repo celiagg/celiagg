@@ -35,12 +35,15 @@ various drawing methods of ``Canvas``. ``GraphicsState`` and ``Transform`` for
 example, are passed to every drawing method. ``Image`` instances can either be
 drawn directly on a ``Canvas``, or supplied to ``PatternPaint`` to serve as a
 repeating fill pattern. Finally, ``Font`` determines the font used when drawing
-text, and can also be used to measure the bounding rectangle of a rendered
-string.
+text. And ``FontCache`` is used internally by the canvas classes to cache glyphs
+for the purpose of faster text rendering. Additionally, ``FontCache`` can be
+used to measure the width of a rendered string.
 
 .. autoclass:: GraphicsState
 
 .. autoclass:: Image
+
+.. autoclass:: FontCache
 
 .. autoclass:: Font
    :members:

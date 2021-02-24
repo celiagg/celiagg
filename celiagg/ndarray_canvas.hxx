@@ -36,8 +36,9 @@ masked_renderer_t name(masked_pixfmt);
 template<typename pixfmt_t>
 ndarray_canvas<pixfmt_t>::ndarray_canvas(unsigned char* buf,
     const unsigned width, const unsigned height, const int stride,
-    const size_t channel_count, const bool bottom_up)
+    const size_t channel_count, FontCache& cache, const bool bottom_up)
 : m_channel_count(channel_count)
+, m_font_cache(cache)
 , m_renbuf(buf, width, height, bottom_up ? -stride : stride)
 , m_pixfmt(m_renbuf)
 , m_renderer(m_pixfmt)
@@ -123,9 +124,6 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     _set_clipping(gs.clip_box());
     linePaint.master_alpha(gs.master_alpha());
     fillPaint.master_alpha(gs.master_alpha());
-
-    // Make sure the font is activated
-    font.activate();
 
     if (gs.stencil() == NULL)
     {
@@ -288,12 +286,14 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     transform_array[4] = 0.0;
     transform_array[5] = 0.0;
     mtx.load_from(transform_array);
-    font.transform(mtx);
 
-    GlyphIterator iterator(text, font, true, start_x, start_y);
+    // Make sure the font is activated
+    m_font_cache.activate(font, mtx);
+
+    GlyphIterator iterator(text, m_font_cache, true, start_x, start_y);
     if (font.cache_type() == Font::RasterFontCache)
     {
-        _draw_text_raster(iterator, font, mtx, linePaint, fillPaint, gs, renderer);
+        _draw_text_raster(iterator, mtx, linePaint, fillPaint, gs, renderer);
     }
     else
     {
@@ -301,7 +301,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
         // XXX: TextDrawingMode only applies to Vector fonts!
         GraphicsState copy_state(gs);
         copy_state.drawing_mode(_convert_text_mode(gs.text_drawing_mode()));
-        _draw_text_vector(iterator, font, identity, linePaint, fillPaint, copy_state, renderer);
+        _draw_text_vector(iterator, identity, linePaint, fillPaint, copy_state, renderer);
     }
 
     // Restore the font's flip state to whatever it was
@@ -311,15 +311,15 @@ void ndarray_canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
 template<typename pixfmt_t>
 template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
-    Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
 #ifdef _ENABLE_TEXT_RENDERING
-    typedef Font::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
-    typedef Font::FontCacheManager::gray8_scanline_type scanline_t;
+    typedef FontCache::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
+    typedef FontCache::FontCacheManager::gray8_scanline_type scanline_t;
 
-    font_rasterizer_t& ras = font.cache().gray8_adaptor();
-    scanline_t& scanline = font.cache().gray8_scanline();
+    font_rasterizer_t& ras = m_font_cache.manager().gray8_adaptor();
+    scanline_t& scanline = m_font_cache.manager().gray8_scanline();
 
     const bool eof = (gs.drawing_mode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
     m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
@@ -339,18 +339,18 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
 template<typename pixfmt_t>
 template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
-    Font& font, agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
 #ifdef _ENABLE_TEXT_RENDERING
-    typedef agg::conv_transform<Font::FontCacheManager::path_adaptor_type> trans_font_t;
+    typedef agg::conv_transform<FontCache::FontCacheManager::path_adaptor_type> trans_font_t;
 
     GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
     while (action != GlyphIterator::k_StepActionEnd)
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            trans_font_t tr(font.cache().path_adaptor(), transform);
+            trans_font_t tr(m_font_cache.manager().path_adaptor(), transform);
             PathSource shape;
             shape.concat_path(tr, 0);
 

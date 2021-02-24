@@ -1,6 +1,5 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2014 WUSTL ZPLAB
 # Copyright (c) 2016-2021 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -21,52 +20,36 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 #
-# Authors: Erik Hvatum <ice.rikh@gmail.com>
+# Authors: John Wiggins
 
-# distutils: language=c++
-from libcpp cimport bool
-import cython
-from cython.operator cimport dereference
-cimport numpy
-import numpy
+cdef class FontCache:
+    """FontCache()
 
-cimport _enums
-cimport _font_cache
-cimport _font
-cimport _graphics_state
-cimport _image
-cimport _ndarray_canvas
-cimport _paint
-cimport _vertex_source
-cimport _transform
+    An object which manages a render cache of glyphs.
+    """
+    cdef _font_cache.FontCache* _this
 
-# This is a global flag which tells you if text rendering support was compiled
-IF _ENABLE_TEXT_RENDERING:
-    HAS_TEXT = True
-ELSE:
-    HAS_TEXT = False
+    def __cinit__(self):
+        self._this = new _font_cache.FontCache()
 
+    def __dealloc__(self):
+        del self._this
 
-class AggError(Exception):
-    pass
+    def width(self, Font font, text):
+        """width(font, text)
+        Measures the width of a string rendered with ``font``.
 
+        :param font: a ``Font`` instance
+        :param text: a unicode string
+        """
+        if not isinstance(font, Font):
+            raise TypeError("font must be a Font instance")
 
-cdef _get_utf8_text(text, exp_msg):
-    # Ensure UTF-8 encoded text is passed to C++ code.
-    if isinstance(text, unicode):
-        return text.encode('utf8')
-    elif isinstance(text, bytes):
-        return text
-    else:
-        raise TypeError(exp_msg)
+        cdef:
+            Font fnt = <Font>font
 
-include "enums.pxi"
-include "font.pxi"
-include "font_cache.pxi"
-include "graphics_state.pxi"
-include "image.pxi"
-include "ndarray_canvas.pxi"
-include "paint.pxi"
-include "transform.pxi"
-include "vertex_source.pxi"
-include "conversion.pxi"
+        text = _get_utf8_text(text, "Argument must be a unicode string")
+
+        # Pass an identity transform
+        self._this.activate(dereference(fnt._this), _transform.trans_affine())
+        return self._this.measure_width(text)

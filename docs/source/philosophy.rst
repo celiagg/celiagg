@@ -26,6 +26,6 @@ These are the main objects used for drawing in celiagg.
   lines and fills. Includes ``SolidPaint``, ``PatternPaint``,
   ``LinearGradientPaint``, and ``RadialGradientPaint``.
 * ``Transform``: A 2D affine transform
-* ``Font``: A single font, needed when rendering text. It can also measure the
-  bounding box of a line of text.
+* ``Font``: A single font, needed when rendering text.
+* ``FontCache``: Needed to measure the size of rendered text.
 * ``Image``: A container for raster image data.
