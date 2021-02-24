@@ -59,17 +59,24 @@ FontCache::~FontCache()
 void
 FontCache::activate(const Font& font, const agg::trans_affine& transform)
 {
-    m_font_engine.hinting(true);
-    m_font_engine.transform(transform);
-
 #ifdef _USE_FREETYPE
-    m_font_engine.height(font.height());
     m_font_engine.load_font(font.filepath(),
                             font.face_index(),
                             (font.cache_type() == Font::VectorFontCache) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8);
+    // Manipulate the aspects of the font which was just loaded.
+    // XXX: If this is done before, draw_text draws nothing on its first call.
+    m_font_engine.flip_y(font.flip());
+    m_font_engine.hinting(font.hinting());
+    m_font_engine.height(font.height());
+    m_font_engine.transform(transform);
 #else
+    // Set the font aspects _before_ calling create_font to work around the
+    // Windows font engine's lack of cache signature updating.
+    m_font_engine.flip_y(font.flip());
+    m_font_engine.hinting(font.hinting());
+    m_font_engine.transform(transform);
     m_font_engine.create_font(font.filepath(),
                              (font.cache_type() == Font::VectorFontCache) ?
                                 agg::glyph_ren_outline :
