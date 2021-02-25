@@ -30,10 +30,11 @@ Finally, ``celiagg`` is imported for obvious reasons:
 State setup
 -----------
 
-Next, some state objects are created. Most important is the ``GraphicsState``
-object. Pay attention to the ``drawing_mode=agg.DrawingMode.DrawStroke`` keyword
-argument. This means that all drawing calls using this ``state`` will only draw
-the outline of the shapes being drawn.
+Next, some state objects are created. Most important is the
+:class:`celiagg.GraphicsState` object. Pay attention to the
+``drawing_mode=agg.DrawingMode.DrawStroke`` keyword argument. This means that
+all drawing calls using this ``state`` will only draw the outline of the shapes
+being drawn.
 
 The remaining state objects are ``transform`` which sets the affine
 transformation of the drawing and ``red_paint``/``orange_paint`` which determine

@@ -9,12 +9,15 @@ Canvas Classes
 
 There are many canvas classes which all have a common interface. The difference
 between the classes is the color format of the destination frame buffer. The
-list of available canvas classes follows this documentation of ``CanvasRGBA32``
-which covers the interface:
+list of available canvas classes follows this documentation of
+:class:`CanvasRGBA32` which covers the interface:
 
 .. autoclass:: CanvasRGBA32
    :members:
+
+.. autoclass:: celiagg._celiagg::CanvasRGBA32
    :inherited-members:
+   :noindex:
 
 .. autoclass:: CanvasG8
 
@@ -31,19 +34,21 @@ Drawing State Container Classes
 -------------------------------
 
 There are a handful of objects which contain state or data useful to the
-various drawing methods of ``Canvas``. ``GraphicsState`` and ``Transform`` for
-example, are passed to every drawing method. ``Image`` instances can either be
-drawn directly on a ``Canvas``, or supplied to ``PatternPaint`` to serve as a
-repeating fill pattern. Finally, ``Font`` determines the font used when drawing
-text. And ``FontCache`` is used internally by the canvas classes to cache glyphs
-for the purpose of faster text rendering. Additionally, ``FontCache`` can be
-used to measure the width of a rendered string.
+various drawing methods of ``Canvas``. :class:`GraphicsState` and
+:class:`Transform` for example, are passed to every drawing method.
+:class:`Image` instances can either be drawn directly on a ``Canvas``, or
+supplied to :class:`PatternPaint` to serve as a repeating fill pattern. Finally,
+:class:`Font` determines the font used when drawing text. And
+:class:`FontCache` is used internally by the canvas classes to cache glyphs
+for the purpose of faster text rendering. Additionally, :class:`FontCache` can
+be used to measure the width of a rendered string.
 
 .. autoclass:: GraphicsState
 
 .. autoclass:: Image
 
 .. autoclass:: FontCache
+   :members:
 
 .. autoclass:: Font
    :members:
@@ -57,10 +62,10 @@ used to measure the width of a rendered string.
 Paint Classes
 -------------
 
-The ``Paint`` (an internal base class) classes determine the look of strokes
-and fills. ``Canvas.draw_shape`` and ``Canvas.draw_text`` both accept optional
-arguments for `fill` and `stroke` ``Paint``s. The currently available options
-are solid colors, gradients, or image patterns.
+The :class:`Paint` classes determine the look of strokes and fills.
+``Canvas.draw_shape*`` and ``Canvas.draw_text`` both accept optional
+arguments for ``fill`` and ``stroke`` :class:`Paint` arguments. The currently
+available options are solid colors, gradients, or image patterns.
 
 .. autoclass:: LinearGradientPaint
 
@@ -75,7 +80,7 @@ are solid colors, gradients, or image patterns.
 -----------------------
 
 The ``VertexSource`` (an internal base class) classes contain geometry data
-which can be drawn using the ``Canvas.draw_shape`` method.
+which can be drawn using the ``Canvas.draw_shape*`` methods.
 
 .. autoclass:: BSpline
    :members:

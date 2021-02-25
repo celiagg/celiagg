@@ -17,6 +17,8 @@ an optional dependency if you don't want to draw text.
    example
    api
 
+   changelog
+
 Indices and tables
 ==================
 
