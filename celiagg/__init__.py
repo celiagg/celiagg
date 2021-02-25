@@ -22,7 +22,7 @@
 # SOFTWARE.
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
-#          John Wiggins <john.wiggins@xfel.eu>
+#          John Wiggins
 
 from . import _celiagg
 from ._celiagg import (
