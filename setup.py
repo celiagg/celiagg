@@ -82,6 +82,6 @@ setup(
     requires=['numpy', 'freetype'],
     packages=['celiagg', 'celiagg.tests'],
     package_data={
-        'celiagg.tests': ['data/*'],
+        'celiagg': ['data/*'],
     },
 )
