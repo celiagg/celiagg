@@ -20,14 +20,16 @@ These are the main objects used for drawing in celiagg.
 
 * ``Canvas``: The object which has the main drawing methods. It also manages
   the frame buffer which is being drawn into.
-* ``GraphicsState``: The main state container to be passed to all ``Canvas``
-  drawing methods.
+* :class:`celiagg.GraphicsState`: The main state container to be passed to all
+  ``Canvas`` drawing methods.
 * ``VertexSource``: A family of classes which contain vector data to be
-  rasterized. Includes ``Path``, ``BSpline``, and ``ShapeAtPoints``
+  rasterized. Includes :class:`celiagg.Path`, :class:`celiagg.BSpline`, and
+  :class:`celiagg.ShapeAtPoints`
 * ``Paint``: Another family of classes which describe the color and texture of
-  lines and fills. Includes ``SolidPaint``, ``PatternPaint``,
-  ``LinearGradientPaint``, and ``RadialGradientPaint``.
-* ``Transform``: A 2D affine transform
-* ``Font``: A single font, needed when rendering text.
-* ``FontCache``: Needed to measure the size of rendered text.
-* ``Image``: A container for raster image data.
+  lines and fills. Includes :class:`celiagg.SolidPaint`,
+  :class:`celiagg.PatternPaint`, :class:`celiagg.LinearGradientPaint`, and
+  :class:`celiagg.RadialGradientPaint`.
+* :class:`celiagg.Transform`: A 2D affine transform
+* :class:`celiagg.Font`: A single font, needed when rendering text.
+* :class:`celiagg.FontCache`: Needed to measure the size of rendered text.
+* :class:`celiagg.Image`: A container for raster image data.
