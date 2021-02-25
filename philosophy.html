@@ -1,31 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>About celiagg &#8212; celiagg 1.0.3 documentation</title>
-    
+    <meta charset="utf-8" />
+    <title>About celiagg &#8212; celiagg 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="celiagg 1.0.3 documentation" href="index.html" />
     <link rel="next" title="Code Example" href="example.html" />
     <link rel="prev" title="Welcome to celiagg’s documentation!" href="index.html" />
    
@@ -34,8 +22,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
@@ -51,26 +38,30 @@ fit in ones head while still being a general solution for 2D vector
 rasterization. <strong>Stateless</strong>, because unlike <a class="reference external" href="https://cairographics.org/">Cairo</a>
 or
 <a class="reference external" href="https://developer.apple.com/library/content/documentation/GraphicsImaging/Conceptual/drawingwithquartz2d/dq_overview/dq_overview.html">Quartz</a>
-(for example), celiagg&#8217;s main drawing object (<code class="docutils literal"><span class="pre">Canvas</span></code>) holds the absolute
+(for example), celiagg’s main drawing object (<code class="docutils literal notranslate"><span class="pre">Canvas</span></code>) holds the absolute
 minimum state required to do its job. Instead, the celiagg API includes a
 handful of stateful objects which are used to pass various drawing attributes
-to the methods of <code class="docutils literal"><span class="pre">Canvas</span></code>. In this way, it is more like
+to the methods of <code class="docutils literal notranslate"><span class="pre">Canvas</span></code>. In this way, it is more like
 <a class="reference external" href="https://skia.org/user/api">Skia</a> (but much simpler, of course).</p>
 <div class="section" id="high-level-overview">
 <h2>High-level Overview<a class="headerlink" href="#high-level-overview" title="Permalink to this headline">¶</a></h2>
 <p>These are the main objects used for drawing in celiagg.</p>
 <ul class="simple">
-<li><code class="docutils literal"><span class="pre">Canvas</span></code>: The object which has the main drawing methods. It also manages
-the frame buffer which is being drawn into.</li>
-<li><code class="docutils literal"><span class="pre">VertexSource</span></code>: A family of classes which contain vector data to be
-rasterized. Includes <code class="docutils literal"><span class="pre">Path</span></code>, <code class="docutils literal"><span class="pre">BSpline</span></code>, and <code class="docutils literal"><span class="pre">ShapeAtPoints</span></code></li>
-<li><code class="docutils literal"><span class="pre">Paint</span></code>: Another family of classes which describe the color and texture of
-lines and fills. Includes <code class="docutils literal"><span class="pre">SolidPaint</span></code>, <code class="docutils literal"><span class="pre">PatternPaint</span></code>,
-<code class="docutils literal"><span class="pre">LinearGradientPaint</span></code>, and <code class="docutils literal"><span class="pre">RadialGradientPaint</span></code>.</li>
-<li><code class="docutils literal"><span class="pre">Transform</span></code>: A 2D affine transform</li>
-<li><code class="docutils literal"><span class="pre">Font</span></code>: A single font, needed when rendering text. It can also measure the
-bounding box of a line of text.</li>
-<li><code class="docutils literal"><span class="pre">Image</span></code>: A container for raster image data.</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Canvas</span></code>: The object which has the main drawing methods. It also manages
+the frame buffer which is being drawn into.</p></li>
+<li><p><a class="reference internal" href="api.html#celiagg.GraphicsState" title="celiagg.GraphicsState"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.GraphicsState</span></code></a>: The main state container to be passed to all
+<code class="docutils literal notranslate"><span class="pre">Canvas</span></code> drawing methods.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VertexSource</span></code>: A family of classes which contain vector data to be
+rasterized. Includes <a class="reference internal" href="api.html#celiagg.Path" title="celiagg.Path"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.Path</span></code></a>, <a class="reference internal" href="api.html#celiagg.BSpline" title="celiagg.BSpline"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.BSpline</span></code></a>, and
+<a class="reference internal" href="api.html#celiagg.ShapeAtPoints" title="celiagg.ShapeAtPoints"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.ShapeAtPoints</span></code></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Paint</span></code>: Another family of classes which describe the color and texture of
+lines and fills. Includes <a class="reference internal" href="api.html#celiagg.SolidPaint" title="celiagg.SolidPaint"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.SolidPaint</span></code></a>,
+<a class="reference internal" href="api.html#celiagg.PatternPaint" title="celiagg.PatternPaint"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.PatternPaint</span></code></a>, <a class="reference internal" href="api.html#celiagg.LinearGradientPaint" title="celiagg.LinearGradientPaint"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.LinearGradientPaint</span></code></a>, and
+<a class="reference internal" href="api.html#celiagg.RadialGradientPaint" title="celiagg.RadialGradientPaint"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.RadialGradientPaint</span></code></a>.</p></li>
+<li><p><a class="reference internal" href="api.html#celiagg.Transform" title="celiagg.Transform"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.Transform</span></code></a>: A 2D affine transform</p></li>
+<li><p><a class="reference internal" href="api.html#celiagg.Font" title="celiagg.Font"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.Font</span></code></a>: A single font, needed when rendering text.</p></li>
+<li><p><a class="reference internal" href="api.html#celiagg.FontCache" title="celiagg.FontCache"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.FontCache</span></code></a>: Needed to measure the size of rendered text.</p></li>
+<li><p><a class="reference internal" href="api.html#celiagg.Image" title="celiagg.Image"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.Image</span></code></a>: A container for raster image data.</p></li>
 </ul>
 </div>
 </div>
@@ -81,37 +72,43 @@ bounding box of a line of text.</li>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">About celiagg</a><ul>
-<li><a class="reference internal" href="#high-level-overview">High-level Overview</a></li>
+<h1 class="logo"><a href="index.html">celiagg</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">About celiagg</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#high-level-overview">High-level Overview</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Code Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">celiagg API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Celiagg CHANGELOG</a></li>
 </ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to celiagg&#8217;s documentation!</a></li>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to celiagg’s documentation!</a></li>
       <li>Next: <a href="example.html" title="next chapter">Code Example</a></li>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/philosophy.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -119,14 +116,14 @@ bounding box of a line of text.</li>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015-2017, John Wiggins, Erik Hvatum.
+      &copy;2015-2021, John Wiggins, Erik Hvatum.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/philosophy.txt"
+      <a href="_sources/philosophy.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 

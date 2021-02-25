@@ -1,31 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    
-    <title>Code Example &#8212; celiagg 1.0.3 documentation</title>
-    
+    <meta charset="utf-8" />
+    <title>Code Example &#8212; celiagg 2.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    './',
-        VERSION:     '1.0.3',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
-      };
-    </script>
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="top" title="celiagg 1.0.3 documentation" href="index.html" />
     <link rel="next" title="celiagg API documentation" href="api.html" />
     <link rel="prev" title="About celiagg" href="philosophy.html" />
    
@@ -34,8 +22,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body role="document">
+  </head><body>
   
 
     <div class="document">
@@ -45,9 +32,9 @@
             
   <div class="section" id="code-example">
 <h1>Code Example<a class="headerlink" href="#code-example" title="Permalink to this headline">¶</a></h1>
-<p>Here&#8217;s how celiagg can be used to render a red circle with the word
-&#8220;celiagg&#8221; inside:</p>
-<div class="highlight-python"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+<p>Here’s how celiagg can be used to render a red circle with the word
+“celiagg” inside:</p>
+<div class="highlight-python notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
  4
@@ -69,31 +56,29 @@
 20
 21
 22
-23
-24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">celiagg</span> <span class="kn">as</span> <span class="nn">agg</span>
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">celiagg</span> <span class="kn">as</span> <span class="nn">agg</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">skimage.io</span> <span class="kn">import</span> <span class="n">imsave</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 
 <span class="n">state</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">GraphicsState</span><span class="p">(</span><span class="n">drawing_mode</span><span class="o">=</span><span class="n">agg</span><span class="o">.</span><span class="n">DrawingMode</span><span class="o">.</span><span class="n">DrawStroke</span><span class="p">,</span>
                           <span class="n">line_width</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
 <span class="n">transform</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Transform</span><span class="p">()</span>
 <span class="n">red_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">black_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">orange_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 
-<span class="n">canvas</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">CanvasRGB24</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
+<span class="n">canvas</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">CanvasRGB24</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
 
 <span class="n">path</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span>
 <span class="n">path</span><span class="o">.</span><span class="n">ellipse</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">190</span><span class="p">,</span> <span class="mi">190</span><span class="p">)</span>
 <span class="n">canvas</span><span class="o">.</span><span class="n">clear</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
 <span class="n">canvas</span><span class="o">.</span><span class="n">draw_shape</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">stroke</span><span class="o">=</span><span class="n">red_paint</span><span class="p">)</span>
 
-<span class="n">font</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s2">&quot;/Library/Fonts/Verdana.ttf&quot;</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span>
-                <span class="n">agg</span><span class="o">.</span><span class="n">FontCacheType</span><span class="o">.</span><span class="n">RasterFontCache</span><span class="p">)</span>
+<span class="n">font</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">example_font</span><span class="p">(),</span> <span class="mf">96.0</span><span class="p">)</span>
 <span class="n">transform</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">220.0</span><span class="p">)</span>
-<span class="n">canvas</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s2">&quot;celiagg&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span>
-                 <span class="n">stroke</span><span class="o">=</span><span class="n">black_paint</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s2">&quot;celiagg&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">orange_paint</span><span class="p">)</span>
 
-<span class="n">imsave</span><span class="p">(</span><span class="s2">&quot;example.png&quot;</span><span class="p">,</span> <span class="n">canvas</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+<span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">canvas</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;example.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <p>Which gives the resulting image:</p>
@@ -102,27 +87,28 @@
 <h2>Code Breakdown<a class="headerlink" href="#code-breakdown" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="imports">
 <h3>Imports<a class="headerlink" href="#imports" title="Permalink to this headline">¶</a></h3>
-<p>First, we include some libraries. <code class="docutils literal"><span class="pre">numpy</span></code> is needed for the memory buffer
-which the canvas drawns into. <code class="docutils literal"><span class="pre">scikit-image</span></code> is used for simple image file I/O.
-Finally, <code class="docutils literal"><span class="pre">celiagg</span></code> is imported for obvious reasons:</p>
-<div class="highlight-default"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
+<p>First, we include some libraries. <code class="docutils literal notranslate"><span class="pre">numpy</span></code> is needed for the memory buffer
+which the canvas drawns into. <code class="docutils literal notranslate"><span class="pre">PIL</span></code> is used for simple image file I/O.
+Finally, <code class="docutils literal notranslate"><span class="pre">celiagg</span></code> is imported for obvious reasons:</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
 2
 3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">celiagg</span> <span class="k">as</span> <span class="nn">agg</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">skimage.io</span> <span class="k">import</span> <span class="n">imsave</span>
+<span class="kn">from</span> <span class="nn">PIL</span> <span class="k">import</span> <span class="n">Image</span>
 </pre></div>
 </td></tr></table></div>
 </div>
 <div class="section" id="state-setup">
 <h3>State setup<a class="headerlink" href="#state-setup" title="Permalink to this headline">¶</a></h3>
-<p>Next, some state objects are created. Most important is the <code class="docutils literal"><span class="pre">GraphicsState</span></code>
-object. Pay attention to the <code class="docutils literal"><span class="pre">drawing_mode=agg.DrawingMode.DrawStroke</span></code> keyword
-argument. This means that all drawing calls using this <code class="docutils literal"><span class="pre">state</span></code> will only draw
-the outline of the shapes or text being drawn.</p>
-<p>The remaining state objects are <code class="docutils literal"><span class="pre">transform</span></code> which sets the affine
-transformation of the drawing and <code class="docutils literal"><span class="pre">red_paint</span></code>/<code class="docutils literal"><span class="pre">black_paint</span></code> which determine
+<p>Next, some state objects are created. Most important is the
+<a class="reference internal" href="api.html#celiagg.GraphicsState" title="celiagg.GraphicsState"><code class="xref py py-class docutils literal notranslate"><span class="pre">celiagg.GraphicsState</span></code></a> object. Pay attention to the
+<code class="docutils literal notranslate"><span class="pre">drawing_mode=agg.DrawingMode.DrawStroke</span></code> keyword argument. This means that
+all drawing calls using this <code class="docutils literal notranslate"><span class="pre">state</span></code> will only draw the outline of the shapes
+being drawn.</p>
+<p>The remaining state objects are <code class="docutils literal notranslate"><span class="pre">transform</span></code> which sets the affine
+transformation of the drawing and <code class="docutils literal notranslate"><span class="pre">red_paint</span></code>/<code class="docutils literal notranslate"><span class="pre">orange_paint</span></code> which determine
 the color of strokes (outlines) or fills when drawing.</p>
-<div class="highlight-default"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>5
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>5
 6
 7
 8
@@ -130,26 +116,26 @@ the color of strokes (outlines) or fills when drawing.</p>
                           <span class="n">line_width</span><span class="o">=</span><span class="mf">10.0</span><span class="p">)</span>
 <span class="n">transform</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Transform</span><span class="p">()</span>
 <span class="n">red_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-<span class="n">black_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
+<span class="n">orange_paint</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">SolidPaint</span><span class="p">(</span><span class="mf">0.99</span><span class="p">,</span> <span class="mf">0.66</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
 <div class="section" id="canvas-creation">
 <h3>Canvas creation<a class="headerlink" href="#canvas-creation" title="Permalink to this headline">¶</a></h3>
-<p>Then, also quite important, a <code class="docutils literal"><span class="pre">canvas</span></code> object is created. The canvas is a
+<p>Then, also quite important, a <code class="docutils literal notranslate"><span class="pre">canvas</span></code> object is created. The canvas is a
 400 x 400 pixel RGB bitmap with 8-bits per component.</p>
-<div class="highlight-default"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">canvas</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">CanvasRGB24</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">canvas</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">CanvasRGB24</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint8</span><span class="p">))</span>
 </pre></div>
 </td></tr></table></div>
 </div>
 <div class="section" id="draw-a-circle">
 <h3>Draw a circle<a class="headerlink" href="#draw-a-circle" title="Permalink to this headline">¶</a></h3>
-<p>We&#8217;re now ready to do some drawing. A <code class="docutils literal"><span class="pre">path</span></code> object is created to describe the
-shape that will be drawn. In this case, it&#8217;s an ellipse with an equal width and
+<p>We’re now ready to do some drawing. A <code class="docutils literal notranslate"><span class="pre">path</span></code> object is created to describe the
+shape that will be drawn. In this case, it’s an ellipse with an equal width and
 height of 190 pixels, ie: a circle. Because the canvas was instantiated with
-<code class="docutils literal"><span class="pre">np.ones</span></code>, we call the <code class="docutils literal"><span class="pre">canvas.clear</span></code> method first to clear the background
-color to white. Finally, the circle is drawn with <code class="docutils literal"><span class="pre">canvas.draw_shape</span></code>.</p>
-<div class="highlight-default"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
+<code class="docutils literal notranslate"><span class="pre">np.zeros</span></code>, we call the <code class="docutils literal notranslate"><span class="pre">canvas.clear</span></code> method first to clear the background
+color to white. Finally, the circle is drawn with <code class="docutils literal notranslate"><span class="pre">canvas.draw_shape</span></code>.</p>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>13
 14
 15
 16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">path</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Path</span><span class="p">()</span>
@@ -161,39 +147,40 @@ color to white. Finally, the circle is drawn with <code class="docutils literal"
 </div>
 <div class="section" id="draw-some-text">
 <h3>Draw some text<a class="headerlink" href="#draw-some-text" title="Permalink to this headline">¶</a></h3>
-<p>Next up, some text. As a small caveat, this demo was written to run on macOS
-where the path <code class="docutils literal"><span class="pre">/Library/Fonts/Verdana.ttf</span></code> points to a TTF font file. A raster
-<code class="docutils literal"><span class="pre">font</span></code> object is created with a point size of 96. The <code class="docutils literal"><span class="pre">transform</span></code> gets a
+<p>Next up, some text. We’ll use the <a class="reference external" href="https://github.com/JulietaUla/Montserrat">Montserrat</a> font which is included with
+celiagg, conveniently available via the <code class="docutils literal notranslate"><span class="pre">example_font</span></code> function. A <code class="docutils literal notranslate"><span class="pre">font</span></code>
+object is created with a point size of 96. The <code class="docutils literal notranslate"><span class="pre">transform</span></code> gets a
 translation of (30, 220) set. This corresponds to a point which is 30 pixels
-from the left side of the image and 220 pixels from the <em>bottom</em> of the image.
-(celiagg defaults to a lower-left origin, but also supports top-left origin)
+from the left side of the image and 220 pixels from the <em>top</em> of the image.
+(celiagg defaults to a top-left origin, but also supports bottom-left origin)
 The text will be drawn starting from that point.</p>
-<div class="highlight-default"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>18
 19
-20
-21
-22</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">font</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="s2">&quot;/Library/Fonts/Verdana.ttf&quot;</span><span class="p">,</span> <span class="mf">96.0</span><span class="p">,</span>
-                <span class="n">agg</span><span class="o">.</span><span class="n">FontCacheType</span><span class="o">.</span><span class="n">RasterFontCache</span><span class="p">)</span>
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">font</span> <span class="o">=</span> <span class="n">agg</span><span class="o">.</span><span class="n">Font</span><span class="p">(</span><span class="n">agg</span><span class="o">.</span><span class="n">example_font</span><span class="p">(),</span> <span class="mf">96.0</span><span class="p">)</span>
 <span class="n">transform</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="mf">30.0</span><span class="p">,</span> <span class="mf">220.0</span><span class="p">)</span>
-<span class="n">canvas</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s2">&quot;celiagg&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span>
-                 <span class="n">stroke</span><span class="o">=</span><span class="n">black_paint</span><span class="p">)</span>
+<span class="n">canvas</span><span class="o">.</span><span class="n">draw_text</span><span class="p">(</span><span class="s2">&quot;celiagg&quot;</span><span class="p">,</span> <span class="n">font</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="n">orange_paint</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Even though <code class="docutils literal"><span class="pre">state</span></code> specifies a <code class="docutils literal"><span class="pre">drawing_mode</span></code> of <code class="docutils literal"><span class="pre">DrawStroke</span></code>, the
+<p class="admonition-title">Note</p>
+<p>Even though <code class="docutils literal notranslate"><span class="pre">state</span></code> specifies a <code class="docutils literal notranslate"><span class="pre">drawing_mode</span></code> of <code class="docutils literal notranslate"><span class="pre">DrawStroke</span></code>, the
 text will still be rendered as filled instead of drawing an outline. This
-is because of the <code class="docutils literal"><span class="pre">agg.FontCacheType.RasterFontCache</span></code> argument given when
-instantiating <code class="docutils literal"><span class="pre">font</span></code>. To honor the <code class="docutils literal"><span class="pre">drawing_mode</span></code>,
-<code class="docutils literal"><span class="pre">agg.FontCacheType.VectorFontCache</span></code> can be passed instead. Note that there
-is a performance penalty paid for this flexibility.</p>
+is because text drawing mode is separate from the main [shape] drawing mode.
+<code class="docutils literal notranslate"><span class="pre">text_drawing_mode</span></code> in <code class="docutils literal notranslate"><span class="pre">state</span></code> defaults to
+<code class="docutils literal notranslate"><span class="pre">agg.TextDrawingMode.TextDrawRaster</span></code>. To draw text as vector data,
+<code class="docutils literal notranslate"><span class="pre">state.text_drawing_mode</span></code> can be set to something like
+<code class="docutils literal notranslate"><span class="pre">agg.TextDrawingMode.TextDrawStroke</span></code>. All modes except <code class="docutils literal notranslate"><span class="pre">TextDrawRaster</span></code>
+are drawn as vectors. Note that there is a performance penalty paid for this
+flexibility, but it allows things like patterned fills.</p>
 </div>
 </div>
 <div class="section" id="save">
 <h3>Save<a class="headerlink" href="#save" title="Permalink to this headline">¶</a></h3>
 <p>Last but not least, the image is written to a PNG file for enjoyment in your
 favorite image viewer.</p>
-<div class="highlight-default"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">imsave</span><span class="p">(</span><span class="s2">&quot;example.png&quot;</span><span class="p">,</span> <span class="n">canvas</span><span class="o">.</span><span class="n">array</span><span class="p">)</span>
+<div class="highlight-default notranslate"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>22
+23</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">fromarray</span><span class="p">(</span><span class="n">canvas</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="s2">&quot;RGB&quot;</span><span class="p">)</span>
+<span class="n">image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;example.png&quot;</span><span class="p">)</span>
 </pre></div>
 </td></tr></table></div>
 </div>
@@ -206,21 +193,26 @@ favorite image viewer.</p>
       </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-  <h3><a href="index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Code Example</a><ul>
-<li><a class="reference internal" href="#code-breakdown">Code Breakdown</a><ul>
-<li><a class="reference internal" href="#imports">Imports</a></li>
-<li><a class="reference internal" href="#state-setup">State setup</a></li>
-<li><a class="reference internal" href="#canvas-creation">Canvas creation</a></li>
-<li><a class="reference internal" href="#draw-a-circle">Draw a circle</a></li>
-<li><a class="reference internal" href="#draw-some-text">Draw some text</a></li>
-<li><a class="reference internal" href="#save">Save</a></li>
+<h1 class="logo"><a href="index.html">celiagg</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">About celiagg</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code Example</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#code-breakdown">Code Breakdown</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">celiagg API documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Celiagg CHANGELOG</a></li>
 </ul>
-</li>
-</ul>
+
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
@@ -230,21 +222,14 @@ favorite image viewer.</p>
   </ul></li>
 </ul>
 </div>
-  <div role="note" aria-label="source link">
-    <h3>This Page</h3>
-    <ul class="this-page-menu">
-      <li><a href="_sources/example.txt"
-            rel="nofollow">Show Source</a></li>
-    </ul>
-   </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -252,14 +237,14 @@ favorite image viewer.</p>
       <div class="clearer"></div>
     </div>
     <div class="footer">
-      &copy;2015-2017, John Wiggins, Erik Hvatum.
+      &copy;2015-2021, John Wiggins, Erik Hvatum.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.8</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.9</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |
-      <a href="_sources/example.txt"
+      <a href="_sources/example.rst.txt"
           rel="nofollow">Page source</a>
     </div>
 
