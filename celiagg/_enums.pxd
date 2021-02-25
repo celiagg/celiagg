@@ -22,10 +22,10 @@
 #
 # Authors: John Wiggins
 
-cdef extern from "font.h" namespace "Font":
-    cdef enum FontCacheType:
-        RasterFontCache
-        VectorFontCache
+cdef extern from "font_cache.h" namespace "FontCache":
+    cdef enum GlyphType:
+        RasterGlyph
+        VectorGlyph
 
 
 cdef extern from "image.h":
@@ -82,6 +82,7 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         TextDrawFill
         TextDrawStroke
         TextDrawClip
+        TextDrawRaster
         TextDrawFillStroke
         TextDrawFillClip
         TextDrawStrokeClip

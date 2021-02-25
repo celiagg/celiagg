@@ -32,7 +32,7 @@
 
 FontCache::FontCache() {}
 FontCache::~FontCache() {}
-void FontCache::activate(const Font&, const agg::trans_affine& transform) {}
+void FontCache::activate(const Font&, const agg::trans_affine& transform, GlyphType const type) {}
 double FontCache::measure_width(char const* str) { return 0.0; }
 
 
@@ -57,12 +57,12 @@ FontCache::~FontCache()
 }
 
 void
-FontCache::activate(const Font& font, const agg::trans_affine& transform)
+FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphType const type)
 {
 #ifdef _USE_FREETYPE
     m_font_engine.load_font(font.filepath(),
                             font.face_index(),
-                            (font.cache_type() == Font::VectorFontCache) ?
+                            (type == FontCache::VectorGlyph) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8);
     // Manipulate the aspects of the font which was just loaded.
@@ -78,7 +78,7 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform)
     m_font_engine.hinting(font.hinting());
     m_font_engine.transform(transform);
     m_font_engine.create_font(font.filepath(),
-                             (font.cache_type() == Font::VectorFontCache) ?
+                             (type == FontCache::VectorGlyph) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8,
                               font.height(),

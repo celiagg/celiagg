@@ -22,6 +22,7 @@
 #
 # Authors: John Wiggins
 
+cimport _enums
 cimport _font
 cimport _transform
 
@@ -30,5 +31,7 @@ cdef extern from "font_cache.h":
     cdef cppclass FontCache:
         FontCache()
 
+        # NOTE: The GlyphType argument for activate() is ignored here
+        # All text measurement happens with raster glyphs, for speed reasons.
         void activate(_font.Font& font, _transform.trans_affine& transform);
         double measure_width(char* str)

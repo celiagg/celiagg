@@ -73,6 +73,7 @@ cpdef enum TextDrawingMode:
     TextDrawFill = _enums.TextDrawFill
     TextDrawStroke = _enums.TextDrawStroke
     TextDrawClip = _enums.TextDrawClip
+    TextDrawRaster = _enums.TextDrawRaster
     TextDrawFillStroke = _enums.TextDrawFillStroke
     TextDrawFillClip = _enums.TextDrawFillClip
     TextDrawStrokeClip = _enums.TextDrawStrokeClip

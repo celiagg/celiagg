@@ -73,11 +73,12 @@ public:
 
     enum TextDrawingMode
     {
-        // Bit 0: fill, Bit 1: stroke, Bit 2: clip
+        // Bit 0: fill, Bit 1: stroke, Bit 2: clip, Bit 3: raster
         TextDrawInvisible = 0x0000,
         TextDrawFill = 0x0001,
         TextDrawStroke = 0x0002,
         TextDrawClip = 0x0004,
+        TextDrawRaster = 0x0008,  // Same as TextDrawFill, but fast and high quality
         TextDrawFillStroke = TextDrawFill | TextDrawStroke,
         TextDrawFillClip = TextDrawFill | TextDrawClip,
         TextDrawStrokeClip = TextDrawStroke | TextDrawClip,
@@ -117,7 +118,7 @@ public:
         m_clip_box(0.0, 0.0, -1.0, -1.0),  // Invalid by default!
         m_stencil(NULL),
         m_drawing_mode(DrawFillStroke),
-        m_text_drawing_mode(TextDrawFill),
+        m_text_drawing_mode(TextDrawRaster),
         m_blend_mode(BlendAlpha),
         m_image_blend_mode(BlendDst),
         m_master_alpha(1.0),

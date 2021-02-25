@@ -41,10 +41,9 @@ public:
 
 public:
                         GlyphIterator(char const* utf8Text, FontCache& cache,
-                                      const bool drawing = false,
-                                      const double x_off = 0.0,
-                                      const double y_off = 0.0);
+                                      const bool drawing = false);
 
+    void                offset(double x, double y) { m_offset_x = x; m_offset_y = y; }
     StepAction          step();
     double              x_offset() const { return m_offset_x; }
     double              y_offset() const { return m_offset_y; }

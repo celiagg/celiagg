@@ -23,15 +23,12 @@
 # Authors: John Wiggins
 
 from libcpp cimport bool
-cimport _enums
 
 
 cdef extern from "font.h":
     cdef cppclass Font:
-        Font(char* fileName, double height, _enums.FontCacheType ch,
-             unsigned face_index)
+        Font(char* fileName, double height, unsigned face_index)
 
-        _enums.FontCacheType cache_type() const
         unsigned face_index() const
         const char* filepath() const
         bool flip() const

@@ -26,7 +26,7 @@
 
 from . import _celiagg
 from ._celiagg import (
-    AggError, BSpline, BlendMode, DrawingMode, Font, FontCache, FontCacheType,
+    AggError, BSpline, BlendMode, DrawingMode, Font, FontCache,
     GradientSpread, GradientUnits, GraphicsState, Image, InnerJoin,
     LineCap, LineJoin, LinearGradientPaint, Path, PatternPaint, PatternStyle,
     PixelFormat, RadialGradientPaint, Rect, ShapeAtPoints, SolidPaint,
@@ -41,11 +41,10 @@ __all__ = [
     'HAS_TEXT',
 
     'AggError', 'BlendMode', 'BSpline', 'DrawingMode', 'Font', 'FontCache',
-    'FontCacheType', 'GradientSpread', 'GradientUnits', 'GraphicsState',
-    'Image', 'InnerJoin', 'LinearGradientPaint', 'LineCap', 'LineJoin',
-    'RadialGradientPaint', 'Path', 'PatternPaint', 'PatternStyle',
-    'PixelFormat', 'Rect', 'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode',
-    'Transform',
+    'GradientSpread', 'GradientUnits', 'GraphicsState', 'Image', 'InnerJoin',
+    'LinearGradientPaint', 'LineCap', 'LineJoin', 'RadialGradientPaint',
+    'Path', 'PatternPaint', 'PatternStyle', 'PixelFormat', 'Rect',
+    'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode', 'Transform',
 
     'CanvasG8', 'CanvasGA16', 'CanvasRGB24', 'CanvasRGBA32', 'CanvasBGRA32',
     'CanvasRGBA128',
