@@ -68,6 +68,12 @@ cdef extern from "ndarray_canvas.h":
                         const _transform.trans_affine& transform,
                         _paint.Paint& linePaint, _paint.Paint& fillPaint,
                         const _graphics_state.GraphicsState& gs)
+        void draw_shape_at_points(_vertex_source.VertexSource& shape,
+                                  const double* points,
+                                  const size_t point_count,
+                                  const _transform.trans_affine& transform,
+                                  _paint.Paint& linePaint, _paint.Paint& fillPaint,
+                                  const _graphics_state.GraphicsState& gs)
         void draw_text(const char* text, _font.Font& font,
                        const _transform.trans_affine& transform,
                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
