@@ -1,0 +1,175 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Celiagg CHANGELOG &#8212; celiagg 2.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="celiagg API documentation" href="api.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="celiagg-changelog">
+<h1>Celiagg CHANGELOG<a class="headerlink" href="#celiagg-changelog" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="release-2-0-0">
+<h2>Release 2.0.0<a class="headerlink" href="#release-2-0-0" title="Permalink to this headline">¶</a></h2>
+<p>Released: 2021-02-25</p>
+<p>Celiagg 2.0.0 is a major release which makes a few breaking API changes. Due
+to bugs related to the font caching changes introduced in 1.1.1, a new
+<code class="docutils literal notranslate"><span class="pre">FontCache</span></code> class has been added which exposes the storage of the cache
+explicitly. Relatedly, the <code class="docutils literal notranslate"><span class="pre">Font</span></code> class has become much simpler. It is only
+a description for a font now and has no opinion about how that font is cached.
+This is the main API breaking change. The <code class="docutils literal notranslate"><span class="pre">FontCacheType</span></code> enumeration has been
+removed and the <code class="docutils literal notranslate"><span class="pre">Font.width`</span> <span class="pre">method</span> <span class="pre">has</span> <span class="pre">moved</span> <span class="pre">to</span> <span class="pre">the</span> <span class="pre">new</span> <span class="pre">``FontCache</span></code> class.
+One other change to <code class="docutils literal notranslate"><span class="pre">Font</span></code> behavior is that raster font rendering now uses the
+<code class="docutils literal notranslate"><span class="pre">fill</span></code> paint which is passed to <code class="docutils literal notranslate"><span class="pre">Canvas.draw_text</span></code>. Previously the <code class="docutils literal notranslate"><span class="pre">stroke</span></code>
+paint was used.</p>
+<p>A <code class="docutils literal notranslate"><span class="pre">Canvas.draw_shape_at_points</span></code> method was added to the canvas class. This
+has a slightly different result than using a <code class="docutils literal notranslate"><span class="pre">ShapeAtPoints</span></code> <code class="docutils literal notranslate"><span class="pre">VertexSource</span></code>.
+Namely <code class="docutils literal notranslate"><span class="pre">Canvas.draw_shape_at_points</span></code> will fill and stroke each shape separately,
+whereas <code class="docutils literal notranslate"><span class="pre">ShapeAtPoints</span></code> would fill all shape instances and then stroke all shape
+instances. Use <code class="docutils literal notranslate"><span class="pre">ShapeAtPoints</span></code> if you’re only stroking or only filling the
+shape, because it’s the faster option. <code class="docutils literal notranslate"><span class="pre">Canvas.draw_shape_at_points</span></code> is slightly
+slower but gives more correct output.</p>
+<div class="section" id="features">
+<h3>Features<a class="headerlink" href="#features" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Add a <code class="docutils literal notranslate"><span class="pre">draw_shape_at_points</span></code> method to the canvas (#79)</p></li>
+</ul>
+</div>
+<div class="section" id="changes">
+<h3>Changes<a class="headerlink" href="#changes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Rework text rendering (#76)</p></li>
+<li><p>Make the font cache a separate object [introduces <code class="docutils literal notranslate"><span class="pre">FontCache</span></code>] (#74)</p></li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Update docs for 2.0.0 release (#80)</p></li>
+<li><p>Move the included font into the main package and update docs (#77)</p></li>
+</ul>
+</div>
+<div class="section" id="cleanup-and-other-maintenance">
+<h3>Cleanup and other maintenance<a class="headerlink" href="#cleanup-and-other-maintenance" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Update version and copyright dates (#78)</p></li>
+</ul>
+</div>
+</div>
+<div class="section" id="release-1-1-1">
+<h2>Release 1.1.1<a class="headerlink" href="#release-1-1-1" title="Permalink to this headline">¶</a></h2>
+<p>Released: 2021-02-20</p>
+<div class="section" id="id1">
+<h3>Features<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">face_index</span></code> support to <code class="docutils literal notranslate"><span class="pre">Font</span></code> (#70)</p></li>
+</ul>
+</div>
+<div class="section" id="fixes">
+<h3>Fixes<a class="headerlink" href="#fixes" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Do stroke transformation as late as possible (#67)</p></li>
+<li><p>Speed up text rendering (#65)</p></li>
+<li><p>Use nearest neighbor image interpolation (#61)</p></li>
+</ul>
+</div>
+<div class="section" id="id2">
+<h3>Cleanup and other maintenance<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><p>Clean up old CI bits (#69)</p></li>
+<li><p>Switch to GitHub Actions for CI (#68)</p></li>
+<li><p>Move CI testing to Pythons 3.6, 3.7 (#66)</p></li>
+<li><p>Use stdlib unittest instead of pytest (#64)</p></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">celiagg</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="philosophy.html">About celiagg</a></li>
+<li class="toctree-l1"><a class="reference internal" href="example.html">Code Example</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">celiagg API documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Celiagg CHANGELOG</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#release-2-0-0">Release 2.0.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#release-1-1-1">Release 1.1.1</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="api.html" title="previous chapter">celiagg API documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2015-2021, John Wiggins, Erik Hvatum.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.3.1</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/changelog.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
