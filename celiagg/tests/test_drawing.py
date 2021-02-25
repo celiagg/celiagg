@@ -132,3 +132,19 @@ class TestDrawing(unittest.TestCase):
             path, self.transform, self.state, stroke=self.paint
         )
         assert_equal(expected, self.canvas.array)
+
+    def test_draw_shape_at_points(self):
+        path = agg.Path()
+        path.ellipse(0, 0, 0.5, 0.5)
+        points = [(0.0, 0.0), (0.0, 5.0), (5.0, 0.0), (5.0, 5.0), (2.5, 2.5)]
+        expected = [
+            [1, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 0],
+            [0, 0, 0, 0, 0],
+            [1, 0, 0, 0, 1],
+        ]
+        self.canvas.draw_shape_at_points(
+            path, points, self.transform, self.state, stroke=self.paint
+        )
+        assert_equal(expected, self.canvas.array)

@@ -118,6 +118,43 @@ void ndarray_canvas<pixfmt_t>::draw_shape(VertexSource& shape,
 }
 
 template<typename pixfmt_t>
+void ndarray_canvas<pixfmt_t>::draw_shape_at_points(VertexSource& shape,
+    const double* points, const size_t point_count,
+    const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
+    const GraphicsState& gs)
+{
+    agg::simple_polygon_vertex_source _points(points, point_count, false, false);
+    agg::trans_affine pt_trans;
+    unsigned cmd;
+
+    _set_clipping(gs.clip_box());
+    linePaint.master_alpha(gs.master_alpha());
+    fillPaint.master_alpha(gs.master_alpha());
+
+    if (gs.stencil() == NULL)
+    {
+        for (;;)
+        {
+            cmd = _points.vertex(&pt_trans.tx, &pt_trans.ty);
+            if (cmd == agg::path_cmd_end_poly) break;
+
+            _draw_shape_internal(shape, pt_trans * transform, linePaint, fillPaint, gs, m_renderer);
+        }
+    }
+    else
+    {
+        _WITH_MASKED_RENDERER(gs, renderer)
+        for (;;)
+        {
+            cmd = _points.vertex(&pt_trans.tx, &pt_trans.ty);
+            if (cmd == agg::path_cmd_end_poly) break;
+
+            _draw_shape_internal(shape, pt_trans * transform, linePaint, fillPaint, gs, renderer);
+        }
+    }
+}
+
+template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform,
     Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)

@@ -198,6 +198,57 @@ cdef class CanvasBase:
                               dereference(fill_paint._this),
                               dereference(gs._this))
 
+    def draw_shape_at_points(self, shape, points, transform, state, stroke=None, fill=None):
+        """draw_shape_at_points(shape, points, transform, state, stroke=SolidColor(0, 0, 0), fill=SolidColor(0, 0, 0))
+        Draw a shape at multiple points on the canvas.
+
+        .. note::
+           Use ``GraphicsState.drawing_mode`` to enable/disable stroke or fill
+           drawing.
+
+        :param shape: A ``VertexSource`` object
+        :param points: A sequence of (x, y) pairs where the ``shape`` should be drawn.
+        :param transform: A ``Transform`` object
+        :param state: A ``GraphicsState`` object
+        :param stroke: The ``Paint`` to use for outlines. Defaults to black.
+        :param fill: The ``Paint`` to use for fills. Defaults to black.
+        """
+        if not isinstance(shape, VertexSource):
+            raise TypeError("shape must be a VertexSource (Path, BSpline, etc)")
+        if not isinstance(transform, Transform):
+            raise TypeError("transform must be a Transform instance")
+        if not isinstance(state, GraphicsState):
+            raise TypeError("state must be a GraphicsState instance")
+        if stroke is not None and not isinstance(stroke, Paint):
+            raise TypeError("stroke must be a Paint instance")
+        if fill is not None and not isinstance(fill, Paint):
+            raise TypeError("fill must be a Paint instance")
+
+        cdef:
+            VertexSource shp = <VertexSource>shape
+            double[:,::1] _points = numpy.asarray(points, dtype=numpy.float64,
+                                                  order='c')
+            GraphicsState gs = <GraphicsState>state
+            Transform trans = <Transform>transform
+            PixelFormat fmt = self.pixel_format
+            Paint stroke_paint
+            Paint fill_paint
+
+        if _points.shape[1] != 2:
+            msg = 'Points argument must be an iterable of (x, y) pairs.'
+            raise ValueError(msg)
+
+        self._check_stencil(gs)
+        stroke_paint = self._get_native_paint(stroke, fmt)
+        fill_paint = self._get_native_paint(fill, fmt)
+
+        self._this.draw_shape_at_points(dereference(shp._this),
+                                        &_points[0][0], _points.shape[0],
+                                        dereference(trans._this),
+                                        dereference(stroke_paint._this),
+                                        dereference(fill_paint._this),
+                                        dereference(gs._this))
+
     def draw_text(self, text, font, transform, state, stroke=None, fill=None):
         """draw_text(text, font, transform, state, stroke=SolidColor(0, 0, 0), fill=SolidColor(0, 0, 0))
         Draw a line of text on the canvas.
