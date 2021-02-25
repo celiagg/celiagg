@@ -36,9 +36,21 @@ from ._celiagg import (
 # Query the library
 HAS_TEXT = _celiagg.has_text_rendering()
 
+
+def example_font():
+    """ Returns the path to a TTF font which is included with the library for
+    testing purposes.
+    """
+    import pkg_resources
+
+    return pkg_resources.resource_filename(
+        'celiagg', 'data/Montserrat-Regular.ttf'
+    )
+
+
 # Be explicit
 __all__ = [
-    'HAS_TEXT',
+    'HAS_TEXT', 'example_font',
 
     'AggError', 'BlendMode', 'BSpline', 'DrawingMode', 'Font', 'FontCache',
     'GradientSpread', 'GradientUnits', 'GraphicsState', 'Image', 'InnerJoin',

@@ -20,6 +20,8 @@ These are the main objects used for drawing in celiagg.
 
 * ``Canvas``: The object which has the main drawing methods. It also manages
   the frame buffer which is being drawn into.
+* ``GraphicsState``: The main state container to be passed to all ``Canvas``
+  drawing methods.
 * ``VertexSource``: A family of classes which contain vector data to be
   rasterized. Includes ``Path``, ``BSpline``, and ``ShapeAtPoints``
 * ``Paint``: Another family of classes which describe the color and texture of

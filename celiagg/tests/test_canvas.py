@@ -50,7 +50,7 @@ class TestCanvas(unittest.TestCase):
 
         if agg.HAS_TEXT:
             text = 'Hello!'
-            font = agg.Font('Times New Roman', 12.0)
+            font = agg.Font(agg.example_font(), 12.0)
             with self.assertRaises(TypeError):
                 canvas.draw_text(text, None, transform, gs)
             with self.assertRaises(TypeError):
