@@ -31,29 +31,54 @@
 class Font
 {
 public:
+    // These map directly to the weights used by the WinGDI CreateFont function
+    enum FontWeight {
+        k_FontWeightAny = 0,
+        k_FontWeightThin = 100,
+        k_FontWeightExtraLight = 200,
+        k_FontWeightLight = 300,
+        k_FontWeightRegular = 400,
+        k_FontWeightMedium = 500,
+        k_FontWeightSemiBold = 600,
+        k_FontWeightBold = 700,
+        k_FontWeightExtraBold = 800,
+        k_FontWeightHeavy = 900,
+    };
 
-                        Font(char const* fileName, double const height,
-                             unsigned const face_index = 0);
+public:
 
-    unsigned            face_index() const;
-    const char*         filepath() const;
+                    Font(char const* face_or_path, double const height,
+                         unsigned const face_index = 0,
+                         FontWeight const weight = k_FontWeightRegular,
+                         bool const italic = false);
 
-    bool                flip() const;
-    void                flip(bool const flip);
+    unsigned        face_index() const;
+    const char*     face_or_path() const;
 
-    double              height() const;
-    void                height(double const height);
+    bool            flip() const;
+    void            flip(bool const flip);
 
-    bool                hinting() const;
-    void                hinting(bool const hint);
+    double          height() const;
+    void            height(double const height);
+
+    bool            hinting() const;
+    void            hinting(bool const hint);
+
+    bool            italic() const;
+    void            italic(bool const italic);
+
+    FontWeight      weight() const;
+    void            weight(FontWeight const weight);
 
 private:
 
-        double          m_height;
-        std::string     m_font_name;
-        unsigned        m_face_index;
-        bool            m_flip;
-        bool            m_hinting;
+    std::string     m_face_or_path;
+    double          m_height;
+    FontWeight      m_weight;
+    unsigned        m_face_index;
+    bool            m_flip;
+    bool            m_hinting;
+    bool            m_italic;
 };
 
 #endif // CELIAGG_FONT_H

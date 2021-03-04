@@ -23,10 +23,24 @@
 #
 # Authors: John Wiggins
 
+cdef extern from "font.h" namespace "Font":
+    cdef enum FontWeight:
+        k_FontWeightAny
+        k_FontWeightThin
+        k_FontWeightExtraLight
+        k_FontWeightLight
+        k_FontWeightRegular
+        k_FontWeightMedium
+        k_FontWeightSemiBold
+        k_FontWeightBold
+        k_FontWeightExtraBold
+        k_FontWeightHeavy
+
+
 cdef extern from "font_cache.h" namespace "FontCache":
     cdef enum GlyphType:
-        RasterGlyph
-        VectorGlyph
+        k_GlyphTypeRaster
+        k_GlyphTypeVector
 
 
 cdef extern from "image.h":

@@ -106,3 +106,15 @@ cpdef enum BlendMode:
     BlendSoftLight = _enums.BlendSoftLight
     BlendDifference = _enums.BlendDifference
     BlendExclusion = _enums.BlendExclusion
+
+cpdef enum FontWeight:
+    Any = _enums.k_FontWeightAny
+    Thin = _enums.k_FontWeightThin
+    ExtraLight = _enums.k_FontWeightExtraLight
+    Light = _enums.k_FontWeightLight
+    Regular = _enums.k_FontWeightRegular
+    Medium = _enums.k_FontWeightMedium
+    SemiBold = _enums.k_FontWeightSemiBold
+    Bold = _enums.k_FontWeightBold
+    ExtraBold = _enums.k_FontWeightExtraBold
+    Heavy = _enums.k_FontWeightHeavy

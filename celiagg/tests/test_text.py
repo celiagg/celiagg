@@ -36,7 +36,7 @@ class TestTextDrawing(unittest.TestCase):
         transform = agg.Transform()
 
         text_unicode = 'Hello!'
-        font_unicode = agg.Font(agg.example_font(), 12.0, face_index=1)
+        font_unicode = agg.Font(agg.example_font(), 12.0)
         text_byte = b'Hello!'
         font_byte = agg.Font(agg.example_font().encode('utf8'), 12.0)
 

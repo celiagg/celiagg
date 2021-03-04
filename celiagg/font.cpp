@@ -25,12 +25,16 @@
 
 #include "font.h"
 
-Font::Font(char const* fontName, double const height, unsigned const face_index)
-: m_height(height)
-, m_font_name(fontName)
+Font::Font(char const* face_or_path, double const height,
+           unsigned const face_index, Font::FontWeight const weight,
+           bool const italic)
+: m_face_or_path(face_or_path)
+, m_height(height)
+, m_weight(weight)
 , m_face_index(face_index)
 , m_flip(false)
 , m_hinting(true)
+, m_italic(italic)
 {}
 
 unsigned
@@ -40,9 +44,9 @@ Font::face_index() const
 }
 
 const char*
-Font::filepath() const
+Font::face_or_path() const
 {
-    return m_font_name.c_str();
+    return m_face_or_path.c_str();
 }
 
 bool
@@ -79,4 +83,28 @@ void
 Font::hinting(bool const hint)
 {
     m_hinting = hint;
+}
+
+bool
+Font::italic() const
+{
+    return m_italic;
+}
+
+void
+Font::italic(bool const italic)
+{
+    m_italic = italic;
+}
+
+Font::FontWeight
+Font::weight() const
+{
+    return m_weight;
+}
+
+void
+Font::weight(Font::FontWeight const weight)
+{
+    m_weight = weight;
 }

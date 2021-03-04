@@ -23,14 +23,15 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins
+import sys
 
 from . import _celiagg
 from ._celiagg import (
-    AggError, BSpline, BlendMode, DrawingMode, Font, FontCache,
-    GradientSpread, GradientUnits, GraphicsState, Image, InnerJoin,
-    LineCap, LineJoin, LinearGradientPaint, Path, PatternPaint, PatternStyle,
-    PixelFormat, RadialGradientPaint, Rect, ShapeAtPoints, SolidPaint,
-    TextDrawingMode, Transform,
+    AggError, BSpline, BlendMode, DrawingMode, FontCache, FontWeight,
+    FreeTypeFont, GradientSpread, GradientUnits, GraphicsState, Image,
+    InnerJoin, LineCap, LineJoin, LinearGradientPaint, Path, PatternPaint,
+    PatternStyle, PixelFormat, RadialGradientPaint, Rect, ShapeAtPoints,
+    SolidPaint, TextDrawingMode, Transform, Win32Font,
 )
 
 # Query the library
@@ -43,6 +44,12 @@ def example_font():
     """
     import pkg_resources
 
+    # Windows GDI font selection uses names and not file paths.
+    # Our included font could be added to the system fonts using
+    # `AddFontResourceEx`, but that's beyond the scope of this function.
+    if sys.platform in ('win32', 'cygwin'):
+        return 'Segoe UI'
+
     return pkg_resources.resource_filename(
         'celiagg', 'data/Montserrat-Regular.ttf'
     )
@@ -53,14 +60,21 @@ __all__ = [
     'HAS_TEXT', 'example_font',
 
     'AggError', 'BlendMode', 'BSpline', 'DrawingMode', 'Font', 'FontCache',
-    'GradientSpread', 'GradientUnits', 'GraphicsState', 'Image', 'InnerJoin',
-    'LinearGradientPaint', 'LineCap', 'LineJoin', 'RadialGradientPaint',
-    'Path', 'PatternPaint', 'PatternStyle', 'PixelFormat', 'Rect',
-    'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode', 'Transform',
+    'FontWeight', 'FreeTypeFont', 'GradientSpread', 'GradientUnits',
+    'GraphicsState', 'Image', 'InnerJoin', 'LinearGradientPaint', 'LineCap',
+    'LineJoin', 'RadialGradientPaint', 'Path', 'PatternPaint', 'PatternStyle',
+    'PixelFormat', 'Rect', 'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode',
+    'Transform', 'Win32Font',
 
     'CanvasG8', 'CanvasGA16', 'CanvasRGB24', 'CanvasRGBA32', 'CanvasBGRA32',
     'CanvasRGBA128',
 ]
+
+# Select the correct font class for the platform
+if sys.platform in ('win32', 'cygwin'):
+    Font = Win32Font
+else:
+    Font = FreeTypeFont
 
 # Keep a font cache for callers that don't want to mess with it
 __global_font_cache = None

@@ -36,18 +36,18 @@ cdef class FontCache:
     def __dealloc__(self):
         del self._this
 
-    def width(self, Font font, text):
+    def width(self, FontBase font, text):
         """width(font, text)
         Measures the width of a string rendered with ``font``.
 
         :param font: a ``Font`` instance
         :param text: a unicode string
         """
-        if not isinstance(font, Font):
+        if not isinstance(font, FontBase):
             raise TypeError("font must be a Font instance")
 
         cdef:
-            Font fnt = <Font>font
+            FontBase fnt = <FontBase>font
 
         text = _get_utf8_text(text, "Argument must be a unicode string")
 

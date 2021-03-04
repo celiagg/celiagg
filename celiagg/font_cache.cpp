@@ -25,8 +25,6 @@
 #include "font_cache.h"
 #include "glyph_iter.h"
 
-#define WIN32_FONT_WEIGHT 400
-
 #ifndef _ENABLE_TEXT_RENDERING
 // This is what happens when you disable font support!
 
@@ -60,9 +58,9 @@ void
 FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphType const type)
 {
 #ifdef _USE_FREETYPE
-    m_font_engine.load_font(font.filepath(),
+    m_font_engine.load_font(font.face_or_path(),
                             font.face_index(),
-                            (type == FontCache::VectorGlyph) ?
+                            (type == FontCache::k_GlyphTypeVector) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8);
     // Manipulate the aspects of the font which was just loaded.
@@ -77,14 +75,14 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphT
     m_font_engine.flip_y(font.flip());
     m_font_engine.hinting(font.hinting());
     m_font_engine.transform(transform);
-    m_font_engine.create_font(font.filepath(),
-                             (type == FontCache::VectorGlyph) ?
+    m_font_engine.create_font(font.face_or_path(),
+                             (type == FontCache::k_GlyphTypeVector) ?
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8,
                               font.height(),
                               0.0,
-                              WIN32_FONT_WEIGHT,
-                              false);
+                              font.weight(),
+                              font.italic());
 #endif
 }
 

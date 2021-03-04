@@ -271,7 +271,7 @@ cdef class CanvasBase:
                    "reinstall the library.")
             raise RuntimeError(msg)
 
-        if not isinstance(font, Font):
+        if not isinstance(font, FontBase):
             raise TypeError("font must be a Font instance")
         if not isinstance(transform, Transform):
             raise TypeError("transform must be a Transform instance")
@@ -283,7 +283,7 @@ cdef class CanvasBase:
             raise TypeError("fill must be a Paint instance")
 
         cdef:
-            Font fnt = <Font>font
+            FontBase fnt = <FontBase>font
             GraphicsState gs = <GraphicsState>state
             Transform trans = <Transform>transform
             PixelFormat fmt = self.pixel_format
