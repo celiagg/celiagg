@@ -47,8 +47,8 @@ public:
 
     enum GlyphType
     {
-        RasterGlyph,
-        VectorGlyph
+        k_GlyphTypeRaster,
+        k_GlyphTypeVector
     };
 
 #ifdef _ENABLE_TEXT_RENDERING
@@ -65,7 +65,7 @@ public:
 
     void                activate(const Font& font,
                                  const agg::trans_affine& transform,
-                                 GlyphType const type = RasterGlyph);
+                                 GlyphType const type = k_GlyphTypeRaster);
     double              measure_width(char const* str);
 
 #ifdef _ENABLE_TEXT_RENDERING

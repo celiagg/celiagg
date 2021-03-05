@@ -24,17 +24,22 @@
 # Authors: John Wiggins
 
 from libcpp cimport bool
+cimport _enums
 
 
 cdef extern from "font.h":
     cdef cppclass Font:
-        Font(char* fileName, double height, unsigned face_index)
+        Font(char* fileName, double height, unsigned face_index, _enums.FontWeight weight, bool italic)
 
         unsigned face_index() const
-        const char* filepath() const
+        const char* face_or_path() const
         bool flip() const
         void flip(bool flip)
         double height() const
         void height(double height)
         bool hinting() const
         void hinting(bool hint)
+        bool italic() const
+        void italic(bool italic)
+        _enums.FontWeight weight() const
+        void weight(_enums.FontWeight weight)

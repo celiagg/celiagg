@@ -349,7 +349,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     double transform_array[6];
     transform.store_to(transform_array);
     transform_array[4] = 0.0; transform_array[5] = 0.0;
-    m_font_cache.activate(font, agg::trans_affine(transform_array), FontCache::RasterGlyph);
+    m_font_cache.activate(font, agg::trans_affine(transform_array), FontCache::k_GlyphTypeRaster);
 
     // Determine the starting glyph position from the transform and initialize
     // the iterator.
@@ -385,7 +385,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
 
     // Activate the font with an identity transform. The passed in transform
     // will be applied later when drawing the generated path.
-    m_font_cache.activate(font, agg::trans_affine(), FontCache::VectorGlyph);
+    m_font_cache.activate(font, agg::trans_affine(), FontCache::k_GlyphTypeVector);
 
     GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
     while (action != GlyphIterator::k_StepActionEnd)

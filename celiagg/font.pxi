@@ -23,36 +23,14 @@
 #
 # Authors: John Wiggins
 
-
-cdef class Font:
-    """Font(path, size, face_index=0)
-
-    :param path: A Unicode string containing the path of a ``Font`` file
-    :param size: The size of the font
-    :param face_index: For .ttc fonts, the index of the desired font within
-                        the collection.
+@cython.internal
+cdef class FontBase:
+    """ Base class for fonts
     """
     cdef _font.Font* _this
 
-    def __cinit__(self, fontName, double size, unsigned face_index=0):
-        fontName = _get_utf8_text(fontName,
-                                  "Font path must be a unicode string")
-        self._this = new _font.Font(fontName, size, face_index)
-
     def __dealloc__(self):
         del self._this
-
-    def copy(self):
-        return Font(self._this.filepath(), self._this.height(),
-                    self._this.face_index())
-
-    property face_index:
-        def __get__(self):
-            return self._this.face_index()
-
-    property filepath:
-        def __get__(self):
-            return self._this.filepath()
 
     property flip:
         def __get__(self):
@@ -71,3 +49,67 @@ cdef class Font:
             return self._this.hinting()
         def __set__(self, bool value):
             self._this.hinting(value)
+
+
+cdef class FreeTypeFont(FontBase):
+    """FreeTypeFont(path, size, face_index=0)
+
+    :param path: A Unicode string containing the path of a font file.
+    :param size: The size of the font
+    :param face_index: For .ttc fonts, the index of the desired font within
+                       the collection.
+    """
+
+    def __cinit__(self, path, double size, unsigned face_index=0):
+        path = _get_utf8_text(path, "Font path must be a unicode string")
+        self._this = new _font.Font(path, size, face_index,
+                                    # Ignored argument values
+                                    _enums.FontWeight.k_FontWeightAny, False)
+
+    def copy(self):
+        return FreeTypeFont(self._this.face_or_path(), self._this.height(),
+                            self._this.face_index())
+
+    property face_index:
+        def __get__(self):
+            return self._this.face_index()
+
+    property filepath:
+        def __get__(self):
+            return self._this.face_or_path().decode('utf8')
+
+
+
+cdef class Win32Font(FontBase):
+    """Win32Font(face_name, size, weight=FontWeight.Regular, italic=False)
+
+    :param face_name: A Unicode string containing the the face name of a font
+                      known to the system.
+    :param size: The size of the font.
+    :param weight: A FontWeight value.
+    :param italic: If True, pick an italic font.
+    """
+    def __cinit__(self, face, double size,
+                  FontWeight weight=FontWeight.Regular, bool italic=False):
+        face = _get_utf8_text(face, "Font face must be a unicode string")
+        self._this = new _font.Font(face, size, 0, weight, italic)
+
+    def copy(self):
+        return Win32Font(self._this.face_or_path(), self._this.height(),
+                         self._this.weight(), self._this.italic())
+
+    property face_name:
+        def __get__(self):
+            return self._this.face_or_path().decode('utf8')
+
+    property italic:
+        def __get__(self):
+            return self._this.italic()
+        def __set__(self, bool value):
+            self._this.italic(value)
+
+    property weight:
+        def __get__(self):
+            return self._this.weight()
+        def __set__(self, FontWeight value):
+            self._this.weight(value)
