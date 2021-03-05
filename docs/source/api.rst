@@ -50,12 +50,22 @@ be used to measure the width of a rendered string.
 .. autoclass:: FontCache
    :members:
 
-.. autoclass:: Font
-   :members:
-
 .. autoclass:: Rect
 
 .. autoclass:: Transform
+   :members:
+
+Fonts
+~~~~~
+There are two classes for representing fonts, because celiagg uses the system's
+built-on font selection mechanism on Windows. The correct class for the system
+is selected at runtime and available as the :class:`Font` class. One should be
+aware of this when building software that runs on multiple OSes.
+
+.. autoclass:: FreeTypeFont
+   :members:
+
+.. autoclass:: Win32Font
    :members:
 
 
@@ -146,6 +156,23 @@ fill variations use the even-odd rule when filling self-intersecting curves.
   * ``DrawStroke``
   * ``DrawFillStroke``
   * ``DrawEofFillStroke``
+
+FontWeight
+~~~~~~~~~~
+
+When using the :class:`Win32Font` version of :class:`Font`, this enumeration is
+used to select the desired font weight.
+
+  * ``Any``
+  * ``Thin``
+  * ``ExtraLight``
+  * ``Light``
+  * ``Regular``
+  * ``Medium``
+  * ``SemiBold``
+  * ``Bold``
+  * ``ExtraBold``
+  * ``Heavy``
 
 GradientSpread
 ~~~~~~~~~~~~~~
