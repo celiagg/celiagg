@@ -52,14 +52,20 @@ def configuration(parent_package='', top_path=None):
     config.add_subpackage('celiagg')
     return config
 
+
 with open('README.rst', 'r') as fp:
     long_description = fp.read()
+
+requires = ['numpy']
+if sys.platform not in ('win32', 'cygwin'):
+    # Windows doesn't use FreeType.
+    requires.append('freetype')
 
 setup(
     name='celiagg',
     configuration=configuration,
     license='MIT',
-    version='2.0.1',
+    version='2.1.0',
     description='Anti-Grain Geometry for Python 3 with Cython',
     long_description=long_description,
     long_description_content_type='text/x-rst',
@@ -79,7 +85,7 @@ setup(
         'Operating System :: Unix',
         'Operating System :: MacOS',
     ],
-    requires=['numpy', 'freetype'],
+    requires=requires,
     packages=['celiagg', 'celiagg.tests'],
     package_data={
         'celiagg': ['data/*'],
