@@ -109,7 +109,7 @@ namespace agg
 
         void update_char_size();
         void update_signature();
-        int  find_face(const char* face_name, unsigned face_index) const;
+        int  find_face(const char* face_name, const size_t face_name_len, unsigned face_index);
 
         bool            m_flag32;
         int             m_change_stamp;
@@ -118,7 +118,8 @@ namespace agg
         unsigned        m_name_len;
         FT_Encoding     m_char_map;
         char*           m_signature;
-        char*           m_face_lookup_scratch_space;
+        size_t          m_face_lookup_scratch_len;
+        char*           m_face_lookup_scratch;
         unsigned        m_height;
         unsigned        m_width;
         bool            m_hinting;
