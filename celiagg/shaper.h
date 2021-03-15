@@ -23,42 +23,33 @@
 //
 // Authors: John Wiggins
 
-#ifndef CELIAGG_GLYPH_ITER_H
-#define CELIAGG_GLYPH_ITER_H
+#ifndef CELIAGG_SHAPER_H
+#define CELIAGG_SHAPER_H
 
-#include "font_cache.h"
+#include <agg_trans_affine.h>
 
-class GlyphIterator
+class Shaper
 {
 public:
     enum StepAction
     {
-        k_StepActionInvalid = -1,
         k_StepActionDraw = 0,
         k_StepActionSkip,
         k_StepActionEnd,
-        k_StepActionCount
     };
 
-public:
-                        GlyphIterator(char const* utf8Text, FontCache& cache,
-                                      const bool drawing = false);
+#ifdef _USE_FREETYPE
+    void init_font(FT_Face face, const agg::trans_affine& transform, const char* signature) {}
+#else
+    void init_font(HFONT hfont, const agg::trans_affine& transform, const char* signature) {}
+#endif
 
-    void                offset(double x, double y) { m_offset_x = x; m_offset_y = y; }
-    StepAction          step();
-    double              x_offset() const { return m_offset_x; }
-    double              y_offset() const { return m_offset_y; }
+    void cursor(double const x, double const y) {}
+    double offset_x() const { return 0.0; }
+    double offset_y() const { return 0.0; }
 
-private:
-    unsigned            _get_next_codepoint();
-
-private:
-    FontCache&  m_font_cache;
-    double      m_offset_x;
-    double      m_offset_y;
-    char const* m_text;
-    int         m_index; 
-    bool        m_is_drawing;
+    void shape(char const* text) {}
+    StepAction step() { return k_StepActionEnd; }
 };
 
-#endif // CELIAGG_GLYPH_ITER_H
+#endif // CELIAGG_SHAPER_H

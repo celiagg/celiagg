@@ -48,8 +48,8 @@ else:
     with_text_rendering = True
     with_pkgconfig = True
     # Disable pkg-config use with this option
-    if '--no-freetype-pkg-config' in sys.argv:
-        del sys.argv[sys.argv.index('--no-freetype-pkg-config')]
+    if '--no-pkg-config' in sys.argv:
+        del sys.argv[sys.argv.index('--no-pkg-config')]
         with_pkgconfig = False
 
 
@@ -63,8 +63,8 @@ class PatchedSdist(_sdist):
         _sdist.run(self)
 
 
-def get_freetype_info():
-    """ Use pkg-config to locate the freetype2 library installed on the system.
+def run_pkgconfig(name, exit_on_fail=True):
+    """ Use pkg-config to locate a library installed on the system.
 
     If it's not installed at the system level, attempt to find it in the
     pkgconfig directory for the currently running Python interpreter.
@@ -76,7 +76,7 @@ def get_freetype_info():
         return output.split()
 
     def collect_data(env=None):
-        cmd_prefix = ['pkg-config', 'freetype2']
+        cmd_prefix = ['pkg-config', name]
         commands = {'cflags': ['--cflags'], 'ldflags': ['--libs']}
 
         data = {}
@@ -95,18 +95,17 @@ def get_freetype_info():
         data = collect_data(env=env)
 
     if len(data) < 2:
-        msg = ("Failed to execute pkg-config freetype2.  If freetype is "
+        msg = ("Failed to execute pkg-config {name}. If {name} is "
                "installed in standard system locations, it may work to run "
-               "this script with --no-freetype-pkg-config.  Otherwise, "
-               "appropriate CFLAGS and LDFLAGS environment variables must be "
-               "set.\n\n"
+               "this script with --no-pkg-config. Otherwise, appropriate "
+               "CFLAGS and LDFLAGS environment variables must be set.\n\n"
                "If you wish to disable text rendering, you can re-run this "
                "script with the --no-text-rendering flag.")
-        print(msg, file=sys.stderr)
+        print(msg.format(name=name), file=sys.stderr)
 
         # NOTE: Avoid exiting when pip is running an egg_info command. Without
         # this, it's not possible to avoid freetype when installing from pip.
-        if 'egg_info' not in sys.argv:
+        if exit_on_fail and 'egg_info' not in sys.argv:
             exit(-1)
         else:
             return [], []
@@ -143,8 +142,7 @@ def create_extension():
         'agg-svn/agg-2.4/src/agg_vpgen_segmentator.cpp',
     ]
     celiagg_sources = ['canvas_impl.cpp', 'font_cache.cpp', 'font.cpp',
-                       'glyph_iter.cpp', 'image.cpp', 'paint.cpp',
-                       'vertex_source.cpp']
+                       'image.cpp', 'paint.cpp', 'vertex_source.cpp']
     celiagg_sources = [os.path.join('celiagg', p) for p in celiagg_sources]
 
     # SDIST should build without Cython
@@ -155,7 +153,6 @@ def create_extension():
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
-                    'celiagg',
                     numpy.get_include()]
     if platform.system() == "Windows":
         # Visual studio does not support/need these
@@ -176,11 +173,21 @@ def create_extension():
             extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
             include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
             font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
+
+            # XXX: Figure out how to enable Harfbuzz!
         else:
             if with_pkgconfig:
-                cflags, ldflags = get_freetype_info()
+                cflags, ldflags = run_pkgconfig('freetype2')
                 extra_compile_args.extend(cflags)
                 extra_link_args.extend(ldflags)
+
+                # Harfbuzz is optional
+                cflags, ldflags = run_pkgconfig('harfbuzz', exit_on_fail=False)
+                if cflags and ldflags:
+                    extra_compile_args.extend(cflags)
+                    extra_link_args.extend(ldflags)
+                    define_macros.append(('_USE_HARFBUZZ', None))
+
             define_macros.append(('_USE_FREETYPE', None))
             include_dirs.append('agg-svn/agg-2.4/font_freetype')
             font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'

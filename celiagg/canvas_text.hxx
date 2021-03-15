@@ -34,18 +34,17 @@ void canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     const bool font_flip = font.flip();
     font.flip(!m_bottom_up);
 
-    GlyphIterator iterator(text, m_font_cache, true);
     if (gs.text_drawing_mode() == GraphicsState::TextDrawRaster)
     {
         // Raster text only uses the fill paint!
-        _draw_text_raster(iterator, font, transform, fillPaint, gs, renderer);
+        _draw_text_raster(text, font, transform, fillPaint, gs, renderer);
     }
     else
     {
         // Pick the correct drawing mode for the glyph paths
         GraphicsState copy_state(gs);
         copy_state.drawing_mode(_convert_text_mode(gs.text_drawing_mode()));
-        _draw_text_vector(iterator, font, transform, linePaint, fillPaint, copy_state, renderer);
+        _draw_text_vector(text, font, transform, linePaint, fillPaint, copy_state, renderer);
     }
 
     // Restore the font's flip state to whatever it was
@@ -54,16 +53,14 @@ void canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
 
 template<typename pixfmt_t>
 template<typename base_renderer_t>
-void canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
+void canvas<pixfmt_t>::_draw_text_raster(const char* text,
     Font& font, const agg::trans_affine& transform, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
 #ifdef _ENABLE_TEXT_RENDERING
     typedef FontCache::FontCacheManager::gray8_adaptor_type font_rasterizer_t;
     typedef FontCache::FontCacheManager::gray8_scanline_type scanline_t;
-
-    const bool eof = (gs.drawing_mode() & GraphicsState::DrawEofFill) == GraphicsState::DrawEofFill;
-    m_rasterizer.filling_rule(eof ? agg::fill_even_odd : agg::fill_non_zero);
+    typedef FontCache::shaper_type shaper_t;
 
     // Strip the translation out of the transformation when activating the font
     // so that the cached glyphs aren't associated with a specific translation,
@@ -73,50 +70,63 @@ void canvas<pixfmt_t>::_draw_text_raster(GlyphIterator& iterator,
     transform_array[4] = 0.0; transform_array[5] = 0.0;
     m_font_cache.activate(font, agg::trans_affine(transform_array), FontCache::k_GlyphTypeRaster);
 
-    // Determine the starting glyph position from the transform and initialize
-    // the iterator.
-    double start_x = 0.0, start_y = 0.0;
-    transform.transform(&start_x, &start_y);
-    iterator.offset(start_x, start_y);
-
     // Rendery bits from the font cache
     font_rasterizer_t& ras = m_font_cache.manager().gray8_adaptor();
     scanline_t& scanline = m_font_cache.manager().gray8_scanline();
+    shaper_t& shaper = m_font_cache.shaper();
+
+    // Determine the starting glyph position from the transform
+    double start_x = 0.0, start_y = 0.0;
+    transform.transform(&start_x, &start_y);
+
+    // Shape the text and initialize the starting position
+    shaper.shape(text);
+    shaper.cursor(start_x, start_y);
 
     // Draw the glyphs one at a time
-    GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
-    while (action != GlyphIterator::k_StepActionEnd)
+    Shaper::StepAction action = Shaper::k_StepActionSkip;
+    while (action != Shaper::k_StepActionEnd)
     {
-        if (action == GlyphIterator::k_StepActionDraw)
+        action = shaper.step();
+        if (action == Shaper::k_StepActionDraw)
         {
+            const agg::glyph_cache* glyph = m_font_cache.manager().last_glyph();
+            m_font_cache.manager().init_embedded_adaptors(glyph, shaper.cursor_x(), shaper.cursor_y());
             fillPaint.render<pixfmt_t, font_rasterizer_t, scanline_t, base_renderer_t>(ras, scanline, renderer, transform);
         }
-        action = iterator.step();
     }
 #endif
 }
 
 template<typename pixfmt_t>
 template<typename base_renderer_t>
-void canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
+void canvas<pixfmt_t>::_draw_text_vector(const char* text,
     Font& font, const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)
 {
 #ifdef _ENABLE_TEXT_RENDERING
+    typedef FontCache::shaper_type shaper_t;
+
     PathSource shape;
+    shaper_t& shaper = m_font_cache.shaper();
 
     // Activate the font with an identity transform. The passed in transform
     // will be applied later when drawing the generated path.
     m_font_cache.activate(font, agg::trans_affine(), FontCache::k_GlyphTypeVector);
 
-    GlyphIterator::StepAction action = GlyphIterator::k_StepActionInvalid;
-    while (action != GlyphIterator::k_StepActionEnd)
+    // Shape the text
+    shaper.shape(text);
+
+    Shaper::StepAction action = Shaper::k_StepActionSkip;
+    while (action != Shaper::k_StepActionEnd)
     {
-        if (action == GlyphIterator::k_StepActionDraw)
+        action = shaper.step();
+        if (action == Shaper::k_StepActionDraw)
         {
+            const agg::glyph_cache* glyph = m_font_cache.manager().last_glyph();
+            m_font_cache.manager().init_embedded_adaptors(glyph, shaper.cursor_x(), shaper.cursor_y());
             shape.concat_path(m_font_cache.manager().path_adaptor());
         }
-        action = iterator.step();
     }
     _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
 #endif

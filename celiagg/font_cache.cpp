@@ -23,7 +23,6 @@
 // Author: John Wiggins
 
 #include "font_cache.h"
-#include "glyph_iter.h"
 
 #ifndef _ENABLE_TEXT_RENDERING
 // This is what happens when you disable font support!
@@ -33,9 +32,7 @@ FontCache::~FontCache() {}
 void FontCache::activate(const Font&, const agg::trans_affine& transform, GlyphType const type) {}
 double FontCache::measure_width(char const* str) { return 0.0; }
 
-
 #else
-
 
 FontCache::FontCache()
 #ifndef _USE_FREETYPE
@@ -45,7 +42,11 @@ FontCache::FontCache()
 : m_font_engine()
 #endif
 , m_font_cache_manager(m_font_engine)
-{}
+, m_shaper(m_font_cache_manager)
+{
+    // This doesn't change
+    m_font_engine.resolution(72);
+}
 
 FontCache::~FontCache()
 {
@@ -68,7 +69,11 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphT
     m_font_engine.flip_y(font.flip());
     m_font_engine.hinting(font.hinting());
     m_font_engine.height(font.height());
+    m_font_engine.width(font.height()); // reusing height as width
     m_font_engine.transform(transform);
+
+    // Tell the shaper about the font we just activated
+    m_shaper.init_font(m_font_engine.face(), transform, m_font_engine.font_signature());
 #else
     // Set the font aspects _before_ calling create_font to work around the
     // Windows font engine's lack of cache signature updating.
@@ -80,24 +85,33 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphT
                                 agg::glyph_ren_outline :
                                 agg::glyph_ren_agg_gray8,
                               font.height(),
-                              0.0,
+                              font.height(), // reusing height as width
                               font.weight(),
                               font.italic());
+
+    // Tell the shaper about the font we just activated
+    m_shaper.init_font(m_font_engine.font(), transform, m_font_engine.font_signature());
 #endif
 }
 
 double
 FontCache::measure_width(char const* str)
 {
-    GlyphIterator iterator(str, *this);
-    while (iterator.step() != GlyphIterator::k_StepActionEnd) {}
-    return iterator.x_offset();
+    m_shaper.shape(str);
+    while (m_shaper.step() != Shaper::k_StepActionEnd) {}
+    return m_shaper.cursor_x();
 }
 
 FontCache::FontCacheManager&
 FontCache::manager()
 {
     return m_font_cache_manager;
+}
+
+FontCache::shaper_type&
+FontCache::shaper()
+{
+    return m_shaper;
 }
 
 #endif

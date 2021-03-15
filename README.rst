@@ -32,6 +32,7 @@ Dependencies
 * Numpy
 * Cython (build-time only)
 * Freetype2 (optional)
+* Harfbuzz (optional)
 
 Contributing
 ------------

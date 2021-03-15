@@ -597,7 +597,7 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    bool font_engine_win32_tt_base::prepare_glyph(unsigned glyph_code)
+    bool font_engine_win32_tt_base::prepare_glyph(unsigned glyph_code, bool is_glyph_index)
     {
         if(m_dc && m_cur_font)
         {
@@ -620,6 +620,8 @@ namespace agg
 #define GGO_UNHINTED 0x0100
 #endif
             if(!m_hinting) format |= GGO_UNHINTED;
+            // In case a raw glyph index is passed
+            if(is_glyph_index) format |= GGO_GLYPH_INDEX;
         
             GLYPHMETRICS gm;
             int total_size = GetGlyphOutlineX(m_dc,

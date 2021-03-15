@@ -27,7 +27,7 @@ jobs:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Install test environment
         run: |
-          edm --config ci/.edm.yaml install -y cython freetype numpy
+          edm --config ci/.edm.yaml install -y cython freetype harfbuzz numpy
           edm run -- pip install -e . ${{ matrix.build-args }}
       - name: Run tests
         run: edm run -- python -m unittest discover -v celiagg
