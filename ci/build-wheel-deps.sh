@@ -2,15 +2,15 @@
 set -e -x
 
 PACKAGES=(
-    zlib-1.2.8
-    libpng-1.6.26
-    freetype-2.6.5
+    zlib-1.2.11
+    libpng-1.6.37
+    freetype-2.10.4
 )
 
 URLS=(
-    https://downloads.sourceforge.net/project/libpng/zlib/1.2.8/zlib-1.2.8.tar.gz
-    http://download.sourceforge.net/libpng/libpng-1.6.26.tar.gz
-    http://download.savannah.gnu.org/releases/freetype/freetype-2.6.5.tar.gz
+    https://www.zlib.net/zlib-1.2.11.tar.gz
+    https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz
+    https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz
 )
 
 for idx in {0..2}; do
