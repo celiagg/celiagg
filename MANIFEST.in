@@ -1,3 +1,4 @@
+include celiagg/*.cpp
 include celiagg/*.hxx
 include celiagg/*.h
 include celiagg/*.pxd
