@@ -392,7 +392,7 @@ void ndarray_canvas<pixfmt_t>::_draw_text_vector(GlyphIterator& iterator,
     {
         if (action == GlyphIterator::k_StepActionDraw)
         {
-            shape.concat_path(m_font_cache.manager().path_adaptor(), 0);
+            shape.concat_path(m_font_cache.manager().path_adaptor());
         }
         action = iterator.step();
     }

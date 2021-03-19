@@ -89,9 +89,9 @@ public:
     unsigned last_vertex(double* x, double* y) const;
 
     template<class VertexSource>
-    void concat_path(VertexSource& vs, unsigned path_id)
+    void concat_path(VertexSource& vs)
     {
-        m_path.concat_path(vs, path_id);
+        m_path.concat_path(vs);
     }
 
     void move_to(double x, double y);

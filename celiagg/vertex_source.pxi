@@ -130,7 +130,7 @@ cdef class Path(VertexSource):
             _vertex_source.PathSource* ths = <_vertex_source.PathSource*>self._this
             _vertex_source.PathSource* other = <_vertex_source.PathSource*>cpy._this
 
-        other.concat_path[_vertex_source.PathSource](dereference(ths), 0)
+        other.concat_path[_vertex_source.PathSource](dereference(ths))
         return cpy
 
     def final_point(self):
@@ -168,8 +168,8 @@ cdef class Path(VertexSource):
                       of this path.
         """
         cdef _vertex_source.PathSource* pth = <_vertex_source.PathSource*>self._this
-        cdef _vertex_source.PathSource* othr = <_vertex_source.PathSource*>self._this
-        pth.concat_path[_vertex_source.PathSource](dereference(othr), 0)
+        cdef _vertex_source.PathSource* othr = <_vertex_source.PathSource*>other._this
+        pth.concat_path[_vertex_source.PathSource](dereference(othr))
 
     def move_to(self, double x, double y):
         """move_to(x, y)

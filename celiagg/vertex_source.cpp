@@ -119,7 +119,7 @@ void PathSource::arc(double x, double y, double radius, double start_angle,
     }
 
     agg::bezier_arc _arc(x, y, radius, radius, start_angle, sweep_angle);
-    m_path.concat_path(_arc, 0);
+    m_path.concat_path(_arc);
 }
 
 void PathSource::arc_to(double x1, double y1, double x2, double y2, double radius)
@@ -169,7 +169,7 @@ void PathSource::cubic_to(double x_ctrl1, double y_ctrl1, double x_ctrl2,
 void PathSource::ellipse(double cx, double cy, double rx, double ry)
 {
     agg::bezier_arc _arc(cx, cy, rx, ry, 0, M_PI + M_PI);
-    m_path.concat_path(_arc, 0);
+    m_path.concat_path(_arc);
     m_path.close_polygon();
 }
 
