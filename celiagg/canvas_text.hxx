@@ -53,6 +53,71 @@ void canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
 
 template<typename pixfmt_t>
 template<typename base_renderer_t>
+void canvas<pixfmt_t>::_draw_text_color_raster(const char* text,
+    Font& font, const agg::trans_affine& transform, const GraphicsState& gs,
+    base_renderer_t& renderer)
+{
+    typedef typename image_filters<pixfmt_t>::source_t source_t;
+    typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
+    typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
+    typedef agg::renderer_scanline_aa<base_renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
+    typedef agg::conv_transform<agg::path_storage> trans_curve_t;
+
+#ifdef _ENABLE_TEXT_RENDERING
+    typedef FontCache::shaper_type shaper_t;
+
+    // Activate the font with an identity transform. The passed in transform
+    // will be applied later when drawing the glyphs
+    m_font_cache.activate(font, agg::trans_affine(), FontCache::k_GlyphTypeColorRaster);
+
+    // Rendery bits from the font cache
+    shaper_t& shaper = m_font_cache.shaper();
+
+    // Shape the text
+    shaper.shape(text);
+
+    // Glyph image rendering pieces
+    typename pixfmt_t::color_type back_color(agg::rgba(0.5, 0.5, 0.5, 1.0));
+    agg::trans_affine src_mtx = transform;
+    interpolator_t interpolator(~transform);
+    agg::path_storage glyph_outline;
+    span_alloc_t span_allocator;
+
+    // Draw the glyphs one at a time
+    Shaper::StepAction action = Shaper::k_StepActionSkip;
+    while (action != Shaper::k_StepActionEnd)
+    {
+        action = shaper.step();
+        if (action == Shaper::k_StepActionDraw)
+        {
+            const agg::glyph_cache* glyph = m_font_cache.manager().last_glyph();
+            const unsigned width = glyph->bounds.x2;
+            const unsigned height = glyph->bounds.y2;
+            const unsigned stride = glyph->data_size / height;
+
+            agg::rendering_buffer buffer(glyph->data, width, height, stride);
+            pixfmt_t src_pix(buffer);
+            source_t source(src_pix, back_color);
+            span_gen_t span_generator(source, interpolator);
+            img_renderer_t img_renderer(renderer, span_allocator, span_generator);
+
+            glyph_outline.remove_all();
+            glyph_outline.move_to(0, 0);
+            glyph_outline.line_to(width, 0);
+            glyph_outline.line_to(width, height;
+            glyph_outline.line_to(0, height);
+            glyph_outline.close_polygon();
+            m_rasterizer.reset();
+            m_rasterizer.add_path(trans_curve_t(glyph_outline, src_mtx));
+            agg::render_scanlines(m_rasterizer, m_scanline, img_renderer);
+
+        }
+    }
+#endif
+}
+
+template<typename pixfmt_t>
+template<typename base_renderer_t>
 void canvas<pixfmt_t>::_draw_text_raster(const char* text,
     Font& font, const agg::trans_affine& transform, Paint& fillPaint,
     const GraphicsState& gs, base_renderer_t& renderer)

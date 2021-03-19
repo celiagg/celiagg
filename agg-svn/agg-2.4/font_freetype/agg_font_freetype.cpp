@@ -918,9 +918,12 @@ namespace agg
         // If a raw glyph index is not passed, we ask the font
         if (!is_glyph_index) m_glyph_index = FT_Get_Char_Index(m_cur_face, glyph_code);
 
+        FT_Int32 flags = m_hinting ? FT_LOAD_DEFAULT : FT_LOAD_NO_HINTING;
+        if (m_glyph_rendering == glyph_ren_native_color) flags |= FT_LOAD_COLOR;
+
         m_last_error = FT_Load_Glyph(m_cur_face, 
                                      m_glyph_index, 
-                                     m_hinting ? FT_LOAD_DEFAULT : FT_LOAD_NO_HINTING);
+                                     flags);
 //                                     m_hinting ? FT_LOAD_FORCE_AUTOHINT : FT_LOAD_NO_HINTING);
         if(m_last_error == 0)
         {
@@ -968,6 +971,24 @@ namespace agg
                     m_bounds.y2 = m_scanlines_aa.max_y() + 1;
                     m_data_size = m_scanlines_aa.byte_size(); 
                     m_data_type = glyph_data_gray8;
+                    m_advance_x = int26p6_to_dbl(m_cur_face->glyph->advance.x);
+                    m_advance_y = int26p6_to_dbl(m_cur_face->glyph->advance.y);
+                    return true;
+                }
+                break;
+
+
+            case glyph_ren_native_color:
+                m_last_error = FT_Render_Glyph(m_cur_face->glyph, FT_RENDER_MODE_NORMAL);
+                if(m_last_error == 0)
+                {
+                    const FT_Bitmap& bitmap = m_cur_face->glyph->bitmap;
+                    m_bounds.x1 = 0;
+                    m_bounds.x2 = bitmap.width;
+                    m_bounds.y1 = 0;
+                    m_bounds.y2 = bitmap.rows;  // XXX: Might be wrong w.r.t. m_flip_y
+                    m_data_size = bitmap.pitch * bitmap.rows;
+                    m_data_type = glyph_data_bgra;
                     m_advance_x = int26p6_to_dbl(m_cur_face->glyph->advance.x);
                     m_advance_y = int26p6_to_dbl(m_cur_face->glyph->advance.y);
                     return true;
@@ -1115,6 +1136,7 @@ namespace agg
             default: return;
             case glyph_data_mono:    m_scanlines_bin.serialize(data); break;
             case glyph_data_gray8:   m_scanlines_aa.serialize(data);  break;
+            case glyph_data_bgra:    memcpy(data, m_cur_face->glyph->bitmap.buffer, m_data_size); break;
             case glyph_data_outline: 
                 if(m_flag32)
                 {

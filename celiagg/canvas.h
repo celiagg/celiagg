@@ -144,6 +144,12 @@ private:
                              const GraphicsState& gs,
                              base_renderer_t& renderer);
     template<typename base_renderer_t>
+    void _draw_text_color_raster(const char* text,
+                                 Font& font,
+                                 const agg::trans_affine& transform,
+                                 const GraphicsState& gs,
+                                 base_renderer_t& renderer);
+    template<typename base_renderer_t>
     void _draw_text_raster(const char* text,
                            Font& font,
                            const agg::trans_affine& transform,

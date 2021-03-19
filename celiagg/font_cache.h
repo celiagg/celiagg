@@ -53,7 +53,8 @@ public:
     enum GlyphType
     {
         k_GlyphTypeRaster,
-        k_GlyphTypeVector
+        k_GlyphTypeVector,
+        k_GlyphTypeColorRaster,
     };
 
 #ifdef _ENABLE_TEXT_RENDERING
@@ -84,6 +85,7 @@ public:
 #endif
 
 private:
+    agg::glyph_rendering _get_render_type(GlyphType const type) const;
 
 #ifdef _ENABLE_TEXT_RENDERING
 #ifndef _USE_FREETYPE

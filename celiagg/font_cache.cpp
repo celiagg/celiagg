@@ -63,9 +63,7 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphT
 #ifdef _USE_FREETYPE
     m_font_engine.load_font(font.face_or_path(),
                             font.face_index(),
-                            (type == FontCache::k_GlyphTypeVector) ?
-                                agg::glyph_ren_outline :
-                                agg::glyph_ren_agg_gray8);
+                            _get_render_type(type));
     // Manipulate the aspects of the font which was just loaded.
     // XXX: If this is done before, draw_text draws nothing on its first call.
     m_font_engine.flip_y(font.flip());
@@ -83,9 +81,7 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphT
     m_font_engine.hinting(font.hinting());
     m_font_engine.transform(transform);
     m_font_engine.create_font(font.face_or_path(),
-                             (type == FontCache::k_GlyphTypeVector) ?
-                                agg::glyph_ren_outline :
-                                agg::glyph_ren_agg_gray8,
+                              _get_render_type(type),
                               font.height(),
                               font.height(), // reusing height as width
                               font.weight(),
@@ -115,6 +111,13 @@ FontCache::shaper_type&
 FontCache::shaper()
 {
     return m_shaper;
+}
+
+agg::glyph_rendering _get_render_type(GlyphType const type) const
+{
+    if (type == FontCache::k_GlyphTypeVector) return agg::glyph_ren_outline;
+    else if (type == FontCache::k_GlyphTypeColorRaster) return agg::glyph_ren_native_color;
+    return agg::glyph_ren_agg_gray8;
 }
 
 #endif
