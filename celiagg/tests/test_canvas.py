@@ -107,12 +107,20 @@ class TestCanvas(unittest.TestCase):
             arr[1::2, 1] = 100.0
             return arr
 
+        # This many points definitely generates more than 2^22 cells
         count = 2**22 // 100 // 2
         points = genpoints(count)
         path.lines(points)
-
         with self.assertRaises(OverflowError):
             canvas.draw_shape(path, transform, gs)
+
+        path.reset()
+
+        # This many points is OK
+        count = 2**22 // 103 // 2
+        points = genpoints(count)
+        path.lines(points)
+        canvas.draw_shape(path, transform, gs)
 
     def test_clear(self):
         expected = np.zeros((4, 4, 3), dtype=np.uint8)
