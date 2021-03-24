@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2016-2021 Celiagg Contributors
+// Copyright (c) 2016-2023 Celiagg Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,6 +37,11 @@
 #else
 #include <agg_font_win32_tt.h>
 #endif
+#ifdef _USE_HARFBUZZ
+#include "harfbuzz_shaper.h"
+#else
+#include "null_shaper.h"
+#endif
 #endif
 
 #include "font.h"
@@ -58,6 +63,11 @@ public:
     typedef agg::font_engine_win32_tt_int32       FontEngine;
 #endif
     typedef agg::font_cache_manager<FontEngine>   FontCacheManager;
+#ifdef _USE_HARFBUZZ
+    typedef HarbuzzShaper<FontEngine>   shaper_type;
+#else
+    typedef NullShaper<FontEngine>      shaper_type;
+#endif
 #endif
 
                         FontCache();
@@ -70,6 +80,7 @@ public:
 
 #ifdef _ENABLE_TEXT_RENDERING
     FontCacheManager&   manager();
+    shaper_type&        shaper();
 #endif
 
 private:
@@ -80,6 +91,7 @@ private:
 #endif
     FontEngine          m_font_engine;
     FontCacheManager    m_font_cache_manager;
+    shaper_type         m_shaper;
 #endif
 };
 

@@ -1,7 +1,7 @@
 // The MIT License (MIT)
 // 
 // Copyright (c) 2014-2015 WUSTL ZPLAB
-// Copyright (c) 2016-2021 Celiagg Contributors
+// Copyright (c) 2016-2023 Celiagg Contributors
 // 
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -47,59 +47,25 @@
 #include <agg_renderer_scanline.h>
 #include <agg_rendering_buffer.h>
 #include <agg_scanline_p.h>
-#include <ctrl/agg_polygon_ctrl.h>
+#include <agg_span_converter.h>
 
+#include "canvas_impl.h"
 #include "font_cache.h"
-#include "glyph_iter.h"
 #include "graphics_state.h"
 #include "image.h"
 #include "paint.h"
 #include "vertex_source.h"
 
-// Interface to ndarray_canvas that is generic for all pixfmts, for the
-// convenience of being able to implement functionality common to cython
-// wrappers of ndarray_canvas template instances representing pixfmts
-// in a cython base class.
-class ndarray_canvas_base
-{
-public:
-    virtual ~ndarray_canvas_base(){}
-
-    virtual const size_t channel_count() const = 0;
-    virtual unsigned width() const = 0;
-    virtual unsigned height() const = 0;
-
-    virtual void clear(const double r, const double g,
-                       const double b, const double a) = 0;
-
-    virtual void draw_image(Image& img,
-                            const agg::trans_affine& transform,
-                            const GraphicsState& gs) = 0;
-    virtual void draw_shape(VertexSource& shape,
-                            const agg::trans_affine& transform,
-                            Paint& linePaint, Paint& fillPaint,
-                            const GraphicsState& gs) = 0;
-    virtual void draw_shape_at_points(VertexSource& shape,
-                                      const double* points,
-                                      const size_t point_count,
-                                      const agg::trans_affine& transform,
-                                      Paint& linePaint, Paint& fillPaint,
-                                      const GraphicsState& gs) = 0;
-    virtual void draw_text(const char* text, Font& font,
-                           const agg::trans_affine& transform,
-                           Paint& linePaint, Paint& fillPaint,
-                           const GraphicsState& gs) = 0;
-};
 
 template<typename pixfmt_t>
-class ndarray_canvas : public ndarray_canvas_base
+class canvas : public canvas_base
 {
 public:
-    ndarray_canvas(unsigned char* buf,
-                   const unsigned width, const unsigned height, const int stride,
-                   const size_t channel_count, FontCache& cache,
-                   const bool bottom_up = false);
-    virtual ~ndarray_canvas() {}
+    canvas(unsigned char* buf,
+           const unsigned width, const unsigned height, const int stride,
+           const size_t channel_count, FontCache& cache,
+           const bool bottom_up = false);
+    virtual ~canvas() {}
 
     const size_t channel_count() const;
     unsigned width() const;
@@ -123,7 +89,8 @@ public:
     void draw_text(const char* text, Font& font,
                    const agg::trans_affine& transform,
                    Paint& linePaint, Paint& fillPaint,
-                   const GraphicsState& gs);
+                   const GraphicsState& gs,
+                   double* cursorX, double* cursorY);
 
 protected:
 
@@ -145,11 +112,14 @@ protected:
 
 private:
 
-    template<typename base_renderer_t, typename span_gen_t>
+    template<typename base_renderer_t>
     void _draw_image_internal(Image& img,
                               const agg::trans_affine& transform,
                               const GraphicsState& gs,
                               base_renderer_t& renderer);
+    template<typename base_renderer_t, typename span_gen_t>
+    void _draw_image_final(base_renderer_t& renderer,
+                           span_gen_t& span_generator);
     template<typename base_renderer_t>
     void _draw_shape_internal(VertexSource& shape,
                               const agg::trans_affine& transform,
@@ -173,16 +143,17 @@ private:
                              const agg::trans_affine& transform,
                              Paint& linePaint, Paint& fillPaint,
                              const GraphicsState& gs,
-                             base_renderer_t& renderer);
+                             base_renderer_t& renderer,
+                             double* cursorX, double* cursorY);
     template<typename base_renderer_t>
-    void _draw_text_raster(GlyphIterator& iterator,
+    void _draw_text_raster(const char* text,
                            Font& font,
                            const agg::trans_affine& transform,
                            Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
     template<typename base_renderer_t>
-    void _draw_text_vector(GlyphIterator& iterator,
+    void _draw_text_vector(const char* text,
                            Font& font,
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
@@ -196,13 +167,17 @@ private:
 private:
     // Target buffer/numpy array must be supplied to constructor.  The following line ensures that no default 
     // constructor is user-accessible, even if the buffer-accepting constructor is deleted (presence of a constructor 
-    // taking one or more parameters suppresses automatic default constructor generation). 
-    ndarray_canvas(){}
-    // ndarray_canvases are non-copyable in order to dodge the question of whether a copied ndarray_canvas refers to the 
+    // taking one or more parameters suppresses automatic default constructor generation).
+    canvas(){}
+    // canvases are non-copyable in order to dodge the question of whether a copied canvas refers to the
     // original's buffer/numpy array or receives its own copy.  The compiler does autogenerate assignment and copy 
-    // constructors if these are not defined; so, we define them such that they are not user-accessible. 
-    ndarray_canvas(const ndarray_canvas&){}
-    ndarray_canvas& operator = (const ndarray_canvas&){ return *this; }
+    // constructors if these are not defined; so, we define them such that they are not user-accessible.
+    canvas(const canvas&){}
+    canvas& operator = (const canvas&){ return *this; }
 };
 
-#include "ndarray_canvas.hxx"
+// The implementation is broken out into several files to keep things focused
+#include "canvas.hxx"
+#include "canvas_image.hxx"
+#include "canvas_shape.hxx"
+#include "canvas_text.hxx"

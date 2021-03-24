@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2014-2016 WUSTL ZPLAB
-# Copyright (c) 2016-2021 Celiagg Contributors
+# Copyright (c) 2016-2023 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,36 +23,42 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins
+import contextlib
 import sys
 
 from . import _celiagg
 from ._celiagg import (
     AggError, BSpline, BlendMode, DrawingMode, FontCache, FontWeight,
     FreeTypeFont, GradientSpread, GradientUnits, GraphicsState, Image,
-    InnerJoin, LineCap, LineJoin, LinearGradientPaint, Path, PatternPaint,
-    PatternStyle, PixelFormat, RadialGradientPaint, Rect, ShapeAtPoints,
-    SolidPaint, TextDrawingMode, Transform, Win32Font,
+    InterpolationMode, InnerJoin, LineCap, LineJoin, LinearGradientPaint,
+    Path, PatternPaint, PatternStyle, PixelFormat, RadialGradientPaint, Rect,
+    ShapeAtPoints, SolidPaint, TextDrawingMode, Transform, Win32Font,
 )
 
 # Query the library
 HAS_TEXT = _celiagg.has_text_rendering()
 
 
+@contextlib.contextmanager
 def example_font():
     """ Returns the path to a TTF font which is included with the library for
     testing purposes.
     """
-    import pkg_resources
+    try:
+        # Windows GDI font selection uses names and not file paths.
+        # Our included font could be added to the system fonts using
+        # `AddFontResourceEx`, but that's beyond the scope of this function.
+        if sys.platform in ('win32', 'cygwin'):
+            yield 'Segoe UI'
+        else:
+            import importlib.resources
 
-    # Windows GDI font selection uses names and not file paths.
-    # Our included font could be added to the system fonts using
-    # `AddFontResourceEx`, but that's beyond the scope of this function.
-    if sys.platform in ('win32', 'cygwin'):
-        return 'Segoe UI'
-
-    return pkg_resources.resource_filename(
-        'celiagg', 'data/Montserrat-Regular.ttf'
-    )
+            with importlib.resources.path(
+                'celiagg.data', 'Montserrat-Regular.ttf'
+            ) as path:
+                yield str(path)
+    finally:
+        pass
 
 
 # Be explicit
@@ -61,10 +67,10 @@ __all__ = [
 
     'AggError', 'BlendMode', 'BSpline', 'DrawingMode', 'Font', 'FontCache',
     'FontWeight', 'FreeTypeFont', 'GradientSpread', 'GradientUnits',
-    'GraphicsState', 'Image', 'InnerJoin', 'LinearGradientPaint', 'LineCap',
-    'LineJoin', 'RadialGradientPaint', 'Path', 'PatternPaint', 'PatternStyle',
-    'PixelFormat', 'Rect', 'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode',
-    'Transform', 'Win32Font',
+    'GraphicsState', 'Image', 'InterpolationMode', 'InnerJoin',
+    'LinearGradientPaint', 'LineCap', 'LineJoin', 'RadialGradientPaint',
+    'Path', 'PatternPaint', 'PatternStyle', 'PixelFormat', 'Rect',
+    'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode', 'Transform', 'Win32Font',
 
     'CanvasG8', 'CanvasGA16', 'CanvasRGB24', 'CanvasRGBA32', 'CanvasBGRA32',
     'CanvasRGBA128',

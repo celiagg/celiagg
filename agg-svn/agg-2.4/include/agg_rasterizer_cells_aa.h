@@ -185,9 +185,6 @@ namespace agg
         {
             if((m_num_cells & cell_block_mask) == 0)
             {
-                if(m_num_blocks >= m_cell_block_limit) {
-                    throw std::overflow_error("Exceeded cell block limit");
-                }
                 allocate_block();
             }
             *m_curr_cell_ptr++ = m_curr_cell;
@@ -474,6 +471,10 @@ namespace agg
         {
             if(m_num_blocks >= m_max_blocks)
             {
+                if(m_num_blocks >= m_cell_block_limit) {
+                    throw std::overflow_error("Exceeded cell block limit");
+                }
+
                 cell_type** new_cells =
                     pod_allocator<cell_type*>::allocate(m_max_blocks +
                                                         cell_block_pool);

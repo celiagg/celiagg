@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2016 WUSTL ZPLAB
-# Copyright (c) 2016-2021 Celiagg Contributors
+# Copyright (c) 2016-2023 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -101,6 +101,7 @@ cdef class GraphicsState:
                          mode.
     * blend_mode: A ``BlendMode`` for non-image drawing. (ignored)
     * image_blend_mode: A ``BlendMode`` for image drawing. (ignored)
+    * image_interpolation_moded: An ``InterpolationMode`` for image drawing.
     * line_cap: A ``LineCap`` value denoting the style of line ends.
     * line_join: A ``LineJoin`` value denoting the style of joins.
     * inner_join: An ``InnerJoin`` value denoting the style of inner joins.
@@ -198,6 +199,13 @@ cdef class GraphicsState:
 
         def __set__(self, BlendMode m):
             self._this.image_blend_mode(m)
+
+    property image_interpolation_mode:
+        def __get__(self):
+            return InterpolationMode(self._this.image_interpolation_mode())
+
+        def __set__(self, InterpolationMode m):
+            self._this.image_interpolation_mode(m)
 
     property master_alpha:
         def __get__(self):

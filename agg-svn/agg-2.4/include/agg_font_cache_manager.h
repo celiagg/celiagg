@@ -282,7 +282,7 @@ namespace agg
         }
 
         //--------------------------------------------------------------------
-        const glyph_cache* glyph(unsigned glyph_code)
+        const glyph_cache* glyph(unsigned glyph_code, bool is_glyph_index=false)
         {
             synchronize();
             const glyph_cache* gl = m_fonts.find_glyph(glyph_code);
@@ -293,7 +293,7 @@ namespace agg
             }
             else
             {
-                if(m_engine.prepare_glyph(glyph_code))
+                if(m_engine.prepare_glyph(glyph_code, is_glyph_index))
                 {
                     m_prev_glyph = m_last_glyph;
                     m_last_glyph = m_fonts.cache_glyph(glyph_code, 

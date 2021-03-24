@@ -155,9 +155,13 @@ namespace agg
         FT_Vector   v_start;
         double x1, y1, x2, y2, x3, y3;
 
-        FT_Vector*  point;
-        FT_Vector*  limit;
-        char*       tags;
+        FT_Vector*      point;
+        FT_Vector*      limit;
+#if (FREETYPE_MAJOR == 2 && FREETYPE_MINOR == 13 && FREETYPE_PATCH >= 3) || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR > 13) || FREETYPE_MAJOR > 2
+        unsigned char*  tags;
+#else
+        char*           tags;
+#endif
 
         int   n;         // index of contour in outline
         int   first;     // index of first point in contour
@@ -422,12 +426,12 @@ namespace agg
             y += bitmap.rows;
             pitch = -pitch;
         }
-        for(i = 0; i < bitmap.rows; i++)
+        for(i = 0; i < (int)bitmap.rows; i++)
         {
             sl.reset_spans();
             bitset_iterator bits(buf, 0);
             int j;
-            for(j = 0; j < bitmap.width; j++)
+            for(j = 0; j < (int)bitmap.width; j++)
             {
                 if(bits.bit()) sl.add_cell(x + j, cover_full);
                 ++bits;
@@ -463,11 +467,11 @@ namespace agg
             y += bitmap.rows;
             pitch = -pitch;
         }
-        for(i = 0; i < bitmap.rows; i++)
+        for(i = 0; i < (int)bitmap.rows; i++)
         {
             sl.reset_spans();
             const int8u* p = buf;
-            for(j = 0; j < bitmap.width; j++)
+            for(j = 0; j < (int)bitmap.width; j++)
             {
                 if(*p) sl.add_cell(x + j, ras.apply_gamma(*p));
                 ++p;
@@ -912,9 +916,12 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    bool font_engine_freetype_base::prepare_glyph(unsigned glyph_code)
+    bool font_engine_freetype_base::prepare_glyph(unsigned glyph_code, bool is_glyph_index)
     {
-        m_glyph_index = FT_Get_Char_Index(m_cur_face, glyph_code);
+        m_glyph_index = glyph_code;
+        // If a raw glyph index is not passed, we ask the font
+        if (!is_glyph_index) m_glyph_index = FT_Get_Char_Index(m_cur_face, glyph_code);
+
         m_last_error = FT_Load_Glyph(m_cur_face, 
                                      m_glyph_index, 
                                      m_hinting ? FT_LOAD_DEFAULT : FT_LOAD_NO_HINTING);

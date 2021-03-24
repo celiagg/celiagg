@@ -21,21 +21,48 @@
 # SOFTWARE.
 #
 # Authors: John Wiggins
-import unittest
+import math
 
 import numpy as np
+from PIL import Image
 
 import celiagg as agg
 
+SIZE = 1000
+HALF = SIZE / 2
+QUARTER = HALF / 2
+IMG_X = 50
+IMG_Y = 50
+image = np.random.randint(0, 256, size=(IMG_Y, IMG_X, 4), dtype=np.uint8)
+image[:, :, 3] = 255
 
-@unittest.skipIf(agg.HAS_TEXT, 'Text support is available')
-class TestNoTextSupport(unittest.TestCase):
-    def test_no_text_draw_text_failure(self):
-        buffer = np.zeros((1, 1), dtype=np.uint8)
-        canvas = agg.CanvasG8(buffer)
-        transform = agg.Transform()
-        line_paint = agg.SolidPaint(1.0, 1.0, 1.0)
-        gs = agg.GraphicsState()
+box = agg.Path()
+box.rect(0, 0, HALF, HALF)
 
-        with self.assertRaises(RuntimeError):
-            canvas.draw_text('', None, transform, line_paint, line_paint, gs)
+canvas = agg.CanvasRGB24(np.zeros((SIZE, SIZE, 3), dtype=np.uint8))
+gs = agg.GraphicsState(drawing_mode=agg.DrawingMode.DrawFill)
+transform = agg.Transform()
+blue_paint = agg.SolidPaint(0.1, 0.1, 1.0)
+
+canvas.clear(1, 1, 1)
+canvas.draw_shape(box, transform, gs, fill=blue_paint)
+
+gs.master_alpha = 0.5
+positions = (
+    (HALF - IMG_X/2, QUARTER - IMG_Y/2,
+     math.pi / 3, agg.InterpolationMode.Bilinear),
+    (HALF - IMG_X/2, HALF - IMG_Y/2,
+     math.pi / 4, agg.InterpolationMode.Bicubic),
+    (QUARTER - IMG_X/2, HALF - IMG_Y/2,
+     math.pi / 6, agg.InterpolationMode.Sinc64),
+)
+for (x, y, rot, interp) in positions:
+    transform.reset()
+    transform.translate(-IMG_X, -IMG_Y)
+    transform.scale(4, 4)
+    transform.translate(x/4, y/4)
+    transform.rotate(rot)
+    gs.image_interpolation_mode = interp
+    canvas.draw_image(image, agg.PixelFormat.RGBA32, transform, gs)
+
+Image.fromarray(canvas.array).save('image.png')

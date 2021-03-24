@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2016 WUSTL ZPLAB
-# Copyright (c) 2016-2021 Celiagg Contributors
+# Copyright (c) 2016-2023 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -65,6 +65,9 @@ cdef extern from "graphics_state.h":
 
         void image_blend_mode(_enums.BlendMode m)
         _enums.BlendMode image_blend_mode() const
+
+        void image_interpolation_mode(_enums.InterpolationMode m)
+        _enums.InterpolationMode image_interpolation_mode() const
 
         void master_alpha(double a)
         double master_alpha() const

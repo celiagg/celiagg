@@ -86,13 +86,14 @@ namespace agg
         bool        hinting()      const { return m_hinting;    }
         bool        flip_y()       const { return m_flip_y;     }
 
+        FT_Face     face()         const { return m_cur_face; }
 
         // Interface mandatory to implement for font_cache_manager
         //--------------------------------------------------------------------
         const char*     font_signature() const { return m_signature;    }
         int             change_stamp()   const { return m_change_stamp; }
 
-        bool            prepare_glyph(unsigned glyph_code);
+        bool            prepare_glyph(unsigned glyph_code, bool is_glyph_index=false);
         unsigned        glyph_index() const { return m_glyph_index; }
         unsigned        data_size()   const { return m_data_size;   }
         glyph_data_type data_type()   const { return m_data_type;   }

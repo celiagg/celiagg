@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2014 WUSTL ZPLAB
-# Copyright (c) 2016-2021 Celiagg Contributors
+# Copyright (c) 2016-2023 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -37,27 +37,8 @@ cimport _vertex_source
 cimport _transform
 
 
-cdef extern from "ndarray_canvas.h" namespace "agg":
-    cdef cppclass pixfmt_rgba128:
-        pass
-    cdef cppclass pixfmt_bgra32:
-        pass
-    cdef cppclass pixfmt_rgba32:
-        pass
-    cdef cppclass pixfmt_rgb24:
-        pass
-    cdef cppclass pixfmt_gray16:
-        pass
-    cdef cppclass pixfmt_gray8:
-        pass
-    cdef cppclass pixfmt_rgb48:
-        pass
-    cdef cppclass pixfmt_rgba64:
-        pass
-
-
-cdef extern from "ndarray_canvas.h":
-    cdef cppclass ndarray_canvas_base:
+cdef extern from "canvas_impl.h":
+    cdef cppclass canvas_base:
         const size_t channel_count() const
         unsigned width() const
         unsigned height() const
@@ -67,23 +48,23 @@ cdef extern from "ndarray_canvas.h":
         void draw_shape(_vertex_source.VertexSource& shape,
                         const _transform.trans_affine& transform,
                         _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                        const _graphics_state.GraphicsState& gs)
+                        const _graphics_state.GraphicsState& gs) except +
         void draw_shape_at_points(_vertex_source.VertexSource& shape,
                                   const double* points,
                                   const size_t point_count,
                                   const _transform.trans_affine& transform,
                                   _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                                  const _graphics_state.GraphicsState& gs)
+                                  const _graphics_state.GraphicsState& gs) except +
         void draw_text(const char* text, _font.Font& font,
                        const _transform.trans_affine& transform,
                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                       const _graphics_state.GraphicsState& gs)
+                       const _graphics_state.GraphicsState& gs,
+                       double* cursorX, double* cursorY)
 
-    cdef cppclass ndarray_canvas[pixfmt_T]:
-        ndarray_canvas(unsigned char* buf,
-                       const unsigned width,
-                       const unsigned height,
-                       const int stride,
-                       const size_t channel_count,
-                       _font_cache.FontCache& cache,
-                       const bool bottom_up)
+    # Factory functions
+    cdef canvas_base* canvas_rgba128(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);
+    cdef canvas_base* canvas_bgra32(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);
+    cdef canvas_base* canvas_rgba32(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);
+    cdef canvas_base* canvas_rgb24(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);
+    cdef canvas_base* canvas_ga16(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);
+    cdef canvas_base* canvas_g8(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);

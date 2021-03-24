@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2014 WUSTL ZPLAB
-# Copyright (c) 2016-2021 Celiagg Contributors
+# Copyright (c) 2016-2023 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -23,6 +23,7 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
+# cython: language_level=3
 # distutils: language=c++
 from libcpp cimport bool
 import cython
@@ -35,7 +36,7 @@ cimport _font_cache
 cimport _font
 cimport _graphics_state
 cimport _image
-cimport _ndarray_canvas
+cimport _canvas
 cimport _paint
 cimport _vertex_source
 cimport _text_support
@@ -66,7 +67,7 @@ include "font.pxi"
 include "font_cache.pxi"
 include "graphics_state.pxi"
 include "image.pxi"
-include "ndarray_canvas.pxi"
+include "canvas.pxi"
 include "paint.pxi"
 include "transform.pxi"
 include "vertex_source.pxi"

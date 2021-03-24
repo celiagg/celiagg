@@ -1,0 +1,38 @@
+name: Build wheels and archive
+
+on:
+- workflow_dispatch
+
+jobs:
+  build-wheel-all:
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Check out the release commit
+      uses: actions/checkout@v5
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v2
+      with:
+        platforms: arm64
+      if: runner.os == 'Linux'
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.12'
+
+    - name: Build wheels
+      uses: pypa/cibuildwheel@v2.18.1
+
+    - name: Archive build
+      uses: actions/upload-artifact@v4
+      with:
+        name: wheels
+        path: wheelhouse
+        # don't need these kept for long
+        retention-days: 7

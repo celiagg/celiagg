@@ -1,7 +1,7 @@
 // The MIT License (MIT)
 //
 // Copyright (c) 2016 WUSTL ZPLAB
-// Copyright (c) 2016-2021 Celiagg Contributors
+// Copyright (c) 2016-2023 Celiagg Contributors
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -115,6 +115,21 @@ public:
         BlendExclusion  = agg::comp_op_exclusion,
     };
 
+    enum InterpolationMode
+    {
+        InterpolationNearest = 0,
+        InterpolationBilinear,
+        InterpolationBicubic,
+        InterpolationSpline16,
+        InterpolationSpline36,
+        InterpolationSinc64,
+        InterpolationSinc144,
+        InterpolationSinc256,
+        InterpolationBlackman64,
+        InterpolationBlackman100,
+        InterpolationBlackman256,
+    };
+
     GraphicsState() :
         m_clip_box(0.0, 0.0, -1.0, -1.0),  // Invalid by default!
         m_stencil(NULL),
@@ -122,6 +137,7 @@ public:
         m_text_drawing_mode(TextDrawRaster),
         m_blend_mode(BlendAlpha),
         m_image_blend_mode(BlendDst),
+        m_image_interp_mode(InterpolationNearest),
         m_master_alpha(1.0),
         m_line_dash_phase(0.0),
         m_miter_limit(1.0),
@@ -151,6 +167,9 @@ public:
 
     void image_blend_mode(BlendMode m) { m_image_blend_mode = m; }
     BlendMode image_blend_mode() const { return m_image_blend_mode; }
+
+    void image_interpolation_mode(InterpolationMode m) { m_image_interp_mode = m; }
+    InterpolationMode image_interpolation_mode() const { return m_image_interp_mode; }
 
     void master_alpha(double a) { m_master_alpha = a; }
     double master_alpha() const { return m_master_alpha; }
@@ -192,22 +211,23 @@ public:
     const Image* stencil() const { return m_stencil; }
 
 private:
-    Rect            m_clip_box;
-    DashPattern     m_dashes;
-    const Image*    m_stencil;
-    DrawingMode     m_drawing_mode;
-    TextDrawingMode m_text_drawing_mode;
-    BlendMode       m_blend_mode;
-    BlendMode       m_image_blend_mode;
-    double          m_master_alpha;
-    double          m_line_dash_phase;
-    double          m_miter_limit;
-    double          m_inner_miter_limit;
-    double          m_line_width;
-    LineCap         m_line_cap;
-    LineJoin        m_line_join;
-    InnerJoin       m_inner_join;
-    bool            m_anti_aliased;
+    Rect                m_clip_box;
+    DashPattern         m_dashes;
+    const Image*        m_stencil;
+    DrawingMode         m_drawing_mode;
+    TextDrawingMode     m_text_drawing_mode;
+    BlendMode           m_blend_mode;
+    BlendMode           m_image_blend_mode;
+    InterpolationMode   m_image_interp_mode;
+    double              m_master_alpha;
+    double              m_line_dash_phase;
+    double              m_miter_limit;
+    double              m_inner_miter_limit;
+    double              m_line_width;
+    LineCap             m_line_cap;
+    LineJoin            m_line_join;
+    InnerJoin           m_inner_join;
+    bool                m_anti_aliased;
 };
 
 #endif // CELIAGG_GRAPHICS_STATE_H

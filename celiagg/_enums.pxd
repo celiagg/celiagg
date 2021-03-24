@@ -1,7 +1,7 @@
 # The MIT License (MIT)
 #
 # Copyright (c) 2016 WUSTL ZPLAB
-# Copyright (c) 2016-2021 Celiagg Contributors
+# Copyright (c) 2016-2023 Celiagg Contributors
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -129,6 +129,19 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         BlendSoftLight
         BlendDifference
         BlendExclusion
+
+    cdef enum InterpolationMode:
+        InterpolationNearest
+        InterpolationBilinear
+        InterpolationBicubic
+        InterpolationSpline16
+        InterpolationSpline36
+        InterpolationSinc64
+        InterpolationSinc144
+        InterpolationSinc256
+        InterpolationBlackman64
+        InterpolationBlackman100
+        InterpolationBlackman256
 
 
 cdef extern from "paint.h" namespace "Paint":
