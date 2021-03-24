@@ -93,6 +93,35 @@ class TestCanvas(unittest.TestCase):
         with self.assertRaises(agg.AggError):
             canvas.draw_shape(path, transform, gs)
 
+    def test_rasterizer_cell_overflow(self):
+        canvas = agg.CanvasRGB24(np.zeros((100, 100, 3), dtype=np.uint8))
+        gs = agg.GraphicsState()
+        transform = agg.Transform()
+        path = agg.Path()
+
+        def genpoints(num):
+            arr = np.empty((num, 2))
+            arr[::2, 0] = np.linspace(0, 99, num=arr[::2, 0].shape[0])
+            arr[::2, 1] = 0.0
+            arr[1::2, 0] = np.linspace(1, 100, num=arr[1::2, 0].shape[0])
+            arr[1::2, 1] = 100.0
+            return arr
+
+        # This many points definitely generates more than 2^22 cells
+        count = 2**22 // 100 // 2
+        points = genpoints(count)
+        path.lines(points)
+        with self.assertRaises(OverflowError):
+            canvas.draw_shape(path, transform, gs)
+
+        path.reset()
+
+        # This many points is OK
+        count = 2**22 // 103 // 2
+        points = genpoints(count)
+        path.lines(points)
+        canvas.draw_shape(path, transform, gs)
+
     def test_clear(self):
         expected = np.zeros((4, 4, 3), dtype=np.uint8)
         buffer = np.zeros((4, 4, 3), dtype=np.uint8)
