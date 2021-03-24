@@ -422,12 +422,12 @@ namespace agg
             y += bitmap.rows;
             pitch = -pitch;
         }
-        for(i = 0; i < bitmap.rows; i++)
+        for(i = 0; i < (int)bitmap.rows; i++)
         {
             sl.reset_spans();
             bitset_iterator bits(buf, 0);
             int j;
-            for(j = 0; j < bitmap.width; j++)
+            for(j = 0; j < (int)bitmap.width; j++)
             {
                 if(bits.bit()) sl.add_cell(x + j, cover_full);
                 ++bits;
@@ -463,11 +463,11 @@ namespace agg
             y += bitmap.rows;
             pitch = -pitch;
         }
-        for(i = 0; i < bitmap.rows; i++)
+        for(i = 0; i < (int)bitmap.rows; i++)
         {
             sl.reset_spans();
             const int8u* p = buf;
-            for(j = 0; j < bitmap.width; j++)
+            for(j = 0; j < (int)bitmap.width; j++)
             {
                 if(*p) sl.add_cell(x + j, ras.apply_gamma(*p));
                 ++p;
