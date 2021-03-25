@@ -25,8 +25,10 @@ import unittest
 
 import numpy as np
 
-from celiagg import (GraphicsState, BlendMode, DrawingMode, Image, InnerJoin,
-                     LineCap, LineJoin, PixelFormat, Rect, TextDrawingMode)
+from celiagg import (
+    BlendMode, DrawingMode, GraphicsState, Image, InterpolationMode, InnerJoin,
+    LineCap, LineJoin, PixelFormat, Rect, TextDrawingMode
+)
 
 
 def array_bases_equal(arr0, arr1):
@@ -88,6 +90,12 @@ class TestGraphicsState(unittest.TestCase):
         self.assertEqual(gs.image_blend_mode, BlendMode.BlendXor)
         gs.image_blend_mode = BlendMode.BlendLighten
         self.assertEqual(gs.image_blend_mode, BlendMode.BlendLighten)
+
+        gs.image_interpolation_mode = InterpolationMode.Sinc64
+        self.assertEqual(gs.image_interpolation_mode, InterpolationMode.Sinc64)
+        gs.image_interpolation_mode = InterpolationMode.Blackman100
+        self.assertEqual(gs.image_interpolation_mode,
+                         InterpolationMode.Blackman100)
 
         gs.line_cap = LineCap.CapSquare
         self.assertEqual(gs.line_cap, LineCap.CapSquare)
@@ -195,6 +203,7 @@ class TestGraphicsState(unittest.TestCase):
             text_drawing_mode=TextDrawingMode.TextDrawFillStroke,
             blend_mode=BlendMode.BlendXor,
             image_blend_mode=BlendMode.BlendXor,
+            image_interpolation_mode=InterpolationMode.Sinc64,
             line_cap=LineCap.CapSquare,
             line_join=LineJoin.JoinRound,
             inner_join=InnerJoin.InnerRound,
@@ -215,6 +224,8 @@ class TestGraphicsState(unittest.TestCase):
                          TextDrawingMode.TextDrawFillStroke)
         self.assertEqual(cpy.blend_mode, BlendMode.BlendXor)
         self.assertEqual(cpy.image_blend_mode, BlendMode.BlendXor)
+        self.assertEqual(cpy.image_interpolation_mode,
+                         InterpolationMode.Sinc64)
         self.assertEqual(cpy.line_cap, LineCap.CapSquare)
         self.assertEqual(cpy.line_join, LineJoin.JoinRound)
         self.assertEqual(cpy.inner_join, InnerJoin.InnerRound)

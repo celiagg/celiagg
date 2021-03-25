@@ -29,9 +29,9 @@ from . import _celiagg
 from ._celiagg import (
     AggError, BSpline, BlendMode, DrawingMode, FontCache, FontWeight,
     FreeTypeFont, GradientSpread, GradientUnits, GraphicsState, Image,
-    InnerJoin, LineCap, LineJoin, LinearGradientPaint, Path, PatternPaint,
-    PatternStyle, PixelFormat, RadialGradientPaint, Rect, ShapeAtPoints,
-    SolidPaint, TextDrawingMode, Transform, Win32Font,
+    InterpolationMode, InnerJoin, LineCap, LineJoin, LinearGradientPaint,
+    Path, PatternPaint, PatternStyle, PixelFormat, RadialGradientPaint, Rect,
+    ShapeAtPoints, SolidPaint, TextDrawingMode, Transform, Win32Font,
 )
 
 # Query the library
@@ -61,10 +61,10 @@ __all__ = [
 
     'AggError', 'BlendMode', 'BSpline', 'DrawingMode', 'Font', 'FontCache',
     'FontWeight', 'FreeTypeFont', 'GradientSpread', 'GradientUnits',
-    'GraphicsState', 'Image', 'InnerJoin', 'LinearGradientPaint', 'LineCap',
-    'LineJoin', 'RadialGradientPaint', 'Path', 'PatternPaint', 'PatternStyle',
-    'PixelFormat', 'Rect', 'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode',
-    'Transform', 'Win32Font',
+    'GraphicsState', 'Image', 'InterpolationMode', 'InnerJoin',
+    'LinearGradientPaint', 'LineCap', 'LineJoin', 'RadialGradientPaint',
+    'Path', 'PatternPaint', 'PatternStyle', 'PixelFormat', 'Rect',
+    'ShapeAtPoints', 'SolidPaint', 'TextDrawingMode', 'Transform', 'Win32Font',
 
     'CanvasG8', 'CanvasGA16', 'CanvasRGB24', 'CanvasRGBA32', 'CanvasBGRA32',
     'CanvasRGBA128',

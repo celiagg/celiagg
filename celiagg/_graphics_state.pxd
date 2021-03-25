@@ -66,6 +66,9 @@ cdef extern from "graphics_state.h":
         void image_blend_mode(_enums.BlendMode m)
         _enums.BlendMode image_blend_mode() const
 
+        void image_interpolation_mode(_enums.InterpolationMode m)
+        _enums.InterpolationMode image_interpolation_mode() const
+
         void master_alpha(double a)
         double master_alpha() const
 

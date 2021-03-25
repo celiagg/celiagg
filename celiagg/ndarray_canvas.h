@@ -145,11 +145,14 @@ protected:
 
 private:
 
-    template<typename base_renderer_t, typename span_gen_t>
+    template<typename base_renderer_t>
     void _draw_image_internal(Image& img,
                               const agg::trans_affine& transform,
                               const GraphicsState& gs,
                               base_renderer_t& renderer);
+    template<typename base_renderer_t, typename span_gen_t>
+    void _draw_image_final(base_renderer_t& renderer,
+                           span_gen_t& span_generator);
     template<typename base_renderer_t>
     void _draw_shape_internal(VertexSource& shape,
                               const agg::trans_affine& transform,
