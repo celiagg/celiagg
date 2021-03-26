@@ -107,6 +107,19 @@ cpdef enum BlendMode:
     BlendDifference = _enums.BlendDifference
     BlendExclusion = _enums.BlendExclusion
 
+cpdef enum InterpolationMode:
+    Nearest = _enums.InterpolationNearest
+    Bilinear = _enums.InterpolationBilinear
+    Bicubic = _enums.InterpolationBicubic
+    Spline16 = _enums.InterpolationSpline16
+    Spline36 = _enums.InterpolationSpline36
+    Sinc64 = _enums.InterpolationSinc64
+    Sinc144 = _enums.InterpolationSinc144
+    Sinc256 = _enums.InterpolationSinc256
+    Blackman64 = _enums.InterpolationBlackman64
+    Blackman100 = _enums.InterpolationBlackman100
+    Blackman256 = _enums.InterpolationBlackman256
+
 cpdef enum FontWeight:
     Any = _enums.k_FontWeightAny
     Thin = _enums.k_FontWeightThin

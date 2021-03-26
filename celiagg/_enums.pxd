@@ -130,6 +130,19 @@ cdef extern from "graphics_state.h" namespace "GraphicsState":
         BlendDifference
         BlendExclusion
 
+    cdef enum InterpolationMode:
+        InterpolationNearest
+        InterpolationBilinear
+        InterpolationBicubic
+        InterpolationSpline16
+        InterpolationSpline36
+        InterpolationSinc64
+        InterpolationSinc144
+        InterpolationSinc256
+        InterpolationBlackman64
+        InterpolationBlackman100
+        InterpolationBlackman256
+
 
 cdef extern from "paint.h" namespace "Paint":
     cdef enum PaintType:

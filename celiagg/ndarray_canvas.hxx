@@ -81,19 +81,17 @@ template<typename pixfmt_t>
 void ndarray_canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
-    typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
-
     _set_clipping(gs.clip_box());
     // XXX: Apply master alpha here somehow!
 
     if (gs.stencil() == NULL)
     {
-        _draw_image_internal<renderer_t, span_gen_t>(img, transform, gs, m_renderer);
+        _draw_image_internal<renderer_t>(img, transform, gs, m_renderer);
     }
     else
     {
         _WITH_MASKED_RENDERER(gs, renderer)
-        _draw_image_internal<masked_renderer_t, span_gen_t>(img, transform, gs, renderer);
+        _draw_image_internal<masked_renderer_t>(img, transform, gs, renderer);
     }
 }
 
@@ -175,33 +173,97 @@ void ndarray_canvas<pixfmt_t>::draw_text(const char* text,
 }
 
 template<typename pixfmt_t>
-template<typename base_renderer_t, typename span_gen_t>
+template<typename base_renderer_t>
 void ndarray_canvas<pixfmt_t>::_draw_image_internal(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs,
     base_renderer_t& renderer)
 {
     typedef typename image_filters<pixfmt_t>::source_t source_t;
-    typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
-    typedef agg::renderer_scanline_aa<base_renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
     typedef agg::conv_transform<agg::path_storage> trans_curve_t;
 
-    agg::path_storage img_outline = img.image_outline();
     pixfmt_t src_pix(img.get_buffer());
-
-    agg::trans_affine src_mtx = transform;
-    agg::trans_affine inv_img_mtx = transform;
-    inv_img_mtx.invert();
-    interpolator_t interpolator(inv_img_mtx);
-
     typename pixfmt_t::color_type back_color(agg::rgba(0.5, 0.5, 0.5, 1.0));
     source_t source(src_pix, back_color);
-    span_gen_t span_generator(source, interpolator);
-    span_alloc_t span_allocator;
-    img_renderer_t img_renderer(renderer, span_allocator, span_generator);
+
+    agg::trans_affine src_mtx = transform;
+    agg::trans_affine inv_img_mtx = ~src_mtx;
+    interpolator_t interpolator(inv_img_mtx);
 
     m_rasterizer.reset();
+    agg::path_storage img_outline = img.image_outline();
     trans_curve_t trans_outline(img_outline, src_mtx);
     m_rasterizer.add_path(trans_outline);
+
+    switch (gs.image_interpolation_mode())
+    {
+    case GraphicsState::InterpolationNearest:
+        {
+            typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
+
+            span_gen_t span_generator(source, interpolator);
+            _draw_image_final<base_renderer_t>(renderer, span_generator);
+            break;
+        }
+    case GraphicsState::InterpolationBilinear:
+        {
+            typedef typename image_filters<pixfmt_t>::bilinear_t span_gen_t;
+
+            span_gen_t span_generator(source, interpolator);
+            _draw_image_final<base_renderer_t>(renderer, span_generator);
+            break;
+        }
+    case GraphicsState::InterpolationBicubic:
+    case GraphicsState::InterpolationSpline16:
+    case GraphicsState::InterpolationSpline36:
+    case GraphicsState::InterpolationSinc64:
+    case GraphicsState::InterpolationSinc144:
+    case GraphicsState::InterpolationSinc256:
+    case GraphicsState::InterpolationBlackman64:
+    case GraphicsState::InterpolationBlackman100:
+    case GraphicsState::InterpolationBlackman256:
+        {
+            typedef typename image_filters<pixfmt_t>::general_t span_gen_t;
+            agg::image_filter_lut filter;
+            switch (gs.image_interpolation_mode())
+            {
+                case GraphicsState::InterpolationBicubic:
+                    filter.calculate(agg::image_filter_bicubic()); break;
+                case GraphicsState::InterpolationSpline16:
+                    filter.calculate(agg::image_filter_spline16()); break;
+                case GraphicsState::InterpolationSpline36:
+                    filter.calculate(agg::image_filter_spline36()); break;
+                case GraphicsState::InterpolationSinc64:
+                    filter.calculate(agg::image_filter_sinc64()); break;
+                case GraphicsState::InterpolationSinc144:
+                    filter.calculate(agg::image_filter_sinc144()); break;
+                case GraphicsState::InterpolationSinc256:
+                    filter.calculate(agg::image_filter_sinc256()); break;
+                case GraphicsState::InterpolationBlackman64:
+                    filter.calculate(agg::image_filter_blackman64()); break;
+                case GraphicsState::InterpolationBlackman100:
+                    filter.calculate(agg::image_filter_blackman100()); break;
+                case GraphicsState::InterpolationBlackman256:
+                    filter.calculate(agg::image_filter_blackman256()); break;
+                default: break;
+            }
+
+            span_gen_t span_generator(source, interpolator, filter);
+            _draw_image_final<base_renderer_t>(renderer, span_generator);
+            break;
+        }
+    }
+}
+
+template<typename pixfmt_t>
+template<typename base_renderer_t, typename span_gen_t>
+void ndarray_canvas<pixfmt_t>::_draw_image_final(
+    base_renderer_t& renderer, span_gen_t& span_generator)
+{
+    typedef typename agg::span_allocator<typename pixfmt_t::color_type> span_alloc_t;
+    typedef agg::renderer_scanline_aa<base_renderer_t, span_alloc_t, span_gen_t> img_renderer_t;
+
+    span_alloc_t span_allocator;
+    img_renderer_t img_renderer(renderer, span_allocator, span_generator);
     agg::render_scanlines(m_rasterizer, m_scanline, img_renderer);
 }
 
