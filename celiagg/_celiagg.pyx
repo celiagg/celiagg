@@ -35,7 +35,7 @@ cimport _font_cache
 cimport _font
 cimport _graphics_state
 cimport _image
-cimport _ndarray_canvas
+cimport _canvas
 cimport _paint
 cimport _vertex_source
 cimport _text_support
@@ -66,7 +66,7 @@ include "font.pxi"
 include "font_cache.pxi"
 include "graphics_state.pxi"
 include "image.pxi"
-include "ndarray_canvas.pxi"
+include "canvas.pxi"
 include "paint.pxi"
 include "transform.pxi"
 include "vertex_source.pxi"

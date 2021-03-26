@@ -26,13 +26,7 @@
 cimport numpy
 
 ctypedef unsigned char _bytes_t
-
-ctypedef _ndarray_canvas.ndarray_canvas_base canvas_base_t
-ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba128] canvas_rgba128_t
-ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_bgra32] canvas_brga32_t
-ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgba32] canvas_rgba32_t
-ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_rgb24] canvas_rgb24_t
-ctypedef _ndarray_canvas.ndarray_canvas[_ndarray_canvas.pixfmt_gray8] canvas_ga16_t
+ctypedef _canvas.canvas_base canvas_base_t
 
 
 @cython.internal
@@ -71,7 +65,7 @@ cdef class CanvasBase:
         # In order to ensure that our backing memory is not deallocated from
         # underneath us, we retain a reference to the memory view supplied to
         # the constructor (image) as self.py_array, to be kept in lock step
-        # with ndarray_canvas<>'s reference to that memory and destroyed when
+        # with canvas<>'s reference to that memory and destroyed when
         # that reference is lost.
         self.py_array = image
 
@@ -352,12 +346,10 @@ cdef class CanvasRGBA128(CanvasBase):
         self.pixel_format = PixelFormat.RGBA128
         self.bottom_up = bottom_up
         self.font_cache = cache
-        self._this = <canvas_base_t*> new canvas_rgba128_t(<_bytes_t*>&image[0][0][0],
-                                                           image.shape[1],
-                                                           image.shape[0],
-                                                           image.strides[0], 4,
-                                                           dereference(font_cache._this),
-                                                           bottom_up)
+        self._this = _canvas.canvas_rgba128(
+            <_bytes_t*>&image[0][0][0], image.shape[1], image.shape[0], image.strides[0],
+            dereference(font_cache._this), bottom_up
+        )
 
 
 cdef class CanvasBGRA32(CanvasBase):
@@ -369,12 +361,10 @@ cdef class CanvasBGRA32(CanvasBase):
         self.pixel_format = PixelFormat.BGRA32
         self.bottom_up = bottom_up
         self.font_cache = cache
-        self._this = <canvas_base_t*> new canvas_brga32_t(&image[0][0][0],
-                                                          image.shape[1],
-                                                          image.shape[0],
-                                                          image.strides[0], 4,
-                                                          dereference(font_cache._this),
-                                                          bottom_up)
+        self._this = _canvas.canvas_bgra32(
+            &image[0][0][0], image.shape[1], image.shape[0], image.strides[0],
+            dereference(font_cache._this), bottom_up
+        )
 
 
 cdef class CanvasRGBA32(CanvasBase):
@@ -386,12 +376,10 @@ cdef class CanvasRGBA32(CanvasBase):
         self.pixel_format = PixelFormat.RGBA32
         self.bottom_up = bottom_up
         self.font_cache = cache
-        self._this = <canvas_base_t*> new canvas_rgba32_t(&image[0][0][0],
-                                                          image.shape[1],
-                                                          image.shape[0],
-                                                          image.strides[0], 4,
-                                                          dereference(font_cache._this),
-                                                          bottom_up)
+        self._this = _canvas.canvas_rgba32(
+            &image[0][0][0], image.shape[1], image.shape[0], image.strides[0],
+            dereference(font_cache._this), bottom_up
+        )
 
 
 cdef class CanvasRGB24(CanvasBase):
@@ -403,12 +391,10 @@ cdef class CanvasRGB24(CanvasBase):
         self.pixel_format = PixelFormat.RGB24
         self.bottom_up = bottom_up
         self.font_cache = cache
-        self._this = <canvas_base_t*> new canvas_rgb24_t(&image[0][0][0],
-                                                         image.shape[1],
-                                                         image.shape[0],
-                                                         image.strides[0], 3,
-                                                         dereference(font_cache._this),
-                                                         bottom_up)
+        self._this = _canvas.canvas_rgb24(
+            &image[0][0][0], image.shape[1], image.shape[0], image.strides[0],
+            dereference(font_cache._this), bottom_up
+        )
 
 
 cdef class CanvasGA16(CanvasBase):
@@ -420,12 +406,10 @@ cdef class CanvasGA16(CanvasBase):
         self.pixel_format = PixelFormat.Gray8
         self.bottom_up = bottom_up
         self.font_cache = cache
-        self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0][0],
-                                                        image.shape[1],
-                                                        image.shape[0],
-                                                        image.strides[0], 2,
-                                                        dereference(font_cache._this),
-                                                        bottom_up)
+        self._this = _canvas.canvas_ga16(
+            &image[0][0][0], image.shape[1], image.shape[0], image.strides[0],
+            dereference(font_cache._this), bottom_up
+        )
 
 
 cdef class CanvasG8(CanvasBase):
@@ -437,9 +421,7 @@ cdef class CanvasG8(CanvasBase):
         self.pixel_format = PixelFormat.Gray8
         self.bottom_up = bottom_up
         self.font_cache = cache
-        self._this = <canvas_base_t*> new canvas_ga16_t(&image[0][0],
-                                                        image.shape[1],
-                                                        image.shape[0],
-                                                        image.strides[0], 1,
-                                                        dereference(font_cache._this),
-                                                        bottom_up)
+        self._this = _canvas.canvas_g8(
+            &image[0][0], image.shape[1], image.shape[0], image.strides[0],
+            dereference(font_cache._this), bottom_up
+        )
