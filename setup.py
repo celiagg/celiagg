@@ -142,8 +142,9 @@ def create_extension():
         'agg-svn/agg-2.4/src/agg_vpgen_clip_polyline.cpp',
         'agg-svn/agg-2.4/src/agg_vpgen_segmentator.cpp',
     ]
-    celiagg_sources = ['font_cache.cpp', 'font.cpp', 'glyph_iter.cpp',
-                       'image.cpp', 'paint.cpp', 'vertex_source.cpp']
+    celiagg_sources = ['canvas_impl.cpp', 'font_cache.cpp', 'font.cpp',
+                       'glyph_iter.cpp', 'image.cpp', 'paint.cpp',
+                       'vertex_source.cpp']
     celiagg_sources = [os.path.join('celiagg', p) for p in celiagg_sources]
 
     # SDIST should build without Cython
