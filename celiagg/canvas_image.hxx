@@ -24,6 +24,32 @@
 // Authors: Erik Hvatum <ice.rikh@gmail.com>
 //          John Wiggins
 
+// This is taken from the "image_alpha.cpp" AGG example
+template <typename color_type>
+class span_conv_alpha
+{
+public:
+    typedef agg::cover_type alpha_type;
+
+    span_conv_alpha(const alpha_type alpha) : m_alpha(alpha) {}
+    void prepare() {}
+
+    void generate(color_type* span, int x, int y, unsigned len) const
+    {
+        do
+        {
+            // It's a bit of a hack, but we can treat the 8-bit alpha value as a cover.
+            span->a = color_type::mult_cover(color_type::full_value(), m_alpha);
+            ++span;
+        }
+        while(--len);
+    }
+
+private:
+    const alpha_type m_alpha;
+};
+
+
 template<typename pixfmt_t>
 template<typename base_renderer_t>
 void canvas<pixfmt_t>::_draw_image_internal(Image& img,
@@ -32,6 +58,7 @@ void canvas<pixfmt_t>::_draw_image_internal(Image& img,
 {
     typedef typename image_filters<pixfmt_t>::source_t source_t;
     typedef agg::conv_transform<agg::path_storage> trans_curve_t;
+    typedef span_conv_alpha<typename pixfmt_t::color_type> conv_t;
 
     pixfmt_t src_pix(img.get_buffer());
     typename pixfmt_t::color_type back_color(agg::rgba(0.5, 0.5, 0.5, 1.0));
@@ -53,7 +80,15 @@ void canvas<pixfmt_t>::_draw_image_internal(Image& img,
             typedef typename image_filters<pixfmt_t>::nearest_t span_gen_t;
 
             span_gen_t span_generator(source, interpolator);
-            _draw_image_final<base_renderer_t>(renderer, span_generator);
+            if (gs.master_alpha() < 1.0) {
+                typedef typename agg::span_converter<span_gen_t, conv_t> span_conv_t;
+
+                conv_t converter(agg::cover_type(gs.master_alpha() * 255));
+                span_conv_t span_converer(span_generator, converter);
+                _draw_image_final<base_renderer_t>(renderer, span_converer);
+            } else {
+                _draw_image_final<base_renderer_t>(renderer, span_generator);
+            }
             break;
         }
     case GraphicsState::InterpolationBilinear:
@@ -61,7 +96,15 @@ void canvas<pixfmt_t>::_draw_image_internal(Image& img,
             typedef typename image_filters<pixfmt_t>::bilinear_t span_gen_t;
 
             span_gen_t span_generator(source, interpolator);
-            _draw_image_final<base_renderer_t>(renderer, span_generator);
+            if (gs.master_alpha() < 1.0) {
+                typedef typename agg::span_converter<span_gen_t, conv_t> span_conv_t;
+
+                conv_t converter(agg::cover_type(gs.master_alpha() * 255));
+                span_conv_t span_converer(span_generator, converter);
+                _draw_image_final<base_renderer_t>(renderer, span_converer);
+            } else {
+                _draw_image_final<base_renderer_t>(renderer, span_generator);
+            }
             break;
         }
     case GraphicsState::InterpolationBicubic:
@@ -100,7 +143,15 @@ void canvas<pixfmt_t>::_draw_image_internal(Image& img,
             }
 
             span_gen_t span_generator(source, interpolator, filter);
-            _draw_image_final<base_renderer_t>(renderer, span_generator);
+            if (gs.master_alpha() < 1.0) {
+                typedef typename agg::span_converter<span_gen_t, conv_t> span_conv_t;
+
+                conv_t converter(agg::cover_type(gs.master_alpha() * 255));
+                span_conv_t span_converer(span_generator, converter);
+                _draw_image_final<base_renderer_t>(renderer, span_converer);
+            } else {
+                _draw_image_final<base_renderer_t>(renderer, span_generator);
+            }
             break;
         }
     }
