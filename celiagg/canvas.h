@@ -47,6 +47,7 @@
 #include <agg_renderer_scanline.h>
 #include <agg_rendering_buffer.h>
 #include <agg_scanline_p.h>
+#include <agg_span_converter.h>
 
 #include "canvas_impl.h"
 #include "font_cache.h"

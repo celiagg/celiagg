@@ -83,8 +83,6 @@ void canvas<pixfmt_t>::draw_image(Image& img,
     const agg::trans_affine& transform, const GraphicsState& gs)
 {
     _set_clipping(gs.clip_box());
-    // XXX: Apply master alpha here somehow!
-
     if (gs.stencil() == NULL)
     {
         _draw_image_internal<renderer_t>(img, transform, gs, m_renderer);
