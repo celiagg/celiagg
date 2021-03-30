@@ -68,7 +68,7 @@ public:
         const unsigned codepoint = _get_next_codepoint();
         if (codepoint != 0)
         {
-            const agg::glyph_cache* glyph = m_cache_manager.glyph(codepoint);
+            const agg::glyph_cache* glyph = m_cache_manager.glyph(codepoint, false);
             if (glyph)
             {
                 // add the previous glyph's advance

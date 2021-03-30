@@ -69,6 +69,7 @@ public:
     typedef NullShaper<FontEngine>      shaper_type;
 #endif
 #endif
+
                         FontCache();
                         ~FontCache();
 
@@ -76,7 +77,6 @@ public:
                                  const agg::trans_affine& transform,
                                  GlyphType const type = k_GlyphTypeRaster);
     double              measure_width(char const* str);
-
 
 #ifdef _ENABLE_TEXT_RENDERING
     FontCacheManager&   manager();

@@ -81,6 +81,7 @@ void canvas<pixfmt_t>::_draw_text_raster(const char* text,
 
     // Shape the text and initialize the starting position
     shaper.shape(text);
+    // Set cursor position last, because shape() resets it
     shaper.cursor(start_x, start_y);
 
     // Draw the glyphs one at a time
@@ -107,7 +108,7 @@ void canvas<pixfmt_t>::_draw_text_vector(const char* text,
 #ifdef _ENABLE_TEXT_RENDERING
     typedef FontCache::shaper_type shaper_t;
 
-    PathSource shape;
+    PathSource glyphs_path;
     shaper_t& shaper = m_font_cache.shaper();
 
     // Activate the font with an identity transform. The passed in transform
@@ -125,10 +126,10 @@ void canvas<pixfmt_t>::_draw_text_vector(const char* text,
         {
             const agg::glyph_cache* glyph = m_font_cache.manager().last_glyph();
             m_font_cache.manager().init_embedded_adaptors(glyph, shaper.cursor_x(), shaper.cursor_y());
-            shape.concat_path(m_font_cache.manager().path_adaptor());
+            glyphs_path.concat_path(m_font_cache.manager().path_adaptor());
         }
     }
-    _draw_shape_internal(shape, transform, linePaint, fillPaint, gs, renderer);
+    _draw_shape_internal(glyphs_path, transform, linePaint, fillPaint, gs, renderer);
 #endif
 }
 

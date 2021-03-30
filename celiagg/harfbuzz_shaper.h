@@ -64,20 +64,23 @@ public:
     {
         hb_buffer_destroy(m_buffer);
 
-        for(unsigned i = 0; i < m_num_fonts; ++i)
+        for (unsigned i = 0; i < m_num_fonts; ++i)
         {
             delete [] m_font_signatures[i];
             hb_font_destroy(m_fonts[i]);
         }
         delete [] m_font_signatures;
         delete [] m_fonts;
+
+        m_buffer = nullptr;
+        m_cur_font = nullptr;
     }
 
 #ifdef _USE_FREETYPE
     void init_font(FT_Face face, const agg::trans_affine& transform, const char* signature)
     {
         const int idx = find_font(signature);
-        if(idx >= 0)
+        if (idx >= 0)
         {
             m_cur_font = m_fonts[idx];
         }
@@ -86,7 +89,6 @@ public:
             hb_font_t* font = hb_ft_font_create_referenced(face);
 
             add_font(font, signature);
-            m_cur_font = font;
         }
         m_transform = transform;
     }
@@ -94,7 +96,7 @@ public:
     void init_font(HFONT hfont, const agg::trans_affine& transform, const char* signature)
     {
         const int idx = find_font(signature);
-        if(idx >= 0)
+        if (idx >= 0)
         {
             m_cur_font = m_fonts[idx];
         }
@@ -105,7 +107,6 @@ public:
             hb_face_destroy(tmp_face);
 
             add_font(font, signature);
-            m_cur_font = font;
         }
         m_transform = transform;
     }
@@ -131,6 +132,7 @@ public:
     {
         hb_buffer_reset(m_buffer);
         hb_buffer_add_utf8(m_buffer, text, -1, 0, -1);
+        // Harbuzz documentation warns about this function's dependence on locale
         hb_buffer_guess_segment_properties(m_buffer);
         hb_shape(m_cur_font, m_buffer, NULL, 0);
 
@@ -205,6 +207,9 @@ public:
         m_font_signatures[m_num_fonts] = new char [strlen(signature) + 1];
         strcpy(m_font_signatures[m_num_fonts], signature);
         ++m_num_fonts;
+
+        // Newly added fonts alway become the current font
+        m_cur_font = font;
     }
 
     int find_font(const char* signature) const

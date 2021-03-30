@@ -32,7 +32,9 @@ FontCache::~FontCache() {}
 void FontCache::activate(const Font&, const agg::trans_affine& transform, GlyphType const type) {}
 double FontCache::measure_width(char const* str) { return 0.0; }
 
+
 #else
+
 
 FontCache::FontCache()
 #ifndef _USE_FREETYPE
@@ -97,6 +99,7 @@ FontCache::activate(const Font& font, const agg::trans_affine& transform, GlyphT
 double
 FontCache::measure_width(char const* str)
 {
+    // calling shape() resets the cursor position
     m_shaper.shape(str);
     while (m_shaper.step() != Shaper::k_StepActionEnd) {}
     return m_shaper.cursor_x();
