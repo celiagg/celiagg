@@ -7,10 +7,34 @@ env:
 
 jobs:
 
+  # Test against EDM packages on Linux
+  test-edm-linux:
+    strategy:
+      matrix:
+        build-args: ['', '--install-option --no-text-rendering']
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies for Linux
+        run: |
+          sudo apt-get update
+          sudo apt-get install libharfbuzz-dev libfreetype-dev
+      - name: Setup EDM
+        uses: enthought/setup-edm-action@v1
+        with:
+          edm-version: ${{ env.INSTALL_EDM_VERSION }}
+      - name: Install test environment
+        run: |
+          edm --config ci/.edm.yaml install -y cython numpy
+          edm run -- pip install -e . ${{ matrix.build-args }}
+      - name: Run tests
+        run: edm run -- python -m unittest discover -v celiagg
+
+
   test-with-edm:
     strategy:
       matrix:
-        os: [macos-latest, windows-latest, ubuntu-latest]
+        os: [macos-latest, windows-latest]
         build-args: ['', '--install-option --no-text-rendering']
     runs-on: ${{ matrix.os }}
     env:
@@ -27,7 +51,7 @@ jobs:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Install test environment
         run: |
-          edm --config ci/.edm.yaml install -y cython freetype numpy
+          edm --config ci/.edm.yaml install -y cython freetype harfbuzz numpy
           edm run -- pip install -e . ${{ matrix.build-args }}
       - name: Run tests
         run: edm run -- python -m unittest discover -v celiagg

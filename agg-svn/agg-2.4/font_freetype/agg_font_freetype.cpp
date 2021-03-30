@@ -912,9 +912,12 @@ namespace agg
 
 
     //------------------------------------------------------------------------
-    bool font_engine_freetype_base::prepare_glyph(unsigned glyph_code)
+    bool font_engine_freetype_base::prepare_glyph(unsigned glyph_code, bool is_glyph_index)
     {
-        m_glyph_index = FT_Get_Char_Index(m_cur_face, glyph_code);
+        m_glyph_index = glyph_code;
+        // If a raw glyph index is not passed, we ask the font
+        if (!is_glyph_index) m_glyph_index = FT_Get_Char_Index(m_cur_face, glyph_code);
+
         m_last_error = FT_Load_Glyph(m_cur_face, 
                                      m_glyph_index, 
                                      m_hinting ? FT_LOAD_DEFAULT : FT_LOAD_NO_HINTING);

@@ -51,7 +51,6 @@
 
 #include "canvas_impl.h"
 #include "font_cache.h"
-#include "glyph_iter.h"
 #include "graphics_state.h"
 #include "image.h"
 #include "paint.h"
@@ -145,14 +144,14 @@ private:
                              const GraphicsState& gs,
                              base_renderer_t& renderer);
     template<typename base_renderer_t>
-    void _draw_text_raster(GlyphIterator& iterator,
+    void _draw_text_raster(const char* text,
                            Font& font,
                            const agg::trans_affine& transform,
                            Paint& fillPaint,
                            const GraphicsState& gs,
                            base_renderer_t& renderer);
     template<typename base_renderer_t>
-    void _draw_text_vector(GlyphIterator& iterator,
+    void _draw_text_vector(const char* text,
                            Font& font,
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
