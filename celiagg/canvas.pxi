@@ -258,6 +258,7 @@ cdef class CanvasBase:
         :param state: A ``GraphicsState`` object
         :param stroke: The ``Paint`` to use for outlines. Defaults to black.
         :param fill: The ``Paint`` to use for fills. Defaults to black.
+        :returns: The text cursor XY position as a tuple
         """
         if not _text_support._has_text_rendering():
             msg = ("The celiagg library was compiled without font support!  "
@@ -283,6 +284,7 @@ cdef class CanvasBase:
             PixelFormat fmt = self.pixel_format
             Paint stroke_paint
             Paint fill_paint
+            double cursor_x, cursor_y
 
         self._check_stencil(gs)
         stroke_paint = self._get_native_paint(stroke, fmt)
@@ -293,7 +295,10 @@ cdef class CanvasBase:
                              dereference(trans._this),
                              dereference(stroke_paint._this),
                              dereference(fill_paint._this),
-                             dereference(gs._this))
+                             dereference(gs._this),
+                             &cursor_x, &cursor_y)
+
+        return (cursor_x, cursor_y)
 
     cdef _check_stencil(self, GraphicsState state):
         """Internal. Checks if a stencil's dimensions match those of the

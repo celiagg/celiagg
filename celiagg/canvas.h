@@ -89,7 +89,8 @@ public:
     void draw_text(const char* text, Font& font,
                    const agg::trans_affine& transform,
                    Paint& linePaint, Paint& fillPaint,
-                   const GraphicsState& gs);
+                   const GraphicsState& gs,
+                   double* cursorX, double* cursorY);
 
 protected:
 
@@ -142,7 +143,8 @@ private:
                              const agg::trans_affine& transform,
                              Paint& linePaint, Paint& fillPaint,
                              const GraphicsState& gs,
-                             base_renderer_t& renderer);
+                             base_renderer_t& renderer,
+                             double* cursorX, double* cursorY);
     template<typename base_renderer_t>
     void _draw_text_raster(const char* text,
                            Font& font,

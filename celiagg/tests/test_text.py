@@ -56,10 +56,18 @@ class TestTextDrawing(unittest.TestCase):
         gs = agg.GraphicsState()
         paint = agg.SolidPaint(1.0, 0.0, 0.0, 1.0)
         transform = agg.Transform()
-        transform.translate(25, 50)
 
         text = 'Hello!'
-        canvas.draw_text(text, font, transform, gs, stroke=paint, fill=paint)
+        width = font_cache.width(font, text)
+        draw_x, draw_y = 25.0, 50.0
+        transform.translate(draw_x, draw_y)
+        cursor = canvas.draw_text(
+            text, font, transform, gs, stroke=paint, fill=paint
+        )
+        self.assertIsNotNone(cursor)
+        # Text cursor Y is unchanged, X is `width` pixels away from `draw_x`
+        self.assertAlmostEqual(cursor[0] - width, draw_x)
+        self.assertEqual(cursor[1], draw_y)
 
         check = np.sum(canvas.array == [255, 0, 0], axis=2) == 3
         self.assertTrue(check.any())
