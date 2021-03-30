@@ -28,7 +28,8 @@ template<typename pixfmt_t>
 template<typename base_renderer_t>
 void canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
     const agg::trans_affine& transform, Paint& linePaint, Paint& fillPaint,
-    const GraphicsState& gs, base_renderer_t& renderer)
+    const GraphicsState& gs, base_renderer_t& renderer,
+    double* cursorX, double* cursorY)
 {
     // Flip the font?
     const bool font_flip = font.flip();
@@ -49,6 +50,15 @@ void canvas<pixfmt_t>::_draw_text_internal(const char* text, Font& font,
 
     // Restore the font's flip state to whatever it was
     font.flip(font_flip);
+
+#ifdef _ENABLE_TEXT_RENDERING
+    // Return the text cursor position
+    *cursorX = m_font_cache.shaper().cursor_x();
+    *cursorY = m_font_cache.shaper().cursor_y();
+#else
+    *cursorX = 0.0;
+    *cursorY = 0.0;
+#endif
 }
 
 template<typename pixfmt_t>

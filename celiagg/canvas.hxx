@@ -154,7 +154,8 @@ void canvas<pixfmt_t>::draw_shape_at_points(VertexSource& shape,
 template<typename pixfmt_t>
 void canvas<pixfmt_t>::draw_text(const char* text,
     Font& font, const agg::trans_affine& transform,
-    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs)
+    Paint& linePaint, Paint& fillPaint, const GraphicsState& gs,
+    double* cursorX, double* cursorY)
 {
     _set_clipping(gs.clip_box());
     linePaint.master_alpha(gs.master_alpha());
@@ -162,12 +163,12 @@ void canvas<pixfmt_t>::draw_text(const char* text,
 
     if (gs.stencil() == NULL)
     {
-        _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, m_renderer);
+        _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, m_renderer, cursorX, cursorY);
     }
     else
     {
         _WITH_MASKED_RENDERER(gs, renderer)
-        _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, renderer);
+        _draw_text_internal(text, font, transform, linePaint, fillPaint, gs, renderer, cursorX, cursorY);
     }
 }
 

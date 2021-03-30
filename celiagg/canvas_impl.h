@@ -89,7 +89,8 @@ public:
     virtual void draw_text(const char* text, Font& font,
                            const agg::trans_affine& transform,
                            Paint& linePaint, Paint& fillPaint,
-                           const GraphicsState& gs) = 0;
+                           const GraphicsState& gs,
+                           double* cursorX, double* cursorY) = 0;
 };
 
 #endif // CELIAGG_CANVAS_IMPL_H

@@ -58,7 +58,8 @@ cdef extern from "canvas_impl.h":
         void draw_text(const char* text, _font.Font& font,
                        const _transform.trans_affine& transform,
                        _paint.Paint& linePaint, _paint.Paint& fillPaint,
-                       const _graphics_state.GraphicsState& gs)
+                       const _graphics_state.GraphicsState& gs,
+                       double* cursorX, double* cursorY)
 
     # Factory functions
     cdef canvas_base* canvas_rgba128(unsigned char* buf, const unsigned width, const unsigned height, const int stride, _font_cache.FontCache& cache, const bool bottom_up);
