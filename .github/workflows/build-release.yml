@@ -1,8 +1,6 @@
 name: Publish release to PyPI
 
-on:
-  release:
-    types: [published]
+on: pull_request
 
 env:
   INSTALL_EDM_VERSION: 3.3.1
@@ -24,13 +22,6 @@ jobs:
         edm run -- pip install twine
     - name: Build sdist
       run: edm run -- python setup.py sdist
-    - name: Publish sdist to PyPI
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        edm run -- python -m twine check dist/*.tar.gz
-        edm run -- python -m twine upload dist/*.tar.gz
 
   build-wheel-linux:
     runs-on: ubuntu-latest
@@ -52,10 +43,3 @@ jobs:
         python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311'
         build-requirements: 'cython numpy'
         pre-build-command: 'sh ci/build-wheel-deps.sh'
-    - name: Publish wheels to PyPI
-      env:
-        TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: |
-        python -m twine check dist/*-manylinux*.whl
-        python -m twine upload dist/*-manylinux*.whl

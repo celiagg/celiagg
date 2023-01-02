@@ -1,6 +1,6 @@
 name: Test
 
-on: pull_request
+on: workflow_dispatch
 
 env:
   INSTALL_EDM_VERSION: 3.3.1
