@@ -2,20 +2,18 @@
 set -e -x
 
 PACKAGES=(
-    zlib-1.2.11
     libpng-1.6.37
-    freetype-2.10.4
-    harfbuzz-2.6.8
+    freetype-2.12.1
+    harfbuzz-3.2.0
 )
 
 URLS=(
-    https://zlib.net/fossils/zlib-1.2.11.tar.gz
     https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz
-    https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz
-    https://github.com/harfbuzz/harfbuzz/archive/refs/tags/2.6.8.tar.gz
+    https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz
+    https://github.com/harfbuzz/harfbuzz/archive/refs/tags/3.2.0.tar.gz
 )
 
-for idx in {0..3}; do
+for idx in {0..2}; do
     PACK=${PACKAGES[$idx]}
     URL=${URLS[$idx]}
     curl -L "${URL}" -o ${PACK}.tar.gz

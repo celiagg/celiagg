@@ -42,4 +42,5 @@ jobs:
       with:
         python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311'
         build-requirements: 'cython numpy'
+        system-packages: 'zlib-devel'
         pre-build-command: 'sh ci/build-wheel-deps.sh'
