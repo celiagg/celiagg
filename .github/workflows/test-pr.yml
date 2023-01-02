@@ -3,7 +3,7 @@ name: Test
 on: pull_request
 
 env:
-  INSTALL_EDM_VERSION: 3.2.1
+  INSTALL_EDM_VERSION: 3.3.1
 
 jobs:
 
@@ -14,18 +14,18 @@ jobs:
         build-args: ['', '--install-option --no-text-rendering']
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Install dependencies for Linux
         run: |
           sudo apt-get update
           sudo apt-get install libharfbuzz-dev libfreetype-dev
       - name: Setup EDM
-        uses: enthought/setup-edm-action@v1
+        uses: enthought/setup-edm-action@v2
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Install test environment
         run: |
-          edm --config ci/.edm.yaml install -y cython numpy
+          edm --config ci/.edm.yaml install -y --version 3.8 cython numpy
           edm run -- pip install -e . ${{ matrix.build-args }}
       - name: Run tests
         run: edm run -- python -m unittest discover -v celiagg
@@ -44,14 +44,14 @@ jobs:
       # relative path between the site-packages and the source directory.
       EDM_ROOT_DIRECTORY: ${{ github.workspace }}/.edm
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - name: Setup EDM
-        uses: enthought/setup-edm-action@v1
+        uses: enthought/setup-edm-action@v2
         with:
           edm-version: ${{ env.INSTALL_EDM_VERSION }}
       - name: Install test environment
         run: |
-          edm --config ci/.edm.yaml install -y cython freetype harfbuzz numpy
+          edm --config ci/.edm.yaml install -y --version 3.8 cython libfreetype libharfbuzz numpy
           edm run -- pip install -e . ${{ matrix.build-args }}
       - name: Run tests
         run: edm run -- python -m unittest discover -v celiagg

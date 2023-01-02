@@ -5,7 +5,7 @@ on:
     types: [published]
 
 env:
-  INSTALL_EDM_VERSION: 3.2.1
+  INSTALL_EDM_VERSION: 3.3.1
 
 jobs:
   build-sdist:
@@ -13,14 +13,14 @@ jobs:
 
     steps:
     - name: Check out the release commit
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Setup EDM
-      uses: enthought/setup-edm-action@v1
+      uses: enthought/setup-edm-action@v2
       with:
         edm-version: ${{ env.INSTALL_EDM_VERSION }}
     - name: Install build environment
       run: |
-        edm --config ci/.edm.yaml install -y cython numpy
+        edm --config ci/.edm.yaml install -y --version 3.8 cython numpy
         edm run -- pip install twine
     - name: Build sdist
       run: edm run -- python setup.py sdist
@@ -37,9 +37,9 @@ jobs:
 
     steps:
     - name: Check out the release commit
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: 3.9
     - name: Install Python packages needed for wheel upload
@@ -47,9 +47,9 @@ jobs:
         python -m pip install --upgrade pip setuptools
         python -m pip install twine
     - name: Build manylinux Python wheels
-      uses: RalfG/python-wheels-manylinux-build@v0.3.3
+      uses: RalfG/python-wheels-manylinux-build@v0.5.0
       with:
-        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39'
+        python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311'
         build-requirements: 'cython numpy'
         pre-build-command: 'sh ci/build-wheel-deps.sh'
     - name: Publish wheels to PyPI
