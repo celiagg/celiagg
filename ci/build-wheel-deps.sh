@@ -19,8 +19,13 @@ for idx in {0..2}; do
     curl -L "${URL}" -o ${PACK}.tar.gz
     tar zxf ${PACK}.tar.gz
     pushd ${PACK}
-    ./configure
-    make
-    make install
+    if [ "$idx" -eq "2" ]; then
+        # Harfbuzz is special
+        meson build
+    else
+        ./configure
+        make
+        make install
+    fi
     popd
 done

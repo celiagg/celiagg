@@ -41,6 +41,6 @@ jobs:
       uses: RalfG/python-wheels-manylinux-build@v0.5.0
       with:
         python-versions: 'cp36-cp36m cp37-cp37m cp38-cp38 cp39-cp39 cp310-cp310 cp311-cp311'
-        build-requirements: 'cython numpy'
+        build-requirements: 'cython numpy meson==0.56.0'
         system-packages: 'zlib-devel'
         pre-build-command: 'sh ci/build-wheel-deps.sh'
