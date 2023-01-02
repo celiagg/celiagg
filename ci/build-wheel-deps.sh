@@ -13,6 +13,9 @@ URLS=(
     https://github.com/harfbuzz/harfbuzz/archive/refs/tags/3.2.0.tar.gz
 )
 
+# XXX: Not sure if this will work
+pip install --no-cache-dir meson==0.56.0
+
 for idx in {0..2}; do
     PACK=${PACKAGES[$idx]}
     URL=${URLS[$idx]}
