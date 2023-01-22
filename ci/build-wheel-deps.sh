@@ -1,26 +1,20 @@
 #!/bin/bash
 set -e -x
 
-PACKAGES=(
-    zlib-1.2.11
-    libpng-1.6.37
-    freetype-2.10.4
-)
+LIBPNG=libpng-1.6.37
+curl -L "https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz" -o $LIBPNG.tar.gz
+tar zxf $LIBPNG.tar.gz
+pushd $LIBPNG
+./configure
+make -j $(nproc)
+make install
+popd
 
-URLS=(
-    https://www.zlib.net/zlib-1.2.11.tar.gz
-    https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz
-    https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz
-)
-
-for idx in {0..2}; do
-    PACK=${PACKAGES[$idx]}
-    URL=${URLS[$idx]}
-    curl -L "${URL}" -o ${PACK}.tar.gz
-    tar zxf ${PACK}.tar.gz
-    pushd ${PACK}
-    ./configure
-    make
-    make install
-    popd
-done
+LIBFREETYPE=freetype-2.12.1
+curl -L "https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz" -o $LIBFREETYPE.tar.gz
+tar zxf $LIBFREETYPE.tar.gz
+pushd $LIBFREETYPE
+./configure
+make -j $(nproc)
+make install
+popd
