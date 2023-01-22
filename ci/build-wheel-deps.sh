@@ -1,28 +1,35 @@
 #!/bin/bash
 set -e -x
 
-PACKAGES=(
-    zlib-1.2.11
-    libpng-1.6.37
-    freetype-2.10.4
-    harfbuzz-2.6.4
-)
+LIBPNG=libpng-1.6.37
+curl -L "https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz" -o $LIBPNG.tar.gz
+tar zxf $LIBPNG.tar.gz
+pushd $LIBPNG
+./configure
+make -j $(nproc)
+make install
+popd
 
-URLS=(
-    https://www.zlib.net/zlib-1.2.11.tar.gz
-    https://downloads.sourceforge.net/project/libpng/libpng16/1.6.37/libpng-1.6.37.tar.gz
-    https://download.savannah.gnu.org/releases/freetype/freetype-2.10.4.tar.gz
-    https://github.com/harfbuzz/harfbuzz/archive/2.6.4.tar.gz
-)
+LIBFREETYPE=freetype-2.12.1
+curl -L "https://download.savannah.gnu.org/releases/freetype/freetype-2.12.1.tar.gz" -o $LIBFREETYPE.tar.gz
+tar zxf $LIBFREETYPE.tar.gz
+pushd $LIBFREETYPE
+./configure
+make -j $(nproc)
+make install
+popd
 
-for idx in {0..3}; do
-    PACK=${PACKAGES[$idx]}
-    URL=${URLS[$idx]}
-    curl -L "${URL}" -o ${PACK}.tar.gz
-    tar zxf ${PACK}.tar.gz
-    pushd ${PACK}
-    ./configure
-    make
-    make install
-    popd
-done
+LIBHARFBUZZ=harfbuzz-2.6.8
+curl -L "https://github.com/harfbuzz/harfbuzz/archive/refs/tags/2.6.8.tar.gz" -o $LIBHARFBUZZ.tar.gz
+tar zxf $LIBHARFBUZZ.tar.gz
+pushd $LIBHARFBUZZ
+
+# missing macro in the locally installed automake
+# ref: https://github.com/pypa/manylinux/issues/731
+cp /usr/share/aclocal/pkg.m4 /usr/local/share/aclocal
+
+./autogen.sh
+./configure
+make -j $(nproc)
+make install
+popd
