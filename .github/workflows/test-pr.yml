@@ -1,57 +1,36 @@
 name: Test
 
-on: pull_request
-
-env:
-  INSTALL_EDM_VERSION: 3.3.1
+on:
+- pull_request
+- workflow_dispatch
 
 jobs:
-
-  # Test against EDM packages on Linux
-  test-edm-linux:
+  tests:
     strategy:
       matrix:
-        build-args: ['', '--install-option --no-text-rendering']
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - name: Install dependencies for Linux
-        run: |
-          sudo apt-get update
-          sudo apt-get install libfreetype-dev
-      - name: Setup EDM
-        uses: enthought/setup-edm-action@v2
-        with:
-          edm-version: ${{ env.INSTALL_EDM_VERSION }}
-      - name: Install test environment
-        run: |
-          edm --config ci/.edm.yaml install -y --version 3.8 cython numpy
-          edm run -- pip install -e . ${{ matrix.build-args }}
-      - name: Run tests
-        run: edm run -- python -m unittest discover -v celiagg
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
 
-
-  test-with-edm:
-    strategy:
-      matrix:
-        os: [macos-latest, windows-latest]
-        build-args: ['', '--install-option --no-text-rendering']
     runs-on: ${{ matrix.os }}
-    env:
-      # Set root directory, mainly for Windows, so that the EDM Python
-      # environment lives in the same drive as the cloned source. Otherwise
-      # 'pip install' raises an error while trying to compute
-      # relative path between the site-packages and the source directory.
-      EDM_ROOT_DIRECTORY: ${{ github.workspace }}/.edm
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Setup EDM
-        uses: enthought/setup-edm-action@v2
-        with:
-          edm-version: ${{ env.INSTALL_EDM_VERSION }}
-      - name: Install test environment
-        run: |
-          edm --config ci/.edm.yaml install -y --version 3.8 cython libfreetype numpy
-          edm run -- pip install -e . ${{ matrix.build-args }}
-      - name: Run tests
-        run: edm run -- python -m unittest discover -v celiagg
+    - uses: actions/checkout@v3
+    - name: Install dependencies for Linux
+      run: |
+          sudo apt-get update
+          sudo apt-get install libharfbuzz-dev libfreetype-dev
+      if: matrix.os == 'ubuntu-latest'
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install dependencies
+      run: python -m pip install cython numpy
+    - name: Install library (w/ text rendering support)
+      run: python -m pip install -e .
+      if: matrix.os == 'ubuntu-latest'
+    - name: Install library (w/o text rendering support)
+      run: python -m pip install -e . --install-option --no-text-rendering
+      if: matrix.os != 'ubuntu-latest'
+    - name: Run tests
+      run: python -m unittest discover -v celiagg
