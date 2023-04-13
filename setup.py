@@ -241,6 +241,7 @@ setup(
         'Operating System :: MacOS',
     ],
     requires=requires,
+    install_requires=requires,
     cmdclass=cmdclass,
     ext_modules=[create_extension()],
     packages=['celiagg', 'celiagg.tests'],

@@ -20,7 +20,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install libharfbuzz-dev libfreetype-dev
       if: matrix.os == 'ubuntu-latest'
-    - name: Install dependencies for Linux
+    - name: Install dependencies for MacOS
       run: |
           brew install pkg-config freetype harfbuzz
       if: matrix.os == 'macos-latest'
