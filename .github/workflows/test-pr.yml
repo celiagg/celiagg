@@ -8,7 +8,7 @@ jobs:
   tests:
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest, macos-latest]
         python-version: ['3.7', '3.8', '3.9', '3.10', '3.11']
 
     runs-on: ${{ matrix.os }}
@@ -20,15 +20,17 @@ jobs:
           sudo apt-get update
           sudo apt-get install libharfbuzz-dev libfreetype-dev
       if: matrix.os == 'ubuntu-latest'
+    - name: Install dependencies for Linux
+      run: |
+          brew install pkg-config freetype harfbuzz
+      if: matrix.os == 'macos-latest'
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
-    - name: Install dependencies
-      run: python -m pip install cython numpy
     - name: Install library (w/ text rendering support)
       run: python -m pip install -e .
-      if: matrix.os == 'ubuntu-latest'
+      if: matrix.os != 'windows-latest'
     - name: Install library (w/o text rendering support)
       run: python -m pip install -e . --install-option --no-text-rendering
       if: matrix.os != 'ubuntu-latest'
