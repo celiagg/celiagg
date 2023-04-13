@@ -241,7 +241,7 @@ setup(
         'Operating System :: MacOS',
     ],
     requires=requires,
-    install_requires=requires,
+    install_requires=['numpy'],
     cmdclass=cmdclass,
     ext_modules=[create_extension()],
     packages=['celiagg', 'celiagg.tests'],
