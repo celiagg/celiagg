@@ -40,18 +40,6 @@ except ImportError:
     print("Cython does not appear to be installed.  Will attempt to use "
           "pre-made cpp file...")
 
-# Disable text rendering with this option
-if '--no-text-rendering' in sys.argv:
-    del sys.argv[sys.argv.index('--no-text-rendering')]
-    with_text_rendering = False
-else:
-    with_text_rendering = True
-    with_pkgconfig = True
-    # Disable pkg-config use with this option
-    if '--no-pkg-config' in sys.argv:
-        del sys.argv[sys.argv.index('--no-pkg-config')]
-        with_pkgconfig = False
-
 
 class PatchedSdist(_sdist):
     """ Make sure the compiled Cython files are included
@@ -168,29 +156,28 @@ def create_extension():
         ('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'),
     ]
 
-    if with_text_rendering:
-        if platform.system() == 'Windows':
-            extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
-            include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
-            font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
+    if platform.system() == 'Windows':
+        extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
+        include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
+        font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
 
-            # XXX: Figure out how to enable Harfbuzz!
-        else:
-            if with_pkgconfig:
-                cflags, ldflags = run_pkgconfig('freetype2')
-                extra_compile_args.extend(cflags)
-                extra_link_args.extend(ldflags)
+        # XXX: Figure out how to enable Harfbuzz!
+    else:
+        cflags, ldflags = run_pkgconfig('freetype2')
+        extra_compile_args.extend(cflags)
+        extra_link_args.extend(ldflags)
 
-                # Harfbuzz is optional
-                cflags, ldflags = run_pkgconfig('harfbuzz', exit_on_fail=False)
-                if cflags and ldflags:
-                    extra_compile_args.extend(cflags)
-                    extra_link_args.extend(ldflags)
-                    define_macros.append(('_USE_HARFBUZZ', None))
+        # Harfbuzz is optional
+        cflags, ldflags = run_pkgconfig('harfbuzz', exit_on_fail=False)
+        if cflags and ldflags:
+            extra_compile_args.extend(cflags)
+            extra_link_args.extend(ldflags)
+            define_macros.append(('_USE_HARFBUZZ', None))
 
-            define_macros.append(('_USE_FREETYPE', None))
-            include_dirs.append('agg-svn/agg-2.4/font_freetype')
-            font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
+        define_macros.append(('_USE_FREETYPE', None))
+        include_dirs.append('agg-svn/agg-2.4/font_freetype')
+        font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
+
         sources.append(font_source)
         define_macros.append(('_ENABLE_TEXT_RENDERING', None))
 
@@ -207,11 +194,6 @@ def create_extension():
 
 with open('README.rst', 'r') as fp:
     long_description = fp.read()
-
-requires = ['numpy']
-if sys.platform not in ('win32', 'cygwin'):
-    # Windows doesn't use FreeType.
-    requires.append('freetype')
 
 cmdclass = {'sdist': PatchedSdist}
 if cython_build_ext is not None:
@@ -240,7 +222,6 @@ setup(
         'Operating System :: Unix',
         'Operating System :: MacOS',
     ],
-    requires=requires,
     install_requires=['numpy'],
     cmdclass=cmdclass,
     ext_modules=[create_extension()],
