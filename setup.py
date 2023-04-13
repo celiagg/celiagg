@@ -178,8 +178,8 @@ def create_extension():
         include_dirs.append('agg-svn/agg-2.4/font_freetype')
         font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
 
-        sources.append(font_source)
-        define_macros.append(('_ENABLE_TEXT_RENDERING', None))
+    sources.append(font_source)
+    define_macros.append(('_ENABLE_TEXT_RENDERING', None))
 
     return Extension(
         'celiagg._celiagg',
