@@ -51,6 +51,25 @@ class PatchedSdist(_sdist):
         _sdist.run(self)
 
 
+def has_pkgconfig():
+    try:
+        subprocess.run(
+            ['pkg-config', '--version'],
+            check=True,
+            capture_output=True,
+        )
+        return True
+    except subprocess.CalledProcessError:
+        print(
+            "Failed to execute pkg-config.  Text rendering will be disabled "
+            "in this build.  Either install pkg-config or supply appropriate "
+            "CFLAGS and LDFLAGS environment variables for FreeType2 and "
+            "Harfbuzz.\n\n",
+            file=sys.stderr,
+        )
+        return False
+
+
 def run_pkgconfig(name, exit_on_fail=True):
     """ Use pkg-config to locate a library installed on the system.
 
@@ -161,8 +180,11 @@ def create_extension():
         include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
         font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
 
+        sources.append(font_source)
+        define_macros.append(('_ENABLE_TEXT_RENDERING', None))
+
         # XXX: Figure out how to enable Harfbuzz!
-    else:
+    elif has_pkgconfig():
         cflags, ldflags = run_pkgconfig('freetype2')
         extra_compile_args.extend(cflags)
         extra_link_args.extend(ldflags)
@@ -178,8 +200,8 @@ def create_extension():
         include_dirs.append('agg-svn/agg-2.4/font_freetype')
         font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
 
-    sources.append(font_source)
-    define_macros.append(('_ENABLE_TEXT_RENDERING', None))
+        sources.append(font_source)
+        define_macros.append(('_ENABLE_TEXT_RENDERING', None))
 
     return Extension(
         'celiagg._celiagg',
