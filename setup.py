@@ -52,7 +52,7 @@ class PatchedSdist(_sdist):
 
 
 def has_text_rendering():
-    return os.environ.get("CELIAGG_NO_TEXT_RENDERING", None) is not None
+    return os.environ.get("CELIAGG_NO_TEXT_RENDERING", None)
 
 
 def has_pkgconfig():
@@ -108,19 +108,15 @@ def run_pkgconfig(name, exit_on_fail=True):
 
     if len(data) < 2:
         msg = ("Failed to execute pkg-config {name}. If {name} is "
-               "installed in standard system locations, it may work to run "
-               "this script with --no-pkg-config. Otherwise, appropriate "
-               "CFLAGS and LDFLAGS environment variables must be set.\n\n"
+               "installed in standard system locations, this may still work. "
+               "Otherwise, appropriate CFLAGS and LDFLAGS environment "
+               "variables must be set.\n\n"
                "If you wish to disable text rendering, you can re-run this "
                "script with the --no-text-rendering flag.")
         print(msg.format(name=name), file=sys.stderr)
 
-        # NOTE: Avoid exiting when pip is running an egg_info command. Without
-        # this, it's not possible to avoid freetype when installing from pip.
-        if exit_on_fail and 'egg_info' not in sys.argv:
-            exit(-1)
-        else:
-            return [], []
+        # couldn't find flags, so return empty lists
+        return [], []
     return data['cflags'], data['ldflags']
 
 
@@ -181,13 +177,14 @@ def create_extension():
     ]
 
     if has_text_rendering():
+        print(
+            "Text rendering enabled.",
+            file=sys.stderr,
+        )
         if platform.system() == 'Windows':
             extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
             include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
             font_source = 'agg-svn/agg-2.4/font_win32_tt/agg_font_win32_tt.cpp'
-
-            sources.append(font_source)
-            define_macros.append(('_ENABLE_TEXT_RENDERING', None))
 
             # XXX: Figure out how to enable Harfbuzz!
         else:
@@ -211,7 +208,7 @@ def create_extension():
         define_macros.append(('_ENABLE_TEXT_RENDERING', None))
     else:
         print(
-            "Text rendering disabled.\n\n",
+            "Text rendering disabled.",
             file=sys.stderr,
         )
 
