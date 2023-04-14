@@ -1,3 +1,14 @@
 [build-system]
 requires = ["cython", "oldest-supported-numpy", "setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.cibuildwheel]
+skip = 'pp*'
+
+[tool.cibuildwheel.macos]
+archs = ['auto', 'universal2']
+
+[tool.cibuildwheel.linux]
+archs = ['auto', 'aarch64']
+before-all = "apt-get install libfreetype-dev libharfbuzz-dev"
+
