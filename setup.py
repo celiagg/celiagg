@@ -40,18 +40,6 @@ except ImportError:
     print("Cython does not appear to be installed.  Will attempt to use "
           "pre-made cpp file...")
 
-# Disable text rendering with this option
-if '--no-text-rendering' in sys.argv:
-    del sys.argv[sys.argv.index('--no-text-rendering')]
-    with_text_rendering = False
-else:
-    with_text_rendering = True
-    with_pkgconfig = True
-    # Disable pkg-config use with this option
-    if '--no-pkg-config' in sys.argv:
-        del sys.argv[sys.argv.index('--no-pkg-config')]
-        with_pkgconfig = False
-
 
 class PatchedSdist(_sdist):
     """ Make sure the compiled Cython files are included
@@ -61,6 +49,30 @@ class PatchedSdist(_sdist):
 
         cythonize([os.path.join('celiagg', '_celiagg.pyx')])
         _sdist.run(self)
+
+
+def has_text_rendering():
+    return not os.environ.get("CELIAGG_NO_TEXT_RENDERING", None)
+
+
+def has_pkgconfig():
+    try:
+        subprocess.run(
+            ['pkg-config', '--version'],
+            check=True,
+            capture_output=True,
+        )
+        return True
+    except subprocess.CalledProcessError:
+        print(
+            "Failed to execute pkg-config.  Either disable building with "
+            "text rendering using CELIAGG_NO_TEXT_RENDERING environment "
+            "variable; install pkg-config; or supply appropriate "
+            "CFLAGS and LDFLAGS environment variables for FreeType2 and "
+            "Harfbuzz.\n\n",
+            file=sys.stderr,
+        )
+        return False
 
 
 def run_pkgconfig(name, exit_on_fail=True):
@@ -96,19 +108,15 @@ def run_pkgconfig(name, exit_on_fail=True):
 
     if len(data) < 2:
         msg = ("Failed to execute pkg-config {name}. If {name} is "
-               "installed in standard system locations, it may work to run "
-               "this script with --no-pkg-config. Otherwise, appropriate "
-               "CFLAGS and LDFLAGS environment variables must be set.\n\n"
+               "installed in standard system locations, this may still work. "
+               "Otherwise, appropriate CFLAGS and LDFLAGS environment "
+               "variables must be set.\n\n"
                "If you wish to disable text rendering, you can re-run this "
                "script with the --no-text-rendering flag.")
         print(msg.format(name=name), file=sys.stderr)
 
-        # NOTE: Avoid exiting when pip is running an egg_info command. Without
-        # this, it's not possible to avoid freetype when installing from pip.
-        if exit_on_fail and 'egg_info' not in sys.argv:
-            exit(-1)
-        else:
-            return [], []
+        # couldn't find flags, so return empty lists
+        return [], []
     return data['cflags'], data['ldflags']
 
 
@@ -168,7 +176,8 @@ def create_extension():
         ('NPY_NO_DEPRECATED_API', 'NPY_1_7_API_VERSION'),
     ]
 
-    if with_text_rendering:
+    if has_text_rendering():
+        print("Text rendering enabled.", file=sys.stderr)
         if platform.system() == 'Windows':
             extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
             include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
@@ -176,7 +185,7 @@ def create_extension():
 
             # XXX: Figure out how to enable Harfbuzz!
         else:
-            if with_pkgconfig:
+            if has_pkgconfig():
                 cflags, ldflags = run_pkgconfig('freetype2')
                 extra_compile_args.extend(cflags)
                 extra_link_args.extend(ldflags)
@@ -191,8 +200,11 @@ def create_extension():
             define_macros.append(('_USE_FREETYPE', None))
             include_dirs.append('agg-svn/agg-2.4/font_freetype')
             font_source = 'agg-svn/agg-2.4/font_freetype/agg_font_freetype.cpp'
+
         sources.append(font_source)
         define_macros.append(('_ENABLE_TEXT_RENDERING', None))
+    else:
+        print("Text rendering disabled.", file=sys.stderr)
 
     return Extension(
         'celiagg._celiagg',
@@ -207,11 +219,6 @@ def create_extension():
 
 with open('README.rst', 'r') as fp:
     long_description = fp.read()
-
-requires = ['numpy']
-if sys.platform not in ('win32', 'cygwin'):
-    # Windows doesn't use FreeType.
-    requires.append('freetype')
 
 cmdclass = {'sdist': PatchedSdist}
 if cython_build_ext is not None:
@@ -240,7 +247,7 @@ setup(
         'Operating System :: Unix',
         'Operating System :: MacOS',
     ],
-    requires=requires,
+    install_requires=['numpy'],
     cmdclass=cmdclass,
     ext_modules=[create_extension()],
     packages=['celiagg', 'celiagg.tests'],
