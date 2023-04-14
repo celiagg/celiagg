@@ -26,6 +26,11 @@ Building from source with the Freetype font library on macOS requires
 the `pkg-config` tool which can be installed via Homebrew, MacPorts, or
 other macOS package management systems.
 
+To build without text support, set the ``CELIAGG_NO_TEXT_RENDERING``
+environment variable while building, eg.
+``CELIAGG_NO_TEXT_RENDERING=1 pip install celiagg``
+
+
 Dependencies
 ------------
 
