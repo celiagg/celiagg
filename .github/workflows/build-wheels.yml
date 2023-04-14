@@ -33,7 +33,7 @@ jobs:
     - name: Build wheels
       uses: pypa/cibuildwheel@v2.12.1
       env:
-        CIBW_SKIP: "{py36-*,*-musllinux-*,*_ppc64le,*_s390x,*_i686}"
+        CIBW_ARCHS_LINUX: "auto aarch64"
 
     - name: Archive build
       uses: actions/upload-artifact@v3
