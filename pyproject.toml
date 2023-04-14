@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 skip = 'pp*'
 
 [tool.cibuildwheel.macos]
-archs = ['auto', 'arm64', 'universal2']
+archs = ['auto', 'arm64']
 
 [tool.cibuildwheel.linux]
 archs = ['auto', 'aarch64']
