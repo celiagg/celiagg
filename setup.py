@@ -52,7 +52,7 @@ class PatchedSdist(_sdist):
 
 
 def has_text_rendering():
-    return os.environ.get("CELIAGG_NO_TEXT_RENDERING", None)
+    return not os.environ.get("CELIAGG_NO_TEXT_RENDERING", None)
 
 
 def has_pkgconfig():
