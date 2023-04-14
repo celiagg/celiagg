@@ -177,10 +177,7 @@ def create_extension():
     ]
 
     if has_text_rendering():
-        print(
-            "Text rendering enabled.",
-            file=sys.stderr,
-        )
+        print("Text rendering enabled.", file=sys.stderr)
         if platform.system() == 'Windows':
             extra_link_args.extend(['Gdi32.lib', 'User32.lib'])
             include_dirs.append('agg-svn/agg-2.4/font_win32_tt')
@@ -207,10 +204,7 @@ def create_extension():
         sources.append(font_source)
         define_macros.append(('_ENABLE_TEXT_RENDERING', None))
     else:
-        print(
-            "Text rendering disabled.",
-            file=sys.stderr,
-        )
+        print("Text rendering disabled.", file=sys.stderr)
 
     return Extension(
         'celiagg._celiagg',
