@@ -31,7 +31,7 @@ jobs:
       run: python -m pip install twine
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.12
+      uses: pypa/cibuildwheel@v2.12.1
       env:
         CIBW_SKIP: "{py36-*,*-musllinux-*,*_ppc64le,*_s390x,*_i686}"
 
