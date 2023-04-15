@@ -36,7 +36,7 @@ jobs:
     - name: Archive build
       uses: actions/upload-artifact@v3
       with:
-        name: wheels-{{ matrix.os }}
+        name: wheels
         path: wheelhouse
         # don't need these kept for long
         retention-days: 7
