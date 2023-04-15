@@ -10,5 +10,5 @@ archs = ['auto', 'arm64']
 
 [tool.cibuildwheel.linux]
 archs = ['auto', 'aarch64']
-before-all = "yum install freetype-devel harfbuzz-devel"
+before-all = "yum install -y freetype-devel harfbuzz-devel"
 
