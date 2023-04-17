@@ -245,4 +245,5 @@ setup(
     package_data={
         'celiagg': ['data/*'],
     },
+    python_requires=">=3.7",
 )
