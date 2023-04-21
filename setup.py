@@ -227,7 +227,7 @@ if cython_build_ext is not None:
 setup(
     name='celiagg',
     license='MIT',
-    version='2.1.3',
+    version='2.1.4',
     description='Anti-Grain Geometry for Python 3 with Cython',
     long_description=long_description,
     long_description_content_type='text/x-rst',
