@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies for Linux
       run: |
           sudo apt-get update
-          sudo apt-get install libharfbuzz-dev libfreetype-dev
+          sudo apt-get install libfreetype-dev
       if: matrix.os == 'ubuntu-latest'
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4

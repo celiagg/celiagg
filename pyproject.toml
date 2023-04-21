@@ -7,5 +7,5 @@ skip = 'pp* *-musllinux*'
 
 [tool.cibuildwheel.linux]
 archs = ['auto', 'aarch64']
-before-all = "yum install -y freetype-devel harfbuzz-devel"
+before-all = "yum install -y freetype-devel"
 

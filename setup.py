@@ -68,8 +68,7 @@ def has_pkgconfig():
             "Failed to execute pkg-config.  Either disable building with "
             "text rendering using CELIAGG_NO_TEXT_RENDERING environment "
             "variable; install pkg-config; or supply appropriate "
-            "CFLAGS and LDFLAGS environment variables for FreeType2 and "
-            "Harfbuzz.\n\n",
+            "CFLAGS and LDFLAGS environment variables for FreeType2.\n\n",
             file=sys.stderr,
         )
         return False
