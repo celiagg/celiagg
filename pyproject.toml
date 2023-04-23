@@ -9,3 +9,6 @@ skip = 'pp* *-musllinux*'
 archs = ['auto', 'aarch64']
 before-all = "yum install -y freetype-devel harfbuzz-devel"
 
+authors = [
+    "Corran Webster",
+]
