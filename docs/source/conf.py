@@ -53,7 +53,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = 'celiagg'
-copyright = '2015-2021, John Wiggins, Erik Hvatum'
+copyright = '2015-2023, John Wiggins, Erik Hvatum'
 author = 'John Wiggins, Erik Hvatum'
 
 # The version info for the project you're documenting, acts as replacement for
