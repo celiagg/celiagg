@@ -27,9 +27,9 @@
 from libcpp cimport bool
 import cython
 from cython.operator cimport dereference
-cimport numpy
 import numpy
 
+cimport _conversion
 cimport _enums
 cimport _font_cache
 cimport _font

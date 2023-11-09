@@ -23,9 +23,6 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
-import cython
-cimport numpy
-import numpy
 from libcpp cimport bool
 
 cimport _font_cache

@@ -41,9 +41,6 @@ cdef class CanvasBase:
         if image is None:
             raise ValueError('image argument must not be None.')
 
-        cdef numpy.npy_int32[:] image_shape = numpy.asarray(image.shape,
-                                                            dtype=numpy.int32,
-                                                            order='c')
         cdef int image_ndim = <int> image.ndim
 
         if not has_alpha:
@@ -53,8 +50,8 @@ cdef class CanvasBase:
             # channel count is one less than default color channel count if
             # image does not have an alpha channel.
             channel_count -= 1
-        if (channel_count > 1 and (image_ndim != 3
-                or image_shape[2] != channel_count) or
+        if (channel_count > 1 and (image_ndim != 3 or
+                image.shape[2] != channel_count) or
                 channel_count == 1 and image_ndim != 2):
             if channel_count > 1:
                 e = 'MxNx{}'.format(channel_count)
@@ -116,15 +113,15 @@ cdef class CanvasBase:
         """draw_image(image, format, transform, state, bottom_up=False)
         Draw an image on the canvas.
 
-        :param image: A 2D or 3D numpy array containing image data
+        :param image: A buffer containing image data
         :param format: A ``PixelFormat`` describing the array's data
         :param transform: A ``Transform`` object
         :param state: A ``GraphicsState`` object
         :param bottom_up: If True, the image data is flipped in the y axis
         """
-        if not isinstance(image, (numpy.ndarray, Image)):
+        if not isinstance(image, (cnp.ndarray, Image)):
             raise TypeError("image must be an ndarray or Image instance")
-        if not isinstance(fmt, PixelFormat) and isinstance(image, numpy.ndarray):
+        if not isinstance(fmt, PixelFormat) and isinstance(image, cnp.ndarray):
             raise TypeError("format must be a PixelFormat value")
         if not isinstance(transform, Transform):
             raise TypeError("transform must be a Transform instance")
