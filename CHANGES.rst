@@ -1,6 +1,20 @@
 Celiagg CHANGELOG
 =================
 
+Release 2.1.5
+-------------
+
+Released: 2024-06-17
+
+This is a small release which cleans some bitrot to allow compilation with
+Cython 3.0.x and newer versions of numpy.
+
+Cleanup and other maintenance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Unpinned Cython and numpy versions; Updated ``example_font`` to use
+  ``importlib.resources``; Dropped support for Python 3.7.
+
 Release 2.1.4
 -------------
 
