@@ -22,12 +22,12 @@ jobs:
       if: runner.os == 'Linux'
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
-        python-version: '3.11'
+        python-version: '3.12'
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.12.1
+      uses: pypa/cibuildwheel@v2.18.1
 
     - name: Archive build
       uses: actions/upload-artifact@v3

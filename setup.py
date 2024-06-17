@@ -47,7 +47,10 @@ class PatchedSdist(_sdist):
     def run(self):
         from Cython.Build import cythonize
 
-        cythonize([os.path.join('celiagg', '_celiagg.pyx')])
+        cythonize(
+            [os.path.join('celiagg', '_celiagg.pyx')],
+            include_path=['celiagg'],
+        )
         _sdist.run(self)
 
 
