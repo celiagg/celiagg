@@ -161,6 +161,7 @@ def create_extension():
 
     include_dirs = ['agg-svn/agg-2.4/include',
                     'agg-svn/agg-2.4',
+                    'celiagg',
                     numpy.get_include()]
     if platform.system() == "Windows":
         # Visual studio does not support/need these
@@ -254,5 +255,5 @@ setup(
     package_data={
         'celiagg': ['data/*'],
     },
-    python_requires=">=3.7",
+    python_requires=">=3.8",
 )

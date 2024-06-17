@@ -23,6 +23,7 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 
+# cython: language_level=3
 # distutils: language=c++
 from libcpp cimport bool
 import cython
