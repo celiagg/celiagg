@@ -74,7 +74,7 @@ Draw some text
 --------------
 
 Next up, some text. We'll use the `Montserrat <https://github.com/JulietaUla/Montserrat>`_ font which is included with
-celiagg, conveniently available via the ``example_font`` function. A ``font``
+celiagg, conveniently available via the ``example_font`` context manager. A ``font``
 object is created with a point size of 96. The ``transform`` gets a
 translation of (30, 220) set. This corresponds to a point which is 30 pixels
 from the left side of the image and 220 pixels from the *top* of the image.
@@ -82,7 +82,7 @@ from the left side of the image and 220 pixels from the *top* of the image.
 The text will be drawn starting from that point.
 
 .. literalinclude:: simple_ex.py
-  :lines: 18-20
+  :lines: 18-21
   :linenos:
   :lineno-match:
 
