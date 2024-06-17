@@ -23,6 +23,7 @@
 #
 # Authors: Erik Hvatum <ice.rikh@gmail.com>
 #          John Wiggins
+import contextlib
 import sys
 
 from . import _celiagg
@@ -38,21 +39,26 @@ from ._celiagg import (
 HAS_TEXT = _celiagg.has_text_rendering()
 
 
+@contextlib.contextmanager
 def example_font():
     """ Returns the path to a TTF font which is included with the library for
     testing purposes.
     """
-    import pkg_resources
+    import importlib.resources
 
-    # Windows GDI font selection uses names and not file paths.
-    # Our included font could be added to the system fonts using
-    # `AddFontResourceEx`, but that's beyond the scope of this function.
-    if sys.platform in ('win32', 'cygwin'):
-        return 'Segoe UI'
-
-    return pkg_resources.resource_filename(
-        'celiagg', 'data/Montserrat-Regular.ttf'
-    )
+    try:
+        # Windows GDI font selection uses names and not file paths.
+        # Our included font could be added to the system fonts using
+        # `AddFontResourceEx`, but that's beyond the scope of this function.
+        if sys.platform in ('win32', 'cygwin'):
+            yield 'Segoe UI'
+        else:
+            with importlib.resources.path(
+                'celiagg.data', 'Montserrat-Regular.ttf'
+            ) as path:
+                yield str(path)
+    finally:
+        pass
 
 
 # Be explicit

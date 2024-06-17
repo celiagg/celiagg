@@ -32,30 +32,28 @@ is_windows = sys.platform in ('win32', 'cygwin')
 class TestFont(unittest.TestCase):
     @unittest.skipIf(is_windows, "Don't test FreeTypeFont on Windows")
     def test_freetype_font(self):
-        path = agg.example_font()
+        with agg.example_font() as path:
+            # Test default arguments
+            font = agg.Font(path, 12.0)
+            self.assertEqual(font.filepath, path)
+            self.assertEqual(font.height, 12.0)
+            self.assertEqual(font.face_index, 0)
 
-        # Test default arguments
-        font = agg.Font(path, 12.0)
-        self.assertEqual(font.filepath, path)
-        self.assertEqual(font.height, 12.0)
-        self.assertEqual(font.face_index, 0)
-
-        # Then optional
-        font = agg.Font(path, 12.0, face_index=42)
-        self.assertEqual(font.face_index, 42)
+            # Then optional
+            font = agg.Font(path, 12.0, face_index=42)
+            self.assertEqual(font.face_index, 42)
 
     @unittest.skipIf(not is_windows, "Don't test Win32Font on other platforms")
     def test_win32_font(self):
-        face_name = agg.example_font()
+        with agg.example_font() as face_name:
+            # Test default arguments
+            font = agg.Font(face_name, 12.0)
+            self.assertEqual(font.face_name, face_name)
+            self.assertEqual(font.height, 12.0)
+            self.assertEqual(font.weight, agg.FontWeight.Regular)
+            self.assertFalse(font.italic)
 
-        # Test default arguments
-        font = agg.Font(face_name, 12.0)
-        self.assertEqual(font.face_name, face_name)
-        self.assertEqual(font.height, 12.0)
-        self.assertEqual(font.weight, agg.FontWeight.Regular)
-        self.assertFalse(font.italic)
-
-        # Then optional
-        font = agg.Font(face_name, 12.0, agg.FontWeight.ExtraBold, True)
-        self.assertEqual(font.weight, agg.FontWeight.ExtraBold)
-        self.assertTrue(font.italic)
+            # Then optional
+            font = agg.Font(face_name, 12.0, agg.FontWeight.ExtraBold, True)
+            self.assertEqual(font.weight, agg.FontWeight.ExtraBold)
+            self.assertTrue(font.italic)

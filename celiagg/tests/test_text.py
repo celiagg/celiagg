@@ -35,15 +35,16 @@ class TestTextDrawing(unittest.TestCase):
         gs = agg.GraphicsState()
         transform = agg.Transform()
 
-        text_unicode = 'Hello!'
-        font_unicode = agg.Font(agg.example_font(), 12.0)
-        text_byte = b'Hello!'
-        font_byte = agg.Font(agg.example_font().encode('utf8'), 12.0)
+        with agg.example_font() as font_path:
+            text_unicode = 'Hello!'
+            font_unicode = agg.Font(font_path, 12.0)
+            text_byte = b'Hello!'
+            font_byte = agg.Font(font_path.encode('utf8'), 12.0)
 
-        canvas.draw_text(text_unicode, font_unicode, transform, gs)
-        canvas.draw_text(text_byte, font_unicode, transform, gs)
-        canvas.draw_text(text_unicode, font_byte, transform, gs)
-        canvas.draw_text(text_byte, font_byte, transform, gs)
+            canvas.draw_text(text_unicode, font_unicode, transform, gs)
+            canvas.draw_text(text_byte, font_unicode, transform, gs)
+            canvas.draw_text(text_unicode, font_byte, transform, gs)
+            canvas.draw_text(text_byte, font_byte, transform, gs)
 
     def test_text_rendering(self):
         font_cache = agg.FontCache()
@@ -52,18 +53,19 @@ class TestTextDrawing(unittest.TestCase):
         )
         canvas.clear(1.0, 1.0, 1.0)
 
-        font = agg.Font(agg.example_font(), 24.0)
-        gs = agg.GraphicsState()
-        paint = agg.SolidPaint(1.0, 0.0, 0.0, 1.0)
-        transform = agg.Transform()
+        with agg.example_font() as font_path:
+            font = agg.Font(font_path, 24.0)
+            gs = agg.GraphicsState()
+            paint = agg.SolidPaint(1.0, 0.0, 0.0, 1.0)
+            transform = agg.Transform()
 
-        text = 'Hello!'
-        width = font_cache.width(font, text)
-        draw_x, draw_y = 25.0, 50.0
-        transform.translate(draw_x, draw_y)
-        cursor = canvas.draw_text(
-            text, font, transform, gs, stroke=paint, fill=paint
-        )
+            text = 'Hello!'
+            width = font_cache.width(font, text)
+            draw_x, draw_y = 25.0, 50.0
+            transform.translate(draw_x, draw_y)
+            cursor = canvas.draw_text(
+                text, font, transform, gs, stroke=paint, fill=paint
+            )
         self.assertIsNotNone(cursor)
         # Text cursor Y is unchanged, X is `width` pixels away from `draw_x`
         self.assertAlmostEqual(cursor[0] - width, draw_x)
@@ -80,21 +82,25 @@ class TestTextDrawing(unittest.TestCase):
         canvas = agg.CanvasRGB24(
             np.zeros((100, 100, 3), dtype=np.uint8), font_cache=font_cache,
         )
-        font = agg.Font(agg.example_font(), 12.0)
         gs = agg.GraphicsState()
         paint = agg.SolidPaint(1.0, 0.0, 0.0, 1.0)
         text = 'Some appropriate string'
         transform = agg.Transform()
 
-        # Measure before drawing
-        width_before = font_cache.width(font, text)
+        with agg.example_font() as font_path:
+            font = agg.Font(font_path, 12.0)
 
-        # Draw with a transform
-        transform.translate(25, 75)
-        transform.rotate(0.75)
-        canvas.draw_text(text, font, transform, gs, stroke=paint, fill=paint)
+            # Measure before drawing
+            width_before = font_cache.width(font, text)
 
-        # Measure after drawing
-        width_after = font_cache.width(font, text)
+            # Draw with a transform
+            transform.translate(25, 75)
+            transform.rotate(0.75)
+            canvas.draw_text(
+                text, font, transform, gs, stroke=paint, fill=paint
+            )
+
+            # Measure after drawing
+            width_after = font_cache.width(font, text)
 
         self.assertEqual(width_after, width_before)
