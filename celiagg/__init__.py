@@ -44,8 +44,6 @@ def example_font():
     """ Returns the path to a TTF font which is included with the library for
     testing purposes.
     """
-    import importlib.resources
-
     try:
         # Windows GDI font selection uses names and not file paths.
         # Our included font could be added to the system fonts using
@@ -53,6 +51,8 @@ def example_font():
         if sys.platform in ('win32', 'cygwin'):
             yield 'Segoe UI'
         else:
+            import importlib.resources
+
             with importlib.resources.path(
                 'celiagg.data', 'Montserrat-Regular.ttf'
             ) as path:
