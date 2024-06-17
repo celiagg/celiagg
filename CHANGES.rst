@@ -1,6 +1,14 @@
 Celiagg CHANGELOG
 =================
 
+Release 2.1.6
+-------------
+
+Released 2024-06-17
+
+This is a minor patch on the 2.1.5 release which corrects a Cython build error
+in the SDIST release.
+
 Release 2.1.5
 -------------
 
