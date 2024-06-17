@@ -15,9 +15,10 @@ path.ellipse(200, 200, 190, 190)
 canvas.clear(1.0, 1.0, 1.0)
 canvas.draw_shape(path, transform, state, stroke=red_paint)
 
-font = agg.Font(agg.example_font(), 96.0)
-transform.translate(30.0, 220.0)
-canvas.draw_text("celiagg", font, transform, state, fill=orange_paint)
+with agg.example_font() as font_path:
+    font = agg.Font(font_path, 96.0)
+    transform.translate(30.0, 220.0)
+    canvas.draw_text("celiagg", font, transform, state, fill=orange_paint)
 
 image = Image.fromarray(canvas.array, "RGB")
 image.save("example.png")
