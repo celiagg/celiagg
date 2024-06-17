@@ -5,6 +5,8 @@ include celiagg/*.pxd
 include celiagg/*.pxi
 include celiagg/*.pyx
 include celiagg/data/*
+include pyproject.toml
+include setup.py
 include LICENSE
 include README.rst
 graft agg-svn/agg-2.4/include
