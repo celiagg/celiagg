@@ -7,7 +7,7 @@ jobs:
   build-wheel-all:
     strategy:
       matrix:
-        os: [windows-latest, macos-latest, ubuntu-latest]
+        os: [windows-latest, macos-latest, ubuntu-latest, ubuntu-24.04-arm]
 
     runs-on: ${{ matrix.os }}
 
@@ -27,7 +27,7 @@ jobs:
         python-version: '3.12'
 
     - name: Build wheels
-      uses: pypa/cibuildwheel@v2.18.1
+      uses: pypa/cibuildwheel@v3.1.4
 
     - name: Archive build
       uses: actions/upload-artifact@v4
