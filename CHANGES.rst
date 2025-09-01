@@ -1,6 +1,14 @@
 Celiagg CHANGELOG
 =================
 
+Release 2.1.7
+-------------
+
+Released 2025-09-01
+
+This is a minor patch on the 2.1.6 release which attempts to provide compatibility
+with FreeType 2.13.3.
+
 Release 2.1.6
 -------------
 
