@@ -28,8 +28,15 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Build wheels
+    - name: Build wheels (macOS)
       uses: pypa/cibuildwheel@v3.1.4
+      env:
+        CELIAGG_NO_TEXT_RENDERING: 1
+      if: matrix.os == 'macos-latest'
+
+    - name: Build wheels (!macOS)
+      uses: pypa/cibuildwheel@v3.1.4
+      if: matrix.os != 'macos-latest'
 
     - name: Archive build
       uses: actions/upload-artifact@v4
