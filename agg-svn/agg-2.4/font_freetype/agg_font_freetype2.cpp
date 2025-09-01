@@ -155,9 +155,13 @@ namespace fman {
         FT_Vector   v_start;
         double x1, y1, x2, y2, x3, y3;
 
-        FT_Vector*  point;
-        FT_Vector*  limit;
-        char*       tags;
+        FT_Vector*      point;
+        FT_Vector*      limit;
+#if (FREETYPE_MAJOR == 2 && FREETYPE_MINOR == 13 && FREETYPE_PATCH >= 3) || (FREETYPE_MAJOR == 2 && FREETYPE_MINOR > 13) || FREETYPE_MAJOR > 2
+        unsigned char*  tags;
+#else
+        char*           tags;
+#endif
 
         int   n;         // index of contour in outline
         int   first;     // index of first point in contour
