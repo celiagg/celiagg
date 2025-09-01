@@ -15,7 +15,7 @@ jobs:
 
     steps:
     - name: Check out the release commit
-      uses: actions/checkout@v3
+      uses: actions/checkout@v5
 
     - name: Set up QEMU
       uses: docker/setup-qemu-action@v2
@@ -28,11 +28,18 @@ jobs:
       with:
         python-version: '3.12'
 
-    - name: Build wheels
-      uses: pypa/cibuildwheel@v2.18.1
+    - name: Build wheels (macOS)
+      uses: pypa/cibuildwheel@v3.1.4
+      env:
+        CELIAGG_NO_TEXT_RENDERING: 1
+      if: matrix.os == 'macos-latest'
+
+    - name: Build wheels (!macOS)
+      uses: pypa/cibuildwheel@v3.1.4
+      if: matrix.os != 'macos-latest'
 
     - name: Archive build
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: wheels
         path: wheelhouse
@@ -53,7 +60,7 @@ jobs:
 
     steps:
     - name: Check out the release commit
-      uses: actions/checkout@v3
+      uses: actions/checkout@v5
 
     - name: Set up Python
       uses: actions/setup-python@v5
