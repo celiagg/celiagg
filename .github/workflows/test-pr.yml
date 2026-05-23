@@ -9,12 +9,13 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ['3.9', '3.10', '3.11', '3.12']
+        python-version: ['3.10', '3.11', '3.12', '3.13', '3.14']
 
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v5
+    - name: Check out the code
+      uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd  # v6.0.2
 
     - name: Install dependencies for Linux
       run: |
@@ -22,20 +23,25 @@ jobs:
           sudo apt-get install libfreetype-dev
       if: matrix.os == 'ubuntu-latest'
 
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v5
+    - name: Set up uv (with Python ${{ matrix.python-version }})
+      uses: astral-sh/setup-uv@v8.1.0
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install library and dependencies
-      run: python -m pip install -e .
+    - name: Sync dependencies
+      run: uv sync --group build
       if: matrix.os == 'ubuntu-latest'
 
-    - name: Install library and dependencies (no text rendering)
-      run: python -m pip install -e .
-      env:
-        CELIAGG_NO_TEXT_RENDERING: 1
-      if: matrix.os != 'ubuntu-latest'
+    - name: Sync dependencies (no text rendering)
+      run: uv sync --group build --config-setting=setup-args=-Dtext_rendering=false
+      if: matrix.os == 'macos-latest'
+
+    - name: Sync dependencies (no text rendering, force MSVC)
+      run: >
+          uv sync --group build
+          --config-setting=setup-args=-Dtext_rendering=false
+          --config-setting=setup-args=--vsenv
+      if: matrix.os == 'windows-latest'
 
     - name: Run tests
-      run: python -m unittest discover -v celiagg
+      run: uv run python -m unittest discover -v celiagg
