@@ -20,6 +20,7 @@
 *.egg-info
 .cache
 build
+builddir
 dist
 MANIFEST
 

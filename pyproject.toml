@@ -1,11 +1,63 @@
 [build-system]
-requires = ["cython", "numpy", "setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["meson-python>=0.15", "cython>=3.0", "numpy"]
+build-backend = "mesonpy"
+
+[project]
+name = "celiagg"
+version = "2.1.8"
+description = "Anti-Grain Geometry for Python 3 with Cython"
+readme = "README.rst"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+authors = [
+    { name = "Erik Hvatum", email = "ice.rikh@gmail.com" },
+    { name = "John Wiggins" },
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: C++",
+    "Programming Language :: Cython",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Topic :: Software Development :: Libraries",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX",
+    "Operating System :: Unix",
+    "Operating System :: MacOS",
+]
+dependencies = ["numpy"]
+
+[dependency-groups]
+build = [
+    "meson-python>=0.15",
+    "cython>=3.0",
+]
+
+[tool.uv]
+no-build-isolation-package = ["celiagg"]
+
+[project.urls]
+Homepage = "https://github.com/celiagg/celiagg"
 
 [tool.cibuildwheel]
-skip = 'pp* *-musllinux* *-android* *-ios*'
+skip = "*-musllinux* *-win32"
 
 [tool.cibuildwheel.linux]
-archs = ['auto', 'aarch64']
+archs = ["auto", "aarch64"]
 before-all = "yum install -y freetype-devel"
 
+[tool.cibuildwheel.macos]
+before-all = "brew install freetype"
+
+# Force meson to activate an MSVC environment
+[tool.cibuildwheel.windows]
+config-settings = "setup-args=--vsenv"
+
+# Homebrew bottles on the GitHub runners are built against the runner's
+# macOS version, so the wheels can't claim an older minimum.
+[[tool.cibuildwheel.overrides]]
+select = "*-macosx_arm64"
+environment = { MACOSX_DEPLOYMENT_TARGET = "15.0" }
